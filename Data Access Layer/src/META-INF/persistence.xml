@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+  <persistence-unit name="DAPU" transaction-type="RESOURCE_LOCAL">
+    <provider>oracle.toplink.essentials.PersistenceProvider</provider>
+    <class>VO.MateriaPlaneada</class>
+    <class>VO.Registro</class>
+    <class>VO.Estudiante</class>
+    <class>VO.Analista</class>
+    <class>VO.Taller</class>
+    <class>VO.Padre</class>
+    <class>VO.ExcelenciaTaller</class>
+    <class>VO.Grado</class>
+    <class>VO.ExamenSolicitado</class>
+    <class>VO.ExamenPlaneado</class>
+    <class>VO.Examen</class>
+    <class>VO.PlaneacionAnual</class>
+    <class>VO.SecretariaAcademica</class>
+    <class>VO.ExamenMes</class>
+    <class>VO.PlaneacionSemanal</class>
+    <class>VO.Tutor</class>
+    <class>VO.Usuario</class>
+    <class>VO.Materia</class>
+    <class>VO.Estados</class>
+    <properties>
+      <property name="toplink.jdbc.user" value="liceoval"/>
+      <property name="toplink.jdbc.password" value="liceoval"/>
+      <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/liceoval"/>
+      <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+    </properties>
+  </persistence-unit>
+</persistence>
