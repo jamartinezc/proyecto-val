@@ -5,11 +5,13 @@
 
 package com.liceoval.businesslayer.entities;
 
+import java.util.List;
+
 /**
  *
  * @author Sergio
  */
 public class PlaneacionAnual
 {
-
+    private List<MateriaPlaneada> materiasPlaneadas;
 }
