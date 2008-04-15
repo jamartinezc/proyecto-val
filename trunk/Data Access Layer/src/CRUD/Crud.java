@@ -10,6 +10,7 @@ import VO.Estudiante;
 import VO.Materia;
 import VO.Registro;
 import VO.SecretariaAcademica;
+import VO.Taller;
 import VO.Tutor;
 import VO.Usuario;
 import java.util.List;
@@ -25,6 +26,7 @@ import javax.persistence.Query;
  */
 public class Crud {
 
+    //retorna una lista de los usuarios con cierto login y contraseña
     public List<Usuario> consultarUsuario(String usuario, String password) {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -54,6 +56,7 @@ public class Crud {
             
     }
     
+    //retorna un estudiante
     public Estudiante consultarUsuarioEstudiante(String usuario, String password) {
         
             List lista = this.consultarUsuario(usuario, password);
@@ -99,6 +102,7 @@ public class Crud {
             }
     }
 
+    //retorna un Analista
     public Analista consultarUsuarioAnalista(String usuario, String password) {
         
             List lista = this.consultarUsuario(usuario, password);
@@ -145,6 +149,7 @@ public class Crud {
             }
     }
     
+    //retorna un Tutor
     public Tutor consultarUsuarioTutor(String usuario, String password) {
         
             List lista = this.consultarUsuario(usuario, password);
@@ -191,6 +196,7 @@ public class Crud {
             }
     }
 
+    //retorna una secretaria académica
     public SecretariaAcademica consultarUsuarioSecretariaAcadémica(String usuario, String password) {
         
             List lista = this.consultarUsuario(usuario, password);
@@ -237,6 +243,7 @@ public class Crud {
             }
     }
     
+    //retorna una lista de materias
     public List<Materia> consultarMaterias(){
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -265,6 +272,7 @@ public class Crud {
         
     } 
     
+    //retorna un estudiante
     public Estudiante getEstudiante(int idEstudiante){
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -294,6 +302,7 @@ public class Crud {
         
     }
     
+    //retorna una materia
     public Materia getMateria(int codigoMateria){
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -323,6 +332,7 @@ public class Crud {
         
     }
     
+    //consulta si un estudiante tiene cierta materia registrada
     public List<Registro> consultarRegistroEstudianteMateria(int idEstudiante, int codigoMateria){
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -356,6 +366,7 @@ public class Crud {
             }
     }
     
+    //crea un registro
     public boolean crearRegistro(int idEstudiante, int codigoMateria){
         
         List<Registro> repetido = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
@@ -403,6 +414,36 @@ public class Crud {
                 return false;
             }
         
+    }
+    
+    //Consultar talleres
+    public Taller consultarTaller(int idTaller)
+    {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();  
+            
+            try
+            {
+                Taller taller;
+                tx.begin();
+                Query q = pm.createQuery("select p from Taller p where p.idTaller = :taller");
+                q.setParameter("taller", idTaller);
+                List<Taller> lista = q.getResultList();
+                taller = lista.get(0);
+                tx.commit();
+                return taller;
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
     }
     
 }
