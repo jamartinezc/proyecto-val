@@ -10,7 +10,9 @@ import VO.Analista;
 import VO.Estudiante;
 import VO.Materia;
 import VO.SecretariaAcademica;
+import VO.Taller;
 import VO.Tutor;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -56,10 +58,27 @@ public class Main {
         */
         
         //crear registro
+        /*
         if(query.crearRegistro(290, 1))
         {
             System.out.println("bien");
         }
+        */
+        
+        //mostrar todos los estuiantes de un taller especificado
+        /*
+        Taller taller;
+        taller=query.consultarTaller(1);
+        Estudiante estudiante;
+        Iterator iterador;
+        iterador=taller.getEstudianteCollection().iterator();
+        while(iterador.hasNext())
+        {
+            estudiante=(Estudiante) iterador.next();
+            System.out.println(estudiante.getIdUsuario().getNombres());
+        }
+        */
+        
         
     }
 
