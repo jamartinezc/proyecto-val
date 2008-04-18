@@ -9,7 +9,7 @@ package com.liceoval.businesslayer.entities;
  *
  * @author Sergio
  */
-public abstract class Usuario
+public class Usuario
 {
     private int idUsuario;
     private String nombres;
@@ -37,5 +37,7 @@ public abstract class Usuario
 
     public void setPassword(char[] password) { this.password = password; }
     
-    public abstract String getRol();
+    public String getRol(){
+        return "";
+    }
 }
