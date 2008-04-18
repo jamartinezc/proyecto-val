@@ -446,4 +446,32 @@ public class Crud {
             }
     }
     
+    //Retorna todos los usuarios
+    public List<Usuario> listaUsuarios() {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();            
+            
+            try
+            {
+                tx.begin();
+
+                Query q = pm.createQuery("select p from Usuario p");
+                List<Usuario> lista = q.getResultList();
+                tx.commit();
+                return lista;
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+            
+    }
+    
 }
