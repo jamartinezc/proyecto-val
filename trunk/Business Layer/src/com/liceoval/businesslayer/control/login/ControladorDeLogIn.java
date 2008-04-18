@@ -72,12 +72,12 @@ public class ControladorDeLogIn
                     usuario.setLogin(student.getIdUsuario().getLogin());
                     usuario.setNombres(student.getIdUsuario().getNombres());
                     usuario.setPassword(student.getIdUsuario().getClave().toCharArray());
-
-                    ((Estudiante)usuario).setCodigo(student.getCodigo().intValue());
+                  
+                    ((Estudiante)usuario).setCodigo(student.getIdEstudiante().intValue());
                     ((Estudiante)usuario).setFechaInicioGrado(student.getFechaInicioGrado());
 
                     grado = new Grado();
-                    grado.setGrado(student.getGrado().getGrado());
+                    grado.setGrado(student.getIdGrado().getIdGrado());
                     grado.setMaterias(null);
 
                     ((Estudiante)usuario).setGrado(grado);    
