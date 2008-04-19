@@ -13,6 +13,7 @@ import VO.Registro;
 import VO.SecretariaAcademica;
 import VO.Taller;
 import VO.Tutor;
+import VO.Usuario;
 import java.util.Iterator;
 import java.util.List;
 
@@ -30,7 +31,6 @@ public class Main {
         Crud query = new Crud();
         
         //crear estudiantes, analistas, tutores o secretarias académicas
-        
         /*
         Estudiante estudiante = new Estudiante();
         estudiante = query.consultarUsuarioEstudiante("mlinaresv", "ssh22");
@@ -47,6 +47,15 @@ public class Main {
         SecretariaAcademica secretaria = new SecretariaAcademica();
         secretaria = query.consultarUsuarioSecretariaAcadémica("mlinaresv", "ssh22");
         System.out.println(secretaria.getIdUsuario().getNombres());
+        */
+        
+        //consultar todos los usuarios
+        /*
+        List<Usuario> lista = query.listaUsuarios();
+        for(int i = 0; i<lista.size();i++)
+        {
+            System.out.println(lista.get(i).getNombres());
+        }
         */
         
         //consultar todas las materias
@@ -76,6 +85,15 @@ public class Main {
         }
         */
         
+        //consultar registros activos/inactivos de un estudiante
+        /*
+        List<Registro> lista=query.consultarRegistrosActivosInactivos(290, true);
+        for(int i = 0; i<lista.size();i++)
+        {
+            System.out.println(lista.get(i).getIdMateria().getNombre());
+        }
+        */
+        
         //mostrar todos los estuiantes de un taller especificado
         /*
         Taller taller;
@@ -90,6 +108,13 @@ public class Main {
         }
         */
         
+        //crear un usuario
+        /*
+        if(query.crearUsuario("David Alberto", "Montaño Fetecua", "damontanofe", "gelachan"))
+        {
+            System.out.println("bien");
+        }
+        */
         
     }
 
