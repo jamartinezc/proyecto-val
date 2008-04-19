@@ -290,7 +290,7 @@ public class Crud {
 
                 Query q = pm.createQuery("select p from Registro p where p.idEstudiante = :estudiante AND p.idMateria = :materia");
                 q.setParameter("estudiante", estudiante);
-                Query setParameter = q.setParameter("materia", materia);
+                q.setParameter("materia", materia);
                 List<Registro> lista = q.getResultList();
                 tx.commit();
                 if(lista.size()==1)
@@ -377,7 +377,9 @@ public class Crud {
                     
                     tx.commit();
                     
-                    return registro;
+                     Registro nuevo = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
+                    
+                    return nuevo;
                 }
                 finally
                 {
@@ -472,10 +474,12 @@ public class Crud {
                 usuario.setClave(clave);
                 
                 em.persist(usuario);
-
+                
                 tx.commit();
+                
+                List<Usuario> nuevo = this.consultarUsuario(usuario.getLogin(), usuario.getClave());
 
-                return usuario;
+                return nuevo.get(0);
             }
             finally
             {
@@ -535,8 +539,6 @@ public class Crud {
                 usuario.setApellidos(apellido);
                 usuario.setLogin(login);
                 usuario.setClave(clave);
-                
-                em.refresh(usuario);
 
                 tx.commit();
 
