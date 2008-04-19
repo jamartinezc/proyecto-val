@@ -272,66 +272,6 @@ public class Crud {
         
     } 
     
-    //retorna un estudiante
-    public Estudiante getEstudiante(int idEstudiante){
-        
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-            EntityManager em = emf.createEntityManager();
-            EntityTransaction tx = em.getTransaction();
-            EntityManager pm = emf.createEntityManager();            
-            
-            try
-            {
-                tx.begin();
-
-                Query q = pm.createQuery("select p from Estudiante p where p.idEstudiante = :estudiante");
-                q.setParameter("estudiante", idEstudiante);
-                List<Estudiante> lista = q.getResultList();
-                tx.commit();
-                return lista.get(0);
-            }
-            finally
-            {
-                if (tx.isActive())
-                {
-                    tx.rollback();
-                }
-
-                em.close();
-            }
-        
-    }
-    
-    //retorna una materia
-    public Materia getMateria(int codigoMateria){
-        
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-            EntityManager em = emf.createEntityManager();
-            EntityTransaction tx = em.getTransaction();
-            EntityManager pm = emf.createEntityManager();            
-            
-            try
-            {
-                tx.begin();
-
-                Query q = pm.createQuery("select p from Materia p where p.idMateria = :materia");
-                q.setParameter("materia", codigoMateria);
-                List<Materia> lista = q.getResultList();
-                tx.commit();
-                return lista.get(0);
-            }
-            finally
-            {
-                if (tx.isActive())
-                {
-                    tx.rollback();
-                }
-
-                em.close();
-            }
-        
-    }
-    
     //consulta si un estudiante tiene cierta materia registrada
     public Registro consultarRegistroEstudianteMateria(int idEstudiante, int codigoMateria){
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -341,8 +281,8 @@ public class Crud {
             
             Estudiante estudiante;
             Materia materia;
-            estudiante = this.getEstudiante(idEstudiante);
-            materia = this.getMateria(codigoMateria);
+            estudiante = em.find(Estudiante.class, idEstudiante);
+            materia = em.find(Materia.class, codigoMateria);
             
             try
             {
@@ -379,7 +319,7 @@ public class Crud {
             EntityManager pm = emf.createEntityManager();  
             
             Estudiante estudiante;
-            estudiante = this.getEstudiante(idEstudiante);
+            estudiante = em.find(Estudiante.class, idEstudiante);
             
             try
             {
@@ -421,8 +361,8 @@ public class Crud {
                     
                     Estudiante estudiante;
                     Materia materia;
-                    estudiante = this.getEstudiante(idEstudiante);
-                    materia = this.getMateria(codigoMateria);
+                    estudiante = em.find(Estudiante.class, idEstudiante);
+                    materia = em.find(Materia.class, codigoMateria);
                     
                     Registro registro = new Registro();
                     registro.setActivo(true);
@@ -546,6 +486,34 @@ public class Crud {
             }
         }
     
-    
+    //Crear un usuario
+    public boolean eliminarUsuario(int id){
+                       
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();            
+            try
+            {
+                tx.begin();
+
+                Usuario usuario;
+                usuario = em.find(Usuario.class, id);
+                em.remove(usuario);
+
+                tx.commit();
+
+                return true;
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+        }
    
 }
