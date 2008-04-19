@@ -67,14 +67,12 @@ public class Main {
         }
         */
         
-        //crear registro
+        //crear registro (PROBAR)
         /*
-        if(query.crearRegistro(290, 1))
-        {
-            System.out.println("bien");
-        }
+        Registro nuevo = query.crearRegistro(idEstudiante, codigoMateria);
+        System.out.println(nuevo.getIdEstudiante().getIdUsuario().getNombres());
+        System.out.println(nuevo.getIdMateria().getNombre());
         */
-        
         
         //consultar registroEstudianteMateria
         /*
@@ -85,7 +83,7 @@ public class Main {
         }
         */
         
-        //consultar registros activos/inactivos de un estudiante
+        //consultar registros activos/inactivos de un estudiante (PROBAR)
         /*
         List<Registro> lista=query.consultarRegistrosActivosInactivos(290, true);
         for(int i = 0; i<lista.size();i++)
@@ -108,20 +106,24 @@ public class Main {
         }
         */
         
-        //crear un usuario
+        //crear un usuario (PROBAR)
         /*
-        if(query.crearUsuario("David Alberto", "Montaño Fetecua", "damontanofe", "gelachan"))
-        {
-            System.out.println("bien");
-        }
+        Usuario usuario = query.crearUsuario("Jorge", "Martinez", "george", "swat");
+        System.out.println(usuario.getIdUsuario());
         */
         
-        //eliminar un usuario
+        //eliminar un usuario (PROBAR)
         /*
         if(query.eliminarUsuario(27))
         {
             System.out.println("bien");
         }
+        */
+        
+        //actualizar usuario (PROBAR)
+        /*
+        Usuario user = query.actualizarUsuario(28, "davor", "tañito", "damontic", "gelosa");
+        System.out.println(user.getIdUsuario()+user.getNombres());
         */
         
     }
