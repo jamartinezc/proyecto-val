@@ -67,25 +67,27 @@ public class Main {
         }
         */
         
-        //crear registro (PROBAR)
+        //crear registro
         /*
-        Registro nuevo = query.crearRegistro(idEstudiante, codigoMateria);
+        Registro nuevo = query.crearRegistro(309, 19);
         System.out.println(nuevo.getIdEstudiante().getIdUsuario().getNombres());
         System.out.println(nuevo.getIdMateria().getNombre());
+        System.out.println(nuevo.getIdRegistro());
         */
         
         //consultar registroEstudianteMateria
         /*
-        Registro registro=query.consultarRegistroEstudianteMateria(290, 1);
+        Registro registro=query.consultarRegistroEstudianteMateria(292, 26);
         if(registro!=null)
         {
             System.out.println(registro.getIdEstudiante().getIdUsuario().getNombres());
+            System.out.println(registro.getIdRegistro());
         }
         */
         
-        //consultar registros activos/inactivos de un estudiante (PROBAR)
+        //consultar registros activos/inactivos de un estudiante
         /*
-        List<Registro> lista=query.consultarRegistrosActivosInactivos(290, true);
+        List<Registro> lista=query.consultarRegistrosActivosInactivos(303, true);
         for(int i = 0; i<lista.size();i++)
         {
             System.out.println(lista.get(i).getIdMateria().getNombre());
@@ -106,24 +108,24 @@ public class Main {
         }
         */
         
-        //crear un usuario (PROBAR)
+        //crear un usuario
         /*
-        Usuario usuario = query.crearUsuario("Jorge", "Martinez", "george", "swat");
+        Usuario usuario = query.crearUsuario("Tatiana", "Franco", "tati", "elmasbuscado");
         System.out.println(usuario.getIdUsuario());
         */
         
-        //eliminar un usuario (PROBAR)
+        //eliminar un usuario
         /*
-        if(query.eliminarUsuario(27))
+        if(query.eliminarUsuario(31))
         {
             System.out.println("bien");
         }
         */
         
-        //actualizar usuario (PROBAR)
+        //actualizar usuario
         /*
         Usuario user = query.actualizarUsuario(28, "davor", "tañito", "damontic", "gelosa");
-        System.out.println(user.getIdUsuario()+user.getNombres());
+        System.out.println(user.getIdUsuario()+" "+user.getNombres());
         */
         
     }
