@@ -9,6 +9,7 @@ import CRUD.Crud;
 import VO.Analista;
 import VO.Estudiante;
 import VO.Materia;
+import VO.Registro;
 import VO.SecretariaAcademica;
 import VO.Taller;
 import VO.Tutor;
@@ -62,6 +63,16 @@ public class Main {
         if(query.crearRegistro(290, 1))
         {
             System.out.println("bien");
+        }
+        */
+        
+        
+        //consultar registroEstudianteMateria
+        /*
+        Registro registro=query.consultarRegistroEstudianteMateria(290, 1);
+        if(registro!=null)
+        {
+            System.out.println(registro.getIdEstudiante().getIdUsuario().getNombres());
         }
         */
         

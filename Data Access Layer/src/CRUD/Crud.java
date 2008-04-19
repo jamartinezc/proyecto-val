@@ -333,7 +333,7 @@ public class Crud {
     }
     
     //consulta si un estudiante tiene cierta materia registrada
-    public List<Registro> consultarRegistroEstudianteMateria(int idEstudiante, int codigoMateria){
+    public Registro consultarRegistroEstudianteMateria(int idEstudiante, int codigoMateria){
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
@@ -353,7 +353,13 @@ public class Crud {
                 Query setParameter = q.setParameter("materia", materia);
                 List<Registro> lista = q.getResultList();
                 tx.commit();
-                return lista;
+                if(lista.size()==1)
+                {
+                    return lista.get(0);
+                }
+                else{
+                    return null;
+                }
             }
             finally
             {
@@ -369,9 +375,9 @@ public class Crud {
     //crea un registro
     public boolean crearRegistro(int idEstudiante, int codigoMateria){
         
-        List<Registro> repetido = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
+        Registro repetido = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
 
-        if(repetido.size()==0)
+        if(repetido==null)
             {           
                 EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
                 EntityManager em = emf.createEntityManager();
