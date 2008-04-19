@@ -345,7 +345,7 @@ public class Crud {
     }
     
     //crea un registro
-    public boolean crearRegistro(int idEstudiante, int codigoMateria){
+    public Registro crearRegistro(int idEstudiante, int codigoMateria){
         
         Registro repetido = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
 
@@ -363,19 +363,21 @@ public class Crud {
                     Materia materia;
                     estudiante = em.find(Estudiante.class, idEstudiante);
                     materia = em.find(Materia.class, codigoMateria);
-                    
                     Registro registro = new Registro();
-                    registro.setActivo(true);
-                    registro.setIdEstudiante(estudiante);  
-                    registro.setIdMateria(materia);
-                    registro.setVecesDevuelta(0);
-                    em.persist(registro);
+                    
+                    if(estudiante!=null && materia!=null )
+                    {
+                        
+                        registro.setActivo(true);
+                        registro.setIdEstudiante(estudiante);  
+                        registro.setIdMateria(materia);
+                        registro.setVecesDevuelta(0);
+                        em.persist(registro);
+                    }
                     
                     tx.commit();
                     
-                    
-                    
-                    return true;
+                    return registro;
                 }
                 finally
                 {
@@ -389,7 +391,7 @@ public class Crud {
             }
             else
             {
-                return false;
+                return null;
             }
         
     }
@@ -453,7 +455,7 @@ public class Crud {
     }
     
     //Crear un usuario
-    public boolean crearUsuario(String nombre, String apellido, String login, String clave){
+    public Usuario crearUsuario(String nombre, String apellido, String login, String clave){
                        
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -473,7 +475,7 @@ public class Crud {
 
                 tx.commit();
 
-                return true;
+                return usuario;
             }
             finally
             {
@@ -504,6 +506,41 @@ public class Crud {
                 tx.commit();
 
                 return true;
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+        }
+    
+     //Crear un usuario
+    public Usuario actualizarUsuario(int idUsuario, String nombre, String apellido, String login, String clave){
+        
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();            
+            try
+            {
+                Usuario usuario = em.find(Usuario.class, idUsuario);
+                
+                tx.begin();
+                
+                usuario.setNombres(nombre);
+                usuario.setApellidos(apellido);
+                usuario.setLogin(login);
+                usuario.setClave(clave);
+                
+                em.refresh(usuario);
+
+                tx.commit();
+
+                return usuario;
             }
             finally
             {
