@@ -116,6 +116,14 @@ public class Main {
         }
         */
         
+        //eliminar un usuario
+        /*
+        if(query.eliminarUsuario(27))
+        {
+            System.out.println("bien");
+        }
+        */
+        
     }
 
 }
