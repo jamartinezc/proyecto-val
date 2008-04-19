@@ -372,6 +372,38 @@ public class Crud {
             }
     }
     
+    public List<Registro> consultarRegistrosActivosInactivos(int idEstudiante, boolean activo){
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();  
+            
+            Estudiante estudiante;
+            estudiante = this.getEstudiante(idEstudiante);
+            
+            try
+            {
+                tx.begin();
+
+                Query q = pm.createQuery("select p from Registro p where p.idEstudiante = :estudiante AND p.activo = :estado");
+                q.setParameter("estudiante", estudiante);
+                q.setParameter("estado", activo);
+                List<Registro> lista = q.getResultList();
+                tx.commit();
+                
+                return lista;
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+    }
+    
     //crea un registro
     public boolean crearRegistro(int idEstudiante, int codigoMateria){
         
@@ -480,4 +512,40 @@ public class Crud {
             
     }
     
+    //Crear un usuario
+    public boolean crearUsuario(String nombre, String apellido, String login, String clave){
+                       
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();            
+            try
+            {
+                tx.begin();
+
+                Usuario usuario = new Usuario();
+                usuario.setNombres(nombre);
+                usuario.setApellidos(apellido);
+                usuario.setLogin(login);
+                usuario.setClave(clave);
+                
+                em.persist(usuario);
+
+                tx.commit();
+
+                return true;
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+        }
+    
+    
+   
 }
