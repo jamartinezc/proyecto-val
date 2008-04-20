@@ -6,7 +6,9 @@
 package CRUD;
 
 import VO.Analista;
+import VO.Estados;
 import VO.Estudiante;
+import VO.Examen;
 import VO.ExamenSolicitado;
 import VO.Materia;
 import VO.Registro;
@@ -14,6 +16,7 @@ import VO.SecretariaAcademica;
 import VO.Taller;
 import VO.Tutor;
 import VO.Usuario;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -457,30 +460,28 @@ public class Crud {
             
     }
     
-    //Crear un usuario
-    public Usuario crearUsuario(String nombre, String apellido, String login, String clave){
-                       
+    //verificar login existente
+    public boolean loginExiste(String login)
+    {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
-            EntityManager pm = emf.createEntityManager();            
+            EntityManager pm = emf.createEntityManager();  
+            
             try
             {
                 tx.begin();
-
-                Usuario usuario = new Usuario();
-                usuario.setNombres(nombre);
-                usuario.setApellidos(apellido);
-                usuario.setLogin(login);
-                usuario.setClave(clave);
-                
-                em.persist(usuario);
-                
+                Query q = pm.createQuery("select p from Usuario p where p.login = :log");
+                q.setParameter("log", login);
+                List<Usuario> usuario = q.getResultList();
                 tx.commit();
+                if(usuario.size()==1){
+                    return false;
+                }
+                else{
+                    return true;
+                }
                 
-                List<Usuario> nuevo = this.consultarUsuario(usuario.getLogin(), usuario.getClave());
-
-                return nuevo.get(0);
             }
             finally
             {
@@ -491,6 +492,49 @@ public class Crud {
 
                 em.close();
             }
+    }
+    
+    //Crear un usuario
+    public Usuario crearUsuario(String nombre, String apellido, String login, String clave){
+                       
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();  
+            
+            if(this.loginExiste(login)){
+                try
+                {
+                    tx.begin();
+
+                    Usuario usuario = new Usuario();
+                    usuario.setNombres(nombre);
+                    usuario.setApellidos(apellido);
+                    usuario.setLogin(login);
+                    usuario.setClave(clave);
+
+                    em.persist(usuario);
+
+                    tx.commit();
+
+                    List<Usuario> nuevo = this.consultarUsuario(usuario.getLogin(), usuario.getClave());
+
+                    return nuevo.get(0);
+                }
+                finally
+                {
+                    if (tx.isActive())
+                    {
+                        tx.rollback();
+                    }
+
+                    em.close();
+                }
+            }
+            else{
+                return null;
+            }
+            
         }
     
     //Eliminar un usuario
@@ -502,15 +546,19 @@ public class Crud {
             EntityManager pm = emf.createEntityManager();            
             try
             {
-                tx.begin();
+                Usuario usuario = em.find(Usuario.class, id);
+                
+                if(usuario!=null){
+                    tx.begin();
+                    em.remove(usuario);
+                    tx.commit();
+                    return true;
+                }
+                else{
+                    return false;
+                }
 
-                Usuario usuario;
-                usuario = em.find(Usuario.class, id);
-                em.remove(usuario);
-
-                tx.commit();
-
-                return true;
+                
             }
             finally
             {
@@ -533,17 +581,22 @@ public class Crud {
             try
             {
                 Usuario usuario = em.find(Usuario.class, idUsuario);
+                if(usuario!=null){
+                    tx.begin();
                 
-                tx.begin();
+                    usuario.setNombres(nombre);
+                    usuario.setApellidos(apellido);
+                    usuario.setLogin(login);
+                    usuario.setClave(clave);
+
+                    tx.commit();
+
+                    return usuario;
+                }
+                else{
+                    return null;
+                }
                 
-                usuario.setNombres(nombre);
-                usuario.setApellidos(apellido);
-                usuario.setLogin(login);
-                usuario.setClave(clave);
-
-                tx.commit();
-
-                return usuario;
             }
             finally
             {
@@ -587,5 +640,50 @@ public class Crud {
         
     }
     
+     //Crear un examen solicitado
+    public ExamenSolicitado crearExamenSolicitado(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen){
+                       
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();   
+            
+            Estudiante estudiante = em.find(Estudiante.class, idEstudiante);
+            Analista analista = em.find(Analista.class, idAnalista);
+            Registro registro = em.find(Registro.class, idRegistro);
+            Examen examen = em.find(Examen.class, idExamen);
+            Estados estado = em.find(Estados.class, 3);
+            
+            try
+            {
+                tx.begin();
+
+                ExamenSolicitado examenSolicitado = new ExamenSolicitado();
+                examenSolicitado.setFecha(fecha);
+                examenSolicitado.setIdAnalista(analista);
+                examenSolicitado.setIdEstado(estado);
+                examenSolicitado.setIdEstudiante(estudiante);
+                examenSolicitado.setIdExamen(examen);
+                examenSolicitado.setIdRegistro(registro);
+                examenSolicitado.setNota(0);
+                
+                em.persist(examenSolicitado);
+                
+                tx.commit();
+                
+                //List<Usuario> nuevo = this.consultarUsuario(usuario.getLogin(), usuario.getClave());
+
+                return examenSolicitado;
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+        }
    
 }
