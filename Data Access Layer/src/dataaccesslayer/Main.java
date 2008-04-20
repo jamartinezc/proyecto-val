@@ -128,6 +128,12 @@ public class Main {
         System.out.println(user.getIdUsuario()+" "+user.getNombres());
         */
         
+        //analista de cierta materia
+        /*
+        Analista analista = query.analistaDeMateria(18);
+        System.out.println(analista.getIdUsuario().getNombres());
+        */
+        
     }
 
 }

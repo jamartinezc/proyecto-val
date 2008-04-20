@@ -7,6 +7,7 @@ package CRUD;
 
 import VO.Analista;
 import VO.Estudiante;
+import VO.ExamenSolicitado;
 import VO.Materia;
 import VO.Registro;
 import VO.SecretariaAcademica;
@@ -492,7 +493,7 @@ public class Crud {
             }
         }
     
-    //Crear un usuario
+    //Eliminar un usuario
     public boolean eliminarUsuario(int id){
                        
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -522,7 +523,7 @@ public class Crud {
             }
         }
     
-     //Crear un usuario
+     //Actualizar un usuario
     public Usuario actualizarUsuario(int idUsuario, String nombre, String apellido, String login, String clave){
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -554,5 +555,37 @@ public class Crud {
                 em.close();
             }
         }
+    
+    //retorna analista de cierta materia
+    public Analista analistaDeMateria(int idMateria){
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        EntityManager pm = emf.createEntityManager();            
+        
+        
+        try
+        {
+            tx.begin();
+
+            Materia materia = em.find(Materia.class, idMateria);
+            
+            tx.commit();
+            
+            return materia.getIdAnalista();
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+
+            em.close();
+        }
+        
+    }
+    
    
 }
