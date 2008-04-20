@@ -110,23 +110,37 @@ public class Main {
         
         //crear un usuario
         /*
-        Usuario usuario = query.crearUsuario("Tatiana", "Franco", "tati", "elmasbuscado");
-        System.out.println(usuario.getIdUsuario());
+        Usuario usuario = query.crearUsuario("cosa", "amarilla", "tati", "uyuyuy");
+        if(usuario!=null){
+            System.out.println(usuario.getIdUsuario());
+        }
+        else{
+            System.out.println("El login ya existe");
+        }
         */
+        
         
         //eliminar un usuario
         /*
-        if(query.eliminarUsuario(31))
+        if(query.eliminarUsuario(84))
         {
             System.out.println("bien");
+        }
+        else{
+            System.out.println("mal");
         }
         */
         
         //actualizar usuario
-        /*
-        Usuario user = query.actualizarUsuario(28, "davor", "tañito", "damontic", "gelosa");
-        System.out.println(user.getIdUsuario()+" "+user.getNombres());
-        */
+        
+        Usuario user = query.actualizarUsuario(100, "davor", "tañito", "damontic", "gelosa");
+        if(user!=null){
+            System.out.println(user.getIdUsuario()+" "+user.getNombres());
+        }
+        else{
+            System.out.println("El id no existe");
+        }
+        
         
         //analista de cierta materia
         /*
