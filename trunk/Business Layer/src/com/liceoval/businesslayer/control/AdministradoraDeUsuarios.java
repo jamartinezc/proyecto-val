@@ -38,10 +38,13 @@ public class AdministradoraDeUsuarios {
         return listaUsuarios;
     }
     
-    public void crearUsuario(Usuario usuarioNuevo){
+    public void crearUsuario(String nombres, String apellidos, String login, String clave){
         Crud driverDB;
         driverDB = new Crud();
         
+        if(nombres!=null && apellidos!=null && login!=null && clave!=null){
+            driverDB.crearUsuario(nombres, apellidos, login, clave);
+        }
         
     }
     
@@ -49,11 +52,26 @@ public class AdministradoraDeUsuarios {
         Crud driverDB;
         driverDB = new Crud();
         
+        if(usuario != null){
+            int idUsuario = usuario.getIdUsuario();
+            String nombres = usuario.getNombres();
+            String apellidos = usuario.getApellidos();
+            String login = usuario.getLogin();
+            String clave = usuario.getPassword().toString();
+            
+            driverDB.actualizarUsuario(idUsuario, nombres, apellidos, login, clave);
+        }
+        
     }
     
     public void eliminarUsuario(Usuario usuario){
         Crud driverDB;
         driverDB = new Crud();
+        
+        if(usuario != null){
+            
+            driverDB.eliminarUsuario( usuario.getIdUsuario() );
+        }
         
     }
 }
