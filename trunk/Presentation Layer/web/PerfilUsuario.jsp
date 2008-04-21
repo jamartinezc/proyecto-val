@@ -45,8 +45,8 @@
                 <%@include file="globals/login-warning.jsp" %>
                 <%@include file="globals/login-error.jsp" %>
 
-				<%
-				if(currentUser != null)
+                <%
+                if(currentUser != null)
                 {
                 %>
                     <table border="0" cellpadding="0" cellspacing="0" width="550">
@@ -57,31 +57,20 @@
                         <tr><td class="cont-outer" colspan="3">
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                 <tr><td class="cont-inner">
-                                <input type="button" value="Agregar" name="Agregar" />
-                                <input type="button" value="Actualizar" name="Actualizar" />
-                                <input type="button" value="Eliminar" name="Eliminar" />
-                                <%
-        AdministradoraDeUsuarios admin=new AdministradoraDeUsuarios();
-        List lista;
-        lista=admin.solicitarListaDeUsuarios();
-        int i,n;
-        Iterator it;
-        Usuario user;
-        it=lista.iterator();
-        n=lista.size();
-        %>
-        <ol>
-        <%
-        while(it.hasNext())
-        {
-            user=(Usuario)it.next();
-        %>
-        <li><%=user.getNombres() + " " + user.getApellidos()%></li>
-        <%
-        }
-        %>
-    </ol>
-                                         
+                                
+                                <form name="GuardarUsuario" action="GuardarUsuario" method="POST">
+                                <b>Todos los campos son <u>OBLIGATORIOS</u></b><br /><br />
+                                    
+                                    <table>
+                                    <tr><td>Nombre:</td><td><input type="text" name="Nombre" value="" size="30" /></td></tr>
+                                    <tr><td>Apellidos:</td><td><input type="text" name="Apellidos" value="" size="30" /></td><td><input type="submit" value="Agregar" name="Enviar" /></td></tr>
+                                    <tr><td>Login:</td><td><input type="text" name="Login" value="" size="20" /></td></tr>
+                                    <tr><td>Clave:</td><td><input type="password" name="Clave" value="" size="20" /></td><td><input type="reset" value="Limpiar" name="Limpiar" /></td></tr>
+                                    <tr><td>Confirmar Clave:</td><td><input type="password" name="Cclave" value="" size="20" /></td></tr>
+                                    
+                                    </table>
+                                   
+                                </form>
 
                                 </td></tr></table>
                         </td></tr>
