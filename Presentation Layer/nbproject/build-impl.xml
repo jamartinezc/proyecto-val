@@ -463,11 +463,9 @@
         <copy-ear-war file="${file.reference.DataAccessLayer.jar}" propname="included.lib.file.reference.DataAccessLayer.jar.X"/>
         <basename file="${file.reference.Business_Layer.jar}" property="included.lib.file.reference.Business_Layer.jar"/>
         <copy-ear-war file="${file.reference.Business_Layer.jar}" propname="included.lib.file.reference.Business_Layer.jar.X"/>
-        <basename file="${file.reference.servlet-api.jar}" property="included.lib.file.reference.servlet-api.jar"/>
-        <copy-ear-war file="${file.reference.servlet-api.jar}" propname="included.lib.file.reference.servlet-api.jar.X"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${included.lib.libs.toplink.classpath.1.X} ${included.lib.libs.toplink.classpath.2.X} ${included.lib.libs.MySQLDriver.classpath} ${included.lib.file.reference.DataAccessLayer.jar} ${included.lib.file.reference.Business_Layer.jar} ${included.lib.file.reference.servlet-api.jar} "/>
+            <attribute name="Class-Path" value="${included.lib.libs.toplink.classpath.1.X} ${included.lib.libs.toplink.classpath.2.X} ${included.lib.libs.MySQLDriver.classpath} ${included.lib.file.reference.DataAccessLayer.jar} ${included.lib.file.reference.Business_Layer.jar} "/>
         </manifest>
         <delete dir="${dist.ear.dir}/temp"/>
     </target>
@@ -477,7 +475,6 @@
         <copy file="${libs.MySQLDriver.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copy file="${file.reference.DataAccessLayer.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copy file="${file.reference.Business_Layer.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copy file="${file.reference.servlet-api.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest" name="do-ear-dist">
         <dirname file="${dist.ear.war}" property="dist.jar.dir"/>
