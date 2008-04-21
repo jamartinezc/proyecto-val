@@ -13,6 +13,8 @@ import com.liceoval.businesslayer.entities.Grado;
 
 import CRUD.Crud;
 
+import Errores.NoItemFoundException;
+
 /** Esta clase controla el acceso al Sistema. Se encarga de recibir el nombre de
  *  usuario, la contraseña y el Rol de usuario y validar el acceso contra la
  *  base de datos de la aplicación.
@@ -62,7 +64,15 @@ public class ControladorDeLogIn
         switch(role)
         {
             case ROLE_STUDENT:
-                student = qr.consultarUsuarioEstudiante(userName, password);
+                
+                try
+                {
+                    student = qr.consultarUsuarioEstudiante(userName, password);
+                }
+                catch(NoItemFoundException ex)
+                {
+                    student = null;
+                }
                 
                 if(student != null)
                 {
@@ -86,7 +96,15 @@ public class ControladorDeLogIn
                 break;
 
             case ROLE_ANALIST:
-                analist = qr.consultarUsuarioAnalista(userName, password);
+                
+                try
+                {
+                    analist = qr.consultarUsuarioAnalista(userName, password);
+                }
+                catch(NoItemFoundException ex)
+                {
+                    analist = null;
+                }
                 
                 if(analist != null)
                 {
@@ -101,7 +119,15 @@ public class ControladorDeLogIn
                 break;
 
             case ROLE_TUTOR:
-                tutor = qr.consultarUsuarioTutor(userName, password);
+                
+                try
+                {
+                    tutor = qr.consultarUsuarioTutor(userName, password);
+                }
+                catch(NoItemFoundException ex)
+                {
+                    tutor = null;
+                }
 
                 if(tutor != null)
                 {
