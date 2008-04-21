@@ -7,6 +7,7 @@ package dataaccesslayer;
 
 import CRUD.Crud;
 import VO.Analista;
+import VO.Estados;
 import VO.Estudiante;
 import VO.ExamenSolicitado;
 import VO.Materia;
@@ -159,6 +160,37 @@ public class Main {
         }
         else{
             System.out.println("El examen ya se solicitó");
+        }
+        */
+        
+        //desactivar registro
+        /*
+        Registro registro = query.desactivarRegistro(4);
+        if(registro!=null){
+            System.out.println(registro.getIdRegistro());
+        }
+        else{
+            System.out.println("El id no existe");
+        }
+        */
+        
+        //cambiar estado de examen solicitado
+        /*
+        ExamenSolicitado exam = query.actualizarEstadoDeExamenSolicitado(4, 5);
+        if(exam!=null){
+            System.out.println(exam.getIdExamenSolicitado()+" "+exam.getIdEstudiante().getIdUsuario().getNombres());
+        }
+        else{
+            System.out.println("El id no existe");
+        }
+        */
+        
+        //consultar estados
+        /*
+        List<Estados> lista = query.consultarEstados();
+        for(int i = 0; i<lista.size();i++)
+        {
+            System.out.println(lista.get(i).getNombre());
         }
         */
         

@@ -738,5 +738,107 @@ public class Crud {
             
             
         }
+    
+    //consultar estados
+    public List<Estados> consultarEstados(){
+        
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();            
+            
+            try
+            {
+                tx.begin();
+
+                Query q = pm.createQuery("select p from Estados p");
+                List<Estados> lista = q.getResultList();
+                tx.commit();
+                return lista;
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+        
+    } 
    
+    //Actualizar estado de registro
+    public Registro desactivarRegistro(int idRegistro){
+        
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();            
+            try
+            {
+                Registro registro = em.find(Registro.class, idRegistro);
+                if(registro!=null){
+                    tx.begin();
+                
+                    registro.setActivo(false);
+
+                    tx.commit();
+
+                    return registro;
+                }
+                else{
+                    return null;
+                }
+                
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+        }
+    
+    //cambiar estado de examen solicitado
+    public ExamenSolicitado actualizarEstadoDeExamenSolicitado(int idExamenSolicitado, int idEstado){
+        
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();            
+            try
+            {
+                ExamenSolicitado examen = em.find(ExamenSolicitado.class, idExamenSolicitado);
+                Estados estado = em.find(Estados.class, idEstado);
+                if(examen!=null){
+                    tx.begin();
+                
+                    examen.setIdEstado(estado);
+
+                    tx.commit();
+
+                    return examen;
+                }
+                else{
+                    return null;
+                }
+                
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+        }
+    
+    
+    
 }
