@@ -8,12 +8,14 @@ package dataaccesslayer;
 import CRUD.Crud;
 import VO.Analista;
 import VO.Estudiante;
+import VO.ExamenSolicitado;
 import VO.Materia;
 import VO.Registro;
 import VO.SecretariaAcademica;
 import VO.Taller;
 import VO.Tutor;
 import VO.Usuario;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -94,7 +96,7 @@ public class Main {
         }
         */
         
-        //mostrar todos los estuiantes de un taller especificado
+        //mostrar todos los estudiantes de un taller especificado
         /*
         Taller taller;
         taller=query.consultarTaller(1);
@@ -132,7 +134,7 @@ public class Main {
         */
         
         //actualizar usuario
-        
+        /*
         Usuario user = query.actualizarUsuario(100, "davor", "tañito", "damontic", "gelosa");
         if(user!=null){
             System.out.println(user.getIdUsuario()+" "+user.getNombres());
@@ -140,12 +142,24 @@ public class Main {
         else{
             System.out.println("El id no existe");
         }
-        
+        */
         
         //analista de cierta materia
         /*
         Analista analista = query.analistaDeMateria(18);
         System.out.println(analista.getIdUsuario().getNombres());
+        */
+        
+        //crear un examen solicitado
+        /*
+        Date fecha = new Date();
+        ExamenSolicitado examenSol = query.crearExamenSolicitado(fecha, 290, 1, 4, 13);
+        if(examenSol!=null){
+            System.out.println(examenSol.getFecha()+" "+examenSol.getIdEstudiante().getIdUsuario().getNombres() );
+        }
+        else{
+            System.out.println("El examen ya se solicitó");
+        }
         */
         
     }

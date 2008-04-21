@@ -640,6 +640,45 @@ public class Crud {
         
     }
     
+    //retorna una lista de exámenes solicitados
+    public List<ExamenSolicitado> consultarExamenSolicitadoEspecífico(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen) {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();            
+            
+            Estudiante estudiante = em.find(Estudiante.class, idEstudiante);
+            Analista analista = em.find(Analista.class, idAnalista);
+            Registro registro = em.find(Registro.class, idRegistro);
+            Examen examen = em.find(Examen.class, idExamen);
+            
+            try
+            {
+                tx.begin();
+
+                Query q = pm.createQuery("select p from ExamenSolicitado p where p.fecha = :momento AND p.idEstudiante = :estu AND p.idAnalista = :analis AND p.idRegistro = :reg AND p.idExamen = :exam");
+                q.setParameter("momento", fecha);
+                q.setParameter("estu", estudiante);
+                q.setParameter("analis", analista);
+                q.setParameter("reg", registro);
+                q.setParameter("exam", examen);
+                List<ExamenSolicitado> lista = q.getResultList();
+                tx.commit();
+                return lista;
+                
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+            
+    }
+    
      //Crear un examen solicitado
     public ExamenSolicitado crearExamenSolicitado(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen){
                        
@@ -654,36 +693,50 @@ public class Crud {
             Examen examen = em.find(Examen.class, idExamen);
             Estados estado = em.find(Estados.class, 3);
             
-            try
-            {
-                tx.begin();
-
-                ExamenSolicitado examenSolicitado = new ExamenSolicitado();
-                examenSolicitado.setFecha(fecha);
-                examenSolicitado.setIdAnalista(analista);
-                examenSolicitado.setIdEstado(estado);
-                examenSolicitado.setIdEstudiante(estudiante);
-                examenSolicitado.setIdExamen(examen);
-                examenSolicitado.setIdRegistro(registro);
-                examenSolicitado.setNota(0);
-                
-                em.persist(examenSolicitado);
-                
-                tx.commit();
-                
-                //List<Usuario> nuevo = this.consultarUsuario(usuario.getLogin(), usuario.getClave());
-
-                return examenSolicitado;
-            }
-            finally
-            {
-                if (tx.isActive())
+            List<ExamenSolicitado> repetido = this.consultarExamenSolicitadoEspecífico(fecha, idEstudiante, idAnalista, idRegistro, idExamen);
+            if(repetido.size()==1){
+                try
                 {
-                    tx.rollback();
-                }
+                    tx.begin();
 
-                em.close();
+                    ExamenSolicitado examenSolicitado = new ExamenSolicitado();
+                    examenSolicitado.setFecha(fecha);
+                    examenSolicitado.setIdAnalista(analista);
+                    examenSolicitado.setIdEstado(estado);
+                    examenSolicitado.setIdEstudiante(estudiante);
+                    examenSolicitado.setIdExamen(examen);
+                    examenSolicitado.setIdRegistro(registro);
+                    examenSolicitado.setNota(0);
+
+                    em.persist(examenSolicitado);
+
+                    tx.commit();
+
+                    List<ExamenSolicitado> nuevo = this.consultarExamenSolicitadoEspecífico(examenSolicitado.getFecha(), examenSolicitado.getIdEstudiante().getIdEstudiante(), examenSolicitado.getIdAnalista().getIdAnalista(), examenSolicitado.getIdRegistro().getIdRegistro(), examenSolicitado.getIdExamen().getIdExamen());
+
+                    if(nuevo.size()==1){
+                        return nuevo.get(0);
+                    }
+                    else{
+                        return null;
+                    }
+
+                }
+                finally
+                {
+                    if (tx.isActive())
+                    {
+                        tx.rollback();
+                    }
+
+                    em.close();
+                }
             }
+            else{
+                return null;
+            }
+            
+            
         }
    
 }
