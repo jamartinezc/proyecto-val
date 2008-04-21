@@ -1,6 +1,7 @@
 package com.liceoval.businesslayer.control;
 
 import CRUD.Crud;
+import Errores.NoItemFoundException;
 import com.liceoval.businesslayer.entities.Estudiante;
 import java.util.Collection;
 
@@ -10,7 +11,7 @@ import java.util.Collection;
  */
 public class AdministradoraSolicitudesExamen {
     
-    public void SolicitarExamen(Estudiante estudiante, int codExamen, int codigoMateria){
+    public void SolicitarExamen(Estudiante estudiante, int codExamen, int codigoMateria) throws NoItemFoundException{
         Crud driverDB;
         driverDB = new Crud();
         
