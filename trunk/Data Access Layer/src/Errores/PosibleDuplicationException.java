@@ -9,10 +9,10 @@ package Errores;
  *
  * @author David
  */
-public class NoItemFoundException extends Exception{
+public class PosibleDuplicationException extends Exception{
     public String Mensaje(){
         String pilas;
-        pilas="No se encontró el ítem requerido";
+        pilas="Se evitó una duplicación de registros en la Base de Datos";
         return pilas;
     }
 }

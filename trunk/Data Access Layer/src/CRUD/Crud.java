@@ -5,6 +5,8 @@
 
 package CRUD;
 
+import Errores.NoItemFoundException;
+import Errores.PosibleDuplicationException;
 import VO.Analista;
 import VO.Estados;
 import VO.Estudiante;
@@ -31,7 +33,7 @@ import javax.persistence.Query;
 public class Crud {
 
     //retorna una lista de los usuarios con cierto login y contraseña
-    public List<Usuario> consultarUsuario(String usuario, String password) {
+    public List<Usuario> consultarUsuario(String usuario, String password) throws NoItemFoundException {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
@@ -46,7 +48,12 @@ public class Crud {
                 q.setParameter("pass", password);
                 List<Usuario> lista = q.getResultList();
                 tx.commit();
-                return lista;
+                if(lista.size()>0){
+                    return lista;
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
             }
             finally
             {
@@ -61,7 +68,7 @@ public class Crud {
     }
     
     //retorna un estudiante
-    public Estudiante consultarUsuarioEstudiante(String usuario, String password) {
+    public Estudiante consultarUsuarioEstudiante(String usuario, String password) throws NoItemFoundException{
         
             List lista = this.consultarUsuario(usuario, password);
             
@@ -102,12 +109,12 @@ public class Crud {
             }
             else
             {
-                return null;
+                throw new NoItemFoundException();
             }
     }
 
     //retorna un Analista
-    public Analista consultarUsuarioAnalista(String usuario, String password) {
+    public Analista consultarUsuarioAnalista(String usuario, String password)throws NoItemFoundException {
         
             List lista = this.consultarUsuario(usuario, password);
             
@@ -149,12 +156,12 @@ public class Crud {
             }
             else
             {
-                return null;
+                throw new NoItemFoundException();
             }
     }
     
     //retorna un Tutor
-    public Tutor consultarUsuarioTutor(String usuario, String password) {
+    public Tutor consultarUsuarioTutor(String usuario, String password) throws NoItemFoundException{
         
             List lista = this.consultarUsuario(usuario, password);
             
@@ -196,12 +203,12 @@ public class Crud {
             }
             else
             {
-                return null;
+                throw new NoItemFoundException();
             }
     }
 
     //retorna una secretaria académica
-    public SecretariaAcademica consultarUsuarioSecretariaAcadémica(String usuario, String password) {
+    public SecretariaAcademica consultarUsuarioSecretariaAcadémica(String usuario, String password) throws NoItemFoundException{
         
             List lista = this.consultarUsuario(usuario, password);
             
@@ -243,7 +250,7 @@ public class Crud {
             }
             else
             {
-                return null;
+                throw new NoItemFoundException();
             }
     }
     
@@ -277,7 +284,7 @@ public class Crud {
     } 
     
     //consulta si un estudiante tiene cierta materia registrada
-    public Registro consultarRegistroEstudianteMateria(int idEstudiante, int codigoMateria){
+    public Registro consultarRegistroEstudianteMateria(int idEstudiante, int codigoMateria) throws NoItemFoundException{
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
@@ -302,7 +309,7 @@ public class Crud {
                     return lista.get(0);
                 }
                 else{
-                    return null;
+                    throw new NoItemFoundException();
                 }
             }
             finally
@@ -316,7 +323,7 @@ public class Crud {
             }
     }
     
-    public List<Registro> consultarRegistrosActivosInactivos(int idEstudiante, boolean activo){
+    public List<Registro> consultarRegistrosActivosInactivos(int idEstudiante, boolean activo) throws NoItemFoundException{
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
@@ -325,31 +332,36 @@ public class Crud {
             Estudiante estudiante;
             estudiante = em.find(Estudiante.class, idEstudiante);
             
-            try
-            {
-                tx.begin();
-
-                Query q = pm.createQuery("select p from Registro p where p.idEstudiante = :estudiante AND p.activo = :estado");
-                q.setParameter("estudiante", estudiante);
-                q.setParameter("estado", activo);
-                List<Registro> lista = q.getResultList();
-                tx.commit();
-                
-                return lista;
-            }
-            finally
-            {
-                if (tx.isActive())
+            if(estudiante!=null){
+                try
                 {
-                    tx.rollback();
-                }
+                    tx.begin();
 
-                em.close();
+                    Query q = pm.createQuery("select p from Registro p where p.idEstudiante = :estudiante AND p.activo = :estado");
+                    q.setParameter("estudiante", estudiante);
+                    q.setParameter("estado", activo);
+                    List<Registro> lista = q.getResultList();
+                    tx.commit();
+
+                    return lista;
+                }
+                finally
+                {
+                    if (tx.isActive())
+                    {
+                        tx.rollback();
+                    }
+
+                    em.close();
+                }
+            }
+            else{
+                throw new NoItemFoundException();
             }
     }
     
     //crea un registro
-    public Registro crearRegistro(int idEstudiante, int codigoMateria){
+    public Registro crearRegistro(int idEstudiante, int codigoMateria) throws PosibleDuplicationException, NoItemFoundException{
         
         Registro repetido = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
 
@@ -380,10 +392,14 @@ public class Crud {
                     }
                     
                     tx.commit();
+                    try{
+                        Registro nuevo = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
+                        return nuevo;
+                    }
+                    catch(NoItemFoundException ey){
+                        throw new NoItemFoundException();
+                    }
                     
-                     Registro nuevo = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
-                    
-                    return nuevo;
                 }
                 finally
                 {
@@ -397,13 +413,13 @@ public class Crud {
             }
             else
             {
-                return null;
+                throw new PosibleDuplicationException();
             }
         
     }
     
     //Consultar talleres
-    public Taller consultarTaller(int idTaller)
+    public Taller consultarTaller(int idTaller) throws NoItemFoundException
     {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -417,9 +433,14 @@ public class Crud {
                 Query q = pm.createQuery("select p from Taller p where p.idTaller = :taller");
                 q.setParameter("taller", idTaller);
                 List<Taller> lista = q.getResultList();
-                taller = lista.get(0);
                 tx.commit();
-                return taller;
+                if(lista.size()==1){
+                    taller = lista.get(0);
+                    return taller;
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
             }
             finally
             {
@@ -495,7 +516,7 @@ public class Crud {
     }
     
     //Crear un usuario
-    public Usuario crearUsuario(String nombre, String apellido, String login, String clave){
+    public Usuario crearUsuario(String nombre, String apellido, String login, String clave)throws PosibleDuplicationException, NoItemFoundException{
                        
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -532,13 +553,13 @@ public class Crud {
                 }
             }
             else{
-                return null;
+                throw new PosibleDuplicationException();
             }
             
         }
     
     //Eliminar un usuario
-    public boolean eliminarUsuario(int id){
+    public void eliminarUsuario(int id)throws NoItemFoundException{
                        
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -552,10 +573,9 @@ public class Crud {
                     tx.begin();
                     em.remove(usuario);
                     tx.commit();
-                    return true;
                 }
                 else{
-                    return false;
+                    throw new NoItemFoundException();
                 }
 
                 
@@ -572,7 +592,7 @@ public class Crud {
         }
     
      //Actualizar un usuario
-    public Usuario actualizarUsuario(int idUsuario, String nombre, String apellido, String login, String clave){
+    public Usuario actualizarUsuario(int idUsuario, String nombre, String apellido, String login, String clave) throws NoItemFoundException{
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -594,7 +614,7 @@ public class Crud {
                     return usuario;
                 }
                 else{
-                    return null;
+                    throw new NoItemFoundException();
                 }
                 
             }
@@ -610,7 +630,7 @@ public class Crud {
         }
     
     //retorna analista de cierta materia
-    public Analista analistaDeMateria(int idMateria){
+    public Analista analistaDeMateria(int idMateria) throws NoItemFoundException{
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
         EntityManager em = emf.createEntityManager();
@@ -626,7 +646,13 @@ public class Crud {
             
             tx.commit();
             
-            return materia.getIdAnalista();
+            if(materia!=null){
+                return materia.getIdAnalista();
+            }
+            else{
+                throw new NoItemFoundException();
+            }
+            
         }
         finally
         {
@@ -641,7 +667,7 @@ public class Crud {
     }
     
     //retorna una lista de exámenes solicitados
-    public List<ExamenSolicitado> consultarExamenSolicitadoEspecífico(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen) {
+    public List<ExamenSolicitado> consultarExamenSolicitadoEspecífico(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
@@ -664,8 +690,12 @@ public class Crud {
                 q.setParameter("exam", examen);
                 List<ExamenSolicitado> lista = q.getResultList();
                 tx.commit();
-                return lista;
-                
+                if(lista.size()>0){
+                    return lista;
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
             }
             finally
             {
@@ -680,7 +710,7 @@ public class Crud {
     }
     
      //Crear un examen solicitado
-    public ExamenSolicitado crearExamenSolicitado(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen){
+    public ExamenSolicitado crearExamenSolicitado(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException, PosibleDuplicationException{
                        
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -733,7 +763,7 @@ public class Crud {
                 }
             }
             else{
-                return null;
+                throw new PosibleDuplicationException();
             }
             
             
@@ -769,7 +799,7 @@ public class Crud {
     } 
    
     //Actualizar estado de registro
-    public Registro desactivarRegistro(int idRegistro){
+    public Registro desactivarRegistro(int idRegistro) throws NoItemFoundException{
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -788,7 +818,7 @@ public class Crud {
                     return registro;
                 }
                 else{
-                    return null;
+                    throw new NoItemFoundException();
                 }
                 
             }
@@ -804,7 +834,7 @@ public class Crud {
         }
     
     //cambiar estado de examen solicitado
-    public ExamenSolicitado actualizarEstadoDeExamenSolicitado(int idExamenSolicitado, int idEstado){
+    public ExamenSolicitado actualizarEstadoDeExamenSolicitado(int idExamenSolicitado, int idEstado) throws NoItemFoundException{
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -824,7 +854,7 @@ public class Crud {
                     return examen;
                 }
                 else{
-                    return null;
+                    throw new NoItemFoundException();
                 }
                 
             }

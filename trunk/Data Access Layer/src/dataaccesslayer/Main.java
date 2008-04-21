@@ -6,6 +6,8 @@
 package dataaccesslayer;
 
 import CRUD.Crud;
+import Errores.NoItemFoundException;
+import Errores.PosibleDuplicationException;
 import VO.Analista;
 import VO.Estados;
 import VO.Estudiante;
@@ -36,20 +38,40 @@ public class Main {
         //crear estudiantes, analistas, tutores o secretarias académicas
         /*
         Estudiante estudiante = new Estudiante();
-        estudiante = query.consultarUsuarioEstudiante("mlinaresv", "ssh22");
-        System.out.println(estudiante.getIdUsuario().getNombres());  
-        
+        try{
+            estudiante = query.consultarUsuarioEstudiante("asdsd", "ssasdasdh22");
+            System.out.println(estudiante.getIdUsuario().getNombres());  
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
+   
         Analista analista = new Analista();
-        analista = query.consultarUsuarioAnalista("mlinaresv", "ssh22");
-        System.out.println(analista.getIdUsuario().getNombres());
-        
+        try{
+            analista = query.consultarUsuarioAnalista("mlinaresv", "ssh22");
+            System.out.println(analista.getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
+          
         Tutor tutor = new Tutor();
-        tutor = query.consultarUsuarioTutor("mlinaresv", "ssh22");
-        System.out.println(tutor.getIdUsuario().getNombres());
-        
+        try{
+            tutor = query.consultarUsuarioTutor("mlinaresv", "ssh22");
+            System.out.println(tutor.getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
+         
         SecretariaAcademica secretaria = new SecretariaAcademica();
-        secretaria = query.consultarUsuarioSecretariaAcadémica("mlinaresv", "ssh22");
-        System.out.println(secretaria.getIdUsuario().getNombres());
+        try{
+            secretaria = query.consultarUsuarioSecretariaAcadémica("mlinaresv", "ssh22");
+            System.out.println(secretaria.getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
         */
         
         //consultar todos los usuarios
@@ -72,116 +94,141 @@ public class Main {
         
         //crear registro
         /*
-        Registro nuevo = query.crearRegistro(309, 19);
-        System.out.println(nuevo.getIdEstudiante().getIdUsuario().getNombres());
-        System.out.println(nuevo.getIdMateria().getNombre());
-        System.out.println(nuevo.getIdRegistro());
+        try{
+            Registro nuevo = query.crearRegistro(309, 19);
+            System.out.println(nuevo.getIdEstudiante().getIdUsuario().getNombres());
+            System.out.println(nuevo.getIdMateria().getNombre());
+            System.out.println(nuevo.getIdRegistro());
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
+        catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
+        }
         */
         
         //consultar registroEstudianteMateria
         /*
-        Registro registro=query.consultarRegistroEstudianteMateria(292, 26);
-        if(registro!=null)
-        {
+        try{
+            Registro registro=query.consultarRegistroEstudianteMateria(292, 26);
             System.out.println(registro.getIdEstudiante().getIdUsuario().getNombres());
             System.out.println(registro.getIdRegistro());
         }
-        */
-        
-        //consultar registros activos/inactivos de un estudiante
-        /*
-        List<Registro> lista=query.consultarRegistrosActivosInactivos(303, true);
-        for(int i = 0; i<lista.size();i++)
-        {
-            System.out.println(lista.get(i).getIdMateria().getNombre());
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
         }
         */
         
         //mostrar todos los estudiantes de un taller especificado
         /*
         Taller taller;
-        taller=query.consultarTaller(1);
-        Estudiante estudiante;
-        Iterator iterador;
-        iterador=taller.getEstudianteCollection().iterator();
-        while(iterador.hasNext())
-        {
-            estudiante=(Estudiante) iterador.next();
-            System.out.println(estudiante.getIdUsuario().getNombres());
+        try{
+            taller=query.consultarTaller(100);
+            Estudiante estudiante;
+            Iterator iterador;
+            iterador=taller.getEstudianteCollection().iterator();
+            while(iterador.hasNext())
+            {
+                estudiante=(Estudiante) iterador.next();
+                System.out.println(estudiante.getIdUsuario().getNombres());
+            }
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        */
+        
+        //consultar registros activos/inactivos de un estudiante
+        /*
+        try{
+            List<Registro> lista=query.consultarRegistrosActivosInactivos(1000, true);
+            for(int i = 0; i<lista.size();i++)
+            {
+                System.out.println(lista.get(i).getIdMateria().getNombre());
+            }
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
         }
         */
         
         //crear un usuario
         /*
-        Usuario usuario = query.crearUsuario("cosa", "amarilla", "tati", "uyuyuy");
-        if(usuario!=null){
-            System.out.println(usuario.getIdUsuario());
+        try{
+            Usuario usuario = query.crearUsuario("df", "amarsdfsdfilla", "damontic", "gelosa");
         }
-        else{
-            System.out.println("El login ya existe");
+        catch(PosibleDuplicationException duplicado){
+            System.out.println(duplicado.Mensaje());
         }
         */
         
-        
         //eliminar un usuario
         /*
-        if(query.eliminarUsuario(84))
-        {
-            System.out.println("bien");
+        try{
+            query.eliminarUsuario(84);
         }
-        else{
-            System.out.println("mal");
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
         }
         */
         
         //actualizar usuario
         /*
-        Usuario user = query.actualizarUsuario(100, "davor", "tañito", "damontic", "gelosa");
-        if(user!=null){
+        try{
+            Usuario user = query.actualizarUsuario(100, "davor", "tañito", "damontic", "gelosa");
             System.out.println(user.getIdUsuario()+" "+user.getNombres());
         }
-        else{
-            System.out.println("El id no existe");
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
         }
         */
         
         //analista de cierta materia
         /*
-        Analista analista = query.analistaDeMateria(18);
-        System.out.println(analista.getIdUsuario().getNombres());
+        try{
+            Analista analista = query.analistaDeMateria(18);
+            System.out.println(analista.getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException error){
+             System.out.println(error.Mensaje());
+        }   
         */
         
         //crear un examen solicitado
         /*
         Date fecha = new Date();
-        ExamenSolicitado examenSol = query.crearExamenSolicitado(fecha, 290, 1, 4, 13);
-        if(examenSol!=null){
+        try{
+            ExamenSolicitado examenSol = query.crearExamenSolicitado(fecha, 4000, 1, 4, 13);
             System.out.println(examenSol.getFecha()+" "+examenSol.getIdEstudiante().getIdUsuario().getNombres() );
         }
-        else{
-            System.out.println("El examen ya se solicitó");
+        catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
         }
-        */
+        catch(NoItemFoundException mal){
+            System.out.println(mal.Mensaje());
+        }
+        */  
         
         //desactivar registro
         /*
-        Registro registro = query.desactivarRegistro(4);
-        if(registro!=null){
+        try{
+            Registro registro = query.desactivarRegistro(4);
             System.out.println(registro.getIdRegistro());
         }
-        else{
-            System.out.println("El id no existe");
+        catch(NoItemFoundException mal){
+            System.out.println(mal.Mensaje());
         }
         */
         
         //cambiar estado de examen solicitado
         /*
-        ExamenSolicitado exam = query.actualizarEstadoDeExamenSolicitado(4, 5);
-        if(exam!=null){
+        try{
+            ExamenSolicitado exam = query.actualizarEstadoDeExamenSolicitado(450, 5);
             System.out.println(exam.getIdExamenSolicitado()+" "+exam.getIdEstudiante().getIdUsuario().getNombres());
         }
-        else{
-            System.out.println("El id no existe");
+        catch(NoItemFoundException mal){
+            System.out.println(mal.Mensaje());
         }
         */
         
