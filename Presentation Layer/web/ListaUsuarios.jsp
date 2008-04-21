@@ -14,7 +14,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Liceo V.A.L. - Sistema de Información Académico - Cambiar el Rol del Usuario</title>
+<title>Liceo V.A.L. - Sistema de Información Académico - Lista de Usuarios</title>
 <link rel="stylesheet" type="text/css" href="globals/main.css" />
 </head>
 
@@ -51,7 +51,7 @@
                 %>
                     <table border="0" cellpadding="0" cellspacing="0" width="550">
                         <tr height="30"><td><img src="images/title-left.png" /></td>
-                            <td class="title-center" width="100%">Cambio de Rol</td>
+                            <td class="title-center" width="100%">Listado de Usuarios</td>
                             <td><img src="images/title-right.png" /></td></tr>
                             
                         <tr><td class="cont-outer" colspan="3">
