@@ -4,6 +4,7 @@ import com.liceoval.businesslayer.entities.Usuario;
 import java.util.List;
 
 import CRUD.Crud;
+import Errores.*;
 import java.util.LinkedList;
 
 /**
@@ -50,7 +51,7 @@ public class AdministradoraDeUsuarios {
      * @return true
      * @throws java.lang.Exception
      */
-    public boolean crearUsuario(String nombres, String apellidos, String login, String clave){
+    public boolean crearUsuario(String nombres, String apellidos, String login, String clave) throws PosibleDuplicationException, NoItemFoundException{
         Crud driverDB;
         driverDB = new Crud();
         
@@ -77,7 +78,7 @@ public class AdministradoraDeUsuarios {
      * <p>false si hubo un error y no se pudo modificar
      * @throws java.lang.Exception si el usuario no existe.
      */
-    public boolean modificarUsuario(Usuario usuario){
+    public boolean modificarUsuario(Usuario usuario) throws NoItemFoundException{
         Crud driverDB;
         driverDB = new Crud();
         
@@ -110,17 +111,10 @@ public class AdministradoraDeUsuarios {
      * <p>False: si no se ha podido eleminar el usuario</p>
      * @throws java.lang.Exception si el usuario no existe.
      */
-    public boolean eliminarUsuario(Usuario usuario){
+    public void eliminarUsuario(Usuario usuario) throws NoItemFoundException{
         Crud driverDB;
         driverDB = new Crud();
-        
-        if(usuario != null){
-            
-            return driverDB.eliminarUsuario( usuario.getIdUsuario() );
-        }
-        else{
-            return false;
-        }
+            driverDB.eliminarUsuario( usuario.getIdUsuario() );
         
     }
 }
