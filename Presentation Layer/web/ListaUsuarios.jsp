@@ -26,16 +26,16 @@ import="java.util.List,java.util.Iterator,com.liceoval.businesslayer.control.Adm
         it=lista.iterator();
         n=lista.size();
         %>
-        <ol>
+        <!--ol--!>
         <%
         while(it.hasNext())
         {
             user=(Usuario)it.next();
         %>
-        <li><%=user.getNombres() + user.getApellidos()%></li>
+        <!--<li><!--%=user.getNombres() + user.getApellidos()%></li>-->
         <%
         }
         %>
-    </ol>
+    <!--/ol-->>
     </body>
 </html>
