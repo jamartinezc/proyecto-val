@@ -4,19 +4,61 @@
     Author     : Administrador
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"
-import="java.util.List,java.util.Iterator,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
-  
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Lista Usuarios</title>
-    </head>
-    <body>
+<%@ page
+	contentType="text/html; charset=utf-8"
+	language="java"
+	import="java.util.List,java.util.Iterator,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario"
+	errorPage="" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Liceo V.A.L. - Sistema de Información Académico - Cambiar el Rol del Usuario</title>
+<link rel="stylesheet" type="text/css" href="globals/main.css" />
+</head>
+
+<body>
+
+    <%
+        String locationLinks;
         
-        <%
+        locationLinks="<a class=\"nav-bar-link\" href=\"index.jsp\">Inicio</a>";
+    %>
+
+    <%@include file="globals/header.jsp" %>
+    
+	<!-- Tabla principal del diseño-->
+    <table style="padding-top:20px" border="0" cellpadding="0" cellspacing="0" align="center">
+    	<tr valign="top"><td>
+            
+            <!-- Menú o cuadro de log-in -->
+            <%@include file="globals/log-in-menu.jsp" %>
+            
+            <p style="font-size:5pt">&nbsp;</p>
+            
+            <!-- Libre acceso -->
+            <%@include file="globals/libre.jsp" %>
+            
+            </td><td class="center-padding">
+                
+                <%@include file="globals/login-warning.jsp" %>
+                <%@include file="globals/login-error.jsp" %>
+
+				<%
+				if(currentUser != null)
+                {
+                %>
+                    <table border="0" cellpadding="0" cellspacing="0" width="550">
+                        <tr height="30"><td><img src="images/title-left.png" /></td>
+                            <td class="title-center" width="100%">Cambio de Rol</td>
+                            <td><img src="images/title-right.png" /></td></tr>
+                            
+                        <tr><td class="cont-outer" colspan="3">
+                            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                <tr><td class="cont-inner">
+                                
+                                <%
         AdministradoraDeUsuarios admin=new AdministradoraDeUsuarios();
         List lista;
         lista=admin.solicitarListaDeUsuarios();
@@ -37,5 +79,22 @@ import="java.util.List,java.util.Iterator,com.liceoval.businesslayer.control.Adm
         }
         %>
     </ol>
-    </body>
+                                         
+
+                                </td></tr></table>
+                        </td></tr>
+                    </table>
+                <%
+				}
+				%>
+                
+            </td><td>
+        
+        	<!-- Menú derecho -->
+            <%@include file="globals/right-menu.jsp" %>
+        
+        </td></tr>
+	</table>
+
+</body>
 </html>
