@@ -254,6 +254,56 @@ public class Crud {
             }
     }
     
+    //consultar estudiante
+    public Estudiante consultarEstudiante(int idEstudiante) throws NoItemFoundException{
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        EntityManager pm = emf.createEntityManager();
+        
+        Estudiante buscado = em.find(Estudiante.class, idEstudiante);
+        if(buscado!=null){
+            return buscado;
+        }
+        else{
+            throw new NoItemFoundException();
+        }
+    }
+    
+    //consultar analista por idUsuario
+    public Analista consultarAnalista(int idUsuario) throws NoItemFoundException{
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        EntityManager pm = emf.createEntityManager();
+        
+        Usuario usuario = em.find(Usuario.class, idUsuario);
+        try
+            {
+                tx.begin();
+
+                Query q = pm.createQuery("select p from Analista p where p.idUsuario = :id");
+                q.setParameter("id", usuario);
+                List<Analista> lista = q.getResultList();
+                tx.commit();
+                if(lista.size()>0){
+                    return lista.get(0);
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+    }
+    
     //retorna una lista de materias
     public List<Materia> consultarMaterias(){
         

@@ -241,6 +241,28 @@ public class Main {
         }
         */
         
+        //consultar estudiante
+        /*
+        try{
+            Estudiante estudiante = query.consultarEstudiante(303);
+            System.out.println(estudiante.getIdTaller().getIdTutor().getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException mal){
+            System.out.println(mal.Mensaje());
+        }
+        */
+        
+        //consultar analista
+        /*
+        try{
+            Analista analist = query.consultarAnalista(25);
+            System.out.println(analist.getIdAnalista()+" "+analist.getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException mal){
+            System.out.println(mal.Mensaje());
+        }
+        */
+        
     }
 
 }
