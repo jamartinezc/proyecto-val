@@ -17,7 +17,7 @@ public class Materia
     private String nombre;
     private Tutor tutor;
     private Analista analista;
-    private List<Examen> exmanes;
+    private List<Examen> examenes;
 
     public int getCodigo() { return codigo; }
 
@@ -35,7 +35,7 @@ public class Materia
 
     public void setAnalista(Analista analista) { this.analista = analista; }
 
-    public List<Examen> getExmanes() { return exmanes; }
+    public List<Examen> getExamenes() { return examenes; }
 
-    public void setExmanes(List<Examen> exmanes) { this.exmanes = exmanes; }
+    public void setExamenes(List<Examen> exmanes) { this.examenes = exmanes; }
 }
