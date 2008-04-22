@@ -90,6 +90,7 @@ public class AdministradoraDeUsuarios {
             String clave = usuario.getPassword().toString();
             
             VO.Usuario usuarioModificado = driverDB.actualizarUsuario(idUsuario, nombres, apellidos, login, clave);
+            
             if(usuarioModificado != null){
                 return true;
             }
