@@ -12,5 +12,11 @@ package com.liceoval.businesslayer.entities;
 
 public class Tutor extends Usuario
 {
+    private int idTutor;
+    
     public String getRol() { return "Tutor"; }
+
+    public int getIdTutor() { return idTutor; }
+
+    public void setIdTutor(int idTutor) { this.idTutor = idTutor; }
 }

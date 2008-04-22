@@ -10,6 +10,7 @@ import com.liceoval.businesslayer.entities.Estudiante;
 import com.liceoval.businesslayer.entities.Analista;
 import com.liceoval.businesslayer.entities.Tutor;
 import com.liceoval.businesslayer.entities.Grado;
+import com.liceoval.businesslayer.entities.SecretariaAcademica;
 
 import CRUD.Crud;
 
@@ -51,6 +52,7 @@ public class ControladorDeLogIn
     
     public Usuario doLogin(String userName, String password, int role)
     {
+        VO.SecretariaAcademica secretary;
         VO.Estudiante student;
         VO.Analista analist;
         VO.Tutor tutor;
@@ -114,6 +116,8 @@ public class ControladorDeLogIn
                     usuario.setLogin(analist.getIdUsuario().getLogin());
                     usuario.setNombres(analist.getIdUsuario().getNombres());
                     usuario.setPassword(analist.getIdUsuario().getClave().toCharArray());
+                    
+                    ((Analista)usuario).setIdAnalista(analist.getIdAnalista().intValue());
                 }
                                                 
                 break;
@@ -137,9 +141,34 @@ public class ControladorDeLogIn
                     usuario.setLogin(tutor.getIdUsuario().getLogin());
                     usuario.setNombres(tutor.getIdUsuario().getNombres());
                     usuario.setPassword(tutor.getIdUsuario().getClave().toCharArray());
+                    
+                    ((Tutor)usuario).setIdTutor(tutor.getIdTutor().intValue());
                 }
                 
                 break;
+                
+            case ROLE_SECRETARY:
+                
+                try
+                {
+                    secretary = qr.consultarUsuarioSecretariaAcadémica(userName, password);
+                }
+                catch(NoItemFoundException ex)
+                {
+                    secretary = null;
+                }
+                
+                if(secretary != null)
+                {
+                    usuario = new SecretariaAcademica();
+                    usuario.setApellidos(secretary.getIdUsuario().getApellidos());
+                    usuario.setIdUsuario(secretary.getIdUsuario().getIdUsuario());
+                    usuario.setLogin(secretary.getIdUsuario().getLogin());
+                    usuario.setNombres(secretary.getIdUsuario().getNombres());
+                    usuario.setPassword(secretary.getIdUsuario().getClave().toCharArray());
+                    
+                    ((SecretariaAcademica)usuario).setIdSecretariaAcademica(secretary.getIdSecretariaAcademica().intValue());
+                }
         }
 
         return usuario;
