@@ -1,7 +1,7 @@
 <%-- 
     Document   : solicitudexamen
     Created on : 21-abr-2008, 18:41:48
-    Author     : jaguar
+    Author     : Liliana
 --%>
 
 <%@ page
@@ -43,10 +43,9 @@
                 <%@include file="globals/login-warning.jsp" %>
                 <%@include file="globals/login-error.jsp" %>
 
-				<%
-				if(currentUser != null)
-                {
-                %>
+	<%if(currentUser != null)
+        {
+        %>
                 <table border="0" cellpadding="0" cellspacing="0" width="550">
                         <tr height="30"><td><img src="images/title-left.png" /></td>
                             <td class="title-center" width="100%">Formato de Solicitud</td>
