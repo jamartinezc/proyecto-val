@@ -6,10 +6,6 @@
             <name>Presentation Layer</name>
             <minimum-ant-version>1.6</minimum-ant-version>
             <web-module-libraries>
-                <library files="2">
-                    <file>${libs.toplink.classpath}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
                 <library files="1">
                     <file>${libs.MySQLDriver.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
@@ -20,6 +16,10 @@
                 </library>
                 <library files="1">
                     <file>${file.reference.Business_Layer.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library files="2">
+                    <file>${libs.toplink.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>
