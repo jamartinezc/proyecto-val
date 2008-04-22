@@ -107,7 +107,8 @@
     %>
     
             <!-- Menú de la Secretaria Académica -->
-            <li><a href="listaexamenesdia">Ver lista de exámenes del día</a></li>
+            <li><a href="listaexamenesdia">Ver lista de exámenes solicitados</a></li>
+            <li><a href="ListaUsuarios.jsp">Administrar Usuarios</a></li>
     
     <%
         }

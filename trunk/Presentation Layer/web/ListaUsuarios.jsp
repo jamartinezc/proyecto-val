@@ -7,7 +7,7 @@
 <%@ page
 	contentType="text/html; charset=utf-8"
 	language="java"
-	import="java.util.List,java.util.Iterator,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario"
+	import="java.util.LinkedList, java.util.List,java.util.Iterator,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario"
 	errorPage="" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -45,8 +45,16 @@
                 <%@include file="globals/login-warning.jsp" %>
                 <%@include file="globals/login-error.jsp" %>
 
-				<%
-				if(currentUser != null)
+                <%
+                LinkedList<String> allowedUsers;
+                allowedUsers = new LinkedList<String>();
+                allowedUsers.add("com.liceoval.businesslayer.entities.SecretariaAcademica");
+                %>
+                
+                <%@include file="globals/bad-login.jsp" %>
+                
+                <%
+		if(currentUser != null && allowed == true)
                 {
                 %>
                     <table border="0" cellpadding="0" cellspacing="0" width="550">
@@ -64,11 +72,9 @@
         AdministradoraDeUsuarios admin=new AdministradoraDeUsuarios();
         List lista;
         lista=admin.solicitarListaDeUsuarios();
-        int i,n;
         Iterator it;
         Usuario user;
         it=lista.iterator();
-        n=lista.size();
         %>
         <ol>
         <%
