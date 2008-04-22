@@ -1,9 +1,16 @@
 package com.liceoval.businesslayer.control;
 
-import CRUD.Crud;
+
 import Errores.NoItemFoundException;
+import com.liceoval.businesslayer.control.registro.ControladoraDeRegistro;
+import com.liceoval.businesslayer.control.registro.exceptions.EstudianteNoPuedeRegistrarMasExamenesException;
+import com.liceoval.businesslayer.control.registro.exceptions.InsersionDeExamenException;
+import com.liceoval.businesslayer.control.registro.exceptions.NoExisteAnalistaParaMateriaException;
+import com.liceoval.businesslayer.control.registro.exceptions.RegistroNoExisteYNoPuedeSerCreadoException;
+import com.liceoval.businesslayer.control.registro.exceptions.ZonaHorariaIncorrectaException;
 import com.liceoval.businesslayer.entities.Estudiante;
-import java.util.Collection;
+import com.liceoval.businesslayer.exceptions.InvalidProcedureCallOrArgumentException;
+
 
 /**
  *
@@ -11,27 +18,11 @@ import java.util.Collection;
  */
 public class AdministradoraSolicitudesExamen {
     
-    public void SolicitarExamen(Estudiante estudiante, int codExamen, int codigoMateria) throws NoItemFoundException{
-        Crud driverDB;
-        driverDB = new Crud();
-        
-        VO.Registro registro;
-        //traer registro
+    public void SolicitarExamen(Estudiante estudiante, int codExamen, int codigoMateria) throws NoItemFoundException, InvalidProcedureCallOrArgumentException, RegistroNoExisteYNoPuedeSerCreadoException, NoExisteAnalistaParaMateriaException, EstudianteNoPuedeRegistrarMasExamenesException, ZonaHorariaIncorrectaException, InsersionDeExamenException{
+
         int idEstudiante = estudiante.getIdUsuario();
-        registro = driverDB.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
+        ControladoraDeRegistro.agregarExamen(codExamen, idEstudiante, codigoMateria);
         
-        if(registro == null){
-            //crear registro
-        }
-        
-        Collection<VO.ExamenSolicitado> examenesSolicitados = registro.getExamenSolicitadoCollection();
-        
-        /* pasarle el examenesSolicitados  a la controladora de registro, esta me
-         * mandaráel registro actualizado, lo convierto a VO.Registro y lo mando a
-         * la BD
-         */
     }
     
-    
-
 }
