@@ -11,5 +11,12 @@ package com.liceoval.businesslayer.entities;
  */
 public class SecretariaAcademica extends Usuario
 {
+    private int idSecretariaAcademica;
+
+    @Override
     public String getRol() { return "Secretaria Académica"; }
+
+    public int getIdSecretariaAcademica() { return idSecretariaAcademica; }
+
+    public void setIdSecretariaAcademica(int idSecretariaAcademica) { this.idSecretariaAcademica = idSecretariaAcademica; }
 }
