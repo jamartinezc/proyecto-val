@@ -19,7 +19,7 @@ public class InsersionDeExamenException extends RegistroException
     
     public InsersionDeExamenException()
     {
-        super("Falló la insersión del examen. Falla en la capa de Acceso a Datos");
+        super("Falló la solicitud del examen. Falla en la capa de Acceso a Datos");
     }
     
     /** Crea una excepción en el mensaje especificado
