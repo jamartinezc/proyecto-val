@@ -19,7 +19,7 @@ public class RegistroNoExisteYNoPuedeSerCreadoException extends RegistroExceptio
     
     public RegistroNoExisteYNoPuedeSerCreadoException()
     {
-        super("El registro no existe y no puede ser creado");
+        super("El registro no existe y no puede ser creado debido a que usted ya está viendo 3 materias");
     }
     
     /** Crea una excepción con el mensaje especificado
