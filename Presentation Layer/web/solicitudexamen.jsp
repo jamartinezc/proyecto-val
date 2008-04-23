@@ -7,7 +7,7 @@
 <%@ page
 	contentType="text/html; charset=utf-8"
 	language="java"
-	import="java.util.List,java.util.Iterator,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario, com.liceoval.businesslayer.control.registro.exceptions.*"
+	import="java.util.List,java.util.Iterator,com.liceoval.businesslayer.entities.Materia, com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario, com.liceoval.businesslayer.control.registro.exceptions.*"
 	errorPage="" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -46,7 +46,7 @@
 	<%if(currentUser != null)
         {
         %>
-                <!--<table border="0" cellpadding="0" cellspacing="0" width="550">
+                <table border="0" cellpadding="0" cellspacing="0" width="550">
                         <tr height="30"><td><img src="images/title-left.png" /></td>
                             <td class="title-center" width="100%">Formato de Solicitud</td>
                             <td><img src="images/title-right.png" /></td></tr>
@@ -54,13 +54,48 @@
                         <tr><td class="cont-outer" colspan="3">
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                 <tr><td class="cont-inner">
+                                    <form name="Solicitud" action="rtasolicitud.jsp" method="POST">
+                                <br />
+                                <p style="text-align:justify"><b>ESTE FORMULARIO LE PERMITIRÁ REALIZAR UNA SOLICITUD DE EXÁMEN.</b></p>
+                                <br>
+                                                                
+                                 
+                                 <ul>
+                                      <li><i><b>Seleccione la materia en la que desea hacer su solicitud </b></i></li>
+                                 </ul>
+                                
+                                    <li>Datos generales del <b>Usuario</b>:</li><br>
+                                                                
+                                   <br>
+                                    
+                                    <table>
+                                    <tr><td>Materia:</td><td><input type="text" name="materia" value="" size="10" disabled="disabled" /></td></tr>
+                                    <select name="Materias">
+                                        
+                                    <%
+                                    List<Materia> materias = com.liceoval.businesslayer.control.rcp.RCPRegistros.getMaterias();                                    
+                                    int i=0;
+                                    do{%>
+                                        <option><%= materias.get(i).getCodigo()+" : "+materias.get(i).getNombre(); %></option>
+                                    <%
+                                    i++;
+                                    }while(i<materias.size());%>
+                                    
+                                    </select>
+                                    </table>
+                                 
+                                    <br /><br />
+                                    <center><input type="submit" value="solicitar" name="solicitar" disabled="enabled" /></center>
+                                
+                                </form>
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
-            </table>-->
+            </table>
             
                 <%}%>
+     </table>
     </body>
 </html>
