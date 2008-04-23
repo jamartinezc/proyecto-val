@@ -7,7 +7,7 @@
 <%@ page
 	contentType="text/html; charset=utf-8"
 	language="java"
-	import="java.util.List,java.util.Iterator,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario"
+	import="java.util.Iterator,java.util.List,java.util.Iterator,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario,com.liceoval.businesslayer.entities.Materia,com.liceoval.businesslayer.control.rcp.RCPRegistros"
 	errorPage="" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -128,7 +128,7 @@
                                  <b><u>IMPORTANTE</u></b><br>
                                  <ul>
                                      <li><i>Una vez seleccionados los roles, se activarán los campos correspondientes (Numerales 1-5).</i></li>
-                                     <li><i>El rol Secretaria Académica <u>NO</u> contiene campos adicionales, solamente es necesario llenar los datos generales (Numeral 1).</i></li>
+                                     <li><i>El rol Secretaria Académica <u>NO</u> contiene campos adicionales, solamente es necesario llenar los datos generales (Numeral 2).</i></li>
                                      <li><i>No ingrese caracteres diferentes a números en los campos de códigos e identificaciones.</i></li>
                                      <li><i>Recuerde que todos los campos son <b><u>OBLIGATORIOS</u></b></i></li>
                                  </ul>
@@ -186,7 +186,27 @@
                                 
                                 <li>Datos Adicionales de <b>Analista</b></li><br>
                                     <table>
-                                    <tr><td>Materia:</td><td><input type="text" name="materia" value="" size="10" disabled="disabled" /></td></tr>
+                                    <tr><td>Materia:</td><td>
+                                        
+                                        <select name="materia" multiple="multiple" disabled="disabled" size="5">
+                                        
+                                        <%
+                                        List<Materia> mat;
+                                        Iterator i;
+                                        Materia materia;
+                                        mat=RCPRegistros.getMaterias();
+                                        i=mat.iterator();
+                                        while(i.hasNext())
+                                            {
+                                                materia=(Materia)i.next();
+                                          %>
+                                          <option value="<%=materia.getCodigo()%>"><%=materia.getCodigo() + "-" + materia.getNombre()%></option>
+                                          <%
+                                            }
+                                          %>
+                                        </select>     
+                                        
+                                    </td></tr>
                                     </table>
                                  
                                     <br /><br />
