@@ -12,6 +12,7 @@ import com.liceoval.businesslayer.entities.Materia;
 import com.liceoval.businesslayer.entities.Registro;
 import com.liceoval.businesslayer.entities.Tutor;
 import com.liceoval.businesslayer.entities.Examen;
+import com.liceoval.businesslayer.entities.ExamenSolicitado;
 
 import com.liceoval.businesslayer.exceptions.InvalidProcedureCallOrArgumentException;
 
@@ -248,6 +249,8 @@ public class ControladoraDeRegistro
     public static Registro getRegistro(int idEstudiante, int idMateria) throws RegistroNoEncontradoException
     {
         RegistroNoEncontradoException regEx;
+        ExamenSolicitado examenSolicitado;
+        VO.ExamenSolicitado reqExam;
         List<Examen> examenes;
         Iterator iterator;
         Registro registro;
@@ -255,6 +258,7 @@ public class ControladoraDeRegistro
         Materia materia;
         VO.Registro reg;
         VO.Examen exam;
+        
         Examen examen;
         Tutor tutor;
         Crud crud;
@@ -298,7 +302,7 @@ public class ControladoraDeRegistro
             examen.setTema(exam.getTema());
             examenes.add(examen);
         }
-        
+                        
         materia = new Materia();
         materia.setAnalista(analista);
         materia.setCodigo(reg.getIdMateria().getIdMateria().intValue());
@@ -310,6 +314,36 @@ public class ControladoraDeRegistro
         registro.setActivo(reg.getActivo());
         registro.setMateria(materia);
         registro.setVecesDevuelta(reg.getVecesDevuelta());
+        
+        // Iterar a través de la lista de exámenes solicitados y agregarlos
+        // al registro recien creado
+        iterator = reg.getExamenSolicitadoCollection().iterator();
+                
+        while(iterator.hasNext())
+        {
+            examenSolicitado = new ExamenSolicitado();
+            reqExam = (VO.ExamenSolicitado)iterator.next();
+            
+            analista = new Analista();
+            analista.setApellidos(reqExam.getIdAnalista().getIdUsuario().getApellidos());
+            analista.setIdAnalista(reqExam.getIdAnalista().getIdAnalista());
+            analista.setIdUsuario(reqExam.getIdAnalista().getIdUsuario().getIdUsuario());
+            analista.setLogin(reqExam.getIdAnalista().getIdUsuario().getClave());
+            analista.setNombres(reqExam.getIdAnalista().getIdUsuario().getNombres());
+            analista.setPassword(reqExam.getIdAnalista().getIdUsuario().getClave().toCharArray());
+            
+            examen = new Examen();
+            examen.setCodigo(reqExam.getIdExamen().getIdExamen().intValue());
+            examen.setTema(reqExam.getIdExamen().getTema());
+            
+            examenSolicitado = new ExamenSolicitado();
+            examenSolicitado.setAnalista(analista);
+            examenSolicitado.setEstado(reqExam.getIdEstado().getIdEstado());
+            examenSolicitado.setExamen(examen);
+            examenSolicitado.setFecha(reqExam.getFecha());
+            
+            registro.getExamenesSolicitados().add(examenSolicitado);
+        }
         
         return registro;
     }
