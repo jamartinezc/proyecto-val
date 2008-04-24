@@ -54,8 +54,9 @@
                         <tr><td class="cont-outer" colspan="3">
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                 <tr><td class="cont-inner">
-                                    <form name="Solicitud" action="rtasolicitud.jsp" method="POST">
+                                    <form name="Solicitud" action="rtasolicitud.jsp" method="POST" enctype="application/x-www-form-urlencoded">
                                 <br />
+                                
                                 <p style="text-align:justify"><b>ESTE FORMULARIO LE PERMITIRÁ REALIZAR UNA SOLICITUD DE EXÁMEN.</b></p>
                                 <br>
                                                                 
@@ -63,29 +64,27 @@
                                  <ul>
                                       <li><i><b>Seleccione la materia en la que desea hacer su solicitud </b></i></li>
                                  </ul>
-                                
-                                    <li>Datos generales del <b>Usuario</b>:</li><br>
-                                                                
+                                         
                                    <br>
                                     
                                     <table>
-                                    <tr><td>Materia:</td><td><input type="text" name="materia" value="" size="10" disabled="disabled" /></td></tr>
-                                    <select name="Materias">
+                                    <tr><td>Materia:</td></tr>
+                                    <td> 
+                                    <select name="Materia">
                                         
-                                    <%
-                                    List<Materia> materias = com.liceoval.businesslayer.control.rcp.RCPRegistros.getMaterias();                                    
+                                    <%List<Materia> materias = com.liceoval.businesslayer.control.rcp.RCPRegistros.getMaterias();                                    
                                     int i=0;
                                     do{%>
-                                        <option><%= materias.get(i).getCodigo()+" : "+materias.get(i).getNombre(); %></option>
+                                        <option value ="<%=materias.get(i).getCodigo()%>"><%=materias.get(i).getCodigo()+" : "+materias.get(i).getNombre()%></option>
                                     <%
                                     i++;
                                     }while(i<materias.size());%>
-                                    
                                     </select>
+                                </td>
                                     </table>
                                  
                                     <br /><br />
-                                    <center><input type="submit" value="solicitar" name="solicitar" disabled="enabled" /></center>
+                                    <center><input type="submit" value="solicitar" name="solicitar" /></center>
                                 
                                 </form>
                                 </td>
