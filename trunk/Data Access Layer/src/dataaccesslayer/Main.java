@@ -104,7 +104,7 @@ public class Main {
         //crear registro
         /*
         try{
-            Registro nuevo = query.crearRegistro(309, 19);
+            Registro nuevo = query.crearRegistro(290, 13);
             System.out.println(nuevo.getIdEstudiante().getIdUsuario().getNombres());
             System.out.println(nuevo.getIdMateria().getNombre());
             System.out.println(nuevo.getIdRegistro());
@@ -266,6 +266,16 @@ public class Main {
         try{
             Analista analist = query.consultarAnalista(25);
             System.out.println(analist.getIdAnalista()+" "+analist.getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException mal){
+            System.out.println(mal.Mensaje());
+        }
+        */
+        
+        //retorna el siguiente examen a presentar de cierta materia para cierto usuario
+        /*
+        try{
+            query.getSiguienteExamenDeMateria(1, 290);
         }
         catch(NoItemFoundException mal){
             System.out.println(mal.Mensaje());
