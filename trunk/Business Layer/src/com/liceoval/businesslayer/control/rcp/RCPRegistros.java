@@ -8,11 +8,15 @@ package com.liceoval.businesslayer.control.rcp;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;
-import CRUD.Crud;
-import com.liceoval.businesslayer.entities.Materia;
+
 import com.liceoval.businesslayer.entities.Analista;
+import com.liceoval.businesslayer.entities.Estudiante;
 import com.liceoval.businesslayer.entities.Examen;
+import com.liceoval.businesslayer.entities.Materia;
+import com.liceoval.businesslayer.entities.Taller;
 import com.liceoval.businesslayer.entities.Tutor;
+
+import CRUD.Crud;
 
 /**
  *
@@ -20,6 +24,39 @@ import com.liceoval.businesslayer.entities.Tutor;
  */
 public class RCPRegistros
 {
+    public static List<Taller> getTalleres()
+    {
+        LinkedList<Estudiante> estudiantes;
+        LinkedList<Taller> talleres;
+        List<VO.Taller> workshops;
+        Estudiante estudiante;
+        VO.Taller workshop;
+        Iterator iterator;
+        Taller taller;
+        Crud crud;
+                
+        crud = new Crud();
+        workshops = crud.listaTalleres();
+        iterator = workshops.iterator();
+        talleres = new LinkedList<Taller>();
+        
+        while(iterator.hasNext())
+        {
+            workshop = (VO.Taller)iterator.next();
+            
+                        
+            taller = new Taller();
+            
+        }
+        
+        return null;
+    }
+    
+    /** Recupera una lista de materias
+     * 
+     *  @return Una lista de Materias
+     */
+    
     public static List<Materia> getMaterias()
     {
         LinkedList<Materia> materias;
@@ -55,7 +92,7 @@ public class RCPRegistros
             mat2.setAnalista(analista);
             mat2.setCodigo(mat1.getIdMateria().intValue());
         
-            exIterator = mat2.getExamenes().iterator();
+            exIterator = mat1.getExamenCollection().iterator();
             examenes = new LinkedList<Examen>();
 
             while(exIterator.hasNext())
