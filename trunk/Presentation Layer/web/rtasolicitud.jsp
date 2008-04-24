@@ -7,7 +7,7 @@
 <%@ page
 	contentType="text/html; charset=utf-8"
 	language="java"
-	import="java.util.List,java.util.Iterator, Errores. NoItemFoundException, Errores. PosibleDuplicationException, com. liceoval. businesslayer. entities. Estudiante,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. EstudianteNoPuedeRegistrarMasExamenesException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. InsersionDeExamenException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. NoExisteAnalistaParaMateriaException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. RegistroException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. RegistroNoEncontradoException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. RegistroNoExisteYNoPuedeSerCreadoException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. ZonaHorariaIncorrectaException"
+	import="java.util.List,java.util.Iterator, Errores. NoItemFoundException, Errores. PosibleDuplicationException, com. liceoval. businesslayer. entities. Estudiante,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. EstudianteNoPuedeRegistrarMasExamenesException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. InsersionDeExamenException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. NoExisteAnalistaParaMateriaException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. RegistroException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. RegistroNoEncontradoException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. RegistroNoExisteYNoPuedeSerCreadoException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. ZonaHorariaIncorrectaException, com. liceoval. businesslayer. control. AdministradoraSolicitudesExamen"
 	errorPage="" %>
          <!--,com.liceoval.businesslayer.control.registro.exceptions.InvalidProcedureCallOrArgumentException",com.liceoval.businesslayer.control.registro.exceptions.RegistroNoExisteYNoPuedeSerCreadoException,com.liceoval.businesslayer.control.registro.exceptions.NoExisteAnalistaParaMateriaException,com.liceoval.businesslayer.control.registro.exceptions.EstudianteNoPuedeRegistrarMasExamenesException,com.liceoval.businesslayer.control.registro.exceptions.ZonaHorariaIncorrectaException,com.liceoval.businesslayer.control.registro.exceptions.InsersionDeExamenException"-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -56,8 +56,10 @@
                                 <ol>
                                 <p>
                           <%try{
-                            com.liceoval.businesslayer.control.AdministradoraSolicitudesExamen admin = new com.liceoval.businesslayer.control.AdministradoraSolicitudesExamen();
-                            int codigoMateria = Integer.parseInt((((String)(request.getAttribute("Materia"))).split(" : "))[0]);
+                            AdministradoraSolicitudesExamen admin = new AdministradoraSolicitudesExamen();
+                            String materiaYcodigo = (String)(request.getAttribute("Materia"));
+                            String[] materiaYcodigoSeparados = materiaYcodigo.split(" : ");
+                            int codigoMateria = Integer.parseInt(materiaYcodigoSeparados[0]);
                             Estudiante estudiante = (Estudiante)currentUser;
                             admin.SolicitarExamen(estudiante, 1, codigoMateria);
                           }catch(NoItemFoundException e1){
@@ -66,7 +68,7 @@
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
                                 <%
                           }%>
-                          <%}catch(){}
+                          <%//}catch(){}
                                   %>
                                 </p>
                                 
