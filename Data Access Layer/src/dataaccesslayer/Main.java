@@ -74,12 +74,12 @@ public class Main {
         }
         */
         
-        //consultar todos los usuarios
+        //consultar todos los usuarios ordenados por nombre
         /*
         List<Usuario> lista = query.listaUsuarios();
         for(int i = 0; i<lista.size();i++)
         {
-            System.out.println(lista.get(i).getNombres());
+            System.out.println(lista.get(i).getApellidos());
         }
         */
         
