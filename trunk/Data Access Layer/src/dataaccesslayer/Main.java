@@ -92,6 +92,15 @@ public class Main {
         }
         */
         
+        //consultar todos los talleres
+        /*
+        List<Taller> talleres = query.listaTalleres();
+        for(int i = 0; i<talleres.size();i++)
+        {
+            System.out.println(talleres.get(i).getIdTaller());
+        }
+        */
+        
         //crear registro
         /*
         try{
