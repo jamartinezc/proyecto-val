@@ -44,7 +44,7 @@
                 <%@include file="globals/login-error.jsp" %>
                 
                    <%if(currentUser != null){
-                %> 
+                try{%> 
                 <table border="0" cellpadding="0" cellspacing="0" width="550">
                         <tr height="30"><td><img src="images/title-left.png" /></td>
                             <td class="title-center" width="100%">Información</td>
@@ -55,21 +55,24 @@
                                 <tr><td class="cont-inner">
                                 <ol>
                                 <p>
-                          <%try{
+                          <%
+                          
                             AdministradoraSolicitudesExamen admin = new AdministradoraSolicitudesExamen();
-                            String materiaYcodigo = (String)(request.getAttribute("Materia"));
-                            String[] materiaYcodigoSeparados = materiaYcodigo.split(" : ");
-                            int codigoMateria = Integer.parseInt(materiaYcodigoSeparados[0]);
+                            String materia = (String)(request.getParameter("Materia"));
+                            %><p><%= request.getParameterNames().nextElement() %></p><%
+                            int codigoMateria = Integer.parseInt(materia);
                             Estudiante estudiante = (Estudiante)currentUser;
-                            admin.SolicitarExamen(estudiante, 1, codigoMateria);
+                            //mchernandezo mlkiop99     id 290
+                            admin.SolicitarExamen(estudiante, 14, codigoMateria);
                           }catch(NoItemFoundException e1){
                                 String mensajeError = e1.getMessage();
                                 %>
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
-                                <%
-                          }%>
-                          <%//}catch(){}
-                                  %>
+                          <%}catch(NumberFormatException e2){
+                              String mensajeError = e2.getMessage();
+                                %>
+                                <%@include file="globals/error-solicitud-increable.jsp" %>
+                                <%}%>
                                 </p>
                                 
                                 </ol>
