@@ -468,6 +468,36 @@ public class Crud {
         
     }
     
+    //retorna lista de todos los talleres
+    public List<Taller> listaTalleres(){
+        
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();            
+            
+            try
+            {
+                tx.begin();
+
+                Query q = pm.createQuery("select p from Taller p");
+                List<Taller> lista = q.getResultList();
+                tx.commit();
+                return lista;
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+        
+    } 
+    
+    
     //Consultar talleres
     public Taller consultarTaller(int idTaller) throws NoItemFoundException
     {
