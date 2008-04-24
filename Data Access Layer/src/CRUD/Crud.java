@@ -19,6 +19,7 @@ import VO.Taller;
 import VO.Tutor;
 import VO.Usuario;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -258,8 +259,6 @@ public class Crud {
     public Estudiante consultarEstudiante(int idEstudiante) throws NoItemFoundException{
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
         EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        EntityManager pm = emf.createEntityManager();
         
         Estudiante buscado = em.find(Estudiante.class, idEstudiante);
         if(buscado!=null){
@@ -412,59 +411,51 @@ public class Crud {
     
     //crea un registro
     public Registro crearRegistro(int idEstudiante, int codigoMateria) throws PosibleDuplicationException, NoItemFoundException{
-        
-        Registro repetido = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
+        try{
+            Registro repetido = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
+            throw new PosibleDuplicationException();
+        }
+        catch(NoItemFoundException uy){
+               
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
 
-        if(repetido==null)
-            {           
-                EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-                EntityManager em = emf.createEntityManager();
-                EntityTransaction tx = em.getTransaction();
-                EntityManager pm = emf.createEntityManager();            
-                try
-                {
-                    tx.begin();
-                    
-                    Estudiante estudiante;
-                    Materia materia;
-                    estudiante = em.find(Estudiante.class, idEstudiante);
-                    materia = em.find(Materia.class, codigoMateria);
-                    Registro registro = new Registro();
-                    
-                    if(estudiante!=null && materia!=null )
-                    {
-                        
-                        registro.setActivo(true);
-                        registro.setIdEstudiante(estudiante);  
-                        registro.setIdMateria(materia);
-                        registro.setVecesDevuelta(0);
-                        em.persist(registro);
-                    }
-                    
-                    tx.commit();
-                    try{
-                        Registro nuevo = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
-                        return nuevo;
-                    }
-                    catch(NoItemFoundException ey){
-                        throw new NoItemFoundException();
-                    }
-                    
-                }
-                finally
-                {
-                    if (tx.isActive())
-                    {
-                        tx.rollback();
-                    }
+            try{
+                Estudiante estudiante;
+                Materia materia;
+                estudiante = em.find(Estudiante.class, idEstudiante);
+                materia = em.find(Materia.class, codigoMateria);
+                Registro registro = new Registro();
 
-                    em.close();
+                if(estudiante!=null || materia!=null )
+                {
+                    registro.setActivo(true);
+                    registro.setIdEstudiante(estudiante);  
+                    registro.setIdMateria(materia);
+                    registro.setVecesDevuelta(0);
+
                 }
+
+                tx.begin();
+                em.persist(registro);
+                tx.commit();
+
+                Registro nuevo = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
+                return nuevo;
             }
-            else
-            {
-                throw new PosibleDuplicationException();
+            catch(NoItemFoundException ey){
+                throw new NoItemFoundException();   
             }
+            finally{
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+        } 
         
     }
     
@@ -601,7 +592,7 @@ public class Crud {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
-            EntityManager pm = emf.createEntityManager();  
+
             
             if(this.loginExiste(login)){
                 try
@@ -644,7 +635,7 @@ public class Crud {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
-            EntityManager pm = emf.createEntityManager();            
+         
             try
             {
                 Usuario usuario = em.find(Usuario.class, id);
@@ -676,8 +667,7 @@ public class Crud {
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
-            EntityTransaction tx = em.getTransaction();
-            EntityManager pm = emf.createEntityManager();            
+            EntityTransaction tx = em.getTransaction();          
             try
             {
                 Usuario usuario = em.find(Usuario.class, idUsuario);
@@ -714,8 +704,7 @@ public class Crud {
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
         EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        EntityManager pm = emf.createEntityManager();            
+        EntityTransaction tx = em.getTransaction();         
         
         
         try
@@ -795,7 +784,6 @@ public class Crud {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
-            EntityManager pm = emf.createEntityManager();   
             
             Estudiante estudiante = em.find(Estudiante.class, idEstudiante);
             Analista analista = em.find(Analista.class, idAnalista);
@@ -883,8 +871,7 @@ public class Crud {
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
-            EntityTransaction tx = em.getTransaction();
-            EntityManager pm = emf.createEntityManager();            
+            EntityTransaction tx = em.getTransaction();           
             try
             {
                 Registro registro = em.find(Registro.class, idRegistro);
@@ -918,8 +905,7 @@ public class Crud {
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
-            EntityTransaction tx = em.getTransaction();
-            EntityManager pm = emf.createEntityManager();            
+            EntityTransaction tx = em.getTransaction();          
             try
             {
                 ExamenSolicitado examen = em.find(ExamenSolicitado.class, idExamenSolicitado);
@@ -949,6 +935,29 @@ public class Crud {
             }
         }
     
-    
-    
+    //retorna el siguiente examen a presentar de cierta materia para cierto usuario
+    /*public void getSiguienteExamenDeMateria(int codigoMateria, int idEstudiante) throws NoItemFoundException{
+        
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();          
+            Estudiante evaluado = em.find(Estudiante.class, idEstudiante);
+            List examen;
+
+            if(evaluado!=null)
+            {
+                Iterator iterador;
+                iterador=evaluado.getExamenSolicitadoCollection().iterator();
+                int i =0;
+                while(iterador.hasNext())
+                {
+                    examenes.add((ExamenSolicitado)iterador.next());
+                    System.out.println(examenes.get(i).getIdExamenSolicitado());
+                }
+            }
+            else{
+                throw new NoItemFoundException();
+            }
+         
+        }*/
+
 }
