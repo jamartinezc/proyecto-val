@@ -23,7 +23,7 @@
             <tr height="30"><td><img src="images/title-left.png" /></td>
                 <td width="180" class="title-center">Iniciar Sesión</td>
                 <td><img src="images/title-right.png" /></td></tr>
-            <tr><td class="cont-outer" colspan="3">
+            <tr><td class="cont-outer" colspan="3" width="200">
                 <table border="0" cellspacing="0" cellpadding="0" width="100%">
                     <tr><td class="cont-inner">
                     <form action="loginmanager?action=login" method="post" enctype="application/x-www-form-urlencoded">
@@ -74,7 +74,7 @@
             <tr height="30"><td><img src="images/title-left.png" /></td>
                 <td width="180" class="title-center">Menú</td>
                 <td><img src="images/title-right.png" /></td></tr>
-            <tr><td class="cont-outer" colspan="3">
+            <tr><td class="cont-outer" colspan="3" width="200">
                 <table border="0" cellspacing="0" cellpadding="0" width="100%">
                     <tr><td class="cont-inner"><ul>
                     	
