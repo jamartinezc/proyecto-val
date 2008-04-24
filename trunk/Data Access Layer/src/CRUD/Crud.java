@@ -514,7 +514,7 @@ public class Crud {
             {
                 tx.begin();
 
-                Query q = pm.createQuery("select p from Usuario p");
+                Query q = pm.createQuery("select p from Usuario p ORDER BY p.apellidos");
                 List<Usuario> lista = q.getResultList();
                 tx.commit();
                 return lista;

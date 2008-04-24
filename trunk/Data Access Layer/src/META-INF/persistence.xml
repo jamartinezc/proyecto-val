@@ -22,9 +22,9 @@
     <class>VO.Materia</class>
     <class>VO.Examenmes</class>
     <properties>
-      <property name="toplink.jdbc.user" value="liceoval"/>
-      <property name="toplink.jdbc.password" value="liceoval"/>
-      <property name="toplink.jdbc.url" value="jdbc:mysql://190.12.142.149:3306/liceoval1"/>
+      <property name="toplink.jdbc.user" value="root"/>
+      <property name="toplink.jdbc.password" value="angelita"/>
+      <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/liceoval1"/>
       <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
     </properties>
   </persistence-unit>
