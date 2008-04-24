@@ -20,7 +20,7 @@ public class AdministradoraSolicitudesExamen {
     
     public void SolicitarExamen(Estudiante estudiante, int codExamen, int codigoMateria) throws NoItemFoundException, InvalidProcedureCallOrArgumentException, RegistroNoExisteYNoPuedeSerCreadoException, NoExisteAnalistaParaMateriaException, EstudianteNoPuedeRegistrarMasExamenesException, ZonaHorariaIncorrectaException, InsersionDeExamenException{
 
-        int idEstudiante = estudiante.getIdUsuario();
+        int idEstudiante = estudiante.getCodigo();
         ControladoraDeRegistro.agregarExamen(codExamen, idEstudiante, codigoMateria);
         
     }
