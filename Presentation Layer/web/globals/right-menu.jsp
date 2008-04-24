@@ -4,7 +4,7 @@
                 	<td width="180" class="title-center">Ayuda</td>
                     <td><img src="images/title-right.png" /></td></tr>
                     
-				<tr><td class="cont-outer" colspan="3">
+				<tr><td class="cont-outer" colspan="3" width="200">
                 	<table border="0" cellspacing="0" cellpadding="0">
                     	<tr><td class="cont-inner">Aca deberíamos escribir algo como para ayudar al usuario en cada sección, como lo
                         que debería hacer o no sé depronto más opciones para algún caso de uso. En fin, el espacio queda abierto para
