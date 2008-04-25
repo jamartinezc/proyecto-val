@@ -667,6 +667,7 @@ public class EntityTranslator
         taller = new Taller();
         
         // Traducir cada uno de los atributos.
+        taller.setIdTaller(workshop.getIdTaller().intValue());
         taller.setTutor(translateTutor(workshop.getIdTutor()));
         
         // Devolver el taller
