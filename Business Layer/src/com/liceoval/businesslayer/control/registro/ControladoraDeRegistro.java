@@ -246,6 +246,16 @@ public class ControladoraDeRegistro
         }
     }
     
+    /** Devuelve el registro de un estudiante para la materia especificada.
+     * 
+     *  @param idEstudiante El id del estudiante.
+     *  @param idMateria El id de la materia.
+     *  @return Un objeto de clase Registro para el estudiante y la materia
+     *      especificados.
+     *  @throws com.liceoval.businesslayer.control.registro.exceptions.RegistroNoEncontradoException Si
+     *      no existe un registro para el estudiante y la materia especificados.
+     */
+    
     public static Registro getRegistro(int idEstudiante, int idMateria) throws RegistroNoEncontradoException
     {
         RegistroNoEncontradoException regEx;
