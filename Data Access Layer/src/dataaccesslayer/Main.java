@@ -208,7 +208,7 @@ public class Main {
         /*
         Date fecha = new Date();
         try{
-            ExamenSolicitado examenSol = query.crearExamenSolicitado(fecha, 4000, 1, 4, 13);
+            ExamenSolicitado examenSol = query.crearExamenSolicitado(fecha, 309, 4, 7, 10);
             System.out.println(examenSol.getFecha()+" "+examenSol.getIdEstudiante().getIdUsuario().getNombres() );
         }
         catch(PosibleDuplicationException error){
@@ -217,7 +217,7 @@ public class Main {
         catch(NoItemFoundException mal){
             System.out.println(mal.Mensaje());
         }
-        */  
+          */
         
         //desactivar registro
         /*
@@ -266,6 +266,17 @@ public class Main {
         try{
             Analista analist = query.consultarAnalista(25);
             System.out.println(analist.getIdAnalista()+" "+analist.getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException mal){
+            System.out.println(mal.Mensaje());
+        }
+        */
+        
+        //consultarExamenSolicitadoEspecífico
+        List<ExamenSolicitado> examen;
+        /*
+        try{
+            examen = query.consultarExamenSolicitadoEspecífico(290, 1, 4, 13);
         }
         catch(NoItemFoundException mal){
             System.out.println(mal.Mensaje());

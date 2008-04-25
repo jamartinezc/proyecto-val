@@ -736,7 +736,7 @@ public class Crud {
     }
     
     //retorna una lista de exámenes solicitados
-    public List<ExamenSolicitado> consultarExamenSolicitadoEspecífico(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException {
+    public List<ExamenSolicitado> consultarExamenSolicitadoEspecífico(int idEstudiante, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
@@ -751,8 +751,8 @@ public class Crud {
             {
                 tx.begin();
 
-                Query q = pm.createQuery("select p from ExamenSolicitado p where p.fecha = :momento AND p.idEstudiante = :estu AND p.idAnalista = :analis AND p.idRegistro = :reg AND p.idExamen = :exam");
-                q.setParameter("momento", fecha);
+                Query q = pm.createQuery("select p from ExamenSolicitado p where p.idEstudiante = :estu AND p.idAnalista = :analis AND p.idRegistro = :reg AND p.idExamen = :exam");
+
                 q.setParameter("estu", estudiante);
                 q.setParameter("analis", analista);
                 q.setParameter("reg", registro);
@@ -791,12 +791,15 @@ public class Crud {
             Examen examen = em.find(Examen.class, idExamen);
             Estados estado = em.find(Estados.class, 3);
             
-            List<ExamenSolicitado> repetido = this.consultarExamenSolicitadoEspecífico(fecha, idEstudiante, idAnalista, idRegistro, idExamen);
-            if(repetido.size()==1){
+            System.out.println(estudiante.getIdEstudiante());
+            
+            try{
+                List<ExamenSolicitado> repetido = this.consultarExamenSolicitadoEspecífico(idEstudiante, idAnalista, idRegistro, idExamen);
+                throw new PosibleDuplicationException();
+            }
+            catch(NoItemFoundException ey){
                 try
                 {
-                    tx.begin();
-
                     ExamenSolicitado examenSolicitado = new ExamenSolicitado();
                     examenSolicitado.setFecha(fecha);
                     examenSolicitado.setIdAnalista(analista);
@@ -806,11 +809,11 @@ public class Crud {
                     examenSolicitado.setIdRegistro(registro);
                     examenSolicitado.setNota(0);
 
+                    tx.begin();
                     em.persist(examenSolicitado);
-
                     tx.commit();
 
-                    List<ExamenSolicitado> nuevo = this.consultarExamenSolicitadoEspecífico(examenSolicitado.getFecha(), examenSolicitado.getIdEstudiante().getIdEstudiante(), examenSolicitado.getIdAnalista().getIdAnalista(), examenSolicitado.getIdRegistro().getIdRegistro(), examenSolicitado.getIdExamen().getIdExamen());
+                    List<ExamenSolicitado> nuevo = this.consultarExamenSolicitadoEspecífico(examenSolicitado.getIdEstudiante().getIdEstudiante(), examenSolicitado.getIdAnalista().getIdAnalista(), examenSolicitado.getIdRegistro().getIdRegistro(), examenSolicitado.getIdExamen().getIdExamen());
 
                     if(nuevo.size()==1){
                         return nuevo.get(0);
@@ -830,11 +833,6 @@ public class Crud {
                     em.close();
                 }
             }
-            else{
-                throw new PosibleDuplicationException();
-            }
-            
-            
         }
     
     //consultar estados
