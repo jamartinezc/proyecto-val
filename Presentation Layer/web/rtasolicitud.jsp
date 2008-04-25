@@ -81,8 +81,14 @@
                         </table>
                     </td>
                 </tr>
-</table>
-<%}%>
             </table>
-    </body>
+        <%}%>
+        <td>
+        
+        	<!-- Menú derecho -->
+            <%@include file="globals/right-menu.jsp" %>
+        
+        </td>
+     </table>
+   </body>
 </html>

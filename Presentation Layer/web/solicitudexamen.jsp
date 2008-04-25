@@ -7,7 +7,7 @@
 <%@ page
 	contentType="text/html; charset=utf-8"
 	language="java"
-	import="java.util.List,java.util.Iterator,com.liceoval.businesslayer.entities.Materia, com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario, com.liceoval.businesslayer.control.registro.exceptions.*"
+	import="java.util.List,java.util.Iterator,com.liceoval.businesslayer.entities.Materia,com. liceoval. businesslayer. entities. Estudiante, com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario, com.liceoval.businesslayer.control.registro.exceptions.*"
 	errorPage="" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -72,7 +72,8 @@
                                     <td> 
                                     <select name="Materia">
                                         
-                                    <%List<Materia> materias = com.liceoval.businesslayer.control.rcp.RCPRegistros.getMaterias();                                    
+                                    <%int idGrado = ((Estudiante)currentUser).getGrado().getIdGrado();
+                                    List<Materia> materias = com.liceoval.businesslayer.control.rcp.RCPRegistros.getMaterias(idGrado);
                                     int i=0;
                                     do{%>
                                         <option value ="<%=materias.get(i).getCodigo()%>"><%=materias.get(i).getCodigo()+" : "+materias.get(i).getNombre()%></option>
@@ -95,6 +96,12 @@
             </table>
             
                 <%}%>
+                <td>
+        
+        	<!-- Menú derecho -->
+            <%@include file="globals/right-menu.jsp" %>
+        
+        </td>
      </table>
     </body>
 </html>
