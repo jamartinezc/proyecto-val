@@ -12,12 +12,14 @@ import VO.Estados;
 import VO.Estudiante;
 import VO.Examen;
 import VO.ExamenSolicitado;
+import VO.Grado;
 import VO.Materia;
 import VO.Registro;
 import VO.SecretariaAcademica;
 import VO.Taller;
 import VO.Tutor;
 import VO.Usuario;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -933,13 +935,56 @@ public class Crud {
             }
         }
     
+    public List<Usuario> buscarUsuario(String comodin) throws NoItemFoundException{
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();  
+            
+                try
+                {
+                    tx.begin();
+
+                    Query q = pm.createQuery("select p from Usuario p where UPPER(p.nombres) LIKE :nombre OR UPPER(p.apellidos) LIKE :nombre ORDER BY p.nombres");
+                    q.setParameter("nombre", "%"+comodin+"%");
+                    List<Usuario> lista = q.getResultList();
+                    tx.commit();
+                    if(lista.size()>0){
+                        return lista;
+                    }     
+                    else{
+                        throw new NoItemFoundException();
+                    }
+                }
+                finally
+                {
+                    if (tx.isActive())
+                    {
+                        tx.rollback();
+                    }
+
+                    em.close();
+                }
+    }
+    
+    //retorna las materias de cierto grado
+    public Collection materiasDeGrado(int idGrado)throws NoItemFoundException{
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            
+            Grado grado = em.find(Grado.class, idGrado);
+            
+            return grado.getMateriaCollection();
+        
+    }
+    
     //retorna el siguiente examen a presentar de cierta materia para cierto usuario
     /*public void getSiguienteExamenDeMateria(int codigoMateria, int idEstudiante) throws NoItemFoundException{
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();          
             Estudiante evaluado = em.find(Estudiante.class, idEstudiante);
-            List examen;
+            List examenes;
 
             if(evaluado!=null)
             {
@@ -950,6 +995,7 @@ public class Crud {
                 {
                     examenes.add((ExamenSolicitado)iterador.next());
                     System.out.println(examenes.get(i).getIdExamenSolicitado());
+                    i++;
                 }
             }
             else{
