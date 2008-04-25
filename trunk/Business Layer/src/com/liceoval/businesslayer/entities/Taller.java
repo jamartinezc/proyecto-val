@@ -13,13 +13,8 @@ import java.util.List;
  */
 public class Taller
 {
-    private List<Estudiante> estudiantes;
     private Tutor tutor;
-
-    public List<Estudiante> getEstudiantes() { return estudiantes; }
-
-    public void setEstudiantes(List<Estudiante> estudiantes) { this.estudiantes = estudiantes; }
-
+    
     public Tutor getTutor() { return tutor; }
 
     public void setTutor(Tutor tutor) { this.tutor = tutor; }

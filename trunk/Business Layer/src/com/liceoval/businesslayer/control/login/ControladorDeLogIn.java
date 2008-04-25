@@ -12,6 +12,8 @@ import com.liceoval.businesslayer.entities.Tutor;
 import com.liceoval.businesslayer.entities.Grado;
 import com.liceoval.businesslayer.entities.SecretariaAcademica;
 
+import com.liceoval.businesslayer.entities.entitytranslator.EntityTranslator;
+
 import CRUD.Crud;
 
 import Errores.NoItemFoundException;
@@ -79,20 +81,7 @@ public class ControladorDeLogIn
                 if(student != null)
                 {
                     usuario = new Estudiante();
-                    usuario.setApellidos(student.getIdUsuario().getApellidos());
-                    usuario.setIdUsuario(student.getIdUsuario().getIdUsuario().intValue());
-                    usuario.setLogin(student.getIdUsuario().getLogin());
-                    usuario.setNombres(student.getIdUsuario().getNombres());
-                    usuario.setPassword(student.getIdUsuario().getClave().toCharArray());
-                  
-                    ((Estudiante)usuario).setCodigo(student.getIdEstudiante().intValue());
-                    ((Estudiante)usuario).setFechaInicioGrado(student.getFechaInicioGrado());
-
-                    grado = new Grado();
-                    grado.setGrado(student.getIdGrado().getIdGrado());
-                    grado.setMaterias(null);
-
-                    ((Estudiante)usuario).setGrado(grado);    
+                    usuario = EntityTranslator.translateEstudiante(student);
                 }
                 
                 break;
