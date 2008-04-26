@@ -58,6 +58,7 @@
                         document.GuardarUsuario.Analista.disabled = true;
                         document.GuardarUsuario.Tutor.disabled = true;
                         document.GuardarUsuario.Secretaria.disabled = true;
+                        return
 		}
                  else
                      {
