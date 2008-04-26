@@ -6,7 +6,9 @@
 package CRUD;
 
 import Errores.NoItemFoundException;
+import Errores.NoPresentableException;
 import Errores.PosibleDuplicationException;
+import Errores.UltimoTemaException;
 import VO.Analista;
 import VO.Estados;
 import VO.Estudiante;
@@ -979,29 +981,63 @@ public class Crud {
     }
     
     //retorna el siguiente examen a presentar de cierta materia para cierto usuario
-    /*public void getSiguienteExamenDeMateria(int codigoMateria, int idEstudiante) throws NoItemFoundException{
+    public Examen getSiguienteExamenDeMateria(int codigoMateria, int idEstudiante) throws NoItemFoundException, UltimoTemaException, NoPresentableException{
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-            EntityManager em = emf.createEntityManager();          
-            Estudiante evaluado = em.find(Estudiante.class, idEstudiante);
-            List examenes;
-
-            if(evaluado!=null)
+            EntityManager em = emf.createEntityManager();   
+            
+            Registro registro = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
+            List<ExamenSolicitado> examenes = (List<ExamenSolicitado>) registro.getExamenSolicitadoCollection();
+            
+            int tamaño = examenes.size()-1;
+           
+            if(tamaño<0) throw new NoItemFoundException();
+            
+            int etat = examenes.get(tamaño).getIdEstado().getIdEstado();
+            
+            Examen actual = examenes.get(tamaño).getIdExamen();
+            int temaActual = actual.getIdExamen();
+            
+            if(etat==1)
             {
-                Iterator iterador;
-                iterador=evaluado.getExamenSolicitadoCollection().iterator();
-                int i =0;
-                while(iterador.hasNext())
-                {
-                    examenes.add((ExamenSolicitado)iterador.next());
-                    System.out.println(examenes.get(i).getIdExamenSolicitado());
-                    i++;
+                if(ultimoTema(codigoMateria, temaActual)){
+                    throw new UltimoTemaException();
+                }
+                else{
+                    int nuevo = temaActual + 1;
+                    Examen siguienteTema = em.find(Examen.class, nuevo);
+                    return siguienteTema;
                 }
             }
             else{
-                throw new NoItemFoundException();
+                switch(etat)
+                {
+                    case 2:
+                        return actual;
+                    default:
+                        throw new NoPresentableException();
+                }
             }
          
-        }*/
+        }
 
+    //retorna si es el ultimo tema de una materia
+    public boolean ultimoTema(int codigoMateria, int temaActual){
+        
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();   
+            
+            int next = temaActual + 1;
+            Examen siguiente = em.find(Examen.class, next);
+            
+            if(siguiente.getIdMateria().getIdMateria()==codigoMateria)
+            {
+                return false;
+            }
+            else{
+                return true;
+            }
+         
+        }
+    
 }
