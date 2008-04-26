@@ -31,6 +31,8 @@
                         document.GuardarUsuario.pnombres.disabled = false;
                         document.GuardarUsuario.papellidos.disabled = false;
                         document.GuardarUsuario.pcorreo.disabled = false;
+                                                
+                        
 		}
                  else
                      {
@@ -42,12 +44,17 @@
 			document.GuardarUsuario.pnombres.disabled = true;
                         document.GuardarUsuario.papellidos.disabled = true;
              		document.GuardarUsuario.pcorreo.disabled = true;
+                                                
                       }
                       
                 if(document.GuardarUsuario.Tutor.checked == true)
                     document.GuardarUsuario.tallert.disabled = false;
+                    
+                    
                 else
                     document.GuardarUsuario.tallert.disabled = true;
+                    
+                    
                 
                 if(document.GuardarUsuario.Analista.checked == true)
                     document.GuardarUsuario.materia.disabled = false;
@@ -62,6 +69,7 @@
                         document.GuardarUsuario.Login.disabled = false;
                         document.GuardarUsuario.Clave.disabled = false;
                         document.GuardarUsuario.Cclave.disabled = false;
+                        
                     }
                     else{
                         document.GuardarUsuario.Enviar.disabled=true;
@@ -168,11 +176,11 @@
                                     <li>Datos generales del <b>Usuario</b>:</li><br>
                                     
                                     <table>
-                                    <tr><td>Nombres:</td><td><input type="text" name="Nombres" value="" size="30"disabled="disabled" /></td></tr>
-                                    <tr><td>Apellidos:</td><td><input type="text" name="Apellidos" value="" size="30"disabled="disabled" /></td></tr>
-                                    <tr><td>Login:</td><td><input type="text" name="Login" value="" size="20"disabled="disabled" /></td></tr>
-                                    <tr><td>Clave:</td><td><input type="password" name="Clave" value="" size="20"disabled="disabled" /></td></tr>
-                                    <tr><td>Confirmar Clave:</td><td><input type="password" name="Cclave" value="" size="20"disabled="disabled" /></td></tr>
+                                    <tr><td>Nombres:</td><td><input type="text" maxlength="30" name="Nombres" value="" size="30"disabled="disabled" /></td></tr>
+                                    <tr><td>Apellidos:</td><td><input type="text" maxlength="30" name="Apellidos" value="" size="30"disabled="disabled" /></td></tr>
+                                    <tr><td>Login:</td><td><input type="text" maxlength="20" name="Login" value="" size="20"disabled="disabled" /></td></tr>
+                                    <tr><td>Clave:</td><td><input type="password" maxlength="14" name="Clave" value="" size="20"disabled="disabled" /></td></tr>
+                                    <tr><td>Confirmar Clave:</td><td><input type="password" maxlength="14" name="Cclave" value="" size="20"disabled="disabled" /></td></tr>
                                     </table>
                                     
                                    <br>
@@ -180,7 +188,7 @@
                                  <li>Datos Adicionales de <b>Estudiante</b>:
                                  <br>
                                  <table>
-                                 <tr><td>Código:</td><td><input type="text" name="codigo" value="" size="10" disabled="disabled" /></td></tr>
+                                 <tr><td>Código:</td><td><input type="text" maxlength="3" name="codigo" value="" size="10" disabled="disabled" /></td></tr>
                                  <tr><td>Grado:</td><td><input type="text" name="grado" value="" size="10" disabled="disabled" /></td></tr>
                                  <tr><td>Taller:</td><td>
                                  <select name="taller" disabled="disabled">
@@ -201,17 +209,17 @@
                                           %>
                                  </select>
                                  </td></tr>
-                                 <tr><td>Fecha Inicio Grado:</td><td><input type="text" name="fecha" value="" size="10" disabled="disabled" />(aaaa-mm-dd)</td></tr>
+                                 <tr><td>Fecha Inicio Grado:</td><td><input type="text" maxlength="10" name="fecha" value="" size="10" disabled="disabled" />(aaaa-mm-dd)</td></tr>
                                  </table>
                                  <br>
                                  <ul>
                                      <li><b><i>Datos del Acudiente</i></b></li>
                                      
                                      <table>
-                                     <tr><td>Identificación(CC):</td><td><input type="text" name="pidentificacion" value="" size="15" disabled="disabled" /></td></tr>
-                                     <tr><td>Nombres:</td><td><input type="text" name="pnombres" value="" size="30" disabled="disabled" /></td></tr>
-                                     <tr><td>Apellidos:</td><td><input type="text" name="papellidos" value="" size="30" disabled="disabled" /></td></tr>
-                                     <tr><td>Correo Electrónico:</td><td><input type="text" name="pcorreo" value="" size="30" disabled="disabled" /></td></tr>
+                                     <tr><td>Identificación(CC):</td><td><input type="text" maxlength="10" name="pidentificacion" value="" size="15" disabled="disabled" /></td></tr>
+                                     <tr><td>Nombres:</td><td><input type="text" name="pnombres" maxlength="30" value="" size="30" disabled="disabled" /></td></tr>
+                                     <tr><td>Apellidos:</td><td><input type="text" name="papellidos" maxlength="30" value="" size="30" disabled="disabled" /></td></tr>
+                                     <tr><td>Correo Electrónico:</td><td><input type="text" maxlength="20" name="pcorreo" value="" size="30" disabled="disabled" /></td></tr>
                                      </table><br>
                                      
                                  </ul>
