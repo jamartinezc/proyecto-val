@@ -34,8 +34,23 @@ public class GuardarUsuario extends HttpServlet
             }
         }
         
+        // Recibir Parámetros
         
-            
+        String Nombres,Apellidos,Login,Clave,Cclave,fecha,codigo,pnombres,papellidos,pidentificacion,pcorreo,Estudiante,Analista,Secretaria,Tutor;
+        Nombres=request.getParameter("Nombres");
+        Apellidos=request.getParameter("Apellidos");
+        Login=request.getParameter("Login");
+        Clave=request.getParameter("Clave");
+        fecha=request.getParameter("fecha");
+        codigo=request.getParameter("codigo");
+        pnombres=request.getParameter("pnombres");
+        papellidos=request.getParameter("papellidos");
+        pidentificacion=request.getParameter("pidentificacion");
+        Estudiante=request.getParameter("Estudiante");
+        Analista=request.getParameter("Analista");
+        Tutor=request.getParameter("Tutor");
+        Secretaria=request.getParameter("Secretaria");
+        
     }
     
     @Override
