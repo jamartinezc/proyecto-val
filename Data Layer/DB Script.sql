@@ -395,7 +395,8 @@ CREATE TABLE `registro` (
   `idRegistro` int(10) unsigned NOT NULL auto_increment,
   `idMateria` int(10) unsigned NOT NULL,
   `vecesDevuelta` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`idRegistro`),
+  PRIMARY KEY  USING BTREE (`idRegistro`),
+  UNIQUE KEY `Index_4` (`idMateria`,`idEstudiante`),
   KEY `FK_registro_2` (`idMateria`),
   KEY `FK_registro_1` (`idEstudiante`),
   CONSTRAINT `FK_registro_1` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`) ON DELETE CASCADE,
@@ -571,4 +572,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-04-26  1:48:35
+-- Dump completed on 2008-04-26  2:49:13
