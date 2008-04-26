@@ -7,7 +7,7 @@
 <%@ page
 	contentType="text/html; charset=utf-8"
 	language="java"
-	import="java.util.Iterator,java.util.List,java.util.Iterator,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario,com.liceoval.businesslayer.entities.Materia,com.liceoval.businesslayer.control.rcp.RCPRegistros"
+	import="java.util.Iterator,java.util.List,java.util.LinkedList,java.util.Iterator,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario,com.liceoval.businesslayer.entities.Materia,com.liceoval.businesslayer.control.rcp.RCPRegistros,com.liceoval.businesslayer.entities.Taller"
 	errorPage="" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -108,7 +108,15 @@
                 <%@include file="globals/login-error.jsp" %>
 
                 <%
-                if(currentUser != null)
+                LinkedList<String> allowedUsers;
+                allowedUsers = new LinkedList<String>();
+                allowedUsers.add("com.liceoval.businesslayer.entities.SecretariaAcademica");
+                %>
+                
+                <%@include file="globals/bad-login.jsp" %>
+                
+                <%
+				if(currentUser != null && allowed == true)
                 {
                 %>
                     <table border="0" cellpadding="0" cellspacing="0" width="550">
@@ -124,7 +132,20 @@
                                 <br />
                                 <p style="text-align:justify"><b>ESTE FORMULARIO LE PERMITIRÁ AGREGAR USUARIOS DE TIPO ESTUDIANTE, TUTOR, ANALISTA Y SECRETARÍA ACADÉMICA.</b></p>
                                 <br>
-                                                                
+                                
+								<%
+                                if(session.getAttribute("crearError") != null)
+                                {
+                                %>
+								    
+                                <table align="center" border="0" cellpading="0" cellspacing="0" width="80%">
+									<tr><td class="login-error"><%=session.getAttribute("crearError")%></td></tr></table><br />&nbsp;
+									
+                                 <%
+                                 session.removeAttribute("crearError");
+                                 }
+                                 %>
+                                 
                                  <b><u>IMPORTANTE</u></b><br>
                                  <ul>
                                      <li><i>Una vez seleccionados los roles, se activarán los campos correspondientes (Numerales 1-5).</i></li>
@@ -161,7 +182,25 @@
                                  <table>
                                  <tr><td>Código:</td><td><input type="text" name="codigo" value="" size="10" disabled="disabled" /></td></tr>
                                  <tr><td>Grado:</td><td><input type="text" name="grado" value="" size="10" disabled="disabled" /></td></tr>
-                                 <tr><td>Taller:</td><td><input type="text" name="taller" value="" size="10" disabled="disabled" /></td></tr>
+                                 <tr><td>Taller:</td><td>
+                                 <select name="taller" disabled="disabled">
+                                        
+                                        <%
+                                        List<Taller> taller;
+                                        Iterator ite;
+                                        Taller ta;
+                                        taller=RCPRegistros.getTalleres();
+                                        ite=taller.iterator();
+                                        while(ite.hasNext())
+                                            {
+                                                ta=(Taller)ite.next();
+                                          %>
+                                          <option value="<%=ta.getIdTaller()%>"><%=ta.getIdTaller()%></option>
+                                          <%
+                                            }
+                                          %>
+                                 </select>
+                                 </td></tr>
                                  <tr><td>Fecha Inicio Grado:</td><td><input type="text" name="fecha" value="" size="10" disabled="disabled" />(aaaa-mm-dd)</td></tr>
                                  </table>
                                  <br>
@@ -181,7 +220,25 @@
                                 <li>Datos Adicionales de <b>Tutor</b></li><br>
                                     
                                     <table>
-                                    <tr><td>Taller:</td><td><input type="text" name="tallert" value="" size="10" disabled="disabled" /></td></tr>
+                                    <tr><td>Taller:</td><td>
+                                    
+                                     <select name="tallert" disabled="disabled">
+                                        
+                                        <%
+                                        taller=RCPRegistros.getTalleres();
+                                        ite=taller.iterator();
+                                        while(ite.hasNext())
+                                            {
+                                                ta=(Taller)ite.next();
+                                          %>
+                                          <option value="<%=ta.getIdTaller()%>"><%=ta.getIdTaller()%></option>
+                                          <%
+                                            }
+                                          %>
+                                          <option value="CT">Crear Taller...</option>
+                                        </select>
+                                    
+                                    </td></tr>
                                     </table><br>
                                 
                                 <li>Datos Adicionales de <b>Analista</b></li><br>
@@ -192,13 +249,13 @@
                                         
                                         <%
                                         List<Materia> mat;
-                                        Iterator i;
+                                        Iterator it;
                                         Materia materia;
                                         mat=RCPRegistros.getMaterias();
-                                        i=mat.iterator();
-                                        while(i.hasNext())
+                                        it=mat.iterator();
+                                        while(it.hasNext())
                                             {
-                                                materia=(Materia)i.next();
+                                                materia=(Materia)it.next();
                                           %>
                                           <option value="<%=materia.getCodigo()%>"><%=materia.getCodigo() + "-" + materia.getNombre()%></option>
                                           <%
@@ -219,8 +276,8 @@
                         </td></tr>
                     </table>
                 <%
-				}
-				%>
+			}
+		%>
                 
             </td><td>
         

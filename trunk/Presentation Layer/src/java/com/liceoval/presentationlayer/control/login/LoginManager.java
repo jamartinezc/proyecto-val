@@ -15,6 +15,9 @@ import javax.servlet.RequestDispatcher;
 import com.liceoval.businesslayer.control.login.ControladorDeLogIn;
 import com.liceoval.businesslayer.entities.Usuario;
 
+import com.liceoval.presentationlayer.control.util.RequestForwarder;
+import com.liceoval.presentationlayer.control.util.ErrorSetter;
+
 /** Se encarga de los procesos de Log-in y Log-out del sistema, autentica los
  *  usuarios contra la capa de negocios de la aplicación y crea las variables
  *  de sesión correspondientes.
@@ -39,8 +42,8 @@ public class LoginManager extends HttpServlet
         if(action == null)
         {
             // Establecer la variable de error de log-in y desviar la petición
-            setLogInError("No se especificó una acción para el Administrador de Inicio de Sesión", request);
-            requestForward(request, response, "index.jsp");
+            ErrorSetter.setError("loginError", "No se especificó una acción para el Administrador de Inicio de Sesión", request);
+            RequestForwarder.forwardRequest(request, response, "index.jsp");
             return;
         }
         
@@ -59,8 +62,8 @@ public class LoginManager extends HttpServlet
                 logedUser = (Usuario)request.getSession().getAttribute("currentUser");
                 if(logedUser == null)
                 {
-                    setLogInError("Error de operación. No hay un usuario logeado en el sistema", request);
-                    requestForward(request, response, "index.jsp");
+                    ErrorSetter.setError("loginError", "Error de operación. No hay un usuario logeado en el sistema", request);
+                    RequestForwarder.forwardRequest(request, response, "index.jsp");
                     return;
                 }
                 
@@ -71,8 +74,8 @@ public class LoginManager extends HttpServlet
             if(user == null || password == null || role == null)
             {
                 // Establecer la variable de error de log-in y desviar la petición
-                setLogInError("Hace falta el nombre de usuario, la contraseña o el rol de inicio de sesión.", request);
-                requestForward(request, response, "index.jsp");
+                ErrorSetter.setError("loginError", "Hace falta el nombre de usuario, la contraseña o el rol de inicio de sesión.", request);
+                RequestForwarder.forwardRequest(request, response, "index.jsp");
             }
             
             // Realizar el Log-in
@@ -85,7 +88,7 @@ public class LoginManager extends HttpServlet
         }
         
         // Desviar la petición
-        requestForward(request, response, "index.jsp");
+        RequestForwarder.forwardRequest(request, response, "index.jsp");
     }
     
     @Override
@@ -155,65 +158,12 @@ public class LoginManager extends HttpServlet
         if(logedUser == null)
         {
             // Establecer el error de inicio de Sesión
-            setLogInError("El nombre de usuario o contraseña son incorrectos o bien el usuario no cuenta con los permisos necesarios para iniciar sesión usando el rol especificado.", request);
+            ErrorSetter.setError("loginError", "El nombre de usuario o contraseña son incorrectos o bien el usuario no cuenta con los permisos necesarios para iniciar sesión usando el rol especificado.", request);
         }
         else
         {
             // Establecer el usuario actual
             request.getSession().setAttribute("currentUser", logedUser);
         }
-    }
-    
-    /** Realiza desvío de peticiones HTTP, si el desvío de la petición falla entonces
-     *  se hace un desvío a través del cliente (explorador Web)
-     * 
-     *  @param request El Request HTTP
-     *  @param response El response HTTP
-     *  @param url La URL a la que se debe hacer el desvío de petición.
-     */
-    
-    private void requestForward(HttpServletRequest request, HttpServletResponse response, String url)
-    {
-        // Variables locales:
-            RequestDispatcher rd;
-                            
-        // Obtener un RequestDispatcher para desvier la petición
-        rd = request.getRequestDispatcher(url);
-
-        try
-        {
-            // Disviar la petición
-            rd.forward(request, response);
-        }
-        catch(Exception ex)
-        {
-            try
-            {
-                // Ha fallado el desvío de la petición así que usaremos el http-equiv refresh
-                // para hacer que el navegador desvíe la petición. Perderemos los objetos request
-                // y response pero.... no hay de otra.
-                response.getWriter().println("<html>");
-                response.getWriter().println("<head>");
-                response.getWriter().println("<meta http-equiv=\"refresh\" content=\"0;URL=" + url + "\">");
-                response.getWriter().println("</head>");
-                response.getWriter().println("</html>");
-                return;
-            }
-            catch(IOException ioException)
-            {
-                // Alguna idea?
-            }
-        }
-    }
-    
-    /** Almacena el último error de inicio se sesión en la sesión del usuario.
-     * 
-     *  @param error La cadena del error.
-     */
-    
-    private void setLogInError(String error, HttpServletRequest request)
-    {
-        // Establecer la variable de error de log-in y desviar la petición
-        request.getSession().setAttribute("loginError", error);
     }
 }
