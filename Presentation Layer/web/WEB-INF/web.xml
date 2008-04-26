@@ -4,6 +4,7 @@
     <description>Sistema de Información Académico para el Liceo V.A.L. Versión 1.0</description>
     <display-name>Liceo V.A.L. - Sistema de Información Académico</display-name>
 
+    
     <session-config>
         <session-timeout>
             30
@@ -19,7 +20,16 @@
 		<servlet-class>com.liceoval.presentationlayer.control.login.LoginManager</servlet-class>
 	</servlet>
 	
+    <servlet>
+        <servlet-name>GuardarUsuario</servlet-name>
+        <servlet-class>com.liceoval.presentationlayer.control.usuarios.GuardarUsuario</servlet-class>
+    </servlet>
+	
 	<servlet-mapping>
+        <servlet-name>GuardarUsuario</servlet-name>
+        <url-pattern>/GuardarUsuario</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
 		<servlet-name>Login</servlet-name>
 		<url-pattern>/loginmanager</url-pattern>
 	</servlet-mapping>
