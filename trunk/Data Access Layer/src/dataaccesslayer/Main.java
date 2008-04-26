@@ -7,10 +7,13 @@ package dataaccesslayer;
 
 import CRUD.Crud;
 import Errores.NoItemFoundException;
+import Errores.NoPresentableException;
 import Errores.PosibleDuplicationException;
+import Errores.UltimoTemaException;
 import VO.Analista;
 import VO.Estados;
 import VO.Estudiante;
+import VO.Examen;
 import VO.ExamenSolicitado;
 import VO.Materia;
 import VO.Registro;
@@ -104,7 +107,7 @@ public class Main {
         //crear registro
         /*
         try{
-            Registro nuevo = query.crearRegistro(290, 13);
+            Registro nuevo = query.crearRegistro(303, 16);
             System.out.println(nuevo.getIdEstudiante().getIdUsuario().getNombres());
             System.out.println(nuevo.getIdMateria().getNombre());
             System.out.println(nuevo.getIdRegistro());
@@ -300,14 +303,21 @@ public class Main {
         
         //retorna el siguiente examen a presentar de cierta materia para cierto usuario(POR TERMINAR)
         /*
+        Examen next;
         try{
-            query.getSiguienteExamenDeMateria(1, 290);
+            next = query.getSiguienteExamenDeMateria(19, 309);
+            System.out.println(next.getTema());
         }
         catch(NoItemFoundException mal){
             System.out.println(mal.Mensaje());
         }
+        catch(UltimoTemaException au){
+            System.out.println(au.Mensaje());
+        }
+        catch(NoPresentableException jeje){
+            System.out.println(jeje.Mensaje());
+        }
         */
-        
         
         
     }
