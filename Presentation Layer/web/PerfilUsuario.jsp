@@ -21,47 +21,7 @@
 
 	function enabledisable()
 	{
-		if(document.GuardarUsuario.Estudiante.checked == true)
-		{
-                        document.GuardarUsuario.codigo.disabled = false;
-                        document.GuardarUsuario.grado.disabled = false;
-                        document.GuardarUsuario.taller.disabled = false;
-                        document.GuardarUsuario.fecha.disabled = false;
-                        document.GuardarUsuario.pidentificacion.disabled = false;
-                        document.GuardarUsuario.pnombres.disabled = false;
-                        document.GuardarUsuario.papellidos.disabled = false;
-                        document.GuardarUsuario.pcorreo.disabled = false;
-                                                
-                        
-		}
-                 else
-                     {
-			document.GuardarUsuario.codigo.disabled = true;
-			document.GuardarUsuario.grado.disabled = true;
-                        document.GuardarUsuario.taller.disabled = true;
-             		document.GuardarUsuario.fecha.disabled = true;
-                        document.GuardarUsuario.pidentificacion.disabled = true;
-			document.GuardarUsuario.pnombres.disabled = true;
-                        document.GuardarUsuario.papellidos.disabled = true;
-             		document.GuardarUsuario.pcorreo.disabled = true;
-                                                
-                      }
-                      
-                if(document.GuardarUsuario.Tutor.checked == true)
-                    document.GuardarUsuario.tallert.disabled = false;
-                    
-                    
-                else
-                    document.GuardarUsuario.tallert.disabled = true;
-                    
-                    
-                
-                if(document.GuardarUsuario.Analista.checked == true)
-                    document.GuardarUsuario.materia.disabled = false;
-                else
-                    document.GuardarUsuario.materia.disabled = true;
-                    
-                if(document.GuardarUsuario.Estudiante.checked == true||document.GuardarUsuario.Secretaria.checked == true||document.GuardarUsuario.Tutor.checked == true||document.GuardarUsuario.Analista.checked == true)
+		if(document.GuardarUsuario.Estudiante.checked == true||document.GuardarUsuario.Secretaria.checked == true||document.GuardarUsuario.Tutor.checked == true||document.GuardarUsuario.Analista.checked == true)
                     {
                         document.GuardarUsuario.Enviar.disabled=false;
                         document.GuardarUsuario.Nombres.disabled = false;
@@ -78,7 +38,100 @@
                         document.GuardarUsuario.Login.disabled = true;
              		document.GuardarUsuario.Clave.disabled = true;
                         document.GuardarUsuario.Cclave.disabled = true;
-                        }
+                }
+                
+                 if(document.GuardarUsuario.Estudiante.checked == true)
+		{
+                        document.GuardarUsuario.codigo.disabled = false;
+                        document.GuardarUsuario.grado.disabled = false;
+                        document.GuardarUsuario.taller.disabled = false;
+                        document.GuardarUsuario.fecha.disabled = false;
+                        document.GuardarUsuario.pidentificacion.disabled = false;
+                        document.GuardarUsuario.pnombres.disabled = false;
+                        document.GuardarUsuario.papellidos.disabled = false;
+                        document.GuardarUsuario.pcorreo.disabled = false;
+                        
+                        document.GuardarUsuario.Analista.checked = false;
+                        document.GuardarUsuario.Tutor.checked = false;
+                        document.GuardarUsuario.Secretaria.checked = false;
+                        
+                        document.GuardarUsuario.Analista.disabled = true;
+                        document.GuardarUsuario.Tutor.disabled = true;
+                        document.GuardarUsuario.Secretaria.disabled = true;
+		}
+                 else
+                     {
+			document.GuardarUsuario.codigo.disabled = true;
+			document.GuardarUsuario.grado.disabled = true;
+                        document.GuardarUsuario.taller.disabled = true;
+             		document.GuardarUsuario.fecha.disabled = true;
+                        document.GuardarUsuario.pidentificacion.disabled = true;
+			document.GuardarUsuario.pnombres.disabled = true;
+                        document.GuardarUsuario.papellidos.disabled = true;
+             		document.GuardarUsuario.pcorreo.disabled = true;
+                        
+                        document.GuardarUsuario.Analista.disabled = false;
+                        document.GuardarUsuario.Tutor.disabled = false;
+                        document.GuardarUsuario.Secretaria.disabled = false;
+
+                      }
+                      
+                if(document.GuardarUsuario.Tutor.checked == true)
+                {
+                    document.GuardarUsuario.tallert.disabled = false;
+                    
+                    document.GuardarUsuario.Estudiante.checked = false;
+                    document.GuardarUsuario.Secretaria.checked = false;
+
+                    document.GuardarUsuario.Estudiante.disabled = true;
+                    document.GuardarUsuario.Secretaria.disabled = true;
+                }    
+                else
+                {
+                    document.GuardarUsuario.tallert.disabled = true;
+                                        
+                    document.GuardarUsuario.Estudiante.disabled = false;
+                    document.GuardarUsuario.Secretaria.disabled = false;
+                }    
+                    
+                
+                if(document.GuardarUsuario.Analista.checked == true)
+                {
+                    document.GuardarUsuario.materia.disabled = false;
+                    
+                    document.GuardarUsuario.Estudiante.checked = false;
+                    document.GuardarUsuario.Secretaria.checked = false;
+
+                    document.GuardarUsuario.Estudiante.disabled = true;
+                    document.GuardarUsuario.Secretaria.disabled = true;
+                    return
+                }
+                else
+                {
+                    document.GuardarUsuario.materia.disabled = true;
+                    
+                    document.GuardarUsuario.Estudiante.disabled = false;
+                    document.GuardarUsuario.Secretaria.disabled = false;
+                }
+                
+                if(document.GuardarUsuario.Secretaria.checked == true)
+                {
+                    document.GuardarUsuario.Estudiante.checked = false;
+                    document.GuardarUsuario.Analista.checked = false;
+                    document.GuardarUsuario.Tutor.checked = false;
+
+                    document.GuardarUsuario.Estudiante.disabled = true;
+                    document.GuardarUsuario.Tutor.disabled = true;
+                    document.GuardarUsuario.Analista.disabled = true;
+                    return;
+                }
+                else
+                {
+                    document.GuardarUsuario.Estudiante.disabled = false;
+                    document.GuardarUsuario.Tutor.disabled = false;
+                    document.GuardarUsuario.Analista.disabled = false;
+                }
+
 	}
          
       
