@@ -15,6 +15,7 @@ import VO.Estados;
 import VO.Estudiante;
 import VO.Examen;
 import VO.ExamenSolicitado;
+import VO.Grado;
 import VO.Materia;
 import VO.Registro;
 import VO.SecretariaAcademica;
@@ -319,6 +320,28 @@ public class Main {
         }
         */
         
+        //consultar grados
+        /*
+        List<Grado> lista = query.consultarGrados();
+        for(int i = 0; i<lista.size();i++)
+        {
+            System.out.println(lista.get(i).getNombre());
+        }
+        */
+        
+        //buscar examen solicitado por tema
+        /*
+        try{
+            List<ExamenSolicitado> lista = query.examenesSolicitadosPorTema(290, 13);
+            for(int i = 0; i<lista.size();i++)
+            {
+                System.out.println(lista.get(i).getIdExamenSolicitado());
+            }
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
+        */
         
     }
 
