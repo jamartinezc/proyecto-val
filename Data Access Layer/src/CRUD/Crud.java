@@ -1040,4 +1040,76 @@ public class Crud {
          
         }
     
+    //retorna una lista de grados
+    public List<Grado> consultarGrados(){
+        
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();            
+            
+            try
+            {
+                tx.begin();
+
+                Query q = pm.createQuery("select p from Grado p");
+                List<Grado> lista = q.getResultList();
+                tx.commit();
+                return lista;
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+        
+    }
+    
+    //retorna una lista de grados
+    public List<ExamenSolicitado> examenesSolicitadosPorTema (int idEstudiante, int idExamen)throws NoItemFoundException{
+        
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            EntityManager pm = emf.createEntityManager();            
+            
+            Estudiante etudiant = em.find(Estudiante.class, idEstudiante);
+            Examen control = em.find(Examen.class, idExamen);
+            
+            try
+            {
+                tx.begin();
+
+                Query q = pm.createQuery("select p from ExamenSolicitado p where p.idExamen = :exam AND p.idEstudiante =:student");
+                q.setParameter("exam", control);
+                q.setParameter("student", etudiant);
+                List<ExamenSolicitado> lista = q.getResultList();
+                tx.commit();
+                
+                if(lista.size()>0){
+                    return lista;
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
+                
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+            
+            
+        
+    }
+    
 }
