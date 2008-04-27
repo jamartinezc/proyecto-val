@@ -707,35 +707,18 @@ public class Crud {
     public Analista analistaDeMateria(int idMateria) throws NoItemFoundException{
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();         
+        EntityManager em = emf.createEntityManager();       
         
-        
-        try
-        {
-            tx.begin();
+        Materia materia = em.find(Materia.class, idMateria);
 
-            Materia materia = em.find(Materia.class, idMateria);
-            
-            tx.commit();
-            
-            if(materia!=null){
-                return materia.getIdAnalista();
-            }
-            else{
-                throw new NoItemFoundException();
-            }
-            
+        if(materia!=null){
+            return materia.getIdAnalista();
         }
-        finally
-        {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-
-            em.close();
+        else{
+            throw new NoItemFoundException();
         }
+   
+       
         
     }
     
@@ -1106,10 +1089,52 @@ public class Crud {
                 }
 
                 em.close();
-            }
-            
-            
+            }   
         
     }
+    
+    //retorna las materias de un analista
+    public List<Materia> materiasDeAnalista(int idAnalista) throws NoItemFoundException{
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();         
+        
+        Analista analista = em.find(Analista.class, idAnalista);
+        
+
+        if(analista!=null){
+            return (List<Materia>) analista.getMateriaCollection();
+        }
+        else{
+            throw new NoItemFoundException();
+        }
+            
+    }
+    
+    //retorna una lista de exámenes solicitados
+    /*
+    public List<ExamenSolicitado> consultarListaExamenesPorCalificarDeAnalista(int idAnalista) throws NoItemFoundException {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();        
+            
+            Analista analista = em.find(Analista.class, idAnalista);
+            
+            if(analista==null) throw new NoItemFoundException();
+            
+            List<ExamenSolicitado> examenes = (List<ExamenSolicitado>) analista.getExamenSolicitadoCollection();
+            
+            for(int i=0;i<examenes.size();i++){
+                if(examenes.get(i).getIdEstado().getIdEstado()!=4){
+                    examenes.remove(i);
+                }
+            }
+            
+            if(examenes==null) throw new NoItemFoundException();
+            
+            return examenes;
+            
+    }
+    */
     
 }

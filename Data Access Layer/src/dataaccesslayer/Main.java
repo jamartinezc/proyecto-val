@@ -200,7 +200,7 @@ public class Main {
         //analista de cierta materia
         /*
         try{
-            Analista analista = query.analistaDeMateria(18);
+            Analista analista = query.analistaDeMateria(87);
             System.out.println(analista.getIdUsuario().getNombres());
         }
         catch(NoItemFoundException error){
@@ -341,6 +341,34 @@ public class Main {
         catch(NoItemFoundException uy){
             System.out.println(uy.Mensaje());
         }
+        */
+        
+        //materias de cierto analista
+        /*
+        try{
+            List<Materia> lista = query.materiasDeAnalista(1);
+            for(int i = 0; i<lista.size();i++)
+            {
+                System.out.println(lista.get(i).getNombre());
+            }
+        }
+        catch(NoItemFoundException error){
+             System.out.println(error.Mensaje());
+        }   
+        */
+        
+        //consultar examen solicitado correspondiente a cierto analista (En proceso XD)
+        /*
+        try{
+            List<ExamenSolicitado> lista = query.consultarListaExamenesPorCalificarDeAnalista(1);
+            for(int i = 0; i<lista.size();i++)
+            {
+                System.out.println(lista.get(i).getIdExamenSolicitado());
+            }
+        }
+        catch(NoItemFoundException error){
+             System.out.println(error.Mensaje());
+        }   
         */
         
     }
