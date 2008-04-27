@@ -38,6 +38,17 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         Crud query = new Crud();
+        /*
+        //buscar usuario por id
+        Usuario usuario = new Usuario();
+        try{
+            usuario = query.consultarUsuario(1);
+            System.out.println(usuario.getApellidos());
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
+        */
         
         //crear estudiantes, analistas, tutores o secretarias académicas
         /*

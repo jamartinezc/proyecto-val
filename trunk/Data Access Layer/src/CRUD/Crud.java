@@ -37,6 +37,21 @@ import javax.persistence.Query;
  */
 public class Crud {
 
+    //retorna un usuario por su id
+    public Usuario consultarUsuario(int idUsuario) throws NoItemFoundException {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();         
+            
+            Usuario usuario = em.find(Usuario.class, idUsuario);
+            if(usuario!=null){
+                return usuario;
+            }
+            else{
+                throw new NoItemFoundException();
+            }
+            
+    }
+    
     //retorna una lista de los usuarios con cierto login y contraseña
     public List<Usuario> consultarUsuario(String usuario, String password) throws NoItemFoundException {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
