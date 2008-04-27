@@ -92,6 +92,37 @@ public class EntityTranslator
         return estudiante;
     }
     
+    /** Traduce una colección de objetos de clase VO.Grado en una lista
+     *  de objetos de clase Grado equivalente.
+     * 
+     *  @param grades La colección de objetos de clase VO.Grado
+     *  @return La lista de objetos de clase Grado equivalente.
+     */
+    
+    public static List<Grado> translateGrados(Collection<VO.Grado> grades)
+    {
+        LinkedList<Grado> grados;
+        Iterator gradesIterator;
+        Grado grado;
+        
+        // Si el valor de entrada es null, el de salida también
+        if(grades == null) return null;
+        
+        // Crear la lista de grados
+        grados = new LinkedList<Grado>();
+        gradesIterator = grades.iterator();
+        
+        // Recorrer la lista de grados y traducir cada uno de sus elementos
+        while(gradesIterator.hasNext())
+        {
+            grado = translateGrado((VO.Grado)gradesIterator.next());
+            grados.add(grado);
+        }
+        
+        // Devolver la lista
+        return grados;
+    }
+    
     /** Traduce un VO.Grado en un objeto de clase Grado equivalente.
      * 
      *  @param grade El VO.Grado a ser traducido.
