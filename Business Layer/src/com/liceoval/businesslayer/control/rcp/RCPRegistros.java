@@ -6,9 +6,10 @@
 package com.liceoval.businesslayer.control.rcp;
 
 import com.liceoval.businesslayer.control.rcp.exceptions.GradoNoEncontradoException;
+import com.liceoval.businesslayer.entities.entitytranslator.EntityTranslator;
+import com.liceoval.businesslayer.entities.Grado;
 import com.liceoval.businesslayer.entities.Materia;
 import com.liceoval.businesslayer.entities.Taller;
-import com.liceoval.businesslayer.entities.entitytranslator.EntityTranslator;
 
 import CRUD.Crud;
 
@@ -25,6 +26,29 @@ import java.util.Collection;
 
 public class RCPRegistros
 {
+    /** Devuelve una lista de todos los grados disponibles en el sistema.
+     * 
+     *  @return Una lista de objetos de clase Grado que representa la lista
+     *  de grados disponibles en el sistema.
+     */
+    
+    public static List<Grado> getGrados()
+    {
+        List<VO.Grado> grades;
+        
+        Crud crud;
+        
+        crud = new Crud();
+        grades = crud.consultarGrados();
+        return EntityTranslator.translateGrados(grades);
+    }
+    
+    /** Devuelve la lista de todos los talleres almacenados en la base de
+     *  datos.
+     * 
+     *  @return Una lista de objetos de clase Taller.
+     */
+    
     public static List<Taller> getTalleres()
     {
         List<Taller> talleres;
