@@ -55,7 +55,7 @@ CREATE TABLE `estados` (
 
 LOCK TABLES `estados` WRITE;
 /*!40000 ALTER TABLE `estados` DISABLE KEYS */;
-INSERT INTO `estados` VALUES (1,'Ganado'),(2,'Perdido'),(3,'Pendiente/Aprobar'),(4,'Pendiente/Presentar'),(5,'No Presentado'),(6,'Nota Examen'),(7,'Nota Pendiente');
+INSERT INTO `estados` VALUES (1,'Ganado'),(2,'Perdido'),(3,'Pendiente/Aprobar'),(4,'Pendiente/Presentar'),(5,'No Presentado'),(6,'Nota Examen'),(7,'Nota Pendiente'),(8,'Pendiente/Calificar');
 /*!40000 ALTER TABLE `estados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -266,6 +266,7 @@ CREATE TABLE `materia` (
   KEY `FK_Materia_1` (`idAnalista`),
   KEY `FK_Materia_2` (`idTutor`),
   KEY `FK_materia_3` (`idGrado`),
+  KEY `Index_5` (`nombre`,`idAnalista`,`idGrado`),
   CONSTRAINT `FK_Materia_1` FOREIGN KEY (`idAnalista`) REFERENCES `analista` (`idAnalista`),
   CONSTRAINT `FK_Materia_2` FOREIGN KEY (`idTutor`) REFERENCES `tutor` (`idTutor`),
   CONSTRAINT `FK_materia_3` FOREIGN KEY (`idGrado`) REFERENCES `grado` (`idGrado`) ON DELETE CASCADE
@@ -572,4 +573,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-04-26  2:49:13
+-- Dump completed on 2008-04-28  3:03:10
