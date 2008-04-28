@@ -54,13 +54,13 @@ public class Main {
         /*
         Estudiante estudiante = new Estudiante();
         try{
-            estudiante = query.consultarUsuarioEstudiante("asdsd", "ssasdasdh22");
+            estudiante = query.consultarUsuarioEstudiante("mlinaresv", "ssh22");
             System.out.println(estudiante.getIdUsuario().getNombres());  
         }
         catch(NoItemFoundException uy){
             System.out.println(uy.Mensaje());
         }
-   
+   /*
         Analista analista = new Analista();
         try{
             analista = query.consultarUsuarioAnalista("mlinaresv", "ssh22");
