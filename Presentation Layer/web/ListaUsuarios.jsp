@@ -23,7 +23,7 @@
     <%
         String locationLinks;
         
-        locationLinks="<a class=\"nav-bar-link\" href=\"index.jsp\">Inicio</a>";
+        locationLinks="<a class=\"nav-bar-link\" href=\"index.jsp\">Inicio</a> &gt; <a class=\"nav-bar-link\" href=\"ListaUsuarios.jsp\">Administrar Usuarios</a>";
     %>
 
     <%@include file="globals/header.jsp" %>
@@ -90,14 +90,19 @@
         Iterator it;
         Usuario user;
         it=lista.iterator();
+        String nombreUsuario;
         %>
         <ol>
         <%
         while(it.hasNext())
         {
             user=(Usuario)it.next();
+            nombreUsuario = user.getNombres() + " " + user.getApellidos();
+            nombreUsuario = nombreUsuario.replace(" ", "+");
         %>
-        <tr><td width="100%"><a href="PerfilUsuario.jsp?action=edit&userid=<%=user.getIdUsuario()%>"><%=user.getNombres() + " " + user.getApellidos()%></a></td><td nowrap="nowrap"><a href="eliminarusuario.jsp?userid=<%=user.getIdUsuario()%>">Eliminar Usuario</a></tr>
+
+        <tr><td width="100%"><a href="PerfilUsuario.jsp?action=edit&userid=<%=user.getIdUsuario()%>"><%=user.getNombres() + " " + user.getApellidos()%></a></td><td nowrap="nowrap"><a href="eliminarusuario.jsp?userid=<%=user.getIdUsuario()%>&username=<%=nombreUsuario%>">Eliminar Usuario</a></tr>
+
         <%
         }
         %>
