@@ -78,6 +78,7 @@ public class GuardarUsuario extends HttpServlet
                     {
                         ErrorSetter.setError("createError", msj, request);
                         RequestForwarder.forwardRequest(request, response, "PerfilUsuario.jsp");
+                        return;
                     }
                     else
                     {
@@ -91,14 +92,18 @@ public class GuardarUsuario extends HttpServlet
                         {
                             ErrorSetter.setError("createError", "El usuario ingresado ya se encuentra registrado", request);
                             RequestForwarder.forwardRequest(request, response, "PerfilUsuario.jsp");
+                            return;
                         }
                         catch(NoItemFoundException ni)
                         {
                             ErrorSetter.setError("createError", "No se pudo ingresar el usuario (NIFE)", request);
                             RequestForwarder.forwardRequest(request, response, "PerfilUsuario.jsp");
+                            return;
                         }
 
-
+                        ErrorSetter.setError("userCreated", "Se ha creado exitosamente el usuario <b>" + Nombres + " " + Apellidos + "</b>", request);
+                        RequestForwarder.forwardRequest(request, response, "ListaUsuarios.jsp");
+                        return;
                     }
 
                 }
