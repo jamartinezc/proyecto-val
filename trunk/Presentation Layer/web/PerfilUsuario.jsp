@@ -372,15 +372,15 @@
                                 <br>
                                 
 								<%
-                                if(session.getAttribute("crearError") != null)
+                                if(session.getAttribute("createError") != null)
                                 {
                                 %>
 								    
                                 <table align="center" border="0" cellpading="0" cellspacing="0" width="80%">
-									<tr><td class="login-error"><%=session.getAttribute("crearError")%></td></tr></table><br />&nbsp;
+									<tr><td class="login-error"><%=session.getAttribute("createError")%></td></tr></table><br />&nbsp;
 									
                                  <%
-                                 session.removeAttribute("crearError");
+                                 session.removeAttribute("createError");
                                  }
                                  %>
                                  

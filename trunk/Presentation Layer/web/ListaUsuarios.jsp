@@ -65,8 +65,24 @@
                         <tr><td class="cont-outer" colspan="3">
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                 <tr><td class="cont-inner">
+                                    
+                                    <%
+                                        if(session.getAttribute("userCreated") != null)
+                                        {
+                                    %>
+
+                                        <p><center><table border="0" cellpadding="0" cellspacing="0" width="80%">
+                                            <tr><td class="login-warning"><%=session.getAttribute("userCreated")%></td></tr>
+                                        </table></center></p>
+
+                                    <%
+                                        session.removeAttribute("userCreated");
+                                        }
+                                    %>
+                                    
                                         <p style="text-align:center"><input type="button" onclick="window.open('PerfilUsuario.jsp?action=new', '_self')" value="Crear Usuario" /></p>
                                         <p><table border="0" cellpadding="3" cellspacing="2">
+
                                 <%
         AdministradoraDeUsuarios admin=new AdministradoraDeUsuarios();
         List lista;
