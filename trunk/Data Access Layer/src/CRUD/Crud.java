@@ -997,7 +997,7 @@ public class Crud {
 
                 int tamaño = examenes.size();
 
-                if(tamaño<0) throw new NoItemFoundException();
+                if(tamaño<=0) throw new NoItemFoundException();
                 
                 tamaño--;
 
