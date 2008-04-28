@@ -79,7 +79,16 @@
                                         session.removeAttribute("userCreated");
                                         }
                                     %>
-                                    
+                                    <br>
+                                    <p><b><center>ESTA SECCIÓN LE PERMITIRÁ CREAR, MODIFICAR O ELIMINAR UN USUARIO DEL SISTEMA</center></b></p>
+                                    <br>
+                                    <ul>
+                                        <li><b>CREAR USUARIOS:</b> Pulse el botón "<b><u>Crear Usuario</u></b>" y digite los campos cuidadosamente.</li>
+                                        <li><b>MODIFICAR USUARIOS:</b> Pulse el nombre del Usuario al que desea hacerle modificaciones y actualice los datos necesarios.</li>
+                                        <li><b>ELIMINAR USUARIOS:</b> Pulse el texto "<u><b>Eliminar Usuario</b></u>" situado en frente del Usuario que desea eliminar y confirme su decisión.</li>
+                                     
+                                    </ul>
+                                <br>
                                         <p style="text-align:center"><input type="button" onclick="window.open('PerfilUsuario.jsp?action=new', '_self')" value="Crear Usuario" /></p>
                                         <p><table border="0" cellpadding="3" cellspacing="2">
 
