@@ -995,9 +995,11 @@ public class Crud {
                 Registro registro = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
                 List<ExamenSolicitado> examenes = (List<ExamenSolicitado>) registro.getExamenSolicitadoCollection();
 
-                int tamaño = examenes.size()-1;
+                int tamaño = examenes.size();
 
                 if(tamaño<0) throw new NoItemFoundException();
+                
+                tamaño--;
 
                 int etat = examenes.get(tamaño).getIdEstado().getIdEstado();
 
