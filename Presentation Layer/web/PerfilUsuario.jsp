@@ -68,6 +68,8 @@
     String submitDisableString = disableString;
     String submitText = "Agregar";
     
+    boolean hasRole = false;
+    
     // Verifica la acción a realizar
     action = request.getParameter("action");
     if(action == null) action = "new";
@@ -109,28 +111,34 @@
     }
     
     if(action.equals("edit") && usuarioWrapper != null)
-    {
+    {   
+        // Verificar que el usuario tenga al menos un rol
+        hasRole = hasRole | usuarioWrapper.isAnalista();
+        hasRole = hasRole | usuarioWrapper.isEstudiante();
+        hasRole = hasRole | usuarioWrapper.isSecretariaAcademica();
+        hasRole = hasRole | usuarioWrapper.isTutor();
+        
         if(usuarioWrapper.isAnalista()) analistaCheckString = checkString;
         if(usuarioWrapper.isEstudiante()) estudianteCheckString = checkString;
         if(usuarioWrapper.isTutor()) tutorCheckString = checkString;
         if(usuarioWrapper.isSecretariaAcademica()) secretariaCheckString = checkString;
-        
+
         nombresString = usuarioWrapper.getUsuario().getNombres();
         apellidosString = usuarioWrapper.getUsuario().getApellidos();
         loginString = usuarioWrapper.getUsuario().getLogin();
         claveString = usuarioWrapper.getUsuario().getPassword().toString();
-        
+
         nombresDisableString = "";
         apellidosDisableString = "";
         loginDisableString = "";
         claveDisableString = "";
-        
+
         if(usuarioWrapper.isEstudiante())
         {
             codigoString = String.valueOf(((Estudiante)usuarioWrapper.getUsuario()).getCodigo());
             gradoInteger = ((Estudiante)usuarioWrapper.getUsuario()).getGrado().getIdGrado();
             tallerInteger = ((Estudiante)usuarioWrapper.getUsuario()).getTaller().getIdTaller();
-            
+
             fechaInicioGrado = ((Estudiante)usuarioWrapper.getUsuario()).getFechaInicioGrado();
             timeZoneIDs = TimeZone.getAvailableIDs(-5*60*60*1000);
             if(timeZoneIDs.length == 0)
@@ -140,22 +148,22 @@
                 out.println("There's something wrong. ¡FUBAR!");
                 return;
             }
-            
+
             timeZone = new SimpleTimeZone(-5*60*60*1000, timeZoneIDs[0]);
             calendar = new GregorianCalendar(timeZone);
             calendar.setTime(fechaInicioGrado);
-            
+
             year = String.valueOf(calendar.get(GregorianCalendar.YEAR));
             month = String.valueOf(calendar.get(GregorianCalendar.MONTH)+1);
             if(month.length() < 2) month = "0" + month;
-            
+
             day = String.valueOf(calendar.get(GregorianCalendar.DAY_OF_MONTH));
             if(day.length() < 2) day = "0" + day;
-                    
+
             fechaString = year +
                 "-" + month +
                 "-" + day;
-            
+
             acudientes = ((Estudiante)usuarioWrapper.getUsuario()).getPadres();
             if(acudientes != null)
             {
@@ -169,7 +177,7 @@
                     acudienteCorreoString = acudiente.getCorreo();
                 }
             }
-            
+
             codigoDisableString = "";
             gradoDisableString = "";
             tallerDisableString = "";
@@ -179,13 +187,17 @@
             acudienteApellidosDisableString = "";
             acudienteCorreoDisableString = "";
         }
-        
+
         titleText="Actualizar";
         formAction="GuardarUsuario?action=edit&userid=" + String.valueOf(userId);
-        submitDisableString="";
+        
+        if(hasRole)
+        {
+            submitDisableString="";
+        }
+        
         submitText = "Guardar";
-    }
-
+    }        
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -354,7 +366,7 @@
                 <%@include file="globals/bad-login.jsp" %>
                 
                 <%
-				if(currentUser != null && allowed == true)
+                if(currentUser != null && allowed == true)
                 {
                 %>
                     <table border="0" cellpadding="0" cellspacing="0" width="550">
@@ -371,7 +383,7 @@
                                 <p style="text-align:justify"><b>ESTE FORMULARIO LE PERMITIRÁ AGREGAR USUARIOS DE TIPO ESTUDIANTE, TUTOR, ANALISTA Y SECRETARÍA ACADÉMICA.</b></p>
                                 <br>
                                 
-								<%
+                                <%
                                 if(session.getAttribute("createError") != null)
                                 {
                                 %>
@@ -379,10 +391,10 @@
                                 <table align="center" border="0" cellpading="0" cellspacing="0" width="80%">
 									<tr><td class="login-error"><%=session.getAttribute("createError")%></td></tr></table><br />&nbsp;
 									
-                                 <%
-                                 session.removeAttribute("createError");
-                                 }
-                                 %>
+                                <%
+                                session.removeAttribute("createError");
+                                }
+                                %>
                                  
                                  <b><u>IMPORTANTE</u></b><br>
                                  <ul>
@@ -511,7 +523,7 @@
                         </td></tr>
                     </table>
                 <%
-			}
+                }
 		%>
                 
             </td><td>
