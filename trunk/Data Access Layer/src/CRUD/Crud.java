@@ -1128,7 +1128,7 @@ public class Crud {
     }
     
     //retorna una lista de exámenes solicitados
-    /*
+    
     public List<ExamenSolicitado> consultarListaExamenesPorCalificarDeAnalista(int idAnalista) throws NoItemFoundException {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();        
@@ -1140,7 +1140,7 @@ public class Crud {
             List<ExamenSolicitado> examenes = (List<ExamenSolicitado>) analista.getExamenSolicitadoCollection();
             
             for(int i=0;i<examenes.size();i++){
-                if(examenes.get(i).getIdEstado().getIdEstado()!=4){
+                if(examenes.get(i).getIdEstado().getIdEstado()!=8){
                     examenes.remove(i);
                 }
             }
@@ -1150,6 +1150,6 @@ public class Crud {
             return examenes;
             
     }
-    */
+    
     
 }
