@@ -65,9 +65,8 @@
                         <tr><td class="cont-outer" colspan="3">
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                 <tr><td class="cont-inner">
-                                <input type="button" value="Agregar" name="Agregar" />
-                                <input type="button" value="Actualizar" name="Actualizar" />
-                                <input type="button" value="Eliminar" name="Eliminar" />
+                                        <p style="text-align:center"><input type="button" onclick="window.open('PerfilUsuario.jsp?action=new', '_self')" value="Crear Usuario" /></p>
+                                        <p><table border="0" cellpadding="3" cellspacing="2">
                                 <%
         AdministradoraDeUsuarios admin=new AdministradoraDeUsuarios();
         List lista;
@@ -82,11 +81,11 @@
         {
             user=(Usuario)it.next();
         %>
-        <li><%=user.getNombres() + " " + user.getApellidos()%></li>
+        <tr><td width="100%"><a href="PerfilUsuario.jsp?action=edit&userid=<%=user.getIdUsuario()%>"><%=user.getNombres() + " " + user.getApellidos()%></a></td><td nowrap="nowrap"><a href="eliminarusuario.jsp?userid=<%=user.getIdUsuario()%>">Eliminar Usuario</a></tr>
         <%
         }
         %>
-    </ol>
+    </table></p>
                                          
 
                                 </td></tr></table>
