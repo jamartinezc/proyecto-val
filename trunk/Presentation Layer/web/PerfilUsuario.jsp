@@ -62,7 +62,12 @@
     String year;
     String month;
     String day;
-        
+
+    String titleText = "Crear";
+    String formAction = "GuardarUsuario?action=new";
+    String submitDisableString = disableString;
+    String submitText = "Agregar";
+    
     // Verifica la acción a realizar
     action = request.getParameter("action");
     if(action == null) action = "new";
@@ -174,6 +179,11 @@
             acudienteApellidosDisableString = "";
             acudienteCorreoDisableString = "";
         }
+        
+        titleText="Actualizar";
+        formAction="GuardarUsuario?action=edit&userid=" + String.valueOf(userId);
+        submitDisableString="";
+        submitText = "Guardar";
     }
 
 %>
@@ -349,14 +359,14 @@
                 %>
                     <table border="0" cellpadding="0" cellspacing="0" width="550">
                         <tr height="30"><td><img src="images/title-left.png" /></td>
-                            <td class="title-center" width="100%">Creación de Usuarios</td>
+                            <td class="title-center" width="100%"><%=titleText%> Usuario</td>
                             <td><img src="images/title-right.png" /></td></tr>
                             
                         <tr><td class="cont-outer" colspan="3">
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                 <tr><td class="cont-inner">
                                 
-                                <form name="GuardarUsuario" action="GuardarUsuario" method="POST">
+                                <form name="GuardarUsuario" action="<%=formAction%>" method="POST">
                                 <br />
                                 <p style="text-align:justify"><b>ESTE FORMULARIO LE PERMITIRÁ AGREGAR USUARIOS DE TIPO ESTUDIANTE, TUTOR, ANALISTA Y SECRETARÍA ACADÉMICA.</b></p>
                                 <br>
@@ -492,7 +502,7 @@
                                 </li>
                                  
                                     <br /><br />
-                                    <center><input type="submit" value="Agregar" name="Enviar" disabled="disabled" /> <input type="reset" value="Limpiar" name="Limpiar" /></center>
+                                    <center><input type="submit" value="<%=submitText%>" name="Enviar" <%=submitDisableString%> /> <input type="reset" value="Limpiar" name="Limpiar" /></center>
                                 </ol>
                                 
                                 </form>
