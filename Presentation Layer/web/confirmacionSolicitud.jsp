@@ -79,23 +79,23 @@
                                     Estudiante estudiante = (Estudiante)session.getAttribute("currentUser");
                                     Examen examen = AdministradoraSolicitudesExamen.getSiguienteExamen(estudiante, codigoMateria);
                                  %>
-                                <p><b>¿Esta seguro que desea solicitar el siguiente exámen?</b></p>
-                                 <p>Código del exámen: <%=examen.getCodigo()%></p>
-                                <p>Tema del exámen: <%=examen.getTema()%></p>
+                                <p><b>¿Está seguro que desea solicitar el siguiente examen?</b></p>
+                                 <p>Código del examen: <%=examen.getCodigo()%></p>
+                                 <p>Tema del examen: <%=examen.getTema()%></p>
                                 <form name="Examen" action="rtasolicitud.jsp" method="POST" enctype="application/x-www-form-urlencoded">
                                 <input type="hidden" name="materia" value="<%=request.getParameter("Materia")%>" />
                                 <input type="hidden" name="codigo" value="<%=examen.getCodigo()%>" />
                                 <input type="hidden" name="tema" value="<%=examen.getTema()%>" />
                                 
-                                <input type="submit" value="aceptar" />
+                                <input type="submit" value="Aceptar" />
                                 <%}catch(NoPresentableException e){
                                     %>
-                                    <p><b>No puede presentar examenes de esta materia</b><br>
-                                    verifique que no tiene nota pendiente, nota examinadero <br>
-                                    o un examen pendiente por presentar.</p>
+                                    <p><b>¡No puede presentar exámenes de esta materia!</b><br>
+                                    <br>
+                                    <p>Verifique que no tiene Nota Pendiente, Nota Examinadero o un examen pendiente por presentar.</p><br>
                                     <%
                                 }%>
-                                <input type="button" value="cancelar" onclick="history.go(-1);" />
+                                <input type="button" value="Cancelar" onclick="history.go(-1);" />
                                 </form>
                                 
                                 

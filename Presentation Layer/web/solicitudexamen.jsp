@@ -96,7 +96,7 @@
                                     </table>
                                  
                                     <br /><br />
-                                    <center><input type="submit" value="solicitar" name="solicitar" /></center>
+                                    <center><input type="submit" value="Solicitar" name="solicitar" /></center>
                                 
                                 </form>
                                 </td>
