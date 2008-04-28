@@ -58,19 +58,31 @@ public class GuardarUsuario extends HttpServlet
                     Cclave=request.getParameter("Cclave");
                     if(Validaciones.nombres(Nombres)==false)
                     {
-                        msj=msj+"<p>* El Nombre ingresado está en blanco o tiene caracteres diferentes a letras.</p>";
+                        msj=msj+"<p>* El <b>Nombre</b> ingresado contiene caracteres diferentes a letras.</p>";
+                    }
+                    if(Nombres.compareTo("")==0)
+                    {
+                        msj=msj+"<p>* El <b>Nombre</b> ingresado está en blanco.</p>";
                     }
                     if(Validaciones.nombres(Apellidos)==false)
                     {
-                        msj=msj+"<p>* El Apellido ingresado está en blanco o tiene caracteres diferentes a letras.</p>";
+                        msj=msj+"<p>* El <b>Apellido</b> ingresado contiene caracteres diferentes a letras.</p>";
+                    }
+                    if(Apellidos.compareTo("")==0)
+                    {
+                        msj=msj+"<p>* El <b>Apellido</b> ingresado está en blanco.</p>";
                     }
                     if(Validaciones.nombres(Login)==false)
                     {
-                        msj=msj+"<p>* El Login ingresado está en blanco o tiene caracteres diferentes a letras.</p>";
+                        msj=msj+"<p>* El <b>Login</b> ingresado contiene caracteres diferentes a letras.</p>";
+                    }
+                    if(Login.compareTo("")==0)
+                    {
+                        msj=msj+"<p>* El <b>Login</b> ingresado está en blanco.</p>";
                     }
                     if(Validaciones.clave(Clave, Cclave)==false)
                     {
-                        msj=msj+"<p>* Clave y/o Confirmar Clave están en blanco o son diferentes.</p>";
+                        msj=msj+"<p>* <b>Clave</b> y/o <b>Confirmar Clave</b> están en blanco o son diferentes.</p>";
                         msj=msj+"<p><center><b>*****Verifique nuevamente los datos ingresados*****</b></center></p>";
                     }
 
@@ -84,7 +96,6 @@ public class GuardarUsuario extends HttpServlet
                     {
                         try
                         {
-                            boolean us;
                             AdministradoraDeUsuarios admin=new AdministradoraDeUsuarios();
                             admin.crearUsuario(Nombres, Apellidos, Login, Clave);
                         }
