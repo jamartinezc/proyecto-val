@@ -1,6 +1,9 @@
 package com.liceoval.businesslayer.control;
 
+import com.liceoval.businesslayer.control.exceptions.NoSeEncuentraElUsuarioException;
+import com.liceoval.businesslayer.entities.entitytranslator.EntityTranslator;
 import com.liceoval.businesslayer.entities.Usuario;
+import com.liceoval.businesslayer.entities.wrappers.UsuarioWrapper;
 import java.util.List;
 
 import CRUD.Crud;
@@ -19,7 +22,7 @@ public class AdministradoraDeUsuarios {
      * @return una lista List&lt;Usuario&gt; conteniendo los usuarios del
      * sistema registrados en al base de datos.
      */
-    public List<Usuario> solicitarListaDeUsuarios(){
+    public static List<Usuario> solicitarListaDeUsuarios(){
         Crud driverDB;
         driverDB = new Crud();
         
@@ -51,7 +54,7 @@ public class AdministradoraDeUsuarios {
      * @return true
      * @throws java.lang.Exception
      */
-    public boolean crearUsuario(String nombres, String apellidos, String login, String clave) throws PosibleDuplicationException, NoItemFoundException{
+    public static boolean crearUsuario(String nombres, String apellidos, String login, String clave) throws PosibleDuplicationException, NoItemFoundException{
         Crud driverDB;
         driverDB = new Crud();
         
@@ -78,7 +81,7 @@ public class AdministradoraDeUsuarios {
      * <p>false si hubo un error y no se pudo modificar
      * @throws java.lang.Exception si el usuario no existe.
      */
-    public boolean modificarUsuario(Usuario usuario) throws NoItemFoundException{
+    public static boolean modificarUsuario(Usuario usuario) throws NoItemFoundException{
         Crud driverDB;
         driverDB = new Crud();
         
@@ -112,10 +115,83 @@ public class AdministradoraDeUsuarios {
      * <p>False: si no se ha podido eleminar el usuario</p>
      * @throws java.lang.Exception si el usuario no existe.
      */
+    
     public void eliminarUsuario(Usuario usuario) throws NoItemFoundException{
         Crud driverDB;
         driverDB = new Crud();
             driverDB.eliminarUsuario( usuario.getIdUsuario() );
+    }
+    
+    /** Devuelve un usuario específico de acuerdo con la ID de usuario
+     *  especificada. El usuario devuelto está envuelto en una clase
+     *  UsuarioWrapper para manejar el problema de los múltiples roles.
+     * 
+     *  @param idUsuario El ID del usuario que se desea recuperar. Este
+     *      objeto puede ser de clase Usuario o puede ser de clase Estudiante.
+     *  @return Un objeto de clase UsuarioWrapper con la información del
+     *      usuario especificado.
+     *  @throws com.liceoval.businesslayer.control.exceptions.NoSeEncuentraElUsuarioException; Si
+     *      no se puede encontrar un usuario con el ID especificado en la base
+     *      de datos.
+     */
+    
+    public static UsuarioWrapper cargarUsuario(int idUsuario) throws NoSeEncuentraElUsuarioException
+    {
+        NoSeEncuentraElUsuarioException nseeuEx;
+        UsuarioWrapper usuarioWrapper;
+        VO.Usuario user;
+        Usuario usuario;
+        Crud crud;
         
+        crud = new Crud();
+        
+        try
+        {
+            user = crud.consultarUsuario(idUsuario);
+        }
+        catch(NoItemFoundException nifEx)
+        {
+            nseeuEx = new NoSeEncuentraElUsuarioException(
+                "No se encuentra el usuario especificado", nifEx);
+            throw nseeuEx;
+        }
+        
+        // Verificar si se trata de un estudiante
+        if(user.getEstudiante() != null)
+        {
+            // Obtener un objeto estudiante a partir del usuario.            
+            usuario = EntityTranslator.translateEstudiante(user.getEstudiante());
+                        
+            usuarioWrapper = new UsuarioWrapper(usuario);
+            usuarioWrapper.setRolEstudiante(true);
+        }
+        else
+        {
+            // Traducir el usuario y meterlo en el Wrapper.
+            usuario = EntityTranslator.translateUsuario(user);
+            usuarioWrapper = new UsuarioWrapper(usuario);
+        }
+        
+        // Verificar que roles cumple el usuario
+        if(user.getAnalistaCollection() != null)
+        {
+            if(user.getAnalistaCollection().size() > 0)
+                usuarioWrapper.setRolAnalista(true);
+        }
+        
+        if(user.getTutorCollection() != null)
+        {
+            if(user.getTutorCollection().size() > 0)
+                usuarioWrapper.setRolTutor(true);
+        }
+        
+        if(user.getSecretariaAcademicaCollection() != null)
+        {
+            if(user.getSecretariaAcademicaCollection().size() > 0)
+                usuarioWrapper.setRolSecretariaAcademica(true);
+        }
+        
+        // Devolver el Wrapper del usuario.
+        return usuarioWrapper;
     }
 }

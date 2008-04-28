@@ -20,6 +20,7 @@ import com.liceoval.businesslayer.entities.PlaneacionSemanal;
 import com.liceoval.businesslayer.entities.Registro;
 import com.liceoval.businesslayer.entities.Taller;
 import com.liceoval.businesslayer.entities.Tutor;
+import com.liceoval.businesslayer.entities.Usuario;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -332,6 +333,7 @@ public class EntityTranslator
         // Traducir cada uno de los atributos
         padre.setApellidos(parent.getApellidos());
         padre.setCorreo(parent.getCorreo());
+        padre.setIdPadre(parent.getIdPadre().intValue());
         padre.setNombres(parent.getNombres());
         
         // Devolver el padre
@@ -705,5 +707,24 @@ public class EntityTranslator
         return taller;
     }
     
-    
+    public static Usuario translateUsuario(VO.Usuario user)
+    {
+        Usuario usuario;
+        
+        // Si el valor de entrada es null, el de salida también.
+        if(user == null) return null;
+        
+        // Crear el nuevo usuario
+        usuario = new Usuario();
+        
+        // Traducir cada uno de los atributos
+        usuario.setApellidos(user.getApellidos());
+        usuario.setIdUsuario(user.getIdUsuario().intValue());
+        usuario.setLogin(user.getLogin());
+        usuario.setNombres(user.getNombres());
+        usuario.setPassword(user.getClave().toCharArray());
+        
+        // Devolver el usuario
+        return usuario;
+    }
 }

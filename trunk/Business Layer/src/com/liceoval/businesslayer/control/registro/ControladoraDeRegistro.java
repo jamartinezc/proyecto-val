@@ -7,13 +7,8 @@ import com.liceoval.businesslayer.control.registro.exceptions.RegistroNoEncontra
 import com.liceoval.businesslayer.control.registro.exceptions.RegistroNoExisteYNoPuedeSerCreadoException;
 import com.liceoval.businesslayer.control.registro.exceptions.ZonaHorariaIncorrectaException;
 
-import com.liceoval.businesslayer.entities.Analista;
-import com.liceoval.businesslayer.entities.Materia;
+import com.liceoval.businesslayer.entities.entitytranslator.EntityTranslator;
 import com.liceoval.businesslayer.entities.Registro;
-import com.liceoval.businesslayer.entities.Tutor;
-import com.liceoval.businesslayer.entities.Examen;
-import com.liceoval.businesslayer.entities.ExamenSolicitado;
-
 import com.liceoval.businesslayer.exceptions.InvalidProcedureCallOrArgumentException;
 
 import CRUD.Crud;
@@ -25,7 +20,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
@@ -259,18 +253,9 @@ public class ControladoraDeRegistro
     public static Registro getRegistro(int idEstudiante, int idMateria) throws RegistroNoEncontradoException
     {
         RegistroNoEncontradoException regEx;
-        ExamenSolicitado examenSolicitado;
-        VO.ExamenSolicitado reqExam;
-        List<Examen> examenes;
-        Iterator iterator;
         Registro registro;
-        Analista analista;
-        Materia materia;
         VO.Registro reg;
-        VO.Examen exam;
-        
-        Examen examen;
-        Tutor tutor;
+
         Crud crud;
         
         crud = new Crud();
@@ -287,73 +272,8 @@ public class ControladoraDeRegistro
             throw regEx;
         }
 
-        analista = new Analista();
-        analista.setApellidos(reg.getIdMateria().getIdAnalista().getIdUsuario().getApellidos());
-        analista.setIdUsuario(reg.getIdMateria().getIdAnalista().getIdUsuario().getIdUsuario().intValue());
-        analista.setLogin(reg.getIdMateria().getIdAnalista().getIdUsuario().getLogin());
-        analista.setNombres(reg.getIdMateria().getIdAnalista().getIdUsuario().getNombres());
-        analista.setPassword(reg.getIdMateria().getIdAnalista().getIdUsuario().getClave().toCharArray());
-        
-        tutor = new Tutor();
-        tutor.setApellidos(reg.getIdMateria().getIdTutor().getIdUsuario().getApellidos());
-        tutor.setIdUsuario(reg.getIdMateria().getIdTutor().getIdUsuario().getIdUsuario());
-        tutor.setLogin(reg.getIdMateria().getIdTutor().getIdUsuario().getLogin());
-        tutor.setNombres(reg.getIdMateria().getIdTutor().getIdUsuario().getNombres());
-        tutor.setPassword(reg.getIdMateria().getIdTutor().getIdUsuario().getClave().toCharArray());
-        
-        iterator = reg.getIdMateria().getExamenCollection().iterator();
-        examenes = new LinkedList<Examen>();
-        
-        while(iterator.hasNext())
-        {
-            exam = (VO.Examen)iterator.next();
-            examen = new Examen();
-            examen.setCodigo(exam.getIdExamen());
-            examen.setTema(exam.getTema());
-            examenes.add(examen);
-        }
-                        
-        materia = new Materia();
-        materia.setAnalista(analista);
-        materia.setCodigo(reg.getIdMateria().getIdMateria().intValue());
-        materia.setExamenes(examenes);
-        materia.setNombre(reg.getIdMateria().getNombre());
-        materia.setTutor(tutor);
-                
-        registro = new Registro();
-        registro.setActivo(reg.getActivo());
-        registro.setMateria(materia);
-        registro.setVecesDevuelta(reg.getVecesDevuelta());
-        
-        // Iterar a través de la lista de exámenes solicitados y agregarlos
-        // al registro recien creado
-        iterator = reg.getExamenSolicitadoCollection().iterator();
-                
-        while(iterator.hasNext())
-        {
-            examenSolicitado = new ExamenSolicitado();
-            reqExam = (VO.ExamenSolicitado)iterator.next();
-            
-            analista = new Analista();
-            analista.setApellidos(reqExam.getIdAnalista().getIdUsuario().getApellidos());
-            analista.setIdAnalista(reqExam.getIdAnalista().getIdAnalista());
-            analista.setIdUsuario(reqExam.getIdAnalista().getIdUsuario().getIdUsuario());
-            analista.setLogin(reqExam.getIdAnalista().getIdUsuario().getClave());
-            analista.setNombres(reqExam.getIdAnalista().getIdUsuario().getNombres());
-            analista.setPassword(reqExam.getIdAnalista().getIdUsuario().getClave().toCharArray());
-            
-            examen = new Examen();
-            examen.setCodigo(reqExam.getIdExamen().getIdExamen().intValue());
-            examen.setTema(reqExam.getIdExamen().getTema());
-            
-            examenSolicitado = new ExamenSolicitado();
-            examenSolicitado.setAnalista(analista);
-            examenSolicitado.setEstado(reqExam.getIdEstado().getIdEstado());
-            examenSolicitado.setExamen(examen);
-            examenSolicitado.setFecha(reqExam.getFecha());
-            
-            registro.getExamenesSolicitados().add(examenSolicitado);
-        }
+        // Convertir el registro en un registro de la aplicación.
+        registro = EntityTranslator.translateRegistro(reg);
         
         return registro;
     }
