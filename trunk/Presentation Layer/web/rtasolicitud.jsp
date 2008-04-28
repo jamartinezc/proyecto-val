@@ -7,7 +7,23 @@
 <%@ page
 	contentType="text/html; charset=utf-8"
 	language="java"
-	import="java.util.List,java.util.Iterator, Errores. NoItemFoundException, Errores. PosibleDuplicationException, com. liceoval. businesslayer. entities. Estudiante,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. EstudianteNoPuedeRegistrarMasExamenesException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. InsersionDeExamenException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. NoExisteAnalistaParaMateriaException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. RegistroException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. RegistroNoEncontradoException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. RegistroNoExisteYNoPuedeSerCreadoException, com.liceoval.businesslayer.entities.Usuario, com. liceoval. businesslayer. control. registro. exceptions. ZonaHorariaIncorrectaException, com. liceoval. businesslayer. control. AdministradoraSolicitudesExamen"
+	import="java.util.List,
+         java.util.Iterator,
+         Errores. NoItemFoundException,
+         com. liceoval. businesslayer. entities. Examen ,
+         Errores. PosibleDuplicationException,
+         com. liceoval. businesslayer. entities. Estudiante,
+         com.liceoval.businesslayer.control.AdministradoraDeUsuarios,
+         com.liceoval.businesslayer.entities.Usuario,
+         com. liceoval. businesslayer. control. registro. exceptions. EstudianteNoPuedeRegistrarMasExamenesException,
+         com. liceoval. businesslayer. control. registro. exceptions. InsersionDeExamenException,
+         com. liceoval. businesslayer. control. registro. exceptions. NoExisteAnalistaParaMateriaException,
+         com. liceoval. businesslayer. control. registro. exceptions. RegistroException,
+         com. liceoval. businesslayer. control. registro. exceptions. RegistroNoEncontradoException,
+         com. liceoval. businesslayer. control. registro. exceptions. RegistroNoExisteYNoPuedeSerCreadoException,
+         com. liceoval. businesslayer. control. registro. exceptions. ZonaHorariaIncorrectaException,
+         com.liceoval.businesslayer.exceptions. InvalidProcedureCallOrArgumentException,
+         com. liceoval. businesslayer. control. AdministradoraSolicitudesExamen"
 	errorPage="" %>
          <!--,com.liceoval.businesslayer.control.registro.exceptions.InvalidProcedureCallOrArgumentException",com.liceoval.businesslayer.control.registro.exceptions.RegistroNoExisteYNoPuedeSerCreadoException,com.liceoval.businesslayer.control.registro.exceptions.NoExisteAnalistaParaMateriaException,com.liceoval.businesslayer.control.registro.exceptions.EstudianteNoPuedeRegistrarMasExamenesException,com.liceoval.businesslayer.control.registro.exceptions.ZonaHorariaIncorrectaException,com.liceoval.businesslayer.control.registro.exceptions.InsersionDeExamenException"-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -57,19 +73,47 @@
                                 <p>
                           <%
                           
-                            AdministradoraSolicitudesExamen admin = new AdministradoraSolicitudesExamen();
-                            String materia = (String)(request.getParameter("Materia"));
-                            %><p><%= request.getParameterNames().nextElement() %></p><%
+                            String materia = (String)(request.getParameter("materia"));
                             int codigoMateria = Integer.parseInt(materia);
                             Estudiante estudiante = (Estudiante)currentUser;
                             //mchernandezo mlkiop99     id 290
-                            admin.SolicitarExamen(estudiante, 14, codigoMateria);
-                          }catch(NoItemFoundException e1){
-                                String mensajeError = e1.getMessage();
+                            int examen = Integer.parseInt((String)request.getParameter("codigo"));
+                            AdministradoraSolicitudesExamen.SolicitarExamen(estudiante, examen, codigoMateria);
+                            %>
+                            Se ha realizado la solicitud con éxito del Siguiente Exámen:<br><br>
+                            Código: <%=codigoMateria%><br>
+                            Tema: <%=request.getParameter("tema")%>
+                            <%
+                          }catch(NoItemFoundException e){
+                                String mensajeError = e.getMessage();
                                 %>
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
-                          <%}catch(NumberFormatException e2){
-                              String mensajeError = e2.getMessage();
+                          <%}catch(NumberFormatException e){
+                              String mensajeError =  e.getMessage();
+                                %>
+                                <%@include file="globals/error-solicitud-increable.jsp" %>
+                                <%}catch(RegistroNoExisteYNoPuedeSerCreadoException e){
+                              String mensajeError =  e.getMessage();
+                                %>
+                                <%@include file="globals/error-solicitud-increable.jsp" %>
+                                <%}catch(InvalidProcedureCallOrArgumentException e){
+                              String mensajeError =  e.getMessage();
+                                %>
+                                <%@include file="globals/error-solicitud-increable.jsp" %>
+                                <%}catch(NoExisteAnalistaParaMateriaException e){
+                              String mensajeError =  e.getMessage();
+                                %>
+                                <%@include file="globals/error-solicitud-increable.jsp" %>
+                                <%}catch(EstudianteNoPuedeRegistrarMasExamenesException e){
+                              String mensajeError =  e.getMessage();
+                                %>
+                                <%@include file="globals/error-solicitud-increable.jsp" %>
+                                <%}catch(ZonaHorariaIncorrectaException e){
+                              String mensajeError =  e.getMessage();
+                                %>
+                                <%@include file="globals/error-solicitud-increable.jsp" %>
+                                <%}catch(InsersionDeExamenException e){
+                              String mensajeError =  e.getMessage();
                                 %>
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
                                 <%}%>
