@@ -107,19 +107,29 @@ public class AdministradoraDeUsuarios {
         
     }
     
-    /**
+    /** Elimina el usuario específicado de la base de datos.
      * 
-     * @param usuario objeto usuario con el ID de usuario del usuario que se
-     * quiere eliminar.
-     * @return <p>True: si se ha eliminado satisfactoriamente el usuario</p>
-     * <p>False: si no se ha podido eleminar el usuario</p>
-     * @throws java.lang.Exception si el usuario no existe.
+     *  @param idUsuario El ID del usuario.
+     *  @throws com.liceoval.businesslayer.control.exceptions.NoSeEncuentraElUsuarioException Si
+     *      no existe un usuario con la ID especificada en la base de datos.
      */
     
-    public void eliminarUsuario(Usuario usuario) throws NoItemFoundException{
+    public static void eliminarUsuario(int idUsuario) throws NoSeEncuentraElUsuarioException
+    {
         Crud driverDB;
         driverDB = new Crud();
-            driverDB.eliminarUsuario( usuario.getIdUsuario() );
+        NoSeEncuentraElUsuarioException nseeuEx;
+        
+        try
+        {
+            driverDB.eliminarUsuario(idUsuario);
+        }
+        catch(NoItemFoundException nifEx)
+        {
+            nseeuEx = new NoSeEncuentraElUsuarioException(
+                "No se encuentra el usuario especificado", nifEx);
+            throw nseeuEx;
+        }
     }
     
     /** Devuelve un usuario específico de acuerdo con la ID de usuario
