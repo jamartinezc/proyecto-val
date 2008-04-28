@@ -81,7 +81,7 @@
                             AdministradoraSolicitudesExamen.SolicitarExamen(estudiante, examen, codigoMateria);
                             %>
                             Se ha realizado la solicitud con éxito del Siguiente Exámen:<br><br>
-                            Código: <%=codigoMateria%><br>
+                            Código: <%=examen%><br>
                             Tema: <%=request.getParameter("tema")%>
                             <%
                           }catch(NoItemFoundException e){
