@@ -60,4 +60,18 @@ public class Validaciones {
     
     }
     
+    public static boolean clave(String clave,String cclave)
+    {
+        boolean iq=true;
+        if(clave.compareTo(cclave)!=0)
+        {
+            iq=false;
+        }
+        if(clave.compareTo("")==0||cclave.compareTo("")==0||iq==false)
+        {
+            return false;
+        }
+        return true;
+    }
+    
 }
