@@ -983,9 +983,16 @@ public class Crud {
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();   
-            
+            try{
             Registro registro = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
-            if(registro!=null){
+            }
+            catch(NoItemFoundException ey){
+                Materia matiere = em.find(Materia.class, codigoMateria);
+                List<Examen> nuevo= (List<Examen>) matiere.getExamenCollection();
+                return nuevo.get(0);
+            }
+            
+                Registro registro = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
                 List<ExamenSolicitado> examenes = (List<ExamenSolicitado>) registro.getExamenSolicitadoCollection();
 
                 int tamaño = examenes.size()-1;
@@ -1016,14 +1023,7 @@ public class Crud {
                         default:
                             throw new NoPresentableException();
                     }
-                }
-            }
-            else{
-                Materia matiere = em.find(Materia.class, codigoMateria);
-                List<Examen> nuevo= (List<Examen>) matiere.getExamenCollection();
-                return nuevo.get(0);
-            }
-         
+                }         
         }
 
     //retorna si es el ultimo tema de una materia

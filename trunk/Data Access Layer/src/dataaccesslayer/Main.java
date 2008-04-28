@@ -313,11 +313,11 @@ public class Main {
         */   
         
         
-        //retorna el siguiente examen a presentar de cierta materia para cierto usuario(POR TERMINAR)
+        //retorna el siguiente examen a presentar de cierta materia para cierto usuario
         /*
         Examen next;
         try{
-            next = query.getSiguienteExamenDeMateria(19, 309);
+            next = query.getSiguienteExamenDeMateria(2, 290);
             System.out.println(next.getTema());
         }
         catch(NoItemFoundException mal){
