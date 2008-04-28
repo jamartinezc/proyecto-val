@@ -985,36 +985,43 @@ public class Crud {
             EntityManager em = emf.createEntityManager();   
             
             Registro registro = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
-            List<ExamenSolicitado> examenes = (List<ExamenSolicitado>) registro.getExamenSolicitadoCollection();
-            
-            int tamaño = examenes.size()-1;
-           
-            if(tamaño<0) throw new NoItemFoundException();
-            
-            int etat = examenes.get(tamaño).getIdEstado().getIdEstado();
-            
-            Examen actual = examenes.get(tamaño).getIdExamen();
-            int temaActual = actual.getIdExamen();
-            
-            if(etat==1)
-            {
-                if(ultimoTema(codigoMateria, temaActual)){
-                    throw new UltimoTemaException();
+            if(registro!=null){
+                List<ExamenSolicitado> examenes = (List<ExamenSolicitado>) registro.getExamenSolicitadoCollection();
+
+                int tamaño = examenes.size()-1;
+
+                if(tamaño<0) throw new NoItemFoundException();
+
+                int etat = examenes.get(tamaño).getIdEstado().getIdEstado();
+
+                Examen actual = examenes.get(tamaño).getIdExamen();
+                int temaActual = actual.getIdExamen();
+
+                if(etat==1)
+                {
+                    if(ultimoTema(codigoMateria, temaActual)){
+                        throw new UltimoTemaException();
+                    }
+                    else{
+                        int nuevo = temaActual + 1;
+                        Examen siguienteTema = em.find(Examen.class, nuevo);
+                        return siguienteTema;
+                    }
                 }
                 else{
-                    int nuevo = temaActual + 1;
-                    Examen siguienteTema = em.find(Examen.class, nuevo);
-                    return siguienteTema;
+                    switch(etat)
+                    {
+                        case 2:
+                            return actual;
+                        default:
+                            throw new NoPresentableException();
+                    }
                 }
             }
             else{
-                switch(etat)
-                {
-                    case 2:
-                        return actual;
-                    default:
-                        throw new NoPresentableException();
-                }
+                Materia matiere = em.find(Materia.class, codigoMateria);
+                List<Examen> nuevo= (List<Examen>) matiere.getExamenCollection();
+                return nuevo.get(0);
             }
          
         }
