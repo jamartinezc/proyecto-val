@@ -11,31 +11,64 @@ package com.liceoval.businesslayer.entities;
  */
 public class Padre
 {
+    private int idPadre;
     private String nombres;
     private String apellidos;
     private String correo;
 
-    public String getNombres() {
-        return nombres;
-    }
+    /** Devuelve los nombres del padre.
+     * 
+     *  @return Los nombres del padre.
+     */
+    
+    public String getNombres() { return nombres; }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
-    }
+    /** Establece los nombre del padre.
+     * 
+     *  @param nombres Los nombre del padre.
+     */
+    
+    public void setNombres(String nombres) { this.nombres = nombres; }
 
-    public String getApellidos() {
-        return apellidos;
-    }
+    /** Devuelve los apellidos del padre.
+     * 
+     *  @return Los apellidos del padre.
+     */
+    
+    public String getApellidos() { return apellidos; }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
+    /** Establece los apellidos del padre.
+     * 
+     *  @param apellidos Los apellidos del padre.
+     */
+    
+    public void setApellidos(String apellidos) { this.apellidos = apellidos; }
 
-    public String getCorreo() {
-        return correo;
-    }
+    /** Devuelve el correo electrónico del padre
+     * 
+     *  @return El correo electrónico del padre.
+     */
+    
+    public String getCorreo() { return correo; }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
+    /** Establece el correo electrónico del padre.
+     * 
+     *  @param correo El correo electrónico del padre.
+     */
+    
+    public void setCorreo(String correo) { this.correo = correo; }
+
+    /** Devuelve el ID del padre.
+     * 
+     *  @return El ID del padre.
+     */
+    
+    public int getIdPadre() { return idPadre; }
+
+    /** Establece el ID del padre.
+     * 
+     *  @param idPadre El ID del padre.
+     */
+    
+    public void setIdPadre(int idPadre) { this.idPadre = idPadre; }
 }
