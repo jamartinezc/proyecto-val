@@ -24,7 +24,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "analista")
-@NamedQueries({@NamedQuery(name = "Analista.findByIdAnalista", query = "SELECT a FROM Analista a WHERE a.idAnalista = :idAnalista")})
+@NamedQueries(
+    {
+        @NamedQuery(name = "Analista.consultarUnAnalista", query = "SELECT a FROM Analista a WHERE a.idAnalista = :id"),
+        @NamedQuery(name = "Analista.consultarAnalistas", query = "SELECT a FROM Analista a"),
+        @NamedQuery(name = "Analista.consultarPorIdUsuario", query = "SELECT a FROM Analista a WHERE a.idUsuario = :id")
+    })
 public class Analista implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
