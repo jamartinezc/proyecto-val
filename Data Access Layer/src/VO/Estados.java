@@ -22,7 +22,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "estados")
-@NamedQueries({@NamedQuery(name = "Estados.findByIdEstado", query = "SELECT e FROM Estados e WHERE e.idEstado = :idEstado"), @NamedQuery(name = "Estados.findByNombre", query = "SELECT e FROM Estados e WHERE e.nombre = :nombre")})
+@NamedQueries({
+    @NamedQuery(name = "Estados.findByIdEstado", query = "SELECT e FROM Estados e WHERE e.idEstado = :id"),
+    @NamedQuery(name = "Estados.findByNombre", query = "SELECT e FROM Estados e WHERE e.nombre = :nombre"),
+    @NamedQuery(name = "Estados.consultarEstados", query = "SELECT e FROM Estados e")
+})
 public class Estados implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
