@@ -7,10 +7,13 @@ package dataaccesslayer;
 
 import DAO.DaoAnalista;
 import DAO.DaoEstados;
+import DAO.DaoEstudiante;
 import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
 import VO.Analista;
 import VO.Estados;
+import VO.Estudiante;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -401,6 +404,7 @@ public class Main {
             System.out.println(error.Mensaje());
         }
          */
+        
         //DaoEstados
         /*
         List<Estados> manes = DaoEstados.consultarTodos();
@@ -417,7 +421,39 @@ public class Main {
         }
         */
         
+        //DaoEstudiante
         
+        /*List<Estudiante> manes = DaoEstudiante.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdUsuario().getNombres());
+        }
+        try{
+            Estudiante mansito = DaoEstudiante.consultarUno(290);
+            System.out.println(mansito.getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        try{
+            DaoEstudiante.eliminar(310);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        
+        Calendar hoy = Calendar.getInstance();
+        hoy.set(2008, 5, 24);
+        try{
+            Estudiante mio=DaoEstudiante.crear(313, 10, 3, hoy, 29);
+            System.out.println(mio.getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
+        }*/
         
     }
 
