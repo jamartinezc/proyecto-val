@@ -28,7 +28,12 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "estudiante")
-@NamedQueries({@NamedQuery(name = "Estudiante.findByIdEstudiante", query = "SELECT e FROM Estudiante e WHERE e.idEstudiante = :idEstudiante"), @NamedQuery(name = "Estudiante.findByFechaInicioGrado", query = "SELECT e FROM Estudiante e WHERE e.fechaInicioGrado = :fechaInicioGrado")})
+@NamedQueries({
+    @NamedQuery(name = "Estudiante.consultarUnEstudiante", query = "SELECT e FROM Estudiante e WHERE e.idEstudiante = :id"),
+    @NamedQuery(name = "Estudiante.findByFechaInicioGrado", query = "SELECT e FROM Estudiante e WHERE e.fechaInicioGrado = :fechaInicioGrado"),
+    @NamedQuery(name = "Estudiante.consultarEstudiantes", query = "SELECT e FROM Estudiante e"),
+    @NamedQuery(name = "Estudiante.consultarPorIdUsuario", query = "SELECT e FROM Estudiante e WHERE e.idUsuario = :id")
+})
 public class Estudiante implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
