@@ -8,11 +8,13 @@ package dataaccesslayer;
 import DAO.DaoAnalista;
 import DAO.DaoEstados;
 import DAO.DaoEstudiante;
+import DAO.DaoExamen;
 import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
 import VO.Analista;
 import VO.Estados;
 import VO.Estudiante;
+import VO.Examen;
 import java.util.Calendar;
 import java.util.List;
 
@@ -454,6 +456,22 @@ public class Main {
         catch(PosibleDuplicationException error){
             System.out.println(error.Mensaje());
         }*/
+        
+        //DaoExamen
+        /*
+        List<Examen> manes = DaoExamen.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getTema());
+        }
+        try{
+            Examen mansito = DaoExamen.consultarUno(4);
+            System.out.println(mansito.getTema());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        */
         
     }
 
