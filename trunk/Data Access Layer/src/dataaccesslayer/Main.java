@@ -9,12 +9,14 @@ import DAO.DaoAnalista;
 import DAO.DaoEstados;
 import DAO.DaoEstudiante;
 import DAO.DaoExamen;
+import DAO.DaoGrado;
 import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
 import VO.Analista;
 import VO.Estados;
 import VO.Estudiante;
 import VO.Examen;
+import VO.Grado;
 import java.util.Calendar;
 import java.util.List;
 
@@ -467,6 +469,22 @@ public class Main {
         try{
             Examen mansito = DaoExamen.consultarUno(4);
             System.out.println(mansito.getTema());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        */
+        
+        //DaoGrado
+        /*
+        List<Grado> manes = DaoGrado.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getNombre());
+        }
+        try{
+            Grado mansito = DaoGrado.consultarUno(11);
+            System.out.println(mansito.getNombre());
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
