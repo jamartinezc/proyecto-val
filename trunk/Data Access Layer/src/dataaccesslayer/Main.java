@@ -11,6 +11,7 @@ import DAO.DaoEstudiante;
 import DAO.DaoExamen;
 import DAO.DaoGrado;
 import DAO.DaoMateria;
+import DAO.DaoSecretariaAcademica;
 import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
 import VO.Analista;
@@ -19,6 +20,7 @@ import VO.Estudiante;
 import VO.Examen;
 import VO.Grado;
 import VO.Materia;
+import VO.SecretariaAcademica;
 import java.util.Calendar;
 import java.util.List;
 
@@ -509,6 +511,40 @@ public class Main {
         }
         */
         
+        //DaoSecretariaAcademica
+        /*
+        List<SecretariaAcademica> manes = DaoSecretariaAcademica.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdUsuario().getNombres());
+        }
+        
+        try{
+            SecretariaAcademica mansito = DaoSecretariaAcademica.consultarUno(1);
+            System.out.println(mansito.getIdUsuario().getIdUsuario());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        
+        try{
+            DaoSecretariaAcademica.eliminar(5);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        
+        try{
+            SecretariaAcademica mio=DaoSecretariaAcademica.crear(30);
+            System.out.println(mio.getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
+        }
+        */
     }
 
 }
