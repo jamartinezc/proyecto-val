@@ -22,7 +22,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "grado")
-@NamedQueries({@NamedQuery(name = "Grado.findByIdGrado", query = "SELECT g FROM Grado g WHERE g.idGrado = :idGrado"), @NamedQuery(name = "Grado.findByNombre", query = "SELECT g FROM Grado g WHERE g.nombre = :nombre")})
+@NamedQueries({
+    @NamedQuery(name = "Grado.findByIdGrado", query = "SELECT g FROM Grado g WHERE g.idGrado = :id"),
+    @NamedQuery(name = "Grado.findByNombre", query = "SELECT g FROM Grado g WHERE g.nombre = :nombre"),
+    @NamedQuery(name = "Grado.consultarGrados", query = "SELECT g FROM Grado g")
+})
 public class Grado implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
