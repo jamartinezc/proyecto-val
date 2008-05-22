@@ -10,6 +10,8 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -30,6 +32,7 @@ public class Registro implements Serializable {
     @Column(name = "activo", nullable = false)
     private boolean activo;
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "idRegistro", nullable = false)
     private Integer idRegistro;
     @Column(name = "vecesDevuelta", nullable = false)
