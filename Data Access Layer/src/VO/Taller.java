@@ -10,6 +10,8 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
@@ -24,10 +26,15 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "taller")
-@NamedQueries({@NamedQuery(name = "Taller.findByIdTaller", query = "SELECT t FROM Taller t WHERE t.idTaller = :idTaller")})
+@NamedQueries({
+    @NamedQuery(name = "Taller.findByIdTaller", query = "SELECT t FROM Taller t WHERE t.idTaller = :id"),
+    @NamedQuery(name = "Taller.consultarTalleres", query = "SELECT a FROM Taller a"),
+    @NamedQuery(name = "Taller.consultarPorIdTutor", query = "SELECT a FROM Taller a WHERE a.idTutor = :id")
+})
 public class Taller implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "idTaller", nullable = false)
     private Integer idTaller;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "taller1")

@@ -84,6 +84,7 @@ public class DaoEstudiante {
                 
                 if(query.getResultList().size() != 0)
                 {
+                    System.out.println("uy");
                     throw new PosibleDuplicationException();
                 }
                 
@@ -110,7 +111,6 @@ public class DaoEstudiante {
                     em.persist(nuevo);
                 tx.commit();   
 
-                em.clear();
                 return (Estudiante) query.getSingleResult();
             }
             catch(NonUniqueResultException error){

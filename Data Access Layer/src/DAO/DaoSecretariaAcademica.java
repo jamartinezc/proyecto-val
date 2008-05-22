@@ -92,7 +92,7 @@ public class DaoSecretariaAcademica {
                 tx.commit();   
 
                 em.clear();
-                return (SecretariaAcademica) query.getSingleResult();
+                return nuevo;
             }
             catch(NonUniqueResultException error){
                     throw new PosibleDuplicationException();

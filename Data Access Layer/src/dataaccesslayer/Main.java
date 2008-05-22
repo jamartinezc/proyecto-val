@@ -12,6 +12,7 @@ import DAO.DaoExamen;
 import DAO.DaoGrado;
 import DAO.DaoMateria;
 import DAO.DaoSecretariaAcademica;
+import DAO.DaoTaller;
 import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
 import VO.Analista;
@@ -21,6 +22,7 @@ import VO.Examen;
 import VO.Grado;
 import VO.Materia;
 import VO.SecretariaAcademica;
+import VO.Taller;
 import java.util.Calendar;
 import java.util.List;
 
@@ -389,12 +391,12 @@ public class Main {
             System.out.println(manes.get(i).getIdAnalista());
         }
         try{
-            Analista mansito = DaoAnalista.consultarUno(456);
+            Analista mansito = DaoAnalista.consultarUno(1);
             System.out.println(mansito.getIdUsuario().getIdUsuario());
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
-        }
+        }/*
         try{
             DaoAnalista.eliminar(6);
         }
@@ -402,7 +404,7 @@ public class Main {
             System.out.println(error.Mensaje());
         }
         try{
-            Analista mio=DaoAnalista.crear(32);
+            Analista mio=DaoAnalista.crear(17);
             System.out.println(mio.getIdAnalista());
         }
         catch(NoItemFoundException error){
@@ -410,8 +412,8 @@ public class Main {
         }
         catch(PosibleDuplicationException error){
             System.out.println(error.Mensaje());
-        }
-         */
+        }*/
+         
         
         //DaoEstados
         /*
@@ -453,8 +455,9 @@ public class Main {
         Calendar hoy = Calendar.getInstance();
         hoy.set(2008, 5, 24);
         try{
-            Estudiante mio=DaoEstudiante.crear(313, 10, 3, hoy, 29);
+            Estudiante mio=DaoEstudiante.crear(313, 10, 3, hoy, 14);
             System.out.println(mio.getIdUsuario().getNombres());
+            System.out.println(mio.getIdEstudiante());
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
@@ -535,13 +538,31 @@ public class Main {
         }
         
         try{
-            SecretariaAcademica mio=DaoSecretariaAcademica.crear(30);
+            SecretariaAcademica mio=DaoSecretariaAcademica.crear(2);
             System.out.println(mio.getIdUsuario().getNombres());
+            System.out.println(mio.getIdSecretariaAcademica());
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
         }
         catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
+        }*/
+        
+        
+        //DaoTaller
+        /*
+        List<Taller> manes = DaoTaller.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdTaller());
+        }
+        
+        try{
+            Taller mansito = DaoTaller.consultarUno(1);
+            System.out.println(mansito.getIdTaller());
+        }
+        catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
         }
         */

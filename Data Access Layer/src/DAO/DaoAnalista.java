@@ -92,8 +92,7 @@ public class DaoAnalista {
                     em.persist(nuevo);
                 tx.commit();   
 
-                em.clear();
-                return (Analista) query.getSingleResult();
+                return nuevo;
             }
             catch(NonUniqueResultException error){
                     throw new PosibleDuplicationException();
