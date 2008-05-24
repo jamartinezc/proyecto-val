@@ -83,37 +83,32 @@
                             Se ha realizado la solicitud con éxito del Siguiente Exámen:<br><br>
                             Código: <%=examen%><br>
                             Tema: <%=request.getParameter("tema")%>
-                            <%
-                          }catch(NoItemFoundException e){
-                                String mensajeError = e.getMessage();
-                                %>
-                                <%@include file="globals/error-solicitud-increable.jsp" %>
-                          <%}catch(NumberFormatException e){
-                              String mensajeError =  e.getMessage();
+                            <%}catch(NumberFormatException e){
+                                    String mensajeError = "Ocurrió un error en su solicitud, porfavor vuelvalo a intentar, si el problema persiste contacte al administrador.";
                                 %>
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
                                 <%}catch(RegistroNoExisteYNoPuedeSerCreadoException e){
-                              String mensajeError =  e.getMessage();
+                                    String mensajeError = e.getMessage();
                                 %>
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
                                 <%}catch(InvalidProcedureCallOrArgumentException e){
-                              String mensajeError =  e.getMessage();
+                                    String mensajeError = "Ocurrió un error en su solicitud, porfavor vuelvalo a intentar, si el problema persiste contacte al administrador.";
                                 %>
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
                                 <%}catch(NoExisteAnalistaParaMateriaException e){
-                              String mensajeError =  e.getMessage();
+                                    String mensajeError =  e.getMessage();
                                 %>
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
                                 <%}catch(EstudianteNoPuedeRegistrarMasExamenesException e){
-                              String mensajeError =  e.getMessage();
+                                    String mensajeError =  e.getMessage();
                                 %>
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
                                 <%}catch(ZonaHorariaIncorrectaException e){
-                              String mensajeError =  e.getMessage();
+                                    String mensajeError =  "Error en el servidor: "+e.getMessage();
                                 %>
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
                                 <%}catch(InsersionDeExamenException e){
-                              String mensajeError =  e.getMessage();
+                                    String mensajeError =  e.getMessage();
                                 %>
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
                                 <%}%>
@@ -130,6 +125,11 @@
         <td>
         
         	<!-- Menú derecho -->
+                 <%parrafoDeAyuda = "Este es un informe de el resultado de su solicitud de exámen, si el exámen fué solicitado con éxito aparecerá el mensaje:<br><br>"+
+                         "\"Se ha realizado la solicitud con éxito del Siguiente Exámen:\"<br><br>"+
+                         "mas la información del exámen, de lo contrario pueden suceder los siguientes errores:<br><br>"+
+                         "<b>El registro no existe y no puede ser creado:</b>Este error sucede si usted está cursando 3 materias e intenta solicitar un exámen de otra materia que no está cursando en el momento.<br><br>"+
+                         "<b>Usted no puede solicitar más exámenes de esta materia:</b>";%>
             <%@include file="globals/right-menu.jsp" %>
         
         </td>

@@ -110,6 +110,7 @@
                 <td>
         
         	<!-- Menú derecho -->
+                 <%parrafoDeAyuda = "Para solicitar un exámen seleccione  en el menú \"Materia\" la materia de la cual desea solicitar un exámen, y presione la tecla Solicitar. Esto le permitirá solicitar el siguiente examen de esa materia.<br> Recuerde que: <br>Solo puede solicitar un exámen si no tiene NP o NE.<br>Para abrir un registro nuevo tiene que estar cursando menos de 3 materias.<br><br> Para abrir un registro de una materia solicite un examen de esa materia.";%>
             <%@include file="globals/right-menu.jsp" %>
         
         </td>
