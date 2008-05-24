@@ -983,8 +983,9 @@ public class Crud {
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();   
+            Registro registro;
             try{
-            Registro registro = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
+            registro = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
             }
             catch(NoItemFoundException ey){
                 Materia matiere = em.find(Materia.class, codigoMateria);
@@ -992,7 +993,7 @@ public class Crud {
                 return nuevo.get(0);
             }
             
-                Registro registro = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
+                registro = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
                 List<ExamenSolicitado> examenes = (List<ExamenSolicitado>) registro.getExamenSolicitadoCollection();
 
                 int tamaño = examenes.size();
