@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: liceoval1
 -- ------------------------------------------------------
--- Server version	5.0.41-community-nt
+-- Server version	5.0.51b-community-nt
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -20,13 +20,16 @@
 --
 
 DROP TABLE IF EXISTS `analista`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `analista` (
   `idAnalista` int(10) unsigned NOT NULL auto_increment,
   `idUsuario` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idAnalista`),
   KEY `FK_Analista_1` (`idUsuario`),
   CONSTRAINT `FK_Analista_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `analista`
@@ -34,7 +37,7 @@ CREATE TABLE `analista` (
 
 LOCK TABLES `analista` WRITE;
 /*!40000 ALTER TABLE `analista` DISABLE KEYS */;
-INSERT INTO `analista` VALUES (1,22),(2,23),(3,24),(4,25),(5,26);
+INSERT INTO `analista` VALUES (1,22),(2,23),(3,24),(4,25),(5,26),(6,28),(7,29),(8,30),(9,32),(10,33);
 /*!40000 ALTER TABLE `analista` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -43,11 +46,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `estados`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `estados` (
   `idEstado` int(10) unsigned NOT NULL auto_increment,
   `nombre` varchar(20) NOT NULL,
   PRIMARY KEY  (`idEstado`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `estados`
@@ -64,6 +70,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `estudiante`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `estudiante` (
   `idEstudiante` int(10) unsigned NOT NULL default '0',
   `idGrado` int(10) unsigned default NULL,
@@ -79,6 +87,7 @@ CREATE TABLE `estudiante` (
   CONSTRAINT `FK_estudiante_2` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`),
   CONSTRAINT `FK_estudiante_3` FOREIGN KEY (`idGrado`) REFERENCES `grado` (`idGrado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `estudiante`
@@ -86,7 +95,7 @@ CREATE TABLE `estudiante` (
 
 LOCK TABLES `estudiante` WRITE;
 /*!40000 ALTER TABLE `estudiante` DISABLE KEYS */;
-INSERT INTO `estudiante` VALUES (290,11,2,'2008-01-02 00:00:00',1),(291,11,2,'2008-01-02 00:00:00',2),(292,11,2,'2008-01-04 00:00:00',3),(293,11,2,'2008-02-02 00:00:00',4),(294,11,2,'2008-02-02 00:00:00',5),(295,11,1,'2008-03-02 00:00:00',6),(296,11,1,'2008-01-04 00:00:00',7),(297,11,3,'2008-01-04 00:00:00',8),(298,11,2,'2008-03-02 00:00:00',9),(299,11,1,'2008-01-02 00:00:00',10),(300,10,3,'2008-01-03 00:00:00',11),(301,10,2,'2008-01-04 00:00:00',13),(302,10,1,'2008-02-02 00:00:00',15),(303,10,3,'2008-03-02 00:00:00',16),(304,10,2,'2008-01-03 00:00:00',17),(305,10,1,'2008-01-01 00:00:00',18),(306,10,3,'2008-03-02 00:00:00',19),(307,10,2,'2008-02-02 00:00:00',20),(308,10,1,'2008-01-04 00:00:00',21),(309,11,2,'2008-04-13 00:00:00',26);
+INSERT INTO `estudiante` VALUES (290,11,2,'2008-01-02 00:00:00',1),(291,11,2,'2008-01-02 00:00:00',2),(292,11,2,'2008-01-04 00:00:00',3),(293,11,2,'2008-02-02 00:00:00',4),(294,11,2,'2008-02-02 00:00:00',5),(295,11,1,'2008-03-02 00:00:00',6),(296,11,1,'2008-01-04 00:00:00',7),(297,11,3,'2008-01-04 00:00:00',8),(298,11,2,'2008-03-02 00:00:00',9),(299,11,1,'2008-01-02 00:00:00',10),(300,10,3,'2008-01-03 00:00:00',11),(301,10,2,'2008-01-04 00:00:00',13),(302,10,1,'2008-02-02 00:00:00',15),(303,10,3,'2008-03-02 00:00:00',16),(304,10,2,'2008-01-03 00:00:00',17),(305,10,1,'2008-01-01 00:00:00',18),(306,10,3,'2008-03-02 00:00:00',19),(307,10,2,'2008-02-02 00:00:00',20),(308,10,1,'2008-01-04 00:00:00',21),(309,11,2,'2008-04-13 00:00:00',26),(310,10,1,'2008-05-23 00:00:00',28),(311,10,2,'2008-05-23 00:00:00',29),(312,10,3,'2008-05-23 00:00:00',30),(313,11,1,'2008-05-23 00:00:00',32),(314,11,2,'2008-05-23 00:00:00',33),(315,11,3,'2008-05-20 00:00:00',34),(316,11,3,'2008-05-20 00:00:00',35),(317,11,3,'2008-05-20 00:00:00',36),(318,11,1,'2008-05-20 00:00:00',37),(319,11,3,'2008-05-20 00:00:00',38),(320,10,1,'2008-05-20 00:00:00',39),(321,10,2,'2008-05-20 00:00:00',40),(322,10,3,'2008-05-20 00:00:00',41),(323,10,2,'2008-05-20 00:00:00',42);
 /*!40000 ALTER TABLE `estudiante` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,6 +104,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `examen`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `examen` (
   `idExamen` int(10) unsigned NOT NULL auto_increment,
   `tema` varchar(50) NOT NULL,
@@ -103,7 +114,8 @@ CREATE TABLE `examen` (
   UNIQUE KEY `Index_2` USING BTREE (`tema`),
   KEY `FK_examen_1` (`idMateria`),
   CONSTRAINT `FK_examen_1` FOREIGN KEY (`idMateria`) REFERENCES `materia` (`idMateria`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `examen`
@@ -120,6 +132,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `examenmes`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `examenmes` (
   `idExamenMes` int(10) unsigned NOT NULL auto_increment,
   `mes` int(10) unsigned NOT NULL,
@@ -127,6 +141,7 @@ CREATE TABLE `examenmes` (
   `ganados` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idExamenMes`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `examenmes`
@@ -142,6 +157,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `examenplaneado`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `examenplaneado` (
   `idExamenPlaneado` int(10) unsigned NOT NULL auto_increment,
   `idExamen` int(10) unsigned NOT NULL,
@@ -156,6 +173,7 @@ CREATE TABLE `examenplaneado` (
   CONSTRAINT `FK_examenplaneado_2` FOREIGN KEY (`idEstado`) REFERENCES `estados` (`idEstado`),
   CONSTRAINT `FK_examenplaneado_3` FOREIGN KEY (`idPlaneacionSemanal`) REFERENCES `planeacionsemanal` (`idPlaneacionSemanal`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `examenplaneado`
@@ -171,6 +189,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `examensolicitado`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `examensolicitado` (
   `idExamenSolicitado` int(10) unsigned NOT NULL auto_increment,
   `idEstudiante` int(10) unsigned NOT NULL,
@@ -191,7 +211,8 @@ CREATE TABLE `examensolicitado` (
   CONSTRAINT `FK_examensolicitado_3` FOREIGN KEY (`idExamen`) REFERENCES `examen` (`idExamen`),
   CONSTRAINT `FK_examensolicitado_4` FOREIGN KEY (`idEstado`) REFERENCES `estados` (`idEstado`),
   CONSTRAINT `FK_examensolicitado_5` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `examensolicitado`
@@ -208,6 +229,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `excelenciataller`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `excelenciataller` (
   `idTaller` int(10) unsigned NOT NULL,
   `idEstudiante` int(10) unsigned NOT NULL,
@@ -220,6 +243,7 @@ CREATE TABLE `excelenciataller` (
   CONSTRAINT `FK_excelenciataller_1` FOREIGN KEY (`idTaller`) REFERENCES `taller` (`idTaller`),
   CONSTRAINT `FK_excelenciataller_2` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `excelenciataller`
@@ -235,11 +259,14 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `grado`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `grado` (
   `idGrado` int(10) unsigned NOT NULL default '0',
   `nombre` varchar(10) NOT NULL,
   PRIMARY KEY  USING BTREE (`idGrado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `grado`
@@ -256,6 +283,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `materia`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `materia` (
   `idMateria` int(10) unsigned NOT NULL auto_increment,
   `nombre` varchar(30) NOT NULL,
@@ -270,7 +299,8 @@ CREATE TABLE `materia` (
   CONSTRAINT `FK_Materia_1` FOREIGN KEY (`idAnalista`) REFERENCES `analista` (`idAnalista`),
   CONSTRAINT `FK_Materia_2` FOREIGN KEY (`idTutor`) REFERENCES `tutor` (`idTutor`),
   CONSTRAINT `FK_materia_3` FOREIGN KEY (`idGrado`) REFERENCES `grado` (`idGrado`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `materia`
@@ -287,6 +317,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `materiaplaneada`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `materiaplaneada` (
   `idMateriaPlaneada` int(10) unsigned NOT NULL auto_increment,
   `idMateria` int(10) unsigned NOT NULL,
@@ -302,6 +334,7 @@ CREATE TABLE `materiaplaneada` (
   CONSTRAINT `FK_MateriaPlaneada_2` FOREIGN KEY (`idExamenMes`) REFERENCES `examenmes` (`idExamenMes`),
   CONSTRAINT `FK_materiaplaneada_3` FOREIGN KEY (`idPlaneacionAnual`) REFERENCES `planeacionanual` (`idPlaneacionAnual`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `materiaplaneada`
@@ -317,16 +350,19 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `padre`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `padre` (
-  `idPadre` int(10) unsigned NOT NULL,
+  `idPadre` int(10) unsigned NOT NULL auto_increment,
   `nombres` varchar(30) NOT NULL,
   `apellidos` varchar(30) NOT NULL,
-  `correo` varchar(20) NOT NULL,
+  `correo` varchar(30) NOT NULL,
   `idEstudiante` int(10) unsigned NOT NULL,
   PRIMARY KEY  USING BTREE (`idPadre`),
   KEY `FK_padre_1` (`idEstudiante`),
   CONSTRAINT `FK_padre_1` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `padre`
@@ -334,6 +370,7 @@ CREATE TABLE `padre` (
 
 LOCK TABLES `padre` WRITE;
 /*!40000 ALTER TABLE `padre` DISABLE KEYS */;
+INSERT INTO `padre` VALUES (1,'Maria Azucena','Fetecua Peña','azucenafetecua@hotmail.com',310),(2,'Jorge Enrique','Martinez Jimenez','joramartinezc@unal.edu.co',311),(3,'Julio','Franco','amfrancop@unal.edu.co',312),(4,'Camilo','Hernández','camilo@hotmail.com',290),(5,'Adolfo','Olarte','lmolartem@unal.edu.co',313);
 /*!40000 ALTER TABLE `padre` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -342,6 +379,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `planeacionanual`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `planeacionanual` (
   `idPlaneacionAnual` int(10) unsigned NOT NULL auto_increment,
   `idEstudiante` int(10) unsigned NOT NULL,
@@ -349,6 +388,7 @@ CREATE TABLE `planeacionanual` (
   UNIQUE KEY `FK_planeacionAnual_1` USING BTREE (`idEstudiante`),
   CONSTRAINT `FK_planeacionAnual_1` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `planeacionanual`
@@ -364,6 +404,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `planeacionsemanal`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `planeacionsemanal` (
   `idPlaneacionSemanal` int(10) unsigned NOT NULL auto_increment,
   `semana` int(10) unsigned NOT NULL,
@@ -375,6 +417,7 @@ CREATE TABLE `planeacionsemanal` (
   CONSTRAINT `FK_PlaneacionSemanal_1` FOREIGN KEY (`idGrado`) REFERENCES `grado` (`idGrado`),
   CONSTRAINT `FK_planeacionsemanal_2` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `planeacionsemanal`
@@ -390,6 +433,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `registro`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `registro` (
   `idEstudiante` int(10) unsigned NOT NULL,
   `activo` tinyint(1) NOT NULL,
@@ -402,7 +447,8 @@ CREATE TABLE `registro` (
   KEY `FK_registro_1` (`idEstudiante`),
   CONSTRAINT `FK_registro_1` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`) ON DELETE CASCADE,
   CONSTRAINT `FK_registro_2` FOREIGN KEY (`idMateria`) REFERENCES `materia` (`idMateria`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `registro`
@@ -410,7 +456,7 @@ CREATE TABLE `registro` (
 
 LOCK TABLES `registro` WRITE;
 /*!40000 ALTER TABLE `registro` DISABLE KEYS */;
-INSERT INTO `registro` VALUES (290,0,4,1,0),(303,1,5,16,0),(292,1,6,26,0),(309,1,7,19,0);
+INSERT INTO `registro` VALUES (290,0,4,2,0),(303,1,5,15,0),(292,1,6,26,0),(309,1,7,20,0),(291,1,8,4,0),(293,1,9,10,0),(294,1,10,12,0),(295,1,11,14,0),(296,1,12,16,0),(297,1,13,18,0),(298,1,14,20,0),(299,1,15,22,0),(300,1,16,1,0),(301,1,17,3,0),(302,1,18,9,0),(304,1,19,11,0),(305,1,20,13,0),(306,1,21,17,0),(307,1,22,19,0),(308,1,23,21,0),(310,1,24,23,0),(311,1,25,25,0),(312,1,26,1,3),(313,1,27,22,0),(314,1,28,24,1),(315,1,29,26,2),(316,1,30,2,2),(317,1,31,4,5),(318,1,32,10,4),(319,1,33,12,4),(320,1,34,3,0),(321,1,35,9,1),(322,1,36,11,3),(323,1,37,13,0),(290,1,38,16,0),(291,1,39,18,3),(292,1,40,10,0),(293,1,41,4,5),(294,1,42,22,2),(295,1,43,24,0),(296,1,44,26,4),(297,1,45,2,4),(298,1,46,14,0),(299,1,47,10,2),(300,1,48,15,0),(301,1,49,17,0),(302,1,50,19,0),(303,1,51,21,1),(304,1,52,23,0),(305,1,53,25,0),(306,1,54,1,1),(307,1,55,3,0),(308,1,56,9,0),(309,1,57,12,0),(310,1,58,11,0),(311,1,59,13,1),(312,1,60,15,0),(313,1,61,14,3),(314,1,62,16,1),(315,1,63,18,2),(316,1,64,20,5),(317,1,65,22,4),(318,1,66,24,0),(319,1,67,26,1),(320,1,68,17,4),(321,1,69,19,0),(322,1,70,21,0),(323,1,71,23,5),(290,1,72,26,3);
 /*!40000 ALTER TABLE `registro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -419,13 +465,16 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `secretariaacademica`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `secretariaacademica` (
   `idSecretariaAcademica` int(10) unsigned NOT NULL auto_increment,
   `idUsuario` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idSecretariaAcademica`),
   KEY `FK_SecretariaAcademica_1` (`idUsuario`),
   CONSTRAINT `FK_SecretariaAcademica_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `secretariaacademica`
@@ -433,7 +482,7 @@ CREATE TABLE `secretariaacademica` (
 
 LOCK TABLES `secretariaacademica` WRITE;
 /*!40000 ALTER TABLE `secretariaacademica` DISABLE KEYS */;
-INSERT INTO `secretariaacademica` VALUES (1,12),(2,14),(3,26);
+INSERT INTO `secretariaacademica` VALUES (1,12),(2,14),(3,26),(4,28),(5,29),(6,30),(7,32),(8,33);
 /*!40000 ALTER TABLE `secretariaacademica` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -442,6 +491,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `taller`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `taller` (
   `idTaller` int(10) unsigned NOT NULL auto_increment,
   `idTutor` int(10) unsigned NOT NULL,
@@ -449,7 +500,8 @@ CREATE TABLE `taller` (
   UNIQUE KEY `Index_2` (`idTutor`),
   CONSTRAINT `FK_taller_1` FOREIGN KEY (`idTaller`) REFERENCES `taller` (`idTaller`),
   CONSTRAINT `FK_taller_2` FOREIGN KEY (`idTutor`) REFERENCES `tutor` (`idTutor`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `taller`
@@ -466,13 +518,16 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `tutor`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `tutor` (
   `idTutor` int(10) unsigned NOT NULL auto_increment,
   `idUsuario` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idTutor`),
   KEY `FK_Tutor_1` (`idUsuario`),
   CONSTRAINT `FK_Tutor_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `tutor`
@@ -480,7 +535,7 @@ CREATE TABLE `tutor` (
 
 LOCK TABLES `tutor` WRITE;
 /*!40000 ALTER TABLE `tutor` DISABLE KEYS */;
-INSERT INTO `tutor` VALUES (1,22),(3,23),(2,24),(4,26);
+INSERT INTO `tutor` VALUES (1,22),(3,23),(2,24),(4,26),(5,28),(6,29),(7,30),(8,32),(9,33);
 /*!40000 ALTER TABLE `tutor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -489,6 +544,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `usuario`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
 CREATE TABLE `usuario` (
   `idUsuario` int(10) unsigned NOT NULL auto_increment,
   `nombres` varchar(30) NOT NULL,
@@ -496,7 +553,8 @@ CREATE TABLE `usuario` (
   `login` varchar(20) NOT NULL,
   `clave` varchar(14) NOT NULL,
   PRIMARY KEY  (`idUsuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `usuario`
@@ -504,7 +562,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'María Camila','Hernández Olarte','mchernandezo','mlkiop99'),(2,'Juan Pablo','Perdomo Garzón','jpperdomog','aqwesd46'),(3,'Karen Julieth','Rodríguez Bohórquez','kjrodriguezb','ikjlut31'),(4,'Lorenzo','Caviedes Lacompte','lcaviedesl','uhjngt78'),(5,'Elizabeth','Cavieds Lacompte','ecaviedesl','nmaqpd56'),(6,'Lina María','Gómez Alcazar','lmgomeza','phjkqg09'),(7,'Juan Camilo','García Avellaneda','jcgarciaa','zxcvrt83'),(8,'Ximena','Ballesteros López','xballesterosl','zasqwx89'),(9,'Julián Camilo','Pérez Sierra','jcperezs','qkoshd58'),(10,'Lorena','Perdomo Fonseca','lperdomof','ijhwqp93'),(11,'Alejandro','Cubillos Triana','acubillost','ewpsbgid78'),(12,'Mireya','Suárez Ramirez','msuarezr','jsehgc11'),(13,'María José','Porto Forero','mjportof','awhbsd86'),(14,'Jorge','Pedraza Córdoba','jpedrazac','hyrtui75'),(15,'Katherine','Del Río García','kdelriog','wqtrey90'),(16,'Gabriel','Heredia Jiménez','gherediaj','iupear76'),(17,'Hana Manuela','Hoffman Triada','hmhoffmant','uytred57'),(18,'Daniel','Gómez Toro','dgomezt','nhujms23'),(19,'Juan Camilo','Triana Herrera','jctrianah','uyhsqw44'),(20,'Santiago','Quintero López','squinterol','poiuyt65'),(21,'Juan Camilo','Martínez Castro','jcmartinezc','iuolkj75'),(22,'Eridson','Rodríguez Casas','erodriguezc','ognbco79'),(23,'Omar','Baracaldo Toquica','obaracaldot','jghytf36'),(24,'Alexandra','Bernal Bonfante','abernalb','kalswq96'),(25,'Fredy','Torres Garzón','ftorresg','qdwfeg35'),(26,'Mario','Linares Vasquez','mlinaresv','ssh22'),(28,'davor','tañito','damontic','gelosa'),(29,'Jorge','Martinez','george','swat'),(30,'Angela','Franco','gelosa','david'),(32,'Tatiana','Franco','tati','elmasbuscado');
+INSERT INTO `usuario` VALUES (1,'María Camila','Hernández Olarte','mchernandezo','mlkiop99'),(2,'Juan Pablo','Perdomo Garzón','jpperdomog','aqwesd46'),(3,'Karen Julieth','Rodríguez Bohórquez','kjrodriguezb','ikjlut31'),(4,'Lorenzo','Caviedes Lacompte','lcaviedesl','uhjngt78'),(5,'Elizabeth','Cavieds Lacompte','ecaviedesl','nmaqpd56'),(6,'Lina María','Gómez Alcazar','lmgomeza','phjkqg09'),(7,'Juan Camilo','García Avellaneda','jcgarciaa','zxcvrt83'),(8,'Ximena','Ballesteros López','xballesterosl','zasqwx89'),(9,'Julián Camilo','Pérez Sierra','jcperezs','qkoshd58'),(10,'Lorena','Perdomo Fonseca','lperdomof','ijhwqp93'),(11,'Alejandro','Cubillos Triana','acubillost','ewpsbgid78'),(12,'Mireya','Suárez Ramirez','msuarezr','jsehgc11'),(13,'María José','Porto Forero','mjportof','awhbsd86'),(14,'Jorge','Pedraza Córdoba','jpedrazac','hyrtui75'),(15,'Katherine','Del Río García','kdelriog','wqtrey90'),(16,'Gabriel','Heredia Jiménez','gherediaj','iupear76'),(17,'Hana Manuela','Hoffman Triada','hmhoffmant','uytred57'),(18,'Daniel','Gómez Toro','dgomezt','nhujms23'),(19,'Juan Camilo','Triana Herrera','jctrianah','uyhsqw44'),(20,'Santiago','Quintero López','squinterol','poiuyt65'),(21,'Juan Camilo','Martínez Castro','jcmartinezc','iuolkj75'),(22,'Eridson','Rodríguez Casas','erodriguezc','ognbco79'),(23,'Omar','Baracaldo Toquica','obaracaldot','jghytf36'),(24,'Alexandra','Bernal Bonfante','abernalb','kalswq96'),(25,'Fredy','Torres Garzón','ftorresg','qdwfeg35'),(26,'Mario','Linares Vasquez','mlinaresv','ssh22'),(28,'David','Montaño','david','david'),(29,'Jorge','Martinez','jorge','jorge'),(30,'Angela','Franco','angela','angela'),(32,'Liliana','Olarte','liliana','liliana'),(33,'Sergio','Bobillier','sergio','sergio'),(34,'Federico','Zalamea','fezalamea','soccer'),(35,'Nicolás','Link','nilink','zelda'),(36,'Gerónimo','Salazar','gesalazar','gerogero'),(37,'Lina','Castellanos','licastellanos','licaste99'),(38,'Laura','Bernal','labernal','labacana'),(39,'Camila','Valdez','cavaldez','cami85'),(40,'Juan Guillermo','Bonfante','jugubonfante','donmomo'),(41,'Sara','Loterstein','saloterstein','argentina'),(42,'Pacheco','Gonzales','pagonzales','demelap');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -512,56 +570,6 @@ UNLOCK TABLES;
 -- Dumping routines for database 'liceoval1'
 --
 DELIMITER ;;
-/*!50003 DROP PROCEDURE IF EXISTS `devolverCurso` */;;
-/*!50003 SET SESSION SQL_MODE="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER"*/;;
-/*!50003 CREATE*/ /*!50020 DEFINER=`liceoval`@`%`*/ /*!50003 PROCEDURE `devolverCurso`(IN est INT)
-BEGIN
-
-
-
-delete from registro where codigo=est;
-
-
-
-delete from planeacionsemanal where codigo=est;
-
-
-
-delete from planeacionanual where codigo=est;
-
-
-
-END */;;
-/*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
-/*!50003 DROP PROCEDURE IF EXISTS `devolverMateria` */;;
-/*!50003 SET SESSION SQL_MODE="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER"*/;;
-/*!50003 CREATE*/ /*!50020 DEFINER=`liceoval`@`%`*/ /*!50003 PROCEDURE `devolverMateria`(IN est INT,IN mat INT)
-BEGIN
-
-
-
-declare ps int;
-
-
-
-declare cod int;
-
-
-
-SELECT cod=examen.codigo FROM materia JOIN examen WHERE materia.codigo=mat and materia=mat;
-
-
-
-select ps=idPlaneacionSemanal from planeacionsemanal where codigo=est;
-
-
-
-DELETE FROM examenplaneado WHERE codigo=cod and planeacionSemanal=ps;
-
-
-
-END */;;
-/*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
 DELIMITER ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -573,4 +581,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-04-28  3:03:10
+-- Dump completed on 2008-05-25 15:31:08
