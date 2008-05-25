@@ -34,7 +34,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Liceo V.A.L. - Sistema de Información Académico - Confirmación de Solicitud de Exámen</title>
+<title>Liceo V.A.L. - Sistema de Información Académico - Confirmación de Solicitud de Examen</title>
 <link rel="stylesheet" type="text/css" href="globals/main.css" />
 </head>
     <body>
@@ -80,12 +80,12 @@
                                 <p style="text-align:center"><b>¿Está seguro que desea solicitar el siguiente examen?</b></p>
                                     Materia: <%=(request.getParameter("NombreMateria"))%><br>
                                  <p>Código del examen: <%=examen.getCodigo()%></p>
-                                 <p>Tema del examen: <%=examen.getTema()%></p>-->
+                                 <p>Tema del examen: <%=examen.getTema()%></p>
                                 <form name="Examen" action="rtasolicitud.jsp" method="POST" enctype="application/x-www-form-urlencoded">
                                 <input type="hidden" name="NombreMateria" value="<%=(request.getParameter("NombreMateria"))%>" >
                                 <input type="hidden" name="materia" value="<%=request.getParameter("Materia")%>" />
                                 <input type="hidden" name="codigo" value="<%=examen.getCodigo()%>" />
-                                <input type="hidden" name="tema" value="<%=examen.getTema()%>" />-->
+                                <input type="hidden" name="tema" value="<%=examen.getTema()%>" />
                                 
                                 <p style="text-align:center"><input type="submit" value="Aceptar" />
                                 <%}catch(NoPresentableException e){
@@ -94,7 +94,13 @@
                                     <br>
                                     <p>Verifique que no tiene Nota Pendiente, Nota Examinadero o un examen pendiente por presentar.</p><br>
                                     <%
-                                }catch(NoItemFoundException e){/* TODO manejar la exception de ser necesario*/}%>
+                                }catch(NoItemFoundException e){
+                                    %>
+                                    <p><b>¡No puede presentar exámenes de esta materia!</b><br>
+                                    <br>
+                                    <p>Su registro de esta materia existe, sin embargo no contiene ningún examen, por favor contacte al administrador.</p><br>
+                                    <%
+                                }%>
                                 <input type="button" value="Cancelar" onclick="history.go(-1);" /></p>
                                 </form>
                             </td>
