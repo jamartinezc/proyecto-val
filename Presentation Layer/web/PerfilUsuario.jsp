@@ -335,7 +335,7 @@
     <%
         String locationLinks;
         
-        locationLinks="<a class=\"nav-bar-link\" href=\"index.jsp\">Inicio</a>";
+        locationLinks="<a class=\"nav-bar-link\" href=\"index.jsp\">Inicio</a> - <a class=\"nav-bar-link\" href=\"ListaUsuarios.jsp\">Administrar Usuarios</a>";
     %>
     
     <%@include file="globals/header.jsp" %>
