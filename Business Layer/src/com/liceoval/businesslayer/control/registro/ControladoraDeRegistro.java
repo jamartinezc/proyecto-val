@@ -160,25 +160,25 @@ public class ControladoraDeRegistro
             if(examenSolicitado.getIdEstado().getNombre().equals("Pendiente/Aprobar"))
             {
                 estEx = new EstudianteNoPuedeRegistrarMasExamenesException(
-                    "No se puede completar la solicitud por que el estudiante tiene un exámen pendiente por aprobar");
+                    "No se puede completar la solicitud por que el estudiante tiene un examen pendiente por aprobar");
                 throw estEx;
             }
             if(examenSolicitado.getIdEstado().getNombre().equals("Pendiente/Presentar"))
             {
                 estEx = new EstudianteNoPuedeRegistrarMasExamenesException(
-                    "No se puede completar la solicitud por que el estudiante tiene un exámen pendiente por presentar");
+                    "No se puede completar la solicitud por que el estudiante tiene un examen pendiente por presentar");
                 throw estEx;
             }
             if(examenSolicitado.getIdEstado().getNombre().equals("Nota Examen"))
             {
                 estEx = new EstudianteNoPuedeRegistrarMasExamenesException(
-                    "No se puede completar la solicitud por que el estudiante tiene un exámen con Nota Examen");
+                    "No se puede completar la solicitud por que el estudiante tiene un examen con Nota Examen");
                 throw estEx;
             }
             if(examenSolicitado.getIdEstado().getNombre().equals("Nota Pendiente"))
             {
                 estEx = new EstudianteNoPuedeRegistrarMasExamenesException(
-                    "No se puede completar la solicitud por que el estudiante tiene un exámen con Nota Nota Pendiente");
+                    "No se puede completar la solicitud por que el estudiante tiene un examen con Nota Nota Pendiente");
                 throw estEx;
             }
         }
