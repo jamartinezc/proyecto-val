@@ -1,5 +1,6 @@
 package com.liceoval.businesslayer.control.registro;
 
+import com.liceoval.businesslayer.control.registro.exceptions.EstudianteNoEncontradoException;
 import com.liceoval.businesslayer.control.registro.exceptions.EstudianteNoPuedeRegistrarMasExamenesException;
 import com.liceoval.businesslayer.control.registro.exceptions.InsersionDeExamenException;
 import com.liceoval.businesslayer.control.registro.exceptions.NoExisteAnalistaParaMateriaException;
@@ -41,6 +42,8 @@ import java.util.TimeZone;
 
 public class ControladoraDeRegistro
 {   
+    String[] states = null;
+    
     /** Agrega un examen al registro del estudiante para la materia especificada.
      *  Si el estudiante no tiene un registro para la materia especificada la función
      *  intenta crear un registro para esa materia.
@@ -244,14 +247,12 @@ public class ControladoraDeRegistro
                 "Falló la insersión del examen. El estudiante ya ha solicitado este examen anteriormente.", nifEx);
             throw examEx;
         }
-        /*
         catch(Exception ex)
         {
             examEx = new InsersionDeExamenException(
                 "Falló la insersión del examen. La capa de acceso a datos reportó el siguiente error", ex);
             throw examEx;
         }
-         * */
     }
     
     /** Devuelve el registro de un estudiante para la materia especificada.
@@ -290,5 +291,36 @@ public class ControladoraDeRegistro
         registro = EntityTranslator.translateRegistro(reg);
         
         return registro;
+    }
+    
+    /** Devuelve los registros activos o inactivos del estudiante especificado.
+     * 
+     *  @param idEstudiante El id del estudiante del cual se deben localizar los registros.
+     *  @param activo Determina si se deben recuperar solo los registros activos.
+     *  @return La lista de registros del estudiante especificado.
+     *  @throws com.liceoval.businesslayer.control.registro.exceptions.EstudianteNoEncontradoException
+     *      Si la base de datos no puede localizar al estudiante especificado.
+     */
+    
+    public static List<Registro> getRegistros(int idEstudiante, boolean activo) throws EstudianteNoEncontradoException
+    {
+        EstudianteNoEncontradoException eneEx;
+        List<VO.Registro> records;
+        List<Registro> registros;
+        Crud crud;
+        
+        crud = new Crud();
+        
+        try
+        {
+            records = crud.consultarRegistrosActivosInactivos(idEstudiante, activo);
+            registros = EntityTranslator.translateRegistros(records);
+            return registros;
+        }
+        catch(NoItemFoundException nifEx)
+        {
+            eneEx = new EstudianteNoEncontradoException("No se encuentra el estudiante especificado en la base de datos.", nifEx);
+            throw eneEx;
+        }
     }
 }

@@ -15,7 +15,7 @@ public class ExamenPlaneado {
     
     private Date fecha;
     private Examen examen;
-    private int estado;
+    private Estado estado;
 
     public Date getFecha() {
         return fecha;
@@ -33,11 +33,17 @@ public class ExamenPlaneado {
         this.examen = examen;
     }
 
-    public int getEstado() {
-        return estado;
-    }
+    /** Devuelve el estado actual del examen.
+     * 
+     *  @return El estado actual del examen.
+     */
+    
+    public Estado getEstado() { return estado; }
 
-    public void setEstado(int estado) {
-        this.estado = estado;
-    }
+    /** Establece el estado actual del examen
+     * 
+     *  @param estado El estado del examen.
+     */
+    
+    public void setEstado(Estado estado) { this.estado = estado; }
 }
