@@ -15,7 +15,7 @@
 <html>
     <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Liceo V.A.L. - Sistema de Información Académico - Solicitud de Examen</title>
+<title>Liceo V.A.L. - Sistema de Información Académico - Solicitud de Exámen</title>
 <link rel="stylesheet" type="text/css" href="globals/main.css" />
 <script language="javascript" type="text/javascript">
     function getExamen(){
@@ -69,7 +69,7 @@
                                     <form name="Solicitud" action="confirmacionSolicitud.jsp" method="POST" enctype="application/x-www-form-urlencoded">
                                 <br />
                                 
-                                <p style="text-align:center"><b>ESTE FORMULARIO LE PERMITIRÁ REALIZAR UNA SOLICITUD DE EXAMEN.</b></p>
+                                <p style="text-align:center"><b>ESTE FORMULARIO LE PERMITIR�? REALIZAR UNA SOLICITUD DE EX�?MEN.</b></p>
                                 <br>
                                                                 
                                  
@@ -110,7 +110,7 @@
                 <td>
         
         	<!-- Menú derecho -->
-                 <%parrafoDeAyuda = "Para solicitar un examen seleccione  en el menú \"Materia\" la materia de la cual desea solicitar un examen, y presione la tecla Solicitar. Esto le permitirá solicitar el siguiente examen de esa materia.<br> Recuerde que: <br>Solo puede solicitar un examen si no tiene NP o NE.<br>Para abrir un registro nuevo tiene que estar cursando menos de 3 materias.<br><br> Para abrir un registro de una materia solicite un examen de esa materia.";%>
+                 <%rightContent = "Para solicitar un exámen seleccione  en el menú \"Materia\" la materia de la cual desea solicitar un exámen, y presione la tecla Solicitar. Esto le permitirá solicitar el siguiente examen de esa materia.<br> Recuerde que: <br>Solo puede solicitar un exámen si no tiene NP o NE.<br>Para abrir un registro nuevo tiene que estar cursando menos de 3 materias.<br><br> Para abrir un registro de una materia solicite un examen de esa materia.";%>
             <%@include file="globals/right-menu.jsp" %>
         
         </td>

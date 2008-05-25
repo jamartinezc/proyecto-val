@@ -17,7 +17,7 @@
     <%
         String locationLinks;
         
-        locationLinks="<a class=\"nav-bar-link\" href=\"index.jsp\">Inicio</a>";
+        locationLinks="<a class=\"nav-bar-link\" href=\"index.jsp\">Inicio</a> - <a class=\"nav-bar-link\" href=\"change-role.jsp\">Cambiar Rol</a>";
     %>
 
     <%@include file="globals/header.jsp" %>

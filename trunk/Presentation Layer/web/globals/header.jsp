@@ -4,8 +4,10 @@
     Usuario currentUser;
     String currentUserName;
     String currentUserRole;
-    String parrafoDeAyuda = null;//aca se personaliza la ayuda en cada seccion, asignandole el parrafo con las instrucciones de ayuda
-       
+
+    String rightTitle = "Ayuda";
+    String rightContent = null;
+    
     currentUser = (Usuario)session.getAttribute("currentUser");
     %>
 

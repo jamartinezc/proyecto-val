@@ -92,49 +92,67 @@
                             try
                             {
                                 userID = Integer.parseInt(request.getParameter("userid"));
-
                                 confirm = request.getParameter("confirm");
-
-                                if(confirm != null)                                
-                                {
-                                    if(confirm.equals("yes"))
-                                    {
-                                        // Intentar eliminar el usuario... algun dia...
-                                        AdministradoraDeUsuarios.eliminarUsuario(userID);
-                            %>
-                            
-                            <p><table border="0" cellpadding="0" cellspacing="0" width="80%" align="center">
-                                    <tr><td class="login-warning"><b>¡Enhorabuena!</b>
-                                        <p>El usuario se ha eliminado exitosamente.</p></td></tr>
-                            </table></p>
-
-                            <p style="text-align:right"><input type="button" onclick="window.open('ListaUsuarios.jsp', '_self')" value="Volver" /></p>
-                            
-                            <%
-                                    }
-                                }
                                 
-                                if(confirm == null || confirm.equals("yes") == false)
+                                // Antes de permitir la eliminación de un usuario
+                                // verificar si se trata de si mismo, y en ese caso
+                                // evitar la eliminación.
+                                if(currentUser.getIdUsuario() == userID)
                                 {
-                                    nombreUsuario = request.getParameter("username");
-                                    if(nombreUsuario != null)
+                                %>
+                                
+                                    <p><table border="0" cellpadding="0" cellspacing="0" width="80%" align="center">
+                                        <tr><td class="login-error"><b>¡Error!</b>
+                                        <p>Imposible eliminar al usuario especificado. Por seguridad un usuario <b>NO PUEDE</b> eliminarse a si mismo.</p></td></tr>
+                                    </table></p>
+
+                                    <p style="text-align:right"><input type="button" onclick="window.open('ListaUsuarios.jsp', '_self')" value="Volver" /></p>
+                                
+                                <%  
+                                }
+                                else
+                                {
+                                    if(confirm != null)                                
                                     {
-                                        nombreUsuario = nombreUsuario.replace("+", " ");
+                                        if(confirm.equals("yes"))
+                                        {
+                                            // Intentar eliminar el usuario... algun dia...
+                                            AdministradoraDeUsuarios.eliminarUsuario(userID);
+                            %>
+                            
+                                            <p><table border="0" cellpadding="0" cellspacing="0" width="80%" align="center">
+                                                    <tr><td class="login-warning"><b>¡Enhorabuena!</b>
+                                                        <p>El usuario se ha eliminado exitosamente.</p></td></tr>
+                                            </table></p>
+
+                                            <p style="text-align:right"><input type="button" onclick="window.open('ListaUsuarios.jsp', '_self')" value="Volver" /></p>
+                            
+                            <%
+                                        }
+                                    }
+
+                                    if(confirm == null || confirm.equals("yes") == false)
+                                    {
+                                        nombreUsuario = request.getParameter("username");
+                                        if(nombreUsuario != null)
+                                        {
+                                            nombreUsuario = nombreUsuario.replace("+", " ");
                             %>
 
-                                        <p><table border="0" cellpadding="0" cellspacing="0" width="80%" align="center">
-                                            <tr><td class="login-warning"><b>¡Advertencia!</b>
-                                            <p>Está a punto de eliminar el usuario <b><%=nombreUsuario%></b>. ¿Está seguro que desea continuar?</p></td></tr>
-                                        </table></p>
+                                            <p><table border="0" cellpadding="0" cellspacing="0" width="80%" align="center">
+                                                <tr><td class="login-warning"><b>¡Advertencia!</b>
+                                                <p>Está a punto de eliminar el usuario <b><%=nombreUsuario%></b>. ¿Está seguro que desea continuar?</p></td></tr>
+                                            </table></p>
 
-                                        <p style="text-align:right"><input type="button" value="Si" onclick="window.open('eliminarusuario.jsp?userid=<%=userID%>&confirm=yes', '_self')"> <input type="button" value="No" onclick="window.open('ListaUsuarios.jsp', '_self')"></p>
+                                            <p style="text-align:right"><input type="button" value="Si" onclick="window.open('eliminarusuario.jsp?userid=<%=userID%>&confirm=yes', '_self')"> <input type="button" value="No" onclick="window.open('ListaUsuarios.jsp', '_self')"></p>
 
                             <%
-                                    }
-                                    else
-                                    {
-                                        errorOcurred = true;
-                                        errorString="<b>Error:</b><p>La petición se ha malformado, faltan parámetros o no es posible recuperar todos los encabezados.</p>";
+                                        }
+                                        else
+                                        {
+                                            errorOcurred = true;
+                                            errorString="<b>Error:</b><p>La petición se ha malformado, faltan parámetros o no es posible recuperar todos los encabezados.</p>";
+                                        }
                                     }
                                 }
                             }
