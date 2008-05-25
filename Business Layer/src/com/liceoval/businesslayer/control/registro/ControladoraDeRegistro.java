@@ -232,12 +232,26 @@ public class ControladoraDeRegistro
             // Crear el nuevo examen solicitado
             crud.crearExamenSolicitado(fechaExamen, idEstudiante, analista.getIdAnalista().intValue(), registro.getIdRegistro().intValue(), idExamen);
         }
+        catch(NoItemFoundException nifEx)
+        {
+            examEx = new InsersionDeExamenException(
+                "Falló la insersión del examen. No se encuentra el estudiante, la materia o el examen especificado.", nifEx);
+            throw examEx;
+        }
+        catch(PosibleDuplicationException nifEx)
+        {
+            examEx = new InsersionDeExamenException(
+                "Falló la insersión del examen. El estudiante ya ha solicitado este examen anteriormente.", nifEx);
+            throw examEx;
+        }
+        /*
         catch(Exception ex)
         {
             examEx = new InsersionDeExamenException(
                 "Falló la insersión del examen. La capa de acceso a datos reportó el siguiente error", ex);
             throw examEx;
         }
+         * */
     }
     
     /** Devuelve el registro de un estudiante para la materia especificada.

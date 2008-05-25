@@ -17,7 +17,7 @@ public class EstudianteNoPuedeRegistrarMasExamenesException extends RegistroExce
     
     public EstudianteNoPuedeRegistrarMasExamenesException()
     {
-        super("Usted no puede registrar más exámenes, ya tiene examenes registrados en estado \"Pendiente\"");
+        super("Usted no puede solicitar más exámenes de esta materia, ya tiene examenes solicitados que no ha presentado.");
     }
     
     /** Crea una excepción con el mensaje especificado
