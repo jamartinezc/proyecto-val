@@ -31,7 +31,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Liceo V.A.L. - Sistema de Información Académico - Solicitud de Exámen</title>
+<title>Liceo V.A.L. - Sistema de Información Académico - Solicitud de Examen</title>
 <link rel="stylesheet" type="text/css" href="globals/main.css" />
 </head>
     <body>
@@ -79,7 +79,7 @@
                             int examen = Integer.parseInt((String)request.getParameter("codigo"));
                             AdministradoraSolicitudesExamen.SolicitarExamen(estudiante, examen, codigoMateria);
                             %>
-                            Se ha realizado la solicitud con éxito del Siguiente Exámen:<br><br>
+                            Se ha realizado la solicitud con éxito del Siguiente Examen:<br><br>
                             Materia: <%=(request.getParameter("NombreMateria"))%><br>
                             Código: <%=examen%><br>
                             Tema: <%=request.getParameter("tema")%>
@@ -125,11 +125,11 @@
         <td>
         
         	<!-- Menú derecho -->
-                 <%rightContent = "Este es un informe de el resultado de su solicitud de exámen, si el exámen fué solicitado con éxito aparecerá el mensaje:<br><br>"+
-                         "\"Se ha realizado la solicitud con éxito del Siguiente Exámen:\"<br><br>"+
-                         "Mas la información del exámen, de lo contrario pueden suceder los siguientes errores:<br><br>"+
-                         "<b>El registro no existe y no puede ser creado:</b> Este error sucede si usted está cursando 3 materias e intenta solicitar un exámen de otra materia que no está cursando en el momento.<br><br>"+
-                         "<b>Usted no puede solicitar más exámenes de esta materia:</b> Este mensaje aparece si usted solicita un exámen teniendo pendiente presentar otro exámen de la misma materia.<br><br>";%>
+                 <%rightContent = "Este es un informe de el resultado de su solicitud de examen, si el examen fué solicitado con éxito aparecerá el mensaje:<br><br>"+
+                         "\"Se ha realizado la solicitud con éxito del Siguiente Examen:\"<br><br>"+
+                         "Mas la información del examen, de lo contrario pueden suceder los siguientes errores:<br><br>"+
+                         "<b>El registro no existe y no puede ser creado:</b> Este error sucede si usted está cursando 3 materias e intenta solicitar un examen de otra materia que no está cursando en el momento.<br><br>"+
+                         "<b>Usted no puede solicitar más exámenes de esta materia:</b> Este mensaje aparece si usted solicita un examen teniendo pendiente presentar otro examen de la misma materia.<br><br>";%>
             <%@include file="globals/right-menu.jsp"%>
         
         </td>
