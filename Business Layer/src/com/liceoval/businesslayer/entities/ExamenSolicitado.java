@@ -16,6 +16,7 @@ public class ExamenSolicitado {
     private Analista analista;
     private Date fecha;
     private Estado estado;
+    private float nota;
         
     public Examen getExamen() {
         return examen;
@@ -54,4 +55,18 @@ public class ExamenSolicitado {
      */
     
     public void setEstado(Estado estado) { this.estado = estado; }
+
+    /** Devuelve la nota del examen.
+     * 
+     *  @return La nota del examen.
+     */
+    
+    public float getNota() { return nota; }
+
+    /** Establece la nota del examen.
+     * 
+     *  @param nota La nota del examen.
+     */
+    
+    public void setNota(float nota) { this.nota = nota; }
 }

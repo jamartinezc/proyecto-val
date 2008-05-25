@@ -647,6 +647,7 @@ public class EntityTranslator
         examenSolicitado.setEstado(translateEstado(requestedExam.getIdEstado()));
         examenSolicitado.setExamen(translateExamen(requestedExam.getIdExamen()));
         examenSolicitado.setFecha(requestedExam.getFecha());
+        examenSolicitado.setNota(requestedExam.getNota());
         
         // Devolver el Examen Solicitado
         return examenSolicitado;
