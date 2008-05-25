@@ -19,9 +19,10 @@
 <link rel="stylesheet" type="text/css" href="globals/main.css" />
 <script language="javascript" type="text/javascript">
     function getExamen(){
-        Examen examen = AdministradoraSolicitudesExamen.getSiguienteExamen(currentUser, (document.Solicitud.Materia.vaule));
-        document.Solicitud.examenSiguiente.value = 'hola';//examen.getIdExamen()+" : "+ examen.getTema();
-        //=examen.getIdExamen()+" "+ examen.getTema()
+        
+        indice = document.Solicitud.Materia.selectedIndex;
+        document.Solicitud.NombreMateria.value = document.Solicitud.Materia.options[indice].text;
+		
         }
         
     function getIdExamen(){
@@ -68,7 +69,7 @@
                                     <form name="Solicitud" action="confirmacionSolicitud.jsp" method="POST" enctype="application/x-www-form-urlencoded">
                                 <br />
                                 
-                                <p style="text-align:justify"><b>ESTE FORMULARIO LE PERMITIRÁ REALIZAR UNA SOLICITUD DE EXÁMEN.</b></p>
+                                <p style="text-align:center"><b>ESTE FORMULARIO LE PERMITIRÁ REALIZAR UNA SOLICITUD DE EXÁMEN.</b></p>
                                 <br>
                                                                 
                                  
@@ -81,8 +82,8 @@
                                     <table>
                                     <tr><td>Materia:</td></tr>
                                     <td> 
-                                    <select name="Materia" >
-                                        
+                                    <input type="hidden" name="NombreMateria">
+                                    <select name="Materia"  >
                                     <%int idGrado = ((Estudiante)currentUser).getGrado().getIdGrado();
                                     List<Materia> materias = com.liceoval.businesslayer.control.rcp.RCPRegistros.getMaterias(idGrado);
                                     int i=0;
@@ -94,9 +95,8 @@
                                     </select>
                                     </td>                        
                                     </table>
-                                 
                                     <br /><br />
-                                    <center><input type="submit" value="Solicitar" name="solicitar" /></center>
+                                    <center><input type="submit" value="Solicitar" name="solicitar" onClick="getExamen()"/></center>
                                 
                                 </form>
                                 </td>

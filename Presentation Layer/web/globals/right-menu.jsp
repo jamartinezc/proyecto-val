@@ -7,8 +7,8 @@
 				<tr><td class="cont-outer" colspan="3" width="200">
                 	<table border="0" cellspacing="0" cellpadding="0">
                     	<tr><td class="cont-inner"><%if(parrafoDeAyuda != null){
-                                 %><p><%=parrafoDeAyuda%></p><%
-                        }else{%><p><%="Aca deberíamos escribir algo como para ayudar al usuario en cada sección, como lo" +
+                                 %><p style="text-align:justify"><%=parrafoDeAyuda%></p><%
+                        }else{%><p style="text-align:justify"><%="Aca deberíamos escribir algo como para ayudar al usuario en cada sección, como lo" +
                         "que debería hacer o no sé depronto más opciones para algún caso de uso. En fin, el espacio queda abierto para"+
                         "que ustedes decidan."%></p><%}%></td></tr></table>
 				</td></tr>
