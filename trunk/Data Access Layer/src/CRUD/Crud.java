@@ -30,7 +30,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-
+import DAO.DaoEntityManagerFactory;
 /**
  *
  * @author jaguar
@@ -1161,5 +1161,28 @@ public class Crud {
             
     }
     
+    //dado un ID de Estudiante y un ID de Tutor dice si el estudiante pertenece al taller del tutor
+    public boolean estudianteDelTallerDeTutor(int idEstudiante, int idTutor){
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+        Query query = em.createNamedQuery("Estudiante.consultarSiPerteneceATallerdetutor");
+        
+        //Estudiante estudiante = em.find(Estudiante.class, idEstudiante);
+        Tutor tutor = em.find(Tutor.class, idTutor);
+        
+        query.setParameter("idE", idEstudiante);
+        query.setParameter("idT", tutor);
+        
+        List<Estudiante> item = query.getResultList();
+        em.clear();
+        System.out.println(item.size());
+        if(item.size()>0)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+    }
     
 }
