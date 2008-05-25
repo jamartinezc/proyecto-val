@@ -6,6 +6,7 @@ package com.liceoval.businesslayer.entities.entitytranslator;
  *  @author Sergio
  */
 
+import com.liceoval.businesslayer.entities.Estado;
 import com.liceoval.businesslayer.entities.Analista;
 import com.liceoval.businesslayer.entities.Estudiante;
 import com.liceoval.businesslayer.entities.Examen;
@@ -527,7 +528,7 @@ public class EntityTranslator
         examenPlaneado = new ExamenPlaneado();
                         
         // Traducir cada atributo
-        examenPlaneado.setEstado(plannedExam.getIdEstado().getIdEstado().intValue());
+        examenPlaneado.setEstado(translateEstado(plannedExam.getIdEstado()));
         examenPlaneado.setExamen(translateExamen(plannedExam.getIdExamen()));
         
         // Devolver el Examen Planeado
@@ -643,7 +644,7 @@ public class EntityTranslator
         
         // Traducir cada uno de los atributos
         examenSolicitado.setAnalista(translateAnalista(requestedExam.getIdAnalista()));
-        examenSolicitado.setEstado(requestedExam.getIdEstado().getIdEstado().intValue());
+        examenSolicitado.setEstado(translateEstado(requestedExam.getIdEstado()));
         examenSolicitado.setExamen(translateExamen(requestedExam.getIdExamen()));
         examenSolicitado.setFecha(requestedExam.getFecha());
         
@@ -707,6 +708,13 @@ public class EntityTranslator
         return taller;
     }
     
+    /** Traduce un objeto de clase VO.Usuario en un objeto de clase Usuario
+     *  equivalente.
+     * 
+     *  @param user El objeto de clase VO.Usuario
+     *  @return El objeto de clase Usuario equivalente.
+     */
+    
     public static Usuario translateUsuario(VO.Usuario user)
     {
         Usuario usuario;
@@ -726,5 +734,30 @@ public class EntityTranslator
         
         // Devolver el usuario
         return usuario;
+    }
+    
+    /** Traduce un objeto de clase VO.Estados en un objeto de clase Estado
+     *  equivalente.
+     * 
+     *  @param state El objeto de clase VO.Estados a traducir.
+     *  @return El objeto de clase Estado equivalente.
+     */
+    
+    public static Estado translateEstado(VO.Estados state)
+    {
+        Estado estado;
+        
+        // Si el valor de entrada es null, el de salida también
+        if(state == null) return null;
+        
+        // Crea el nuevo estado
+        estado = new Estado();
+        
+        // Traducir cada uno de los atributos
+        estado.setIdEstado(state.getIdEstado().intValue());
+        estado.setNombre(state.getNombre());
+        
+        // Devolver el estado
+        return estado;
     }
 }
