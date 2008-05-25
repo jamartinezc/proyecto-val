@@ -5,6 +5,7 @@
 
 package dataaccesslayer;
 
+import CRUD.Crud;
 import DAO.DaoAnalista;
 import DAO.DaoEstados;
 import DAO.DaoEstudiante;
@@ -23,6 +24,7 @@ import VO.Grado;
 import VO.Materia;
 import VO.SecretariaAcademica;
 import VO.Taller;
+import VO.Usuario;
 import java.util.Calendar;
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        //Crud query = new Crud();
+        Crud query = new Crud();
         /*
         //buscar usuario por id
         Usuario usuario = new Usuario();
@@ -382,6 +384,16 @@ public class Main {
         }   
         */
         
+        //boolean estudianteDelTallerDeTutor(int idEstudiante, int idTutor)
+        //permite saber si un estudiante pertenece al taller de cierto tutor
+        /*
+        if(query.estudianteDelTallerDeTutor(290, 3)==true){
+            System.out.println("esta en el taller");
+        }
+        else{
+            System.out.println("no esta en el taller");
+        }
+        */
         //nueva manera de hacer las cosas
         
         //DaoAnalista

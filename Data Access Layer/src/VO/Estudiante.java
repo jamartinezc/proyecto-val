@@ -32,7 +32,9 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Estudiante.consultarUnEstudiante", query = "SELECT e FROM Estudiante e WHERE e.idEstudiante = :id"),
     @NamedQuery(name = "Estudiante.findByFechaInicioGrado", query = "SELECT e FROM Estudiante e WHERE e.fechaInicioGrado = :fechaInicioGrado"),
     @NamedQuery(name = "Estudiante.consultarEstudiantes", query = "SELECT e FROM Estudiante e"),
-    @NamedQuery(name = "Estudiante.consultarPorIdUsuario", query = "SELECT e FROM Estudiante e WHERE e.idUsuario = :id")
+    @NamedQuery(name = "Estudiante.consultarPorIdUsuario", query = "SELECT e FROM Estudiante e WHERE e.idUsuario = :id"),
+    @NamedQuery(name = "Estudiante.consultarSiPerteneceATallerdetutor", query = "SELECT e FROM Estudiante e JOIN e.idTaller taller WHERE e.idEstudiante = :idE AND taller.idTutor = :idT")
+    
 })
 public class Estudiante implements Serializable {
     private static final long serialVersionUID = 1L;
