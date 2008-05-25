@@ -61,7 +61,7 @@
                 
                 <%@include file="globals/login-warning.jsp" %>
                 <%@include file="globals/login-error.jsp" %>
-                
+                 <%if(currentUser != null){%>
                 <table border="0" cellpadding="0" cellspacing="0" width="550">
                         <tr height="30"><td><img src="images/title-left.png" /></td>
                             <td class="title-center" width="100%">Informacion del examen</td>
@@ -71,40 +71,43 @@
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                             <tr><td class="cont-inner">
                                 
-                                <!--<p><%//=(String)(request.getParameter("Materia"))%></p>-->
-                                
                                 <%
                                     try{
                                     int codigoMateria = Integer.parseInt((String)(request.getParameter("Materia")));
                                     Estudiante estudiante = (Estudiante)session.getAttribute("currentUser");
-                                    Examen examen = AdministradoraSolicitudesExamen.getSiguienteExamen(estudiante, codigoMateria);
+                                    Examen examen = AdministradoraSolicitudesExamen.getSiguienteExamen(estudiante.getCodigo(), codigoMateria);
                                  %>
-                                <p><b>¿Está seguro que desea solicitar el siguiente examen?</b></p>
+                                <p style="text-align:center"><b>¿Está seguro que desea solicitar el siguiente examen?</b></p>
+                                    Materia: <%=(request.getParameter("NombreMateria"))%><br>
                                  <p>Código del examen: <%=examen.getCodigo()%></p>
-                                 <p>Tema del examen: <%=examen.getTema()%></p>
+                                 <p>Tema del examen: <%=examen.getTema()%></p>-->
                                 <form name="Examen" action="rtasolicitud.jsp" method="POST" enctype="application/x-www-form-urlencoded">
+                                <input type="hidden" name="NombreMateria" value="<%=(request.getParameter("NombreMateria"))%>" >
                                 <input type="hidden" name="materia" value="<%=request.getParameter("Materia")%>" />
                                 <input type="hidden" name="codigo" value="<%=examen.getCodigo()%>" />
-                                <input type="hidden" name="tema" value="<%=examen.getTema()%>" />
+                                <input type="hidden" name="tema" value="<%=examen.getTema()%>" />-->
                                 
-                                <input type="submit" value="Aceptar" />
+                                <p style="text-align:center"><input type="submit" value="Aceptar" />
                                 <%}catch(NoPresentableException e){
                                     %>
                                     <p><b>¡No puede presentar exámenes de esta materia!</b><br>
                                     <br>
                                     <p>Verifique que no tiene Nota Pendiente, Nota Examinadero o un examen pendiente por presentar.</p><br>
                                     <%
-                                }%>
-                                <input type="button" value="Cancelar" onclick="history.go(-1);" />
+                                }catch(NoItemFoundException e){/* TODO manejar la exception de ser necesario*/}%>
+                                <input type="button" value="Cancelar" onclick="history.go(-1);" /></p>
                                 </form>
-                                
-                                
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
         </table>
-        <%//}%>
+        <%}%>
+        <td>
+        	<!-- Menú derecho -->
+                 <%parrafoDeAyuda = "Esta página le pide la confirmación de la solicitud que acaba de realizar, si está de acuerdo presione aceptar, de lo contrario presione cancelar y retornará a la página de solicitudes.";%>
+            <%@include file="globals/right-menu.jsp"%>
+        </td>
     </body>
 </html>

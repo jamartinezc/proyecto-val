@@ -72,7 +72,6 @@
                                 <ol>
                                 <p>
                           <%
-                          
                             String materia = (String)(request.getParameter("materia"));
                             int codigoMateria = Integer.parseInt(materia);
                             Estudiante estudiante = (Estudiante)currentUser;
@@ -81,6 +80,7 @@
                             AdministradoraSolicitudesExamen.SolicitarExamen(estudiante, examen, codigoMateria);
                             %>
                             Se ha realizado la solicitud con éxito del Siguiente Exámen:<br><br>
+                            Materia: <%=(request.getParameter("NombreMateria"))%><br>
                             Código: <%=examen%><br>
                             Tema: <%=request.getParameter("tema")%>
                             <%}catch(NumberFormatException e){
@@ -104,7 +104,7 @@
                                 %>
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
                                 <%}catch(ZonaHorariaIncorrectaException e){
-                                    String mensajeError =  "Error en el servidor: "+e.getMessage();
+                                    String mensajeError =  "Error en el servidor: "+e.getMessage()+" Contacte al administrador.";
                                 %>
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
                                 <%}catch(InsersionDeExamenException e){
@@ -127,10 +127,10 @@
         	<!-- Menú derecho -->
                  <%parrafoDeAyuda = "Este es un informe de el resultado de su solicitud de exámen, si el exámen fué solicitado con éxito aparecerá el mensaje:<br><br>"+
                          "\"Se ha realizado la solicitud con éxito del Siguiente Exámen:\"<br><br>"+
-                         "mas la información del exámen, de lo contrario pueden suceder los siguientes errores:<br><br>"+
-                         "<b>El registro no existe y no puede ser creado:</b>Este error sucede si usted está cursando 3 materias e intenta solicitar un exámen de otra materia que no está cursando en el momento.<br><br>"+
-                         "<b>Usted no puede solicitar más exámenes de esta materia:</b>";%>
-            <%@include file="globals/right-menu.jsp" %>
+                         "Mas la información del exámen, de lo contrario pueden suceder los siguientes errores:<br><br>"+
+                         "<b>El registro no existe y no puede ser creado:</b> Este error sucede si usted está cursando 3 materias e intenta solicitar un exámen de otra materia que no está cursando en el momento.<br><br>"+
+                         "<b>Usted no puede solicitar más exámenes de esta materia:</b> Este mensaje aparece si usted solicita un exámen teniendo pendiente presentar otro exámen de la misma materia.<br><br>";%>
+            <%@include file="globals/right-menu.jsp"%>
         
         </td>
      </table>
