@@ -15,6 +15,8 @@ import com.liceoval.businesslayer.entities.Estudiante;
 import com.liceoval.businesslayer.entities.Examen;
 import com.liceoval.businesslayer.entities.entitytranslator.EntityTranslator;
 import com.liceoval.businesslayer.exceptions.InvalidProcedureCallOrArgumentException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -23,16 +25,15 @@ import com.liceoval.businesslayer.exceptions.InvalidProcedureCallOrArgumentExcep
  */
 public class AdministradoraSolicitudesExamen {
     
-    public static void SolicitarExamen(Estudiante estudiante, int codExamen, int codigoMateria) throws NoItemFoundException, InvalidProcedureCallOrArgumentException, RegistroNoExisteYNoPuedeSerCreadoException, NoExisteAnalistaParaMateriaException, EstudianteNoPuedeRegistrarMasExamenesException, ZonaHorariaIncorrectaException, InsersionDeExamenException{
+    public static void SolicitarExamen(Estudiante estudiante, int codExamen, int codigoMateria) throws InvalidProcedureCallOrArgumentException, RegistroNoExisteYNoPuedeSerCreadoException, NoExisteAnalistaParaMateriaException, EstudianteNoPuedeRegistrarMasExamenesException, ZonaHorariaIncorrectaException, InsersionDeExamenException{
 
         int idEstudiante = estudiante.getCodigo();
         ControladoraDeRegistro.agregarExamen(codExamen, idEstudiante, codigoMateria);
         
     }
     
-    public static Examen getSiguienteExamen(Estudiante estudiante, int codigoMateria) throws UltimoTemaException, NoItemFoundException, NoPresentableException{
+    public static Examen getSiguienteExamen(int idEstudiante, int codigoMateria) throws UltimoTemaException, NoItemFoundException, NoPresentableException{
         
-        int idEstudiante = estudiante.getCodigo();
         Crud driverDB = new Crud();
         VO.Examen examen = driverDB.getSiguienteExamenDeMateria(codigoMateria, idEstudiante);
         
@@ -41,5 +42,5 @@ public class AdministradoraSolicitudesExamen {
         return examenR;
         
     }
-        
+            
 }

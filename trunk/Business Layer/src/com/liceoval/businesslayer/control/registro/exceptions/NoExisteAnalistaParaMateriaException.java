@@ -20,7 +20,7 @@ public class NoExisteAnalistaParaMateriaException extends RegistroException
     
     public NoExisteAnalistaParaMateriaException()
     {
-        super("Imposible hacer la solicitud de exámen. No existe un analista asignado a la materia especificada");
+        super("Imposible hacer la solicitud de exámen. No existe un analista asignado a la materia especificada.");
     }
     
     /** Crea una excepción con el mensaje especificado
