@@ -91,7 +91,7 @@ public class Crud {
             
     }
     
-    //retorna un estudiante (a poner en DAO estudiante)
+    //retorna un estudiante
     public Estudiante consultarUsuarioEstudiante(String usuario, String password) throws NoItemFoundException{
         
             List lista = DaoUsuario.consultarUsuario(usuario, password);
@@ -135,7 +135,7 @@ public class Crud {
             }
     }
 
-    //retorna un Analista (a poner en DAO analista)
+    //retorna un Analista
     public Analista consultarUsuarioAnalista(String usuario, String password)throws NoItemFoundException {
         
             List lista = DaoUsuario.consultarUsuario(usuario, password);
@@ -180,7 +180,7 @@ public class Crud {
             }
     }
     
-    //retorna un Tutor (a poner en DAO Tutor)
+    //retorna un Tutor
     public Tutor consultarUsuarioTutor(String usuario, String password) throws NoItemFoundException{
         
             List lista = DaoUsuario.consultarUsuario(usuario, password);
@@ -225,7 +225,7 @@ public class Crud {
             }
     }
 
-    //retorna una secretaria académica (a poner en DAO Secretaria Academica)
+    //retorna una secretaria académica
     public SecretariaAcademica consultarUsuarioSecretariaAcadémica(String usuario, String password) throws NoItemFoundException{
         
             List lista = DaoUsuario.consultarUsuario(usuario, password);
@@ -285,19 +285,17 @@ public class Crud {
         }
     }
     
-    //consultar analista por idUsuario
+    //consultar analista por idUsuario (a poner en DAO Analista)
     public Analista consultarAnalista(int idUsuario) throws NoItemFoundException{
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = DaoEntityManagerFactory.getInstance(); 
         EntityTransaction tx = em.getTransaction();
-        EntityManager pm = emf.createEntityManager();
         
         Usuario usuario = em.find(Usuario.class, idUsuario);
         try
             {
                 tx.begin();
 
-                Query q = pm.createQuery("select p from Analista p where p.idUsuario = :id");
+                Query q = em.createQuery("select p from Analista p where p.idUsuario = :id");
                 q.setParameter("id", usuario);
                 List<Analista> lista = q.getResultList();
                 tx.commit();
@@ -315,11 +313,11 @@ public class Crud {
                     tx.rollback();
                 }
 
-                em.close();
+                em.clear();
             }
     }
     
-    //retorna una lista de materias
+    //retorna una lista de materias (a poner en DAO Materias)
     public List<Materia> consultarMaterias(){
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -350,10 +348,8 @@ public class Crud {
     
     //consulta si un estudiante tiene cierta materia registrada
     public Registro consultarRegistroEstudianteMateria(int idEstudiante, int codigoMateria) throws NoItemFoundException{
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-            EntityManager em = emf.createEntityManager();
+            EntityManager em = DaoEntityManagerFactory.getInstance(); 
             EntityTransaction tx = em.getTransaction();
-            EntityManager pm = emf.createEntityManager();  
             
             Estudiante estudiante;
             Materia materia;
@@ -364,7 +360,7 @@ public class Crud {
             {
                 tx.begin();
 
-                Query q = pm.createQuery("select p from Registro p where p.idEstudiante = :estudiante AND p.idMateria = :materia");
+                Query q = em.createQuery("select p from Registro p where p.idEstudiante = :estudiante AND p.idMateria = :materia");
                 q.setParameter("estudiante", estudiante);
                 q.setParameter("materia", materia);
                 List<Registro> lista = q.getResultList();
@@ -384,10 +380,11 @@ public class Crud {
                     tx.rollback();
                 }
 
-                em.close();
+                em.clear();
             }
     }
     
+    //consulta todos los registros activos o inactivos (DAO registros)
     public List<Registro> consultarRegistrosActivosInactivos(int idEstudiante, boolean activo) throws NoItemFoundException{
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -425,7 +422,7 @@ public class Crud {
             }
     }
     
-    //crea un registro
+    //crea un registro(DAO registro)
     public Registro crearRegistro(int idEstudiante, int codigoMateria) throws PosibleDuplicationException, NoItemFoundException{
         try{
             Registro repetido = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
@@ -475,7 +472,7 @@ public class Crud {
         
     }
     
-    //retorna lista de todos los talleres
+    //retorna lista de todos los talleres(DAO taller)
     public List<Taller> listaTalleres(){
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -505,7 +502,7 @@ public class Crud {
     } 
     
     
-    //Consultar talleres
+    //Consultar talleres ( DAO taller)
     public Taller consultarTaller(int idTaller) throws NoItemFoundException
     {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -541,6 +538,7 @@ public class Crud {
     }
     
     //Retorna todos los usuarios
+    /** @deprecated Favor usar el DAO DaoUsuario consultarTodos*/
     public List<Usuario> listaUsuarios() {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -569,6 +567,7 @@ public class Crud {
     }
     
     //verificar login existente
+    /** @deprecated Favor usar el DAO DaoUsuario loginExiste*/
     public boolean loginExiste(String login)
     {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -603,6 +602,7 @@ public class Crud {
     }
     
     //Crear un usuario
+    /** @deprecated Favor usar el DAO DaoUsuario crear*/
     public Usuario crearUsuario(String nombre, String apellido, String login, String clave)throws PosibleDuplicationException, NoItemFoundException{
                        
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -717,7 +717,7 @@ public class Crud {
             }
         }
     
-    //retorna analista de cierta materia
+    //retorna analista de cierta materia (Poner en DAO analista)
     public Analista analistaDeMateria(int idMateria) throws NoItemFoundException{
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -736,7 +736,7 @@ public class Crud {
         
     }
     
-    //retorna una lista de exámenes solicitados
+    //retorna una lista de exámenes solicitados (en DAO ExamenSolicitado)
     public List<ExamenSolicitado> consultarExamenSolicitadoEspecífico(int idEstudiante, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -779,7 +779,7 @@ public class Crud {
             
     }
     
-     //Crear un examen solicitado
+     //Crear un examen solicitado (en DAO Examen Solicitado)
     public ExamenSolicitado crearExamenSolicitado(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException, PosibleDuplicationException{
                        
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -836,7 +836,7 @@ public class Crud {
             }
         }
     
-    //consultar estados
+    //consultar estados (en DAO estados)
     public List<Estados> consultarEstados(){
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -865,7 +865,7 @@ public class Crud {
         
     } 
    
-    //Actualizar estado de registro
+    //Actualizar estado de registro (en DAO Registro)
     public Registro desactivarRegistro(int idRegistro) throws NoItemFoundException{
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -899,11 +899,10 @@ public class Crud {
             }
         }
     
-    //cambiar estado de examen solicitado
+    //cambiar estado de examen solicitado (en DAO examen solicitado)
     public ExamenSolicitado actualizarEstadoDeExamenSolicitado(int idExamenSolicitado, int idEstado) throws NoItemFoundException{
         
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-            EntityManager em = emf.createEntityManager();
+            EntityManager em = DaoEntityManagerFactory.getInstance(); 
             EntityTransaction tx = em.getTransaction();          
             try
             {
@@ -930,10 +929,11 @@ public class Crud {
                     tx.rollback();
                 }
 
-                em.close();
+                em.clear();
             }
         }
     
+    //busca un usuario por appelido o nombre (en DAO USUARIO)
     public List<Usuario> buscarUsuario(String comodin) throws NoItemFoundException{
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -966,7 +966,7 @@ public class Crud {
                 }
     }
     
-    //retorna las materias de cierto grado
+    //retorna las materias de cierto grado (debería morir y usarse simplemente consultarUN grado)
     public Collection materiasDeGrado(int idGrado)throws NoItemFoundException{
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -1047,7 +1047,7 @@ public class Crud {
          
         }
     
-    //retorna una lista de grados
+    //retorna una lista de grados (en DAO grados)
     public List<Grado> consultarGrados(){
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -1076,7 +1076,7 @@ public class Crud {
         
     }
     
-    //retorna una lista de grados
+    //retorna una lista de examenes solicitados por tema
     public List<ExamenSolicitado> examenesSolicitadosPorTema (int idEstudiante, int idExamen)throws NoItemFoundException{
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -1136,8 +1136,7 @@ public class Crud {
             
     }
     
-    //retorna una lista de exámenes solicitados
-    
+    //retorna una lista de exámenes solicitado que deben ser corregidos
     public List<ExamenSolicitado> consultarListaExamenesPorCalificarDeAnalista(int idAnalista) throws NoItemFoundException {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();        
