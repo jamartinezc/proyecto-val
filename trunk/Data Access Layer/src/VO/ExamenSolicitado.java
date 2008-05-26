@@ -26,7 +26,12 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "examensolicitado")
-@NamedQueries({@NamedQuery(name = "ExamenSolicitado.findByIdExamenSolicitado", query = "SELECT e FROM ExamenSolicitado e WHERE e.idExamenSolicitado = :idExamenSolicitado"), @NamedQuery(name = "ExamenSolicitado.findByNota", query = "SELECT e FROM ExamenSolicitado e WHERE e.nota = :nota"), @NamedQuery(name = "ExamenSolicitado.findByFecha", query = "SELECT e FROM ExamenSolicitado e WHERE e.fecha = :fecha")})
+@NamedQueries({
+    @NamedQuery(name = "ExamenSolicitado.consultarUnExamenSolicitado", query = "SELECT e FROM ExamenSolicitado e WHERE e.idExamenSolicitado = :id"),
+    @NamedQuery(name = "ExamenSolicitado.findByNota", query = "SELECT e FROM ExamenSolicitado e WHERE e.nota = :nota"),
+    @NamedQuery(name = "ExamenSolicitado.consultarExamenesSolicitados", query = "SELECT e FROM ExamenSolicitado e"),
+    @NamedQuery(name = "ExamenSolicitado.findByFecha", query = "SELECT e FROM ExamenSolicitado e WHERE e.fecha = :fecha")
+})
 public class ExamenSolicitado implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
