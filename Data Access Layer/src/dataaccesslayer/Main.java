@@ -14,6 +14,7 @@ import DAO.DaoGrado;
 import DAO.DaoMateria;
 import DAO.DaoSecretariaAcademica;
 import DAO.DaoTaller;
+import DAO.DaoTutor;
 import DAO.DaoUsuario;
 import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
@@ -25,6 +26,7 @@ import VO.Grado;
 import VO.Materia;
 import VO.SecretariaAcademica;
 import VO.Taller;
+import VO.Tutor;
 import VO.Usuario;
 import java.util.Calendar;
 import java.util.List;
@@ -420,7 +422,59 @@ public class Main {
         //ProbarDaoMateria();
         //ProbarDaoSecretariaAcademica();
         //ProbarDaoTaller();
+        //ProbarDaoTutor();
         
+    }
+    
+    /*
+    * Pruebas DaoTutor
+    */
+    private static void ProbarDaoTutor() {
+        //ProbarDaoTutorConsultarTodos();
+        //ProbarDaoTutorConsultarUno();
+        //ProbarDaoTutorCrear();   
+        //ProbarDaoTutorEliminar();
+    }
+    
+    private static void ProbarDaoTutorConsultarTodos() {
+        List<Tutor> manes = DaoTutor.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdUsuario().getNombres());
+        }
+    }
+
+    private static void ProbarDaoTutorConsultarUno() {
+        try{
+            Tutor mansito = DaoTutor.consultarUno(5);
+            System.out.println(mansito.getIdUsuario().getIdUsuario());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+
+    private static void ProbarDaoTutorCrear() {
+        try{
+            Tutor mio=DaoTutor.crear(42);
+            System.out.println(mio.getIdUsuario().getNombres());
+            System.out.println(mio.getIdTutor());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+
+    private static void ProbarDaoTutorEliminar() {
+        try{
+            DaoTutor.eliminar(10);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
     }
 
     /*

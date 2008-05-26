@@ -27,7 +27,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tutor")
 @NamedQueries({
-    @NamedQuery(name = "Tutor.findByIdTutor", query = "SELECT t FROM Tutor t WHERE t.idTutor = :idTutor")
+    @NamedQuery(name = "Tutor.consultarUnTutor", query = "SELECT a FROM Tutor a WHERE a.idTutor = :id"),
+    @NamedQuery(name = "Tutor.consultarTutores", query = "SELECT a FROM Tutor a"),
+    @NamedQuery(name = "Tutor.consultarPorIdUsuario", query = "SELECT a FROM Tutor a WHERE a.idUsuario = :id")
 })
 public class Tutor implements Serializable {
     private static final long serialVersionUID = 1L;
