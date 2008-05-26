@@ -25,7 +25,16 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "usuario")
-@NamedQueries({@NamedQuery(name = "Usuario.findByIdUsuario", query = "SELECT u FROM Usuario u WHERE u.idUsuario = :idUsuario"), @NamedQuery(name = "Usuario.findByNombres", query = "SELECT u FROM Usuario u WHERE u.nombres = :nombres"), @NamedQuery(name = "Usuario.findByApellidos", query = "SELECT u FROM Usuario u WHERE u.apellidos = :apellidos"), @NamedQuery(name = "Usuario.findByLogin", query = "SELECT u FROM Usuario u WHERE u.login = :login"), @NamedQuery(name = "Usuario.findByClave", query = "SELECT u FROM Usuario u WHERE u.clave = :clave")})
+@NamedQueries({
+    @NamedQuery(name = "Usuario.findByIdUsuario", query = "SELECT u FROM Usuario u WHERE u.idUsuario = :idUsuario"),
+    @NamedQuery(name = "Usuario.findByNombres", query = "SELECT u FROM Usuario u WHERE u.nombres = :nombres"),
+    @NamedQuery(name = "Usuario.findByApellidos", query = "SELECT u FROM Usuario u WHERE u.apellidos = :apellidos"),
+    @NamedQuery(name = "Usuario.findByLogin", query = "SELECT u FROM Usuario u WHERE u.login = :login"),
+    @NamedQuery(name = "Usuario.findByClave", query = "SELECT u FROM Usuario u WHERE u.clave = :clave"),
+    @NamedQuery(name = "Usuario.consultarUsuarios", query = "SELECT u FROM Usuario u"),
+    @NamedQuery(name = "Usuario.consultarUnUsuario", query = "SELECT u FROM Usuario u WHERE u.idUsuario = :id"),
+    @NamedQuery(name = "Usuario.findByLoginAndByClave", query = "SELECT p FROM Usuario p WHERE p.login = :log AND p.clave = :pass")
+})
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
