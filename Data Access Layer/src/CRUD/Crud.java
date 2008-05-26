@@ -98,8 +98,11 @@ public class Crud {
             
             if(lista.size()>0)
             {           
-                EntityManager em = DaoEntityManagerFactory.getInstance(); 
-                EntityTransaction tx = em.getTransaction();           
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+                EntityManager em = emf.createEntityManager();
+                EntityTransaction tx = em.getTransaction();
+                EntityManager pm = emf.createEntityManager();  
+                
                 Usuario usu;
                 usu = (Usuario) lista.get(0);
                 try
@@ -126,7 +129,7 @@ public class Crud {
                         tx.rollback();
                     }
 
-                    em.clear();
+                    em.close();
                 }
             }
             else
@@ -142,8 +145,11 @@ public class Crud {
             
             if(lista.size()>0)
             {           
-                EntityManager em = DaoEntityManagerFactory.getInstance(); 
-                EntityTransaction tx = em.getTransaction();          
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+                EntityManager em = emf.createEntityManager();
+                EntityTransaction tx = em.getTransaction();
+                EntityManager pm = emf.createEntityManager(); 
+        
                 Usuario usu;
                 usu = (Usuario) lista.get(0);
                 try
@@ -171,7 +177,7 @@ public class Crud {
                         tx.rollback();
                     }
 
-                    em.clear();
+                    em.close();
                 }
             }
             else
@@ -187,8 +193,11 @@ public class Crud {
             
             if(lista.size()>0)
             {           
-                EntityManager em = DaoEntityManagerFactory.getInstance(); 
-                EntityTransaction tx = em.getTransaction();           
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+                EntityManager em = emf.createEntityManager();
+                EntityTransaction tx = em.getTransaction();
+                EntityManager pm = emf.createEntityManager();  
+           
                 Usuario usu;
                 usu = (Usuario) lista.get(0);
                 try
@@ -216,7 +225,7 @@ public class Crud {
                         tx.rollback();
                     }
 
-                    em.clear();
+                    em.close();
                 }
             }
             else
@@ -232,8 +241,11 @@ public class Crud {
             
             if(lista.size()>0)
             {           
-                EntityManager em = DaoEntityManagerFactory.getInstance(); 
-                EntityTransaction tx = em.getTransaction();           
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+                EntityManager em = emf.createEntityManager();
+                EntityTransaction tx = em.getTransaction();
+                EntityManager pm = emf.createEntityManager();  
+         
                 Usuario usu;
                 usu = (Usuario) lista.get(0);
                 try
@@ -261,7 +273,7 @@ public class Crud {
                         tx.rollback();
                     }
 
-                    em.clear();
+                    em.close();
                 }
             }
             else

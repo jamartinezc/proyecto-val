@@ -434,7 +434,7 @@ public class Main {
         //ProbarDaoSecretariaAcademica();
         //ProbarDaoTaller();
         //ProbarDaoTutor();
-        //ProbarDaoUsuario();
+        ProbarDaoUsuario();
     }
     
     /*
@@ -837,6 +837,7 @@ public class Main {
         //ProbarDaoUsuarioCrear();   
         //ProbarDaoUsuarioEliminar();
         //ProbarDaoUsuarioActualizar();
+        ProbarDaoUsuarioConsultarUsuario();
     }
 
     private static void ProbarDaoUsuarioActualizar() {
@@ -862,6 +863,17 @@ public class Main {
             Usuario mansito = DaoUsuario.consultarUno(42);
             System.out.println(mansito.getIdUsuario());
             System.out.println(mansito.getApellidos()+" "+mansito.getNombres());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+
+    private static void ProbarDaoUsuarioConsultarUsuario() {
+        try{
+            List<Usuario> mansito = DaoUsuario.consultarUsuario("sergio", "sergio");
+            System.out.println(mansito.get(0).getNombres());
+            System.out.println(mansito.get(0).getIdUsuario());
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
