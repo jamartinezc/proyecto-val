@@ -141,21 +141,26 @@ public class DaoUsuario {
             
         }
     
-    /*
-    public static Analista eliminar(int idAnalista) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
-        EntityTransaction tx = em.getTransaction();
-        try
+    
+    public static Usuario eliminar(int idUsuario) throws NoItemFoundException{  
+            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityTransaction tx = em.getTransaction();
+         
+            try
             {
-                tx.begin();
-                    Analista item = em.getReference(Analista.class, idAnalista);
-                    em.remove(item);
-                tx.commit();
-                return item;
-            }
-            catch(EntityNotFoundException noResult){
-                em.clear();
-                throw new NoItemFoundException();
+                Usuario usuario = em.find(Usuario.class, idUsuario);
+                
+                if(usuario!=null){
+                    tx.begin();
+                    em.remove(usuario);
+                    tx.commit();
+                    return usuario;
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
+
+                
             }
             finally
             {
@@ -163,8 +168,42 @@ public class DaoUsuario {
                 {
                     tx.rollback();
                 }
+
                 em.clear();
             }
     }
-    */
+    
+    public static Usuario actualizar(int idUsuario, String nombre, String apellido, String login, String clave) throws NoItemFoundException{  
+            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityTransaction tx = em.getTransaction();          
+            try
+            {
+                Usuario usuario = em.find(Usuario.class, idUsuario);
+                if(usuario!=null){
+                    tx.begin();
+                
+                    usuario.setNombres(nombre);
+                    usuario.setApellidos(apellido);
+                    usuario.setLogin(login);
+                    usuario.setClave(clave);
+
+                    tx.commit();
+
+                    return usuario;
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
+                
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.clear();
+            }
+    }
 }

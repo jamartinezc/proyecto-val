@@ -40,7 +40,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Crud query = new Crud();
+        //Crud query = new Crud();
         /*
         //buscar usuario por id
         Usuario usuario = new Usuario();
@@ -400,7 +400,7 @@ public class Main {
         //retorna el taller del tutor
         /*
         try{
-            List<Taller> taller = query.consultarTallerDeTutor(2);
+            List<Taller> taller = query.consultarTallerDeTutor(4);
             System.out.println(taller.get(0).getIdTaller());
             System.out.println(taller.get(1).getIdTaller());
         }
@@ -412,6 +412,7 @@ public class Main {
         //nueva manera de hacer las cosas
         
         //ProbarDaoUsuario();
+        //ProbarDaoEstudiante();
         
         //DaoAnalista
         /*List<Analista> manes = DaoAnalista.consultarTodos();
@@ -459,41 +460,6 @@ public class Main {
             System.out.println(error.Mensaje());
         }
         */
-        
-        //DaoEstudiante
-        
-        /*List<Estudiante> manes = DaoEstudiante.consultarTodos();
-        for(int i = 0; i<manes.size();i++)
-        {
-            System.out.println(manes.get(i).getIdUsuario().getNombres());
-        }
-        try{
-            Estudiante mansito = DaoEstudiante.consultarUno(290);
-            System.out.println(mansito.getIdUsuario().getNombres());
-        }
-        catch(NoItemFoundException error){
-            System.out.println(error.Mensaje());
-        }
-        try{
-            DaoEstudiante.eliminar(310);
-        }
-        catch(NoItemFoundException error){
-            System.out.println(error.Mensaje());
-        }
-        
-        Calendar hoy = Calendar.getInstance();
-        hoy.set(2008, 5, 24);
-        try{
-            Estudiante mio=DaoEstudiante.crear(313, 10, 3, hoy, 14);
-            System.out.println(mio.getIdUsuario().getNombres());
-            System.out.println(mio.getIdEstudiante());
-        }
-        catch(NoItemFoundException error){
-            System.out.println(error.Mensaje());
-        }
-        catch(PosibleDuplicationException error){
-            System.out.println(error.Mensaje());
-        }*/
         
         //DaoExamen
         /*
@@ -597,13 +563,80 @@ public class Main {
         */
     }
 
+    /*
+    * Pruebas DaoEstudiante
+    */
     
+    private static void ProbarDaoEstudiante() {
+        //ProbarDaoEstudianteConsultarTodos();
+        //ProbarDaoEstudianteConsultarUno();
+        //ProbarDaoEstudianteCrear();   
+        //ProbarDaoEstudianteEliminar();
+    }
+
+    private static void ProbarDaoEstudianteConsultarTodos() {
+        List<Estudiante> manes = DaoEstudiante.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdUsuario().getNombres());
+        }
+    }
+
+    private static void ProbarDaoEstudianteConsultarUno() {
+        try{
+            Estudiante mansito = DaoEstudiante.consultarUno(456);
+            System.out.println(mansito.getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+
+    private static void ProbarDaoEstudianteCrear() {
+        Calendar hoy = Calendar.getInstance();
+        hoy.set(2008, 5, 26);
+        try{
+            Estudiante mio=DaoEstudiante.crear(324, 10, 3, hoy, 14);
+            System.out.println(mio.getIdUsuario().getNombres());
+            System.out.println(mio.getIdEstudiante());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+
+    private static void ProbarDaoEstudianteEliminar() {
+        try{
+            DaoEstudiante.eliminar(324);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+
+    /*
+    * Pruebas DaoUsuario
+    */
 
     private static void ProbarDaoUsuario() {
         //ProbarDaoUsuarioConsultarTodos();
         //ProbarDaoUsuarioConsultarUno();
+        //ProbarDaoUsuarioCrear();   
         //ProbarDaoUsuarioEliminar();
-        //ProbarDaoUsuarioCrear();        
+        //ProbarDaoUsuarioActualizar();
+    }
+
+    private static void ProbarDaoUsuarioActualizar() {
+        try{
+            Usuario user = DaoUsuario.actualizar(44, "davor", "tañito", "damontic", "gelosa");
+            System.out.println(user.getIdUsuario()+" "+user.getNombres());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
     }
     
     private static void ProbarDaoUsuarioConsultarTodos() {
@@ -635,7 +668,14 @@ public class Main {
     }
 
     private static void ProbarDaoUsuarioEliminar() {
-        throw new UnsupportedOperationException("Not yet implemented");
+         try{
+            Usuario eliminado = DaoUsuario.eliminar(43);
+            System.out.println(eliminado.getIdUsuario());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
     }
+    
 
 }
