@@ -18,7 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -36,8 +35,8 @@ public class Tutor implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "idTutor", nullable = false)
     private Integer idTutor;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "idTutor")
-    private Taller taller;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTutor")
+    private Collection<Taller> tallerCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTutor")
     private Collection<Materia> materiaCollection;
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
@@ -59,12 +58,12 @@ public class Tutor implements Serializable {
         this.idTutor = idTutor;
     }
 
-    public Taller getTaller() {
-        return taller;
+    public Collection<Taller> getTaller() {
+        return tallerCollection;
     }
 
-    public void setTaller(Taller taller) {
-        this.taller = taller;
+    public void setTaller(Collection<Taller> tallerCollection) {
+        this.tallerCollection = tallerCollection;
     }
 
     public Collection<Materia> getMateriaCollection() {

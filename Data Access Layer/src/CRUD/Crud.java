@@ -31,6 +31,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import DAO.DaoEntityManagerFactory;
+import DAO.DaoUsuario;
 import javax.persistence.NoResultException;
 /**
  *
@@ -39,6 +40,7 @@ import javax.persistence.NoResultException;
 public class Crud {
 
     //retorna un usuario por su id
+    /** @deprecated Favor usar el DAO DaoUsuario consultarUno*/
     public Usuario consultarUsuario(int idUsuario) throws NoItemFoundException {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();         
@@ -54,6 +56,7 @@ public class Crud {
     }
     
     //retorna una lista de los usuarios con cierto login y contraseña
+    /** @deprecated Favor usar el DAO DaoUsuario consultarUsuario*/
     public List<Usuario> consultarUsuario(String usuario, String password) throws NoItemFoundException {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -88,24 +91,22 @@ public class Crud {
             
     }
     
-    //retorna un estudiante
+    //retorna un estudiante (a poner en DAO estudiante)
     public Estudiante consultarUsuarioEstudiante(String usuario, String password) throws NoItemFoundException{
         
-            List lista = this.consultarUsuario(usuario, password);
+            List lista = DaoUsuario.consultarUsuario(usuario, password);
             
             if(lista.size()>0)
             {           
-                EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-                EntityManager em = emf.createEntityManager();
-                EntityTransaction tx = em.getTransaction();
-                EntityManager pm = emf.createEntityManager();            
+                EntityManager em = DaoEntityManagerFactory.getInstance(); 
+                EntityTransaction tx = em.getTransaction();           
                 Usuario usu;
                 usu = (Usuario) lista.get(0);
                 try
                 {
                     tx.begin();
 
-                    Query q = pm.createQuery("select p from Estudiante p where p.idUsuario = :usuario");
+                    Query q = em.createQuery("select p from Estudiante p where p.idUsuario = :usuario");
                     q.setParameter("usuario", usu);
                     List<Estudiante> result = q.getResultList();
                     tx.commit();
@@ -125,7 +126,7 @@ public class Crud {
                         tx.rollback();
                     }
 
-                    em.close();
+                    em.clear();
                 }
             }
             else
@@ -134,24 +135,22 @@ public class Crud {
             }
     }
 
-    //retorna un Analista
+    //retorna un Analista (a poner en DAO analista)
     public Analista consultarUsuarioAnalista(String usuario, String password)throws NoItemFoundException {
         
-            List lista = this.consultarUsuario(usuario, password);
+            List lista = DaoUsuario.consultarUsuario(usuario, password);
             
             if(lista.size()>0)
             {           
-                EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-                EntityManager em = emf.createEntityManager();
-                EntityTransaction tx = em.getTransaction();
-                EntityManager pm = emf.createEntityManager();            
+                EntityManager em = DaoEntityManagerFactory.getInstance(); 
+                EntityTransaction tx = em.getTransaction();          
                 Usuario usu;
                 usu = (Usuario) lista.get(0);
                 try
                 {
                     tx.begin();
 
-                    Query q = pm.createQuery("select p from Analista p where p.idUsuario = :usuario");
+                    Query q = em.createQuery("select p from Analista p where p.idUsuario = :usuario");
                     q.setParameter("usuario", usu);
                     List<Analista> result = q.getResultList();
 
@@ -172,7 +171,7 @@ public class Crud {
                         tx.rollback();
                     }
 
-                    em.close();
+                    em.clear();
                 }
             }
             else
@@ -181,24 +180,22 @@ public class Crud {
             }
     }
     
-    //retorna un Tutor
+    //retorna un Tutor (a poner en DAO Tutor)
     public Tutor consultarUsuarioTutor(String usuario, String password) throws NoItemFoundException{
         
-            List lista = this.consultarUsuario(usuario, password);
+            List lista = DaoUsuario.consultarUsuario(usuario, password);
             
             if(lista.size()>0)
             {           
-                EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-                EntityManager em = emf.createEntityManager();
-                EntityTransaction tx = em.getTransaction();
-                EntityManager pm = emf.createEntityManager();            
+                EntityManager em = DaoEntityManagerFactory.getInstance(); 
+                EntityTransaction tx = em.getTransaction();           
                 Usuario usu;
                 usu = (Usuario) lista.get(0);
                 try
                 {
                     tx.begin();
 
-                    Query q = pm.createQuery("select p from Tutor p where p.idUsuario = :usuario");
+                    Query q = em.createQuery("select p from Tutor p where p.idUsuario = :usuario");
                     q.setParameter("usuario", usu);
                     List<Tutor> result = q.getResultList();
 
@@ -219,7 +216,7 @@ public class Crud {
                         tx.rollback();
                     }
 
-                    em.close();
+                    em.clear();
                 }
             }
             else
@@ -228,24 +225,22 @@ public class Crud {
             }
     }
 
-    //retorna una secretaria académica
+    //retorna una secretaria académica (a poner en DAO Secretaria Academica)
     public SecretariaAcademica consultarUsuarioSecretariaAcadémica(String usuario, String password) throws NoItemFoundException{
         
-            List lista = this.consultarUsuario(usuario, password);
+            List lista = DaoUsuario.consultarUsuario(usuario, password);
             
             if(lista.size()>0)
             {           
-                EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-                EntityManager em = emf.createEntityManager();
-                EntityTransaction tx = em.getTransaction();
-                EntityManager pm = emf.createEntityManager();            
+                EntityManager em = DaoEntityManagerFactory.getInstance(); 
+                EntityTransaction tx = em.getTransaction();           
                 Usuario usu;
                 usu = (Usuario) lista.get(0);
                 try
                 {
                     tx.begin();
 
-                    Query q = pm.createQuery("select p from SecretariaAcademica p where p.idUsuario = :usuario");
+                    Query q = em.createQuery("select p from SecretariaAcademica p where p.idUsuario = :usuario");
                     q.setParameter("usuario", usu);
                     List<SecretariaAcademica> result = q.getResultList();
 
@@ -266,7 +261,7 @@ public class Crud {
                         tx.rollback();
                     }
 
-                    em.close();
+                    em.clear();
                 }
             }
             else
@@ -1186,23 +1181,26 @@ public class Crud {
     }
     
     //Dado un Tutor retorna el Taller de ese tutor
-    public Taller consultarTallerDeTutor(int idTutor) throws NoItemFoundException{
+    public List<Taller> consultarTallerDeTutor(int idTutor) throws NoItemFoundException{
         EntityManager em = DaoEntityManagerFactory.getInstance();
         Query query = em.createNamedQuery("Taller.consultarTallerDeTutor");
         
         Tutor tutor = em.find(Tutor.class, idTutor);
         
         query.setParameter("idT", tutor);
-        Taller item;
-        try{
-            item = (Taller) query.getSingleResult();
+        List<Taller> item;
+       
+        item = query.getResultList();
+        em.clear();
+        
+        if(item.size()>0)
+        {
+            return item;
         }
-        catch(NoResultException au){
+        else{
             throw new NoItemFoundException();
         }
-        
-        em.clear();
-        return item;
+     
     }
     
 }

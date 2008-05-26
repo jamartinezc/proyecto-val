@@ -14,6 +14,7 @@ import DAO.DaoGrado;
 import DAO.DaoMateria;
 import DAO.DaoSecretariaAcademica;
 import DAO.DaoTaller;
+import DAO.DaoUsuario;
 import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
 import VO.Analista;
@@ -395,18 +396,22 @@ public class Main {
         }
         */
         
-        //taller consultarTallerDeTutor(int idTutor)
+        //Collection<taller> consultarTallerDeTutor(int idTutor)
         //retorna el taller del tutor
         /*
         try{
-            Taller taller = query.consultarTallerDeTutor(456);
-        System.out.println(taller.getIdTaller());
+            List<Taller> taller = query.consultarTallerDeTutor(2);
+            System.out.println(taller.get(0).getIdTaller());
+            System.out.println(taller.get(1).getIdTaller());
         }
         catch(NoItemFoundException uy){
             System.out.println(uy.Mensaje());
         }
         */
+        
         //nueva manera de hacer las cosas
+        
+        //ProbarDaoUsuario();
         
         //DaoAnalista
         /*List<Analista> manes = DaoAnalista.consultarTodos();
@@ -590,6 +595,47 @@ public class Main {
             System.out.println(error.Mensaje());
         }
         */
+    }
+
+    
+
+    private static void ProbarDaoUsuario() {
+        //ProbarDaoUsuarioConsultarTodos();
+        //ProbarDaoUsuarioConsultarUno();
+        //ProbarDaoUsuarioEliminar();
+        //ProbarDaoUsuarioCrear();        
+    }
+    
+    private static void ProbarDaoUsuarioConsultarTodos() {
+        List<Usuario> manes = DaoUsuario.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdUsuario());
+        }
+    }
+
+    private static void ProbarDaoUsuarioConsultarUno() {
+        try{
+            Usuario mansito = DaoUsuario.consultarUno(42);
+            System.out.println(mansito.getIdUsuario());
+            System.out.println(mansito.getApellidos()+" "+mansito.getNombres());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+
+    private static void ProbarDaoUsuarioCrear(){
+        try{
+            Usuario usuario = DaoUsuario.crear("df", "amarsdfsdfilla", "damontic", "gelosa");
+        }
+        catch(PosibleDuplicationException duplicado){
+            System.out.println(duplicado.Mensaje());
+        }
+    }
+
+    private static void ProbarDaoUsuarioEliminar() {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
 }
