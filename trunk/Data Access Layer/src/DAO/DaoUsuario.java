@@ -85,6 +85,7 @@ public class DaoUsuario {
                 q.setParameter("login", log);
                 List<Usuario> usuario = q.getResultList();
                 tx.commit();
+                em.clear();
                 if(usuario.size()==1){
                     return false;
                 }
