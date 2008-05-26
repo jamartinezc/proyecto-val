@@ -29,7 +29,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Taller.findByIdTaller", query = "SELECT t FROM Taller t WHERE t.idTaller = :id"),
     @NamedQuery(name = "Taller.consultarTalleres", query = "SELECT a FROM Taller a"),
-    @NamedQuery(name = "Taller.consultarPorIdTutor", query = "SELECT a FROM Taller a WHERE a.idTutor = :id")
+    @NamedQuery(name = "Taller.consultarPorIdTutor", query = "SELECT a FROM Taller a WHERE a.idTutor = :id"),
+    @NamedQuery(name = "Taller.consultarTallerDeTutor", query = "SELECT a FROM Taller a WHERE a.idTutor=:idT")
 })
 public class Taller implements Serializable {
     private static final long serialVersionUID = 1L;

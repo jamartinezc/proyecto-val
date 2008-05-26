@@ -394,6 +394,18 @@ public class Main {
             System.out.println("no esta en el taller");
         }
         */
+        
+        //taller consultarTallerDeTutor(int idTutor)
+        //retorna el taller del tutor
+        /*
+        try{
+            Taller taller = query.consultarTallerDeTutor(456);
+        System.out.println(taller.getIdTaller());
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
+        */
         //nueva manera de hacer las cosas
         
         //DaoAnalista
