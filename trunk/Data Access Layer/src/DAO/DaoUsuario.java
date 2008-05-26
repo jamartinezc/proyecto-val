@@ -69,7 +69,7 @@ public class DaoUsuario {
                     tx.rollback();
                 }
 
-                em.close();
+                em.clear();
             }
     }
     
