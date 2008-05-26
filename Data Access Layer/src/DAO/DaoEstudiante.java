@@ -81,24 +81,18 @@ public class DaoEstudiante {
                 Usuario usuario = em.getReference(Usuario.class, idUsuario);
                 Query query = em.createNamedQuery("Estudiante.consultarPorIdUsuario");
                 query.setParameter("id", usuario);
+                if(query.getResultList().size() != 0)throw new PosibleDuplicationException();
                 
-                if(query.getResultList().size() != 0)
-                {
-                    System.out.println("uy");
-                    throw new PosibleDuplicationException();
-                }
+                query = em.createNamedQuery("Estudiante.consultarUnEstudiante");
+                query.setParameter("id", idEstudiante);
+                if(query.getResultList().size() != 0)throw new PosibleDuplicationException();
+                
                 
                 Taller taller = em.find(Taller.class, idTaller);
-                if(taller==null)
-                {
-                    throw new NoItemFoundException();
-                }
+                if(taller==null)throw new NoItemFoundException();
                 
                 Grado grado = em.find(Grado.class, idGrado);
-                if(grado==null)
-                {
-                    throw new NoItemFoundException();
-                }
+                if(grado==null)throw new NoItemFoundException();
                 
                 Estudiante nuevo = new Estudiante();
                 nuevo.setIdUsuario(usuario);
@@ -111,7 +105,7 @@ public class DaoEstudiante {
                     em.persist(nuevo);
                 tx.commit();   
 
-                return (Estudiante) query.getSingleResult();
+                return nuevo;
             }
             catch(NonUniqueResultException error){
                     throw new PosibleDuplicationException();

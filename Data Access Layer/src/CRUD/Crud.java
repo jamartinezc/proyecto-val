@@ -271,6 +271,7 @@ public class Crud {
     }
     
     //consultar estudiante
+    /** @deprecated Favor usar el DAO DaoEstudiante consultarUno*/
     public Estudiante consultarEstudiante(int idEstudiante) throws NoItemFoundException{
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
         EntityManager em = emf.createEntityManager();
@@ -645,6 +646,7 @@ public class Crud {
         }
     
     //Eliminar un usuario
+    /** @deprecated Favor usar el DAO DaoUsuario eliminar, retorna el eliminado =p*/
     public void eliminarUsuario(int id)throws NoItemFoundException{
                        
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -678,6 +680,7 @@ public class Crud {
         }
     
      //Actualizar un usuario
+    /** @deprecated Favor usar el DAO DaoUsuario actualizar*/
     public Usuario actualizarUsuario(int idUsuario, String nombre, String apellido, String login, String clave) throws NoItemFoundException{
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
