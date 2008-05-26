@@ -1217,4 +1217,25 @@ public class Crud {
      
     }
     
+    //Dado un Tutor retorna el Taller de ese tutor
+    public List<ExamenSolicitado> examenesSolicitadosPorEstudiantesDeTutor(int idTutor) throws NoItemFoundException{
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+
+        //Tutor tutor = em.find(Tutor.class, idTutor);
+        Query query = em.createQuery("SELECT e FROM ExamenSolicitado e JOIN e.idEstudiante  estudiante JOIN estudiante.idTaller taller JOIN taller.idTutor tutor WHERE tutor.idTutor =:idT");
+        query.setParameter("idT", idTutor);
+        List<ExamenSolicitado> item = query.getResultList();
+       
+        em.clear();
+        
+        if(item.size()>0)
+        {
+            return item;
+        }
+        else{
+            throw new NoItemFoundException();
+        }
+     
+    }
+    
 }

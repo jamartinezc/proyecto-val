@@ -24,6 +24,7 @@ import VO.Analista;
 import VO.Estados;
 import VO.Estudiante;
 import VO.Examen;
+import VO.ExamenSolicitado;
 import VO.Grado;
 import VO.Materia;
 import VO.Registro;
@@ -45,7 +46,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        //Crud query = new Crud();
+        Crud query = new Crud();
         /*
         //buscar usuario por id
         Usuario usuario = new Usuario();
@@ -414,6 +415,23 @@ public class Main {
         }
         */
         
+        //List<examenessolicitados> examenesSolicitadosPorEstudiantesDeTutor(int idTutor)
+        //retorna los examenes solicitados d elos estudiantes de tutor
+        /*
+        List<ExamenSolicitado> ex = null;
+        try{
+            ex = query.examenesSolicitadosPorEstudiantesDeTutor(2);
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
+        if(ex!=null){
+            System.out.println(ex.get(0).getIdExamenSolicitado());
+            System.out.println(ex.get(1).getIdExamenSolicitado());
+            System.out.println(ex.get(0).getClass());
+        }
+        */
+        
         //nueva manera de hacer las cosas
         
         //ProbarDaoAnalista();
@@ -434,7 +452,7 @@ public class Main {
         //ProbarDaoSecretariaAcademica();
         //ProbarDaoTaller();
         //ProbarDaoTutor();
-        ProbarDaoUsuario();
+        //ProbarDaoUsuario();
     }
     
     /*
@@ -837,7 +855,7 @@ public class Main {
         //ProbarDaoUsuarioCrear();   
         //ProbarDaoUsuarioEliminar();
         //ProbarDaoUsuarioActualizar();
-        ProbarDaoUsuarioConsultarUsuario();
+        //ProbarDaoUsuarioConsultarUsuario();
     }
 
     private static void ProbarDaoUsuarioActualizar() {
