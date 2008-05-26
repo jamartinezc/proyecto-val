@@ -10,6 +10,7 @@ import DAO.DaoAnalista;
 import DAO.DaoEstados;
 import DAO.DaoEstudiante;
 import DAO.DaoExamen;
+import DAO.DaoExamenSolicitado;
 import DAO.DaoGrado;
 import DAO.DaoMateria;
 import DAO.DaoRegistro;
@@ -19,7 +20,9 @@ import DAO.DaoTutor;
 import DAO.DaoUsuario;
 import Errores.MateriaDeOtroGradoException;
 import Errores.NoItemFoundException;
+import Errores.NoPresentableException;
 import Errores.PosibleDuplicationException;
+import Errores.UltimoTemaException;
 import VO.Analista;
 import VO.Estados;
 import VO.Estudiante;
@@ -439,7 +442,7 @@ public class Main {
         //ProbarDaoEstudiante();
         //ProbarDaoExamen();
         
-        
+        //ProbarDaoExamenSolicitado(); //falta!!!!
         
         
         //ProbarDaoGrado();
@@ -453,6 +456,60 @@ public class Main {
         //ProbarDaoTaller();
         //ProbarDaoTutor();
         //ProbarDaoUsuario();
+    }
+    
+    /*
+    * Pruebas DaoExamenSolicitado()
+    */
+    private static void ProbarDaoExamenSolicitado(){
+        //ProbarDaoExamenSolicitadoConsultarTodos();
+        //ProbarDaoExamenSolicitadoConsultarUno();
+        //ProbarDaoExamenSolicitadoCrear();   
+        //ProbarDaoExamenSolicitadoEliminar();
+    }
+    
+    private static void ProbarDaoExamenSolicitadoConsultarTodos() {
+        List<ExamenSolicitado> manes = DaoExamenSolicitado.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdExamenSolicitado());
+        }
+    }
+
+    private static void ProbarDaoExamenSolicitadoConsultarUno() {
+        try{
+            ExamenSolicitado mansito = DaoExamenSolicitado.consultarUno(5);
+            System.out.println(mansito.getIdExamenSolicitado());
+            System.out.println(mansito.getIdRegistro().getIdRegistro());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+
+    private static void ProbarDaoExamenSolicitadoCrear() {
+        /*try{
+            ExamenSolicitado mio=DaoExamenSolicitado.crear(324, true, 1, 0);
+            System.out.println(mio.getIdExamenSolicitado());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
+        }
+        catch(MateriaDeOtroGradoException otro){
+            System.out.println(otro.Mensaje());
+        }*/
+    }
+
+    private static void ProbarDaoExamenSolicitadoEliminar() {
+        try{
+            DaoRegistro.eliminar(74);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
     }
     
     /*
