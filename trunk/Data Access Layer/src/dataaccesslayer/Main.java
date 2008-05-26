@@ -416,64 +416,70 @@ public class Main {
         //ProbarDaoAnalista();
         //ProbarDaoEstados();
         //ProbarDaoExamen();
+        //ProbarDaoGrado();
+        //ProbarDaoMateria();
+        //ProbarDaoSecretariaAcademica();
+        //ProbarDaoTaller();
         
-        //DaoGrado
-        /*
-        List<Grado> manes = DaoGrado.consultarTodos();
+    }
+
+    /*
+    * Pruebas DaoTaller
+    */
+    private static void ProbarDaoTaller() {
+        //ProbarDaoTallerConsultarTodos();
+        //ProbarDaoTallerConsultarUno();
+    }
+    
+    private static void ProbarDaoTallerConsultarTodos() {
+        List<Taller> manes = DaoTaller.consultarTodos();
         for(int i = 0; i<manes.size();i++)
         {
-            System.out.println(manes.get(i).getNombre());
+            System.out.println(manes.get(i).getIdTaller());
         }
+    }
+    
+     private static void ProbarDaoTallerConsultarUno() {
         try{
-            Grado mansito = DaoGrado.consultarUno(11);
-            System.out.println(mansito.getNombre());
+            Taller mansito = DaoTaller.consultarUno(4);
+            System.out.println(mansito.getIdTaller());
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
         }
-        */
-        
-        //DaoMateria
-        /*
-        List<Materia> manes = DaoMateria.consultarTodos();
-        for(int i = 0; i<manes.size();i++)
-        {
-            System.out.println(manes.get(i).getNombre());
-        }
-        try{
-            Materia mansito = DaoMateria.consultarUno(11);
-            System.out.println(mansito.getNombre());
-        }
-        catch(NoItemFoundException error){
-            System.out.println(error.Mensaje());
-        }
-        */
-        
-        //DaoSecretariaAcademica
-        /*
+    }
+    
+    /*
+    * Pruebas DaoSecretariaAcademica
+    */
+    private static void ProbarDaoSecretariaAcademica() {
+        //ProbarDaoSecretariaAcademicaConsultarTodos();
+        //ProbarDaoSecretariaAcademicaConsultarUno();
+        //ProbarDaoSecretariaAcademicaCrear();   
+        //ProbarDaoSecretariaAcademicaEliminar();
+    }
+    
+    private static void ProbarDaoSecretariaAcademicaConsultarTodos() {
         List<SecretariaAcademica> manes = DaoSecretariaAcademica.consultarTodos();
         for(int i = 0; i<manes.size();i++)
         {
             System.out.println(manes.get(i).getIdUsuario().getNombres());
         }
-        
+    }
+
+    private static void ProbarDaoSecretariaAcademicaConsultarUno() {
         try{
-            SecretariaAcademica mansito = DaoSecretariaAcademica.consultarUno(1);
+            SecretariaAcademica mansito = DaoSecretariaAcademica.consultarUno(45);
             System.out.println(mansito.getIdUsuario().getIdUsuario());
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
         }
-        
+    }
+
+    private static void ProbarDaoSecretariaAcademicaCrear() {
         try{
-            DaoSecretariaAcademica.eliminar(5);
-        }
-        catch(NoItemFoundException error){
-            System.out.println(error.Mensaje());
-        }
-        
-        try{
-            SecretariaAcademica mio=DaoSecretariaAcademica.crear(2);
+            SecretariaAcademica mio=DaoSecretariaAcademica.crear(42);
             System.out.println(mio.getIdUsuario().getNombres());
             System.out.println(mio.getIdSecretariaAcademica());
         }
@@ -482,27 +488,70 @@ public class Main {
         }
         catch(PosibleDuplicationException error){
             System.out.println(error.Mensaje());
-        }*/
-        
-        
-        //DaoTaller
-        /*
-        List<Taller> manes = DaoTaller.consultarTodos();
-        for(int i = 0; i<manes.size();i++)
-        {
-            System.out.println(manes.get(i).getIdTaller());
         }
-        
+    }
+
+    private static void ProbarDaoSecretariaAcademicaEliminar() {
         try{
-            Taller mansito = DaoTaller.consultarUno(1);
-            System.out.println(mansito.getIdTaller());
+            DaoSecretariaAcademica.eliminar(9);
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
         }
-        */
     }
-
+    
+    /*
+    * Pruebas DaoMateria
+    */
+    private static void ProbarDaoMateria() {
+        //ProbarDaoMateriaConsultarTodos();
+        //ProbarDaoMateriaConsultarUno();
+    }
+    
+    private static void ProbarDaoMateriaConsultarTodos() {
+        List<Materia> manes = DaoMateria.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getNombre());
+        }
+    }
+    
+     private static void ProbarDaoMateriaConsultarUno() {
+        try{
+            Materia mansito = DaoMateria.consultarUno(11);
+            System.out.println(mansito.getNombre());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    /*
+    * Pruebas DaoGrado
+    */
+    private static void ProbarDaoGrado() {
+        //ProbarDaoGradoConsultarTodos();
+        ProbarDaoGradoConsultarUno();
+    }
+    
+    private static void ProbarDaoGradoConsultarTodos() {
+        List<Grado> manes = DaoGrado.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getNombre());
+        }
+    }
+    
+     private static void ProbarDaoGradoConsultarUno() {
+        try{
+            Grado mansito = DaoGrado.consultarUno(12);
+            System.out.println(mansito.getNombre());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
     /*
     * Pruebas DaoExamen
     */
