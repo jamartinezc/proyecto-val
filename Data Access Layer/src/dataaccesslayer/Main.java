@@ -12,10 +12,12 @@ import DAO.DaoEstudiante;
 import DAO.DaoExamen;
 import DAO.DaoGrado;
 import DAO.DaoMateria;
+import DAO.DaoRegistro;
 import DAO.DaoSecretariaAcademica;
 import DAO.DaoTaller;
 import DAO.DaoTutor;
 import DAO.DaoUsuario;
+import Errores.MateriaDeOtroGradoException;
 import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
 import VO.Analista;
@@ -24,6 +26,7 @@ import VO.Estudiante;
 import VO.Examen;
 import VO.Grado;
 import VO.Materia;
+import VO.Registro;
 import VO.SecretariaAcademica;
 import VO.Taller;
 import VO.Tutor;
@@ -413,17 +416,79 @@ public class Main {
         
         //nueva manera de hacer las cosas
         
-        //ProbarDaoUsuario();
-        //ProbarDaoEstudiante();
         //ProbarDaoAnalista();
         //ProbarDaoEstados();
+        //ProbarDaoEstudiante();
         //ProbarDaoExamen();
+        
+        
+        
+        
         //ProbarDaoGrado();
         //ProbarDaoMateria();
+        
+        
+        
+        
+        //ProbarDaoRegistro();
         //ProbarDaoSecretariaAcademica();
         //ProbarDaoTaller();
         //ProbarDaoTutor();
-        
+        //ProbarDaoUsuario();
+    }
+    
+    /*
+    * Pruebas DaoRegistro
+    */
+    private static void ProbarDaoRegistro() {
+        //ProbarDaoRegistroConsultarTodos();
+        //ProbarDaoRegistroConsultarUno();
+        //ProbarDaoRegistroCrear();   
+        //ProbarDaoRegistroEliminar();
+    }
+    
+    private static void ProbarDaoRegistroConsultarTodos() {
+        List<Registro> manes = DaoRegistro.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdRegistro());
+        }
+    }
+
+    private static void ProbarDaoRegistroConsultarUno() {
+        try{
+            Registro mansito = DaoRegistro.consultarUno(31);
+            System.out.println(mansito.getIdRegistro());
+            System.out.println(mansito.getVecesDevuelta());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+
+    private static void ProbarDaoRegistroCrear() {
+        try{
+            Registro mio=DaoRegistro.crear(324, true, 1, 0);
+            System.out.println(mio.getIdRegistro());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
+        }
+        catch(MateriaDeOtroGradoException otro){
+            System.out.println(otro.Mensaje());
+        }
+    }
+
+    private static void ProbarDaoRegistroEliminar() {
+        try{
+            DaoRegistro.eliminar(74);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
     }
     
     /*
@@ -585,7 +650,7 @@ public class Main {
     */
     private static void ProbarDaoGrado() {
         //ProbarDaoGradoConsultarTodos();
-        ProbarDaoGradoConsultarUno();
+        //ProbarDaoGradoConsultarUno();
     }
     
     private static void ProbarDaoGradoConsultarTodos() {
@@ -741,7 +806,7 @@ public class Main {
         Calendar hoy = Calendar.getInstance();
         hoy.set(2008, 5, 26);
         try{
-            Estudiante mio=DaoEstudiante.crear(324, 10, 3, hoy, 14);
+            Estudiante mio=DaoEstudiante.crear(324, 10, 1, hoy, 45);
             System.out.println(mio.getIdUsuario().getNombres());
             System.out.println(mio.getIdEstudiante());
         }
@@ -805,7 +870,7 @@ public class Main {
 
     private static void ProbarDaoUsuarioCrear(){
         try{
-            Usuario usuario = DaoUsuario.crear("df", "amarsdfsdfilla", "damontic", "gelosa");
+            Usuario usuario = DaoUsuario.crear("Pepito", "Perez", "pepito", "pepito");
         }
         catch(PosibleDuplicationException duplicado){
             System.out.println(duplicado.Mensaje());

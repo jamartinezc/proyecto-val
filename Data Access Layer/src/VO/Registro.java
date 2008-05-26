@@ -26,7 +26,13 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "registro")
-@NamedQueries({@NamedQuery(name = "Registro.findByActivo", query = "SELECT r FROM Registro r WHERE r.activo = :activo"), @NamedQuery(name = "Registro.findByIdRegistro", query = "SELECT r FROM Registro r WHERE r.idRegistro = :idRegistro"), @NamedQuery(name = "Registro.findByVecesDevuelta", query = "SELECT r FROM Registro r WHERE r.vecesDevuelta = :vecesDevuelta")})
+@NamedQueries({
+    @NamedQuery(name = "Registro.consultarRegistros", query = "SELECT r FROM Registro r"),
+    @NamedQuery(name = "Registro.findByActivo", query = "SELECT r FROM Registro r WHERE r.activo = :activo"),
+    @NamedQuery(name = "Registro.consultarUnRegistro", query = "SELECT r FROM Registro r WHERE r.idRegistro = :idRegistro"),
+    @NamedQuery(name = "Registro.findByVecesDevuelta", query = "SELECT r FROM Registro r WHERE r.vecesDevuelta = :vecesDevuelta"),
+    @NamedQuery(name = "Registro.consultarRegistroAlumnoMateria", query = "SELECT r FROM Registro r WHERE r.idEstudiante = :idE AND r.idMateria = :idM")
+})
 public class Registro implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column(name = "activo", nullable = false)
