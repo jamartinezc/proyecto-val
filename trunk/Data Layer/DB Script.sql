@@ -211,7 +211,7 @@ CREATE TABLE `examensolicitado` (
   CONSTRAINT `FK_examensolicitado_3` FOREIGN KEY (`idExamen`) REFERENCES `examen` (`idExamen`),
   CONSTRAINT `FK_examensolicitado_4` FOREIGN KEY (`idEstado`) REFERENCES `estados` (`idEstado`),
   CONSTRAINT `FK_examensolicitado_5` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -220,7 +220,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `examensolicitado` WRITE;
 /*!40000 ALTER TABLE `examensolicitado` DISABLE KEYS */;
-INSERT INTO `examensolicitado` VALUES (4,290,1,0,'2008-04-20 20:13:54',5,4,13);
+INSERT INTO `examensolicitado` VALUES (4,290,1,0,'2008-04-20 20:13:54',5,4,13),(5,311,1,0,'2008-05-26 18:14:39',3,73,13);
 /*!40000 ALTER TABLE `examensolicitado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -447,7 +447,7 @@ CREATE TABLE `registro` (
   KEY `FK_registro_1` (`idEstudiante`),
   CONSTRAINT `FK_registro_1` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`) ON DELETE CASCADE,
   CONSTRAINT `FK_registro_2` FOREIGN KEY (`idMateria`) REFERENCES `materia` (`idMateria`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -456,7 +456,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `registro` WRITE;
 /*!40000 ALTER TABLE `registro` DISABLE KEYS */;
-INSERT INTO `registro` VALUES (290,0,4,2,0),(303,1,5,15,0),(292,1,6,26,0),(309,1,7,20,0),(291,1,8,4,0),(293,1,9,10,0),(294,1,10,12,0),(295,1,11,14,0),(296,1,12,16,0),(297,1,13,18,0),(298,1,14,20,0),(299,1,15,22,0),(300,1,16,1,0),(301,1,17,3,0),(302,1,18,9,0),(304,1,19,11,0),(305,1,20,13,0),(306,1,21,17,0),(307,1,22,19,0),(308,1,23,21,0),(310,1,24,23,0),(311,1,25,25,0),(312,1,26,1,3),(313,1,27,22,0),(314,1,28,24,1),(315,1,29,26,2),(316,1,30,2,2),(317,1,31,4,5),(318,1,32,10,4),(319,1,33,12,4),(320,1,34,3,0),(321,1,35,9,1),(322,1,36,11,3),(323,1,37,13,0),(290,1,38,16,0),(291,1,39,18,3),(292,1,40,10,0),(293,1,41,4,5),(294,1,42,22,2),(295,1,43,24,0),(296,1,44,26,4),(297,1,45,2,4),(298,1,46,14,0),(299,1,47,10,2),(300,1,48,15,0),(301,1,49,17,0),(302,1,50,19,0),(303,1,51,21,1),(304,1,52,23,0),(305,1,53,25,0),(306,1,54,1,1),(307,1,55,3,0),(308,1,56,9,0),(309,1,57,12,0),(310,1,58,11,0),(311,1,59,13,1),(312,1,60,15,0),(313,1,61,14,3),(314,1,62,16,1),(315,1,63,18,2),(316,1,64,20,5),(317,1,65,22,4),(318,1,66,24,0),(319,1,67,26,1),(320,1,68,17,4),(321,1,69,19,0),(322,1,70,21,0),(323,1,71,23,5),(290,1,72,26,3);
+INSERT INTO `registro` VALUES (290,1,4,2,0),(303,1,5,15,0),(292,1,6,26,0),(309,1,7,20,0),(291,1,8,4,0),(293,1,9,10,0),(294,1,10,12,0),(295,1,11,14,0),(296,1,12,16,0),(297,1,13,18,0),(298,1,14,20,0),(299,1,15,22,0),(300,1,16,1,0),(301,1,17,3,0),(302,1,18,9,0),(304,1,19,11,0),(305,1,20,13,0),(306,1,21,17,0),(307,1,22,19,0),(308,1,23,21,0),(310,1,24,23,0),(311,1,25,25,0),(312,1,26,1,3),(313,1,27,22,0),(314,1,28,24,1),(315,1,29,26,2),(316,1,30,2,2),(317,1,31,4,5),(318,1,32,10,4),(319,1,33,12,4),(320,1,34,3,0),(321,1,35,9,1),(322,1,36,11,3),(323,1,37,13,0),(290,1,38,16,0),(291,1,39,18,3),(292,1,40,10,0),(293,1,41,4,5),(294,1,42,22,2),(295,1,43,24,0),(296,1,44,26,4),(297,1,45,2,4),(298,1,46,14,0),(299,1,47,10,2),(300,1,48,15,0),(301,1,49,17,0),(302,1,50,19,0),(303,1,51,21,1),(304,1,52,23,0),(305,1,53,25,0),(306,1,54,1,1),(307,1,55,3,0),(308,1,56,9,0),(309,1,57,12,0),(310,1,58,11,0),(311,1,59,13,1),(312,1,60,15,0),(313,1,61,14,3),(314,1,62,16,1),(315,1,63,18,2),(316,1,64,20,5),(317,1,65,22,4),(318,1,66,24,0),(319,1,67,26,1),(320,1,68,17,4),(321,1,69,19,0),(322,1,70,21,0),(323,1,71,23,5),(290,1,72,26,3),(311,1,73,1,0);
 /*!40000 ALTER TABLE `registro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -497,9 +497,9 @@ CREATE TABLE `taller` (
   `idTaller` int(10) unsigned NOT NULL auto_increment,
   `idTutor` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idTaller`),
-  UNIQUE KEY `Index_2` (`idTutor`),
-  CONSTRAINT `FK_taller_1` FOREIGN KEY (`idTaller`) REFERENCES `taller` (`idTaller`),
-  CONSTRAINT `FK_taller_2` FOREIGN KEY (`idTutor`) REFERENCES `tutor` (`idTutor`)
+  KEY `FK_taller_2` (`idTutor`),
+  CONSTRAINT `FK_taller_2` FOREIGN KEY (`idTutor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_taller_1` FOREIGN KEY (`idTaller`) REFERENCES `taller` (`idTaller`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
@@ -570,6 +570,29 @@ UNLOCK TABLES;
 -- Dumping routines for database 'liceoval1'
 --
 DELIMITER ;;
+/*!50003 DROP PROCEDURE IF EXISTS `devolverCurso` */;;
+/*!50003 SET SESSION SQL_MODE="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER"*/;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`liceoval`@`%`*/ /*!50003 PROCEDURE `devolverCurso`(IN est INT)
+BEGIN
+  delete from registro where codigo=est;
+  delete from planeacionsemanal where codigo=est;
+  delete from planeacionanual where codigo=est;
+
+END */;;
+/*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
+/*!50003 DROP PROCEDURE IF EXISTS `devolverMateria` */;;
+/*!50003 SET SESSION SQL_MODE="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER"*/;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`liceoval`@`%`*/ /*!50003 PROCEDURE `devolverMateria`(IN est INT, IN mat INT)
+BEGIN
+  declare ps int;
+  declare cod int;
+
+  SELECT cod=examen.codigo FROM materia JOIN examen WHERE materia.codigo=mat and materia=mat;
+  select ps=idPlaneacionSemanal from planeacionsemanal where codigo=est;
+  DELETE FROM examenplaneado WHERE codigo=cod and planeacionSemanal=ps;
+
+END */;;
+/*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
 DELIMITER ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -581,4 +604,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-05-25 15:31:08
+-- Dump completed on 2008-05-26  2:07:44
