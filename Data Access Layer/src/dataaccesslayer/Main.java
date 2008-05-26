@@ -413,69 +413,9 @@ public class Main {
         
         //ProbarDaoUsuario();
         //ProbarDaoEstudiante();
-        
-        //DaoAnalista
-        /*List<Analista> manes = DaoAnalista.consultarTodos();
-        for(int i = 0; i<manes.size();i++)
-        {
-            System.out.println(manes.get(i).getIdAnalista());
-        }
-        try{
-            Analista mansito = DaoAnalista.consultarUno(1);
-            System.out.println(mansito.getIdUsuario().getIdUsuario());
-        }
-        catch(NoItemFoundException error){
-            System.out.println(error.Mensaje());
-        }/*
-        try{
-            DaoAnalista.eliminar(6);
-        }
-        catch(NoItemFoundException error){
-            System.out.println(error.Mensaje());
-        }
-        try{
-            Analista mio=DaoAnalista.crear(17);
-            System.out.println(mio.getIdAnalista());
-        }
-        catch(NoItemFoundException error){
-            System.out.println(error.Mensaje());
-        }
-        catch(PosibleDuplicationException error){
-            System.out.println(error.Mensaje());
-        }*/
-         
-        
-        //DaoEstados
-        /*
-        List<Estados> manes = DaoEstados.consultarTodos();
-        for(int i = 0; i<manes.size();i++)
-        {
-            System.out.println(manes.get(i).getNombre());
-        }
-        try{
-            Estados mansito = DaoEstados.consultarUno(4);
-            System.out.println(mansito.getNombre());
-        }
-        catch(NoItemFoundException error){
-            System.out.println(error.Mensaje());
-        }
-        */
-        
-        //DaoExamen
-        /*
-        List<Examen> manes = DaoExamen.consultarTodos();
-        for(int i = 0; i<manes.size();i++)
-        {
-            System.out.println(manes.get(i).getTema());
-        }
-        try{
-            Examen mansito = DaoExamen.consultarUno(4);
-            System.out.println(mansito.getTema());
-        }
-        catch(NoItemFoundException error){
-            System.out.println(error.Mensaje());
-        }
-        */
+        //ProbarDaoAnalista();
+        //ProbarDaoEstados();
+        //ProbarDaoExamen();
         
         //DaoGrado
         /*
@@ -561,6 +501,108 @@ public class Main {
             System.out.println(error.Mensaje());
         }
         */
+    }
+
+    /*
+    * Pruebas DaoExamen
+    */
+    private static void ProbarDaoExamen() {
+        //ProbarDaoExamenConsultarTodos();
+        //ProbarDaoExamenConsultarUno();
+    }
+    
+    private static void ProbarDaoExamenConsultarTodos() {
+        List<Examen> manes = DaoExamen.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getTema());
+        }
+    }
+    
+    private static void ProbarDaoExamenConsultarUno() {
+        try{
+            Examen mansito = DaoExamen.consultarUno(136);
+            System.out.println(mansito.getTema());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    /*
+    * Pruebas DaoEstados
+    */
+    private static void ProbarDaoEstados() {
+        //ProbarDaoEstadosConsultarTodos();
+        //ProbarDaoEstadosConsultarUno();
+    }
+    
+    private static void ProbarDaoEstadosConsultarTodos() {
+        List<Estados> manes = DaoEstados.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getNombre());
+        }
+    }
+    
+    private static void ProbarDaoEstadosConsultarUno() {
+        try{
+            Estados mansito = DaoEstados.consultarUno(10);
+            System.out.println(mansito.getNombre());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    /*
+    * Pruebas DaoAnalista
+    */
+    private static void ProbarDaoAnalista() {
+        //ProbarDaoAnalistaConsultarTodos();
+        //ProbarDaoAnalistaConsultarUno();
+        //ProbarDaoAnalistaCrear();   
+        //ProbarDaoAnalistaEliminar();
+    }
+    
+    private static void ProbarDaoAnalistaConsultarTodos() {
+        List<Analista> manes = DaoAnalista.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdAnalista());
+        }
+    }
+
+    private static void ProbarDaoAnalistaConsultarUno() {
+        try{
+            Analista mansito = DaoAnalista.consultarUno(45);
+            System.out.println(mansito.getIdUsuario().getIdUsuario());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+
+    private static void ProbarDaoAnalistaCrear() {
+        try{
+            Analista mio=DaoAnalista.crear(42);
+            System.out.println(mio.getIdAnalista());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+
+    private static void ProbarDaoAnalistaEliminar() {
+        try{
+            DaoAnalista.eliminar(11);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
     }
 
     /*
@@ -669,7 +711,7 @@ public class Main {
 
     private static void ProbarDaoUsuarioEliminar() {
          try{
-            Usuario eliminado = DaoUsuario.eliminar(43);
+            Usuario eliminado = DaoUsuario.eliminar(44);
             System.out.println(eliminado.getIdUsuario());
         }
         catch(NoItemFoundException error){
@@ -677,5 +719,5 @@ public class Main {
         }
     }
     
-
+    
 }
