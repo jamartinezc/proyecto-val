@@ -31,6 +31,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import DAO.DaoEntityManagerFactory;
+import javax.persistence.NoResultException;
 /**
  *
  * @author jaguar
@@ -1166,7 +1167,6 @@ public class Crud {
         EntityManager em = DaoEntityManagerFactory.getInstance();
         Query query = em.createNamedQuery("Estudiante.consultarSiPerteneceATallerdetutor");
         
-        //Estudiante estudiante = em.find(Estudiante.class, idEstudiante);
         Tutor tutor = em.find(Tutor.class, idTutor);
         
         query.setParameter("idE", idEstudiante);
@@ -1183,6 +1183,26 @@ public class Crud {
             return false;
         }
         
+    }
+    
+    //Dado un Tutor retorna el Taller de ese tutor
+    public Taller consultarTallerDeTutor(int idTutor) throws NoItemFoundException{
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+        Query query = em.createNamedQuery("Taller.consultarTallerDeTutor");
+        
+        Tutor tutor = em.find(Tutor.class, idTutor);
+        
+        query.setParameter("idT", tutor);
+        Taller item;
+        try{
+            item = (Taller) query.getSingleResult();
+        }
+        catch(NoResultException au){
+            throw new NoItemFoundException();
+        }
+        
+        em.clear();
+        return item;
     }
     
 }
