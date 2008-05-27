@@ -1215,7 +1215,7 @@ public class Crud {
     //Dado un Tutor retorna el Taller de ese tutor
     public List<Taller> consultarTallerDeTutor(int idTutor) throws NoItemFoundException{
         EntityManager em = DaoEntityManagerFactory.getInstance();
-        em.flush();
+
         Query query = em.createNamedQuery("Taller.consultarTallerDeTutor");
         
         Tutor tutor = em.find(Tutor.class, idTutor);
