@@ -95,7 +95,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `estudiante` WRITE;
 /*!40000 ALTER TABLE `estudiante` DISABLE KEYS */;
-INSERT INTO `estudiante` VALUES (290,11,2,'2008-01-02 00:00:00',1),(291,11,2,'2008-01-02 00:00:00',2),(292,11,2,'2008-01-04 00:00:00',3),(293,11,2,'2008-02-02 00:00:00',4),(294,11,2,'2008-02-02 00:00:00',5),(295,11,1,'2008-03-02 00:00:00',6),(296,11,1,'2008-01-04 00:00:00',7),(297,11,3,'2008-01-04 00:00:00',8),(298,11,2,'2008-03-02 00:00:00',9),(299,11,1,'2008-01-02 00:00:00',10),(300,10,3,'2008-01-03 00:00:00',11),(301,10,2,'2008-01-04 00:00:00',13),(302,10,1,'2008-02-02 00:00:00',15),(303,10,3,'2008-03-02 00:00:00',16),(304,10,2,'2008-01-03 00:00:00',17),(305,10,1,'2008-01-01 00:00:00',18),(306,10,3,'2008-03-02 00:00:00',19),(307,10,2,'2008-02-02 00:00:00',20),(308,10,1,'2008-01-04 00:00:00',21),(309,11,2,'2008-04-13 00:00:00',26),(310,10,1,'2008-05-23 00:00:00',28),(311,10,2,'2008-05-23 00:00:00',29),(312,10,3,'2008-05-23 00:00:00',30),(313,11,1,'2008-05-23 00:00:00',32),(314,11,2,'2008-05-23 00:00:00',33),(315,11,3,'2008-05-20 00:00:00',34),(316,11,3,'2008-05-20 00:00:00',35),(317,11,3,'2008-05-20 00:00:00',36),(318,11,1,'2008-05-20 00:00:00',37),(319,11,3,'2008-05-20 00:00:00',38),(320,10,1,'2008-05-20 00:00:00',39),(321,10,2,'2008-05-20 00:00:00',40),(322,10,3,'2008-05-20 00:00:00',41),(323,10,2,'2008-05-20 00:00:00',42);
+INSERT INTO `estudiante` VALUES (290,11,2,'2008-01-02 00:00:00',1),(291,11,2,'2008-01-02 00:00:00',2),(292,11,2,'2008-01-04 00:00:00',3),(293,11,2,'2008-02-02 00:00:00',4),(294,11,2,'2008-02-02 00:00:00',5),(295,11,1,'2008-03-02 00:00:00',6),(296,11,1,'2008-01-04 00:00:00',7),(297,11,3,'2008-01-04 00:00:00',8),(298,11,2,'2008-03-02 00:00:00',9),(299,11,1,'2008-01-02 00:00:00',10),(300,10,3,'2008-01-03 00:00:00',11),(301,10,2,'2008-01-04 00:00:00',13),(302,10,1,'2008-02-02 00:00:00',15),(303,10,3,'2008-03-02 00:00:00',16),(304,10,2,'2008-01-03 00:00:00',17),(305,10,1,'2008-01-01 00:00:00',18),(306,10,3,'2008-03-02 00:00:00',19),(307,10,2,'2008-02-02 00:00:00',20),(308,10,1,'2008-01-04 00:00:00',21),(309,11,2,'2008-04-13 00:00:00',26),(310,10,1,'2008-05-23 00:00:00',28),(311,10,2,'2008-05-23 00:00:00',29),(312,10,3,'2008-05-23 00:00:00',30),(313,11,1,'2008-05-23 00:00:00',32),(314,11,2,'2008-05-23 00:00:00',33),(315,11,3,'2008-05-20 00:00:00',34),(316,11,3,'2008-05-20 00:00:00',35),(317,11,3,'2008-05-20 00:00:00',36),(318,11,1,'2008-05-20 00:00:00',37),(319,11,3,'2008-05-20 00:00:00',38),(320,10,1,'2008-05-20 00:00:00',39),(321,10,2,'2008-05-20 00:00:00',40),(322,10,3,'2008-05-20 00:00:00',41),(323,10,2,'2008-05-20 00:00:00',42),(324,11,3,'2008-05-22 00:00:00',43),(325,10,1,'2008-09-20 00:00:00',44);
 /*!40000 ALTER TABLE `estudiante` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,7 +211,7 @@ CREATE TABLE `examensolicitado` (
   CONSTRAINT `FK_examensolicitado_3` FOREIGN KEY (`idExamen`) REFERENCES `examen` (`idExamen`),
   CONSTRAINT `FK_examensolicitado_4` FOREIGN KEY (`idEstado`) REFERENCES `estados` (`idEstado`),
   CONSTRAINT `FK_examensolicitado_5` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -220,7 +220,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `examensolicitado` WRITE;
 /*!40000 ALTER TABLE `examensolicitado` DISABLE KEYS */;
-INSERT INTO `examensolicitado` VALUES (4,290,1,0,'2008-04-20 20:13:54',5,4,13),(5,311,1,0,'2008-05-26 18:14:39',3,73,13);
+INSERT INTO `examensolicitado` VALUES (4,290,1,0,'2008-04-20 20:13:54',5,4,13),(5,311,1,0,'2008-05-26 18:14:39',3,73,13),(6,314,2,0,'2008-05-27 12:17:00',3,74,42),(7,309,2,0,'2008-05-27 18:40:05',3,75,78),(8,325,4,0,'2008-05-27 18:47:57',3,76,114),(9,325,2,0,'2008-05-27 18:50:17',3,77,36);
 /*!40000 ALTER TABLE `examensolicitado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -447,7 +447,7 @@ CREATE TABLE `registro` (
   KEY `FK_registro_1` (`idEstudiante`),
   CONSTRAINT `FK_registro_1` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`) ON DELETE CASCADE,
   CONSTRAINT `FK_registro_2` FOREIGN KEY (`idMateria`) REFERENCES `materia` (`idMateria`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -456,7 +456,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `registro` WRITE;
 /*!40000 ALTER TABLE `registro` DISABLE KEYS */;
-INSERT INTO `registro` VALUES (290,1,4,2,0),(303,1,5,15,0),(292,1,6,26,0),(309,1,7,20,0),(291,1,8,4,0),(293,1,9,10,0),(294,1,10,12,0),(295,1,11,14,0),(296,1,12,16,0),(297,1,13,18,0),(298,1,14,20,0),(299,1,15,22,0),(300,1,16,1,0),(301,1,17,3,0),(302,1,18,9,0),(304,1,19,11,0),(305,1,20,13,0),(306,1,21,17,0),(307,1,22,19,0),(308,1,23,21,0),(310,1,24,23,0),(311,1,25,25,0),(312,1,26,1,3),(313,1,27,22,0),(314,1,28,24,1),(315,1,29,26,2),(316,1,30,2,2),(317,1,31,4,5),(318,1,32,10,4),(319,1,33,12,4),(320,1,34,3,0),(321,1,35,9,1),(322,1,36,11,3),(323,1,37,13,0),(290,1,38,16,0),(291,1,39,18,3),(292,1,40,10,0),(293,1,41,4,5),(294,1,42,22,2),(295,1,43,24,0),(296,1,44,26,4),(297,1,45,2,4),(298,1,46,14,0),(299,1,47,10,2),(300,1,48,15,0),(301,1,49,17,0),(302,1,50,19,0),(303,1,51,21,1),(304,1,52,23,0),(305,1,53,25,0),(306,1,54,1,1),(307,1,55,3,0),(308,1,56,9,0),(309,1,57,12,0),(310,1,58,11,0),(311,1,59,13,1),(312,1,60,15,0),(313,1,61,14,3),(314,1,62,16,1),(315,1,63,18,2),(316,1,64,20,5),(317,1,65,22,4),(318,1,66,24,0),(319,1,67,26,1),(320,1,68,17,4),(321,1,69,19,0),(322,1,70,21,0),(323,1,71,23,5),(290,1,72,26,3),(311,1,73,1,0);
+INSERT INTO `registro` VALUES (290,1,4,2,0),(303,1,5,15,0),(292,1,6,26,0),(309,1,7,20,0),(291,1,8,4,0),(293,1,9,10,0),(294,1,10,12,0),(295,1,11,14,0),(296,1,12,16,0),(297,1,13,18,0),(298,1,14,20,0),(299,1,15,22,0),(300,1,16,1,0),(301,1,17,3,0),(302,1,18,9,0),(304,1,19,11,0),(305,1,20,13,0),(306,1,21,17,0),(307,1,22,19,0),(308,1,23,21,0),(310,1,24,23,0),(311,1,25,25,0),(312,1,26,1,3),(313,1,27,22,0),(314,1,28,24,1),(315,1,29,26,2),(316,1,30,2,2),(317,1,31,4,5),(318,1,32,10,4),(319,1,33,12,4),(320,1,34,3,0),(321,1,35,9,1),(322,1,36,11,3),(323,1,37,13,0),(290,1,38,16,0),(291,1,39,18,3),(292,1,40,10,0),(293,1,41,4,5),(294,1,42,22,2),(295,1,43,24,0),(296,1,44,26,4),(297,1,45,2,4),(298,1,46,14,0),(299,1,47,10,2),(300,1,48,15,0),(301,1,49,17,0),(302,1,50,19,0),(303,1,51,21,1),(304,1,52,23,0),(305,1,53,25,0),(306,1,54,1,1),(307,1,55,3,0),(308,1,56,9,0),(309,1,57,12,0),(310,1,58,11,0),(311,1,59,13,1),(312,1,60,15,0),(313,1,61,14,3),(314,1,62,16,1),(315,1,63,18,2),(316,1,64,20,5),(317,1,65,22,4),(318,1,66,24,0),(319,1,67,26,1),(320,1,68,17,4),(321,1,69,19,0),(322,1,70,21,0),(323,1,71,23,5),(290,1,72,26,3),(311,1,73,1,0),(314,1,74,12,0),(309,1,75,4,0),(325,1,76,9,0),(325,1,77,11,0);
 /*!40000 ALTER TABLE `registro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -553,7 +553,7 @@ CREATE TABLE `usuario` (
   `login` varchar(20) NOT NULL,
   `clave` varchar(14) NOT NULL,
   PRIMARY KEY  (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -562,7 +562,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'María Camila','Hernández Olarte','mchernandezo','mlkiop99'),(2,'Juan Pablo','Perdomo Garzón','jpperdomog','aqwesd46'),(3,'Karen Julieth','Rodríguez Bohórquez','kjrodriguezb','ikjlut31'),(4,'Lorenzo','Caviedes Lacompte','lcaviedesl','uhjngt78'),(5,'Elizabeth','Cavieds Lacompte','ecaviedesl','nmaqpd56'),(6,'Lina María','Gómez Alcazar','lmgomeza','phjkqg09'),(7,'Juan Camilo','García Avellaneda','jcgarciaa','zxcvrt83'),(8,'Ximena','Ballesteros López','xballesterosl','zasqwx89'),(9,'Julián Camilo','Pérez Sierra','jcperezs','qkoshd58'),(10,'Lorena','Perdomo Fonseca','lperdomof','ijhwqp93'),(11,'Alejandro','Cubillos Triana','acubillost','ewpsbgid78'),(12,'Mireya','Suárez Ramirez','msuarezr','jsehgc11'),(13,'María José','Porto Forero','mjportof','awhbsd86'),(14,'Jorge','Pedraza Córdoba','jpedrazac','hyrtui75'),(15,'Katherine','Del Río García','kdelriog','wqtrey90'),(16,'Gabriel','Heredia Jiménez','gherediaj','iupear76'),(17,'Hana Manuela','Hoffman Triada','hmhoffmant','uytred57'),(18,'Daniel','Gómez Toro','dgomezt','nhujms23'),(19,'Juan Camilo','Triana Herrera','jctrianah','uyhsqw44'),(20,'Santiago','Quintero López','squinterol','poiuyt65'),(21,'Juan Camilo','Martínez Castro','jcmartinezc','iuolkj75'),(22,'Eridson','Rodríguez Casas','erodriguezc','ognbco79'),(23,'Omar','Baracaldo Toquica','obaracaldot','jghytf36'),(24,'Alexandra','Bernal Bonfante','abernalb','kalswq96'),(25,'Fredy','Torres Garzón','ftorresg','qdwfeg35'),(26,'Mario','Linares Vasquez','mlinaresv','ssh22'),(28,'David','Montaño','david','david'),(29,'Jorge','Martinez','jorge','jorge'),(30,'Angela','Franco','angela','angela'),(32,'Liliana','Olarte','liliana','liliana'),(33,'Sergio','Bobillier','sergio','sergio'),(34,'Federico','Zalamea','fezalamea','soccer'),(35,'Nicolás','Link','nilink','zelda'),(36,'Gerónimo','Salazar','gesalazar','gerogero'),(37,'Lina','Castellanos','licastellanos','licaste99'),(38,'Laura','Bernal','labernal','labacana'),(39,'Camila','Valdez','cavaldez','cami85'),(40,'Juan Guillermo','Bonfante','jugubonfante','donmomo'),(41,'Sara','Loterstein','saloterstein','argentina'),(42,'Pacheco','Gonzales','pagonzales','demelap');
+INSERT INTO `usuario` VALUES (1,'María Camila','Hernández Olarte','mchernandezo','mlkiop99'),(2,'Juan Pablo','Perdomo Garzón','jpperdomog','aqwesd46'),(3,'Karen Julieth','Rodríguez Bohórquez','kjrodriguezb','ikjlut31'),(4,'Lorenzo','Caviedes Lacompte','lcaviedesl','uhjngt78'),(5,'Elizabeth','Cavieds Lacompte','ecaviedesl','nmaqpd56'),(6,'Lina María','Gómez Alcazar','lmgomeza','phjkqg09'),(7,'Juan Camilo','García Avellaneda','jcgarciaa','zxcvrt83'),(8,'Ximena','Ballesteros López','xballesterosl','zasqwx89'),(9,'Julián Camilo','Pérez Sierra','jcperezs','qkoshd58'),(10,'Lorena','Perdomo Fonseca','lperdomof','ijhwqp93'),(11,'Alejandro','Cubillos Triana','acubillost','ewpsbgid78'),(12,'Mireya','Suárez Ramirez','msuarezr','jsehgc11'),(13,'María José','Porto Forero','mjportof','awhbsd86'),(14,'Jorge','Pedraza Córdoba','jpedrazac','hyrtui75'),(15,'Katherine','Del Río García','kdelriog','wqtrey90'),(16,'Gabriel','Heredia Jiménez','gherediaj','iupear76'),(17,'Hana Manuela','Hoffman Triada','hmhoffmant','uytred57'),(18,'Daniel','Gómez Toro','dgomezt','nhujms23'),(19,'Juan Camilo','Triana Herrera','jctrianah','uyhsqw44'),(20,'Santiago','Quintero López','squinterol','poiuyt65'),(21,'Juan Camilo','Martínez Castro','jcmartinezc','iuolkj75'),(22,'Eridson','Rodríguez Casas','erodriguezc','ognbco79'),(23,'Omar','Baracaldo Toquica','obaracaldot','jghytf36'),(24,'Alexandra','Bernal Bonfante','abernalb','kalswq96'),(25,'Fredy','Torres Garzón','ftorresg','qdwfeg35'),(26,'Mario','Linares Vasquez','mlinaresv','ssh22'),(28,'David','Montaño','david','david'),(29,'Jorge','Martinez','jorge','jorge'),(30,'Angela','Franco','angela','angela'),(32,'Liliana','Olarte','liliana','liliana'),(33,'Sergio','Bobillier','sergio','sergio'),(34,'Federico','Zalamea','fezalamea','soccer'),(35,'Nicolás','Link','nilink','zelda'),(36,'Gerónimo','Salazar','gesalazar','gerogero'),(37,'Lina','Castellanos','licastellanos','licaste99'),(38,'Laura','Bernal','labernal','labacana'),(39,'Camila','Valdez','cavaldez','cami85'),(40,'Juan Guillermo','Bonfante','jugubonfante','donmomo'),(41,'Sara','Loterstein','saloterstein','argentina'),(42,'Pacheco','Gonzales','pagonzales','demelap'),(43,'Luís Fernando','Guzmán Ramírez','lfguzmanr','luisfer'),(44,'Maria','Rojas','mrojas','rojas');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -604,4 +604,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-05-26  2:07:44
+-- Dump completed on 2008-05-27  1:39:48
