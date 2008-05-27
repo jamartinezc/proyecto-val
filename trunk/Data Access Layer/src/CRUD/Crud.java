@@ -1151,8 +1151,7 @@ public class Crud {
     public List<Materia> materiasDeAnalista(int idAnalista) throws NoItemFoundException{
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();         
+        EntityManager em = emf.createEntityManager();         
         
         Analista analista = em.find(Analista.class, idAnalista);
         em.close();
@@ -1192,7 +1191,10 @@ public class Crud {
     //dado un ID de Estudiante y un ID de Tutor dice si el estudiante pertenece al taller del tutor
     public boolean estudianteDelTallerDeTutor(int idEstudiante, int idTutor){
         EntityManager em = DaoEntityManagerFactory.getInstance();
-        em.flush();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+            em.flush();
+        tx.commit();
         Query query = em.createNamedQuery("Estudiante.consultarSiPerteneceATallerdetutor");
         
         Tutor tutor = em.find(Tutor.class, idTutor);
