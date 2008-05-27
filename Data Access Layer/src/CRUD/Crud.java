@@ -46,7 +46,6 @@ public class Crud {
             EntityManager em = emf.createEntityManager();         
             
             Usuario usuario = em.find(Usuario.class, idUsuario);
-            em.flush();
             em.close();
             if(usuario!=null){
                 return usuario;
@@ -68,7 +67,6 @@ public class Crud {
             try
             {
                 tx.begin();
-                pm.flush();
                 Query q = pm.createQuery("select p from Usuario p where p.login = :log AND p.clave = :pass");
                 q.setParameter("log", usuario);
                 q.setParameter("pass", password);
@@ -111,7 +109,6 @@ public class Crud {
                 try
                 {
                     tx.begin();
-                    em.flush();
                     Query q = em.createQuery("select p from Estudiante p where p.idUsuario = :usuario");
                     q.setParameter("usuario", usu);
                     List<Estudiante> result = q.getResultList();
@@ -158,7 +155,6 @@ public class Crud {
                 try
                 {
                     tx.begin();
-                    em.flush();
                     Query q = em.createQuery("select p from Analista p where p.idUsuario = :usuario");
                     q.setParameter("usuario", usu);
                     List<Analista> result = q.getResultList();
@@ -205,7 +201,6 @@ public class Crud {
                 try
                 {
                     tx.begin();
-                    em.flush();
                     Query q = em.createQuery("select p from Tutor p where p.idUsuario = :usuario");
                     q.setParameter("usuario", usu);
                     List<Tutor> result = q.getResultList();
@@ -253,7 +248,6 @@ public class Crud {
                 try
                 {
                     tx.begin();
-                    em.flush();
                     Query q = em.createQuery("select p from SecretariaAcademica p where p.idUsuario = :usuario");
                     q.setParameter("usuario", usu);
                     List<SecretariaAcademica> result = q.getResultList();
@@ -309,7 +303,6 @@ public class Crud {
         try
             {
                 tx.begin();
-                em.flush();
                 Query q = em.createQuery("select p from Analista p where p.idUsuario = :id");
                 q.setParameter("id", usuario);
                 List<Analista> lista = q.getResultList();
@@ -343,7 +336,6 @@ public class Crud {
             try
             {
                 tx.begin();
-                pm.flush();
                 Query q = pm.createQuery("select p from Materia p");
                 List<Materia> lista = q.getResultList();
                 tx.commit();
@@ -375,7 +367,6 @@ public class Crud {
             try
             {
                 tx.begin();
-                em.flush();
                 Query q = em.createQuery("select p from Registro p where p.idEstudiante = :estudiante AND p.idMateria = :materia");
                 q.setParameter("estudiante", estudiante);
                 q.setParameter("materia", materia);
@@ -414,7 +405,6 @@ public class Crud {
                 try
                 {
                     tx.begin();
-                    pm.flush();
                     Query q = pm.createQuery("select p from Registro p where p.idEstudiante = :estudiante AND p.activo = :estado");
                     q.setParameter("estudiante", estudiante);
                     q.setParameter("estado", activo);
@@ -468,7 +458,6 @@ public class Crud {
 
                 tx.begin();
                 em.persist(registro);
-                em.flush();
                 tx.commit();
                 
                 Registro nuevo = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
@@ -501,7 +490,6 @@ public class Crud {
             try
             {
                 tx.begin();
-                pm.flush();
                 Query q = pm.createQuery("select p from Taller p");
                 List<Taller> lista = q.getResultList();
                 tx.commit();
@@ -534,7 +522,6 @@ public class Crud {
                 Taller taller;
                 
                 tx.begin();
-                pm.flush();
                 Query q = pm.createQuery("select p from Taller p where p.idTaller = :taller");
                 q.setParameter("taller", idTaller);
                 List<Taller> lista = q.getResultList();
@@ -570,7 +557,6 @@ public class Crud {
             try
             {
                 tx.begin();
-                pm.flush();
                 Query q = pm.createQuery("select p from Usuario p ORDER BY p.apellidos");
                 List<Usuario> lista = q.getResultList();
                 tx.commit();
@@ -601,7 +587,6 @@ public class Crud {
             try
             {
                 tx.begin();
-                em.flush();
                 Query q = pm.createQuery("select p from Usuario p where p.login = :log");
                 q.setParameter("log", login);
                 List<Usuario> usuario = q.getResultList();
@@ -647,7 +632,6 @@ public class Crud {
                     usuario.setClave(clave);
 
                     em.persist(usuario);
-                    em.flush();
                     tx.commit();
                     
                     List<Usuario> nuevo = this.consultarUsuario(usuario.getLogin(), usuario.getClave());
@@ -685,7 +669,6 @@ public class Crud {
                 if(usuario!=null){
                     tx.begin();
                     em.remove(usuario);
-                    em.flush();
                     tx.commit();
                     
                 }
@@ -723,7 +706,6 @@ public class Crud {
                     usuario.setApellidos(apellido);
                     usuario.setLogin(login);
                     usuario.setClave(clave);
-                    em.flush();
                     tx.commit();
                     
                     return usuario;
@@ -788,7 +770,6 @@ public class Crud {
                 q.setParameter("reg", registro);
                 q.setParameter("exam", examen);
                 List<ExamenSolicitado> lista = q.getResultList();
-                em.flush();
                 tx.commit();
                 pm.close();
                 if(lista.size()>0){
@@ -843,7 +824,6 @@ public class Crud {
 
                     tx.begin();
                     em.persist(examenSolicitado);
-                    em.flush();
                     tx.commit();
                     
                     
@@ -881,7 +861,6 @@ public class Crud {
             {
                 
                 tx.begin();
-                pm.flush();
                 Query q = pm.createQuery("select p from Estados p");
                 List<Estados> lista = q.getResultList();
                 tx.commit();
@@ -913,7 +892,6 @@ public class Crud {
                     tx.begin();
                 
                     registro.setActivo(false);
-                    em.flush();
                     tx.commit();
                     
                     return registro;
@@ -947,7 +925,6 @@ public class Crud {
                     tx.begin();
                 
                     examen.setIdEstado(estado);
-                    em.flush();
                     tx.commit();
                     
                     return examen;
@@ -978,7 +955,6 @@ public class Crud {
                 try
                 {
                     tx.begin();
-                    pm.flush();
                     Query q = pm.createQuery("select p from Usuario p where UPPER(p.nombres) LIKE :nombre OR UPPER(p.apellidos) LIKE :nombre ORDER BY p.nombres");
                     q.setParameter("nombre", "%"+comodin+"%");
                     List<Usuario> lista = q.getResultList();
@@ -1093,7 +1069,6 @@ public class Crud {
             try
             {
                 tx.begin();
-                pm.flush();
                 Query q = pm.createQuery("select p from Grado p");
                 List<Grado> lista = q.getResultList();
                 tx.commit();
@@ -1126,7 +1101,6 @@ public class Crud {
             try
             {
                 tx.begin();
-                pm.flush();
                 Query q = pm.createQuery("select p from ExamenSolicitado p where p.idExamen = :exam AND p.idEstudiante =:student");
                 q.setParameter("exam", control);
                 q.setParameter("student", etudiant);
