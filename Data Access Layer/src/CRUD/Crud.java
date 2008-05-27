@@ -46,6 +46,8 @@ public class Crud {
             EntityManager em = emf.createEntityManager();         
             
             Usuario usuario = em.find(Usuario.class, idUsuario);
+            em.flush();
+            em.close();
             if(usuario!=null){
                 return usuario;
             }
@@ -66,12 +68,14 @@ public class Crud {
             try
             {
                 tx.begin();
-
+                pm.flush();
                 Query q = pm.createQuery("select p from Usuario p where p.login = :log AND p.clave = :pass");
                 q.setParameter("log", usuario);
                 q.setParameter("pass", password);
                 List<Usuario> lista = q.getResultList();
                 tx.commit();
+                
+                pm.close();
                 if(lista.size()>0){
                     return lista;
                 }
@@ -101,14 +105,13 @@ public class Crud {
                 EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
                 EntityManager em = emf.createEntityManager();
                 EntityTransaction tx = em.getTransaction();
-                EntityManager pm = emf.createEntityManager();  
                 
                 Usuario usu;
                 usu = (Usuario) lista.get(0);
                 try
                 {
                     tx.begin();
-
+                    em.flush();
                     Query q = em.createQuery("select p from Estudiante p where p.idUsuario = :usuario");
                     q.setParameter("usuario", usu);
                     List<Estudiante> result = q.getResultList();
@@ -155,7 +158,7 @@ public class Crud {
                 try
                 {
                     tx.begin();
-
+                    em.flush();
                     Query q = em.createQuery("select p from Analista p where p.idUsuario = :usuario");
                     q.setParameter("usuario", usu);
                     List<Analista> result = q.getResultList();
@@ -196,19 +199,19 @@ public class Crud {
                 EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
                 EntityManager em = emf.createEntityManager();
                 EntityTransaction tx = em.getTransaction();
-                EntityManager pm = emf.createEntityManager();  
            
                 Usuario usu;
                 usu = (Usuario) lista.get(0);
                 try
                 {
                     tx.begin();
-
+                    em.flush();
                     Query q = em.createQuery("select p from Tutor p where p.idUsuario = :usuario");
                     q.setParameter("usuario", usu);
                     List<Tutor> result = q.getResultList();
 
                     tx.commit();
+                    
                     try
                     {
                         return result.get(0);
@@ -243,15 +246,14 @@ public class Crud {
             {           
                 EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
                 EntityManager em = emf.createEntityManager();
-                EntityTransaction tx = em.getTransaction();
-                EntityManager pm = emf.createEntityManager();  
+                EntityTransaction tx = em.getTransaction(); 
          
                 Usuario usu;
                 usu = (Usuario) lista.get(0);
                 try
                 {
                     tx.begin();
-
+                    em.flush();
                     Query q = em.createQuery("select p from SecretariaAcademica p where p.idUsuario = :usuario");
                     q.setParameter("usuario", usu);
                     List<SecretariaAcademica> result = q.getResultList();
@@ -289,6 +291,7 @@ public class Crud {
         EntityManager em = emf.createEntityManager();
         
         Estudiante buscado = em.find(Estudiante.class, idEstudiante);
+        em.close();
         if(buscado!=null){
             return buscado;
         }
@@ -306,7 +309,7 @@ public class Crud {
         try
             {
                 tx.begin();
-
+                em.flush();
                 Query q = em.createQuery("select p from Analista p where p.idUsuario = :id");
                 q.setParameter("id", usuario);
                 List<Analista> lista = q.getResultList();
@@ -340,10 +343,11 @@ public class Crud {
             try
             {
                 tx.begin();
-
+                pm.flush();
                 Query q = pm.createQuery("select p from Materia p");
                 List<Materia> lista = q.getResultList();
                 tx.commit();
+                pm.close();
                 return lista;
             }
             finally
@@ -371,7 +375,7 @@ public class Crud {
             try
             {
                 tx.begin();
-
+                em.flush();
                 Query q = em.createQuery("select p from Registro p where p.idEstudiante = :estudiante AND p.idMateria = :materia");
                 q.setParameter("estudiante", estudiante);
                 q.setParameter("materia", materia);
@@ -410,13 +414,13 @@ public class Crud {
                 try
                 {
                     tx.begin();
-
+                    pm.flush();
                     Query q = pm.createQuery("select p from Registro p where p.idEstudiante = :estudiante AND p.activo = :estado");
                     q.setParameter("estudiante", estudiante);
                     q.setParameter("estado", activo);
                     List<Registro> lista = q.getResultList();
                     tx.commit();
-
+                    pm.close();
                     return lista;
                 }
                 finally
@@ -465,7 +469,7 @@ public class Crud {
                 tx.begin();
                 em.persist(registro);
                 tx.commit();
-
+                em.flush();
                 Registro nuevo = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
                 return nuevo;
             }
@@ -496,10 +500,11 @@ public class Crud {
             try
             {
                 tx.begin();
-
+                pm.flush();
                 Query q = pm.createQuery("select p from Taller p");
                 List<Taller> lista = q.getResultList();
                 tx.commit();
+                pm.close();
                 return lista;
             }
             finally
@@ -526,11 +531,13 @@ public class Crud {
             try
             {
                 Taller taller;
+                pm.flush();
                 tx.begin();
                 Query q = pm.createQuery("select p from Taller p where p.idTaller = :taller");
                 q.setParameter("taller", idTaller);
                 List<Taller> lista = q.getResultList();
                 tx.commit();
+                pm.close();
                 if(lista.size()==1){
                     taller = lista.get(0);
                     return taller;
@@ -561,10 +568,11 @@ public class Crud {
             try
             {
                 tx.begin();
-
+                pm.flush();
                 Query q = pm.createQuery("select p from Usuario p ORDER BY p.apellidos");
                 List<Usuario> lista = q.getResultList();
                 tx.commit();
+                pm.close();
                 return lista;
             }
             finally
@@ -595,6 +603,7 @@ public class Crud {
                 q.setParameter("log", login);
                 List<Usuario> usuario = q.getResultList();
                 tx.commit();
+                pm.close();
                 if(usuario.size()==1){
                     return false;
                 }
@@ -637,7 +646,7 @@ public class Crud {
                     em.persist(usuario);
 
                     tx.commit();
-
+                    em.flush();
                     List<Usuario> nuevo = this.consultarUsuario(usuario.getLogin(), usuario.getClave());
 
                     return nuevo.get(0);
@@ -674,6 +683,7 @@ public class Crud {
                     tx.begin();
                     em.remove(usuario);
                     tx.commit();
+                    em.flush();
                 }
                 else{
                     throw new NoItemFoundException();
@@ -711,7 +721,7 @@ public class Crud {
                     usuario.setClave(clave);
 
                     tx.commit();
-
+                    em.flush();
                     return usuario;
                 }
                 else{
@@ -737,7 +747,7 @@ public class Crud {
         EntityManager em = emf.createEntityManager();       
         
         Materia materia = em.find(Materia.class, idMateria);
-
+        em.close();
         if(materia!=null){
             return materia.getIdAnalista();
         }
@@ -761,6 +771,8 @@ public class Crud {
             Registro registro = em.find(Registro.class, idRegistro);
             Examen examen = em.find(Examen.class, idExamen);
             
+            pm.flush();
+            
             try
             {
                 tx.begin();
@@ -773,6 +785,7 @@ public class Crud {
                 q.setParameter("exam", examen);
                 List<ExamenSolicitado> lista = q.getResultList();
                 tx.commit();
+                pm.close();
                 if(lista.size()>0){
                     return lista;
                 }
@@ -826,7 +839,8 @@ public class Crud {
                     tx.begin();
                     em.persist(examenSolicitado);
                     tx.commit();
-
+                    em.flush();
+                    
                     List<ExamenSolicitado> nuevo = this.consultarExamenSolicitadoEspecífico(examenSolicitado.getIdEstudiante().getIdEstudiante(), examenSolicitado.getIdAnalista().getIdAnalista(), examenSolicitado.getIdRegistro().getIdRegistro(), examenSolicitado.getIdExamen().getIdExamen());
 
                     if(nuevo.size()==1){
@@ -859,11 +873,13 @@ public class Crud {
             
             try
             {
+                pm.flush();
                 tx.begin();
 
                 Query q = pm.createQuery("select p from Estados p");
                 List<Estados> lista = q.getResultList();
                 tx.commit();
+                pm.close();
                 return lista;
             }
             finally
@@ -893,7 +909,7 @@ public class Crud {
                     registro.setActivo(false);
 
                     tx.commit();
-
+                    em.flush();
                     return registro;
                 }
                 else{
@@ -927,7 +943,7 @@ public class Crud {
                     examen.setIdEstado(estado);
 
                     tx.commit();
-
+                    em.flush();
                     return examen;
                 }
                 else{
@@ -956,11 +972,12 @@ public class Crud {
                 try
                 {
                     tx.begin();
-
+                    pm.flush();
                     Query q = pm.createQuery("select p from Usuario p where UPPER(p.nombres) LIKE :nombre OR UPPER(p.apellidos) LIKE :nombre ORDER BY p.nombres");
                     q.setParameter("nombre", "%"+comodin+"%");
                     List<Usuario> lista = q.getResultList();
                     tx.commit();
+                    pm.close();
                     if(lista.size()>0){
                         return lista;
                     }     
@@ -998,6 +1015,7 @@ public class Crud {
             }
             catch(NoItemFoundException ey){
                 Materia matiere = em.find(Materia.class, codigoMateria);
+                em.clear();
                 List<Examen> nuevo= (List<Examen>) matiere.getExamenCollection();
                 return nuevo.get(0);
             }
@@ -1024,6 +1042,7 @@ public class Crud {
                     else{
                         int nuevo = temaActual + 1;
                         Examen siguienteTema = em.find(Examen.class, nuevo);
+                        em.clear();
                         return siguienteTema;
                     }
                 }
@@ -1046,7 +1065,7 @@ public class Crud {
             
             int next = temaActual + 1;
             Examen siguiente = em.find(Examen.class, next);
-            
+            em.clear();
             if(siguiente.getIdMateria().getIdMateria()==codigoMateria)
             {
                 return false;
@@ -1068,10 +1087,11 @@ public class Crud {
             try
             {
                 tx.begin();
-
+                pm.flush();
                 Query q = pm.createQuery("select p from Grado p");
                 List<Grado> lista = q.getResultList();
                 tx.commit();
+                pm.close();
                 return lista;
             }
             finally
@@ -1100,13 +1120,13 @@ public class Crud {
             try
             {
                 tx.begin();
-
+                pm.flush();
                 Query q = pm.createQuery("select p from ExamenSolicitado p where p.idExamen = :exam AND p.idEstudiante =:student");
                 q.setParameter("exam", control);
                 q.setParameter("student", etudiant);
                 List<ExamenSolicitado> lista = q.getResultList();
                 tx.commit();
-                
+                pm.close();
                 if(lista.size()>0){
                     return lista;
                 }
@@ -1135,7 +1155,7 @@ public class Crud {
         EntityTransaction tx = em.getTransaction();         
         
         Analista analista = em.find(Analista.class, idAnalista);
-        
+        em.close();
 
         if(analista!=null){
             return (List<Materia>) analista.getMateriaCollection();
@@ -1150,7 +1170,7 @@ public class Crud {
     public List<ExamenSolicitado> consultarListaExamenesPorCalificarDeAnalista(int idAnalista) throws NoItemFoundException {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();        
-            
+            em.flush();
             Analista analista = em.find(Analista.class, idAnalista);
             
             if(analista==null) throw new NoItemFoundException();
@@ -1172,6 +1192,7 @@ public class Crud {
     //dado un ID de Estudiante y un ID de Tutor dice si el estudiante pertenece al taller del tutor
     public boolean estudianteDelTallerDeTutor(int idEstudiante, int idTutor){
         EntityManager em = DaoEntityManagerFactory.getInstance();
+        em.flush();
         Query query = em.createNamedQuery("Estudiante.consultarSiPerteneceATallerdetutor");
         
         Tutor tutor = em.find(Tutor.class, idTutor);
@@ -1195,6 +1216,7 @@ public class Crud {
     //Dado un Tutor retorna el Taller de ese tutor
     public List<Taller> consultarTallerDeTutor(int idTutor) throws NoItemFoundException{
         EntityManager em = DaoEntityManagerFactory.getInstance();
+        em.flush();
         Query query = em.createNamedQuery("Taller.consultarTallerDeTutor");
         
         Tutor tutor = em.find(Tutor.class, idTutor);
@@ -1219,7 +1241,7 @@ public class Crud {
     public List<ExamenSolicitado> examenesSolicitadosPorEstudiantesDeTutor(int idTutor) throws NoItemFoundException{
         EntityManager em = DaoEntityManagerFactory.getInstance();
 
-        //Tutor tutor = em.find(Tutor.class, idTutor);
+        em.flush();
         Query query = em.createQuery("SELECT e FROM ExamenSolicitado e JOIN e.idEstudiante  estudiante JOIN estudiante.idTaller taller JOIN taller.idTutor tutor WHERE tutor.idTutor =:idT");
         query.setParameter("idT", idTutor);
         List<ExamenSolicitado> item = query.getResultList();
