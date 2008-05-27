@@ -505,7 +505,7 @@ public class Main {
 
     private static void ProbarDaoExamenSolicitadoEliminar() {
         try{
-            DaoRegistro.eliminar(74);
+            DaoExamenSolicitado.eliminar(456);
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
