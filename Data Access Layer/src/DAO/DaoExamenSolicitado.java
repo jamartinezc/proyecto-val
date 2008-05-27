@@ -81,10 +81,20 @@ public class DaoExamenSolicitado {
        
        Estudiante estudiante = em.find(Estudiante.class, idEstudiante);
        Analista analista = em.find(Analista.class, idAnalista);
+       Registro registro = em.find(Registro.class, idRegistro);
+       Examen examen = em.find(Examen.class, idExamen);
+       Estados estado = em.find(Estados.class, 3);
+       
+       if(estudiante==null) throw
        
        try
             {
-                if()
+                if(registroNoExiste()){
+                    
+                }
+                else{
+                    
+                }
                 
                 tx.begin();
                     em.persist(nuevo);
