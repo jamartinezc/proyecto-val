@@ -25,7 +25,29 @@
         <servlet-class>com.liceoval.presentationlayer.control.usuarios.GuardarUsuario</servlet-class>
     </servlet>
 	
-	<servlet-mapping>
+    <servlet>
+        <servlet-name>CronoTrigger</servlet-name>
+        <display-name>Metodos del tiempo loader</display-name>
+        <servlet-class>com.liceoval.presentationlayer.control.timetriggered.CronoTrigger</servlet-class>
+        <load-on-startup>1</load-on-startup>
+        <init-param>
+        <param-name>shutdown-on-unload</param-name>
+        <param-value>true</param-value>
+        </init-param>
+
+        <init-param>
+        <param-name>start-scheduler-on-load</param-name>
+        <param-value>false</param-value>
+        </init-param>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>CronoTrigger</servlet-name>
+        <url-pattern>/CronoTrigger</url-pattern>
+    </servlet-mapping>
+    
+    
+    <servlet-mapping>
         <servlet-name>GuardarUsuario</servlet-name>
         <url-pattern>/GuardarUsuario</url-pattern>
     </servlet-mapping>

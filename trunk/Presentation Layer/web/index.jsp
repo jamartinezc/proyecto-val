@@ -51,7 +51,168 @@
             </td><td class="center-padding">
                 
                 <%@include file="globals/login-error.jsp" %>
-                
+                <table border="0" cellpadding="0" cellspacing="0" width="550">
+                        <tr height="30"><td><img src="images/title-left.png" /></td>
+                            <td class="title-center" width="100%">Bienvenido</td>
+                            <td><img src="images/title-right.png" /></td></tr>
+                            
+                        <tr><td class="cont-outer" colspan="3">
+                            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                            <tr><td class="cont-inner" style="padding-right:45px">
+                                    <p style="text-align:center"><b>BIENVENIDO AL SISTEMA DE INFORMACIÓN ACADÉMICA DEL LICEO V.A.L.</b></p>
+                                    <br>
+                                    <ul>
+                                        <p style="text-align:justify">
+                                            <b>Bienvenido Visitante</b><br>
+                                            Si usted es un usuario activo del Liceo V.A.L por favor inicie su sesión.<br>
+                                            De lo contrario puede unicamente consultar el informe de exelencia que se encuentra a continuación.
+                                        </p>
+                                    </ul>
+                                
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td class="cont-inner" >
+                                    
+                                    <p style="text-align:center">
+                                        <b>
+                                            INFORME DE EXCELENCIA POR TALLER<br><br>
+                                            TALLERES
+                                        </b>
+                                    
+                                        <ul>
+                                            <table border="1" width="92%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>TALLER</th>
+                                                        <th>PRESENTADOS POR EL TALLER</th>
+                                                        <th>GANADOS POR EL TALLER</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>CUATRO</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>CINCO</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                                </table>
+                                         </ul>
+                                    </p>
+                                    
+                                        
+                                    <p style="text-align:center">
+                                        <b><br><br>MEJORES ESTUDIANTES DE CADA TALLER<br></b>
+                                        <ul>
+                                            <table border="1" width="92%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>TALLER</th>
+                                                        <th>ESTUDIANTE</th>
+                                                        <th>EXÁMENES PRESENTADOS</th>
+                                                        <th>EXÁMENES GANADOS</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>CUATRO</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>CINCO</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </ul>
+                                    </p>
+                                    
+                                    <p style="text-align:left">
+                                        <br><br>
+                                        <ul>
+                                            <b>TALLER CON MAS GANADOS:</b>
+                                            <table border="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>TALLER</th>
+                                                        <th>PRESENTADOS</th>
+                                                        <th>GANADOS</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>CINCO</td>
+                                                        <td>240</td>
+                                                        <td>140</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </ul>
+                                    </p>
+                                    <p style="text-align:left">
+                                        <br>
+                                        <ul>
+                                            <b>TALLER CON MEJOR RENDIMIENTO:</b>
+                                            <table border="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>TALLER</th>
+                                                        <th>PRESENTADOS</th>
+                                                        <th>GANADOS</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>CINCO</td>
+                                                        <td>80</td>
+                                                        <td>78</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </ul>
+                                    </p>
+                                    <p style="text-align:left">
+                                        <br> 
+                                            <ul>
+                                                <b>MEJOR ESTUDIANTE:</b>
+                                            <table border="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>TALLER</th>
+                                                    <th>NOMBRE</th>
+                                                    <th>PRESENTADOS</th>
+                                                    <th>GANADOS</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>TRES</td>
+                                                    <td>JORGE MARTÍNEZ</td>
+                                                    <td>35</td>
+                                                    <td>30</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </ul>
+                                    </p>
+
+                                    <!--ACÁ VOY-->
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+         </table>
             </td><td>
         
         	<!-- Menú derecho -->
