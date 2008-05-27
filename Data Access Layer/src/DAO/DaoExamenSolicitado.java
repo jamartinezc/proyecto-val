@@ -16,6 +16,7 @@ import VO.Registro;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -48,14 +49,14 @@ public class DaoExamenSolicitado {
             throw new NoItemFoundException();
         }
     }
-    /*
-    public static Analista eliminar(int idAnalista) throws NoItemFoundException{  
+    
+    public static ExamenSolicitado eliminar(int idExamenSolicitado) throws NoItemFoundException{  
         EntityManager em = DaoEntityManagerFactory.getInstance();
         EntityTransaction tx = em.getTransaction();
         try
             {
                 tx.begin();
-                    Analista item = em.getReference(Analista.class, idAnalista);
+                    ExamenSolicitado item = em.getReference(ExamenSolicitado.class, idExamenSolicitado);
                     em.remove(item);
                 tx.commit();
                 return item;
@@ -74,8 +75,34 @@ public class DaoExamenSolicitado {
             }
     }
     
-    public static ExamenSolicitado crear(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException, PosibleDuplicationException{  
+    /*public static ExamenSolicitado crear(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException, PosibleDuplicationException{  
+       EntityManager em = DaoEntityManagerFactory.getInstance();
+       EntityTransaction tx = em.getTransaction();
        
-    }
-    */
+       Estudiante estudiante = em.find(Estudiante.class, idEstudiante);
+       Analista analista = em.find(Analista.class, idAnalista);
+       
+       try
+            {
+                if()
+                
+                tx.begin();
+                    em.persist(nuevo);
+                tx.commit();
+                return nuevo;
+            }
+            catch(EntityNotFoundException noResult){
+                throw new NoItemFoundException();
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+                em.clear();
+            }
+       
+    }*/
+    
 }
