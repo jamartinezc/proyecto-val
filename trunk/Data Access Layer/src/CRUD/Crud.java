@@ -1191,10 +1191,7 @@ public class Crud {
     //dado un ID de Estudiante y un ID de Tutor dice si el estudiante pertenece al taller del tutor
     public boolean estudianteDelTallerDeTutor(int idEstudiante, int idTutor){
         EntityManager em = DaoEntityManagerFactory.getInstance();
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-            em.flush();
-        tx.commit();
+
         Query query = em.createNamedQuery("Estudiante.consultarSiPerteneceATallerdetutor");
         
         Tutor tutor = em.find(Tutor.class, idTutor);
