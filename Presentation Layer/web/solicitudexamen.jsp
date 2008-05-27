@@ -66,7 +66,7 @@
                         <tr><td class="cont-outer" colspan="3">
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                 <tr><td class="cont-inner">
-                                    <form name="Solicitud" action="confirmacionSolicitud.jsp" method="POST" enctype="application/x-www-form-urlencoded">
+                                    <form name="Solicitud" action="confirmacionSolicitud.jsp" method="POST" enctype="application/x-www-form-urlencoded" accept-charset="ISO-8859-1">
                                 <br />
                                 
                                 <p style="text-align:center"><b>ESTE FORMULARIO LE PERMITIRÁ REALIZAR UNA SOLICITUD DE EXÁMEN.</b></p>

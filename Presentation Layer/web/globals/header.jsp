@@ -1,4 +1,4 @@
-<%@page import="com.liceoval.businesslayer.entities.Usuario" %>
+<%@page import="com.liceoval.businesslayer.entities.Usuario"%>
 
     <%
     Usuario currentUser;

@@ -84,7 +84,7 @@
                                      Código del examen: <%=examen.getCodigo()%><br>
                                      Tema del examen: <%=examen.getTema()%><br>
                                 </ul>
-                                <form name="Examen" action="rtasolicitud.jsp" method="POST" enctype="application/x-www-form-urlencoded">
+                                <form name="Examen" action="rtasolicitud.jsp" method="POST" enctype="application/x-www-form-urlencoded" accept-charset="ISO-8859-1">
                                 <input type="hidden" name="NombreMateria" value="<%=(request.getParameter("NombreMateria"))%>" >
                                 <input type="hidden" name="materia" value="<%=request.getParameter("Materia")%>" />
                                 <input type="hidden" name="codigo" value="<%=examen.getCodigo()%>" />

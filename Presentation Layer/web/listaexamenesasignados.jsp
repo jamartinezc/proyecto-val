@@ -11,7 +11,12 @@
 <title>Liceo V.A.L. - Sistema de Información Académico - Ver/Calificar exámenes asignados</title>
 <link rel="stylesheet" type="text/css" href="globals/main.css" />
 </head>
-
+<style type="text/css">
+	.label input{
+	background: #EAF7FF;
+	border: 1px solid #0066CC
+	}
+</style>
 <body>
 
     <%
@@ -60,7 +65,8 @@
                                 <br>
                                     <!--| ESTUDIANTE | EXÁMEN | FECHA | NOTA |-->
                                     <ul>
-                                    <table border="1">
+                                  <form name="listaExamenes" action="" method="POST" enctype="application/x-www-form-urlencoded" accept-charset="ISO-8859-1">
+                                    <table border="1" class="label" width="92%">
                                         <thead>
                                             <tr>
                                                 <th>ESTUDIANTE</th>
@@ -74,18 +80,23 @@
                                                 <td>Estudiante Número Uno</td>
                                                 <td>EL Examen 1</td>
                                                 <td>2008-04-20 20:13:54</td>
-                                                <td><a href="http://localhost">9.0</a></td>
+                                                <td><input type="text" name="<%="nota"+1%>" value="9.0" size="3" /></td>
                                             </tr>
                                             <tr>
                                                 <td>Estudiante Número Dos</td>
                                                 <td>EL Examen 2</td>
                                                 <td>2008-04-20 20:13:54</td>
-                                                <td><a href="http://localhost">9.5</a></td>
+                                                <td><input type="text" name="<%="nota"+2%>" value="9.5" size="3" /></td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                    </ul>
+                                    <p style="text-align:center">
+                                        <input type="submit" value="Enviar cambios" />
+                                        <input type="button" value="Deshacer cambios" onclick="" />
+                                    </p>
                                   <!--VOY ACÁ-->
+                                    </form>
+                                    </ul>
                             </td>
                             </tr>
                         </table>
