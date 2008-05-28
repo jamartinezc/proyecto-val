@@ -757,8 +757,6 @@ public class Crud {
             Registro registro = em.find(Registro.class, idRegistro);
             Examen examen = em.find(Examen.class, idExamen);
             
-            pm.flush();
-            
             try
             {
                 tx.begin();
