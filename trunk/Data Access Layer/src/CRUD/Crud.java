@@ -911,6 +911,7 @@ public class Crud {
         }
     
     //cambiar estado de examen solicitado (en DAO examen solicitado)
+    /** @deprecated Favor usar el DAO DaoUsuario consultarUno*/
     public ExamenSolicitado actualizarEstadoDeExamenSolicitado(int idExamenSolicitado, int idEstado) throws NoItemFoundException{
         
             EntityManager em = DaoEntityManagerFactory.getInstance(); 
