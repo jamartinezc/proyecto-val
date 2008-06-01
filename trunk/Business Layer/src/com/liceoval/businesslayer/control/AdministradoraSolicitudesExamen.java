@@ -1,6 +1,5 @@
 package com.liceoval.businesslayer.control;
 
-
 import CRUD.Crud;
 import Errores.NoItemFoundException;
 import Errores.NoPresentableException;
@@ -10,14 +9,10 @@ import com.liceoval.businesslayer.control.registro.exceptions.EstudianteNoPuedeR
 import com.liceoval.businesslayer.control.registro.exceptions.InsersionDeExamenException;
 import com.liceoval.businesslayer.control.registro.exceptions.NoExisteAnalistaParaMateriaException;
 import com.liceoval.businesslayer.control.registro.exceptions.RegistroNoExisteYNoPuedeSerCreadoException;
-import com.liceoval.businesslayer.control.registro.exceptions.ZonaHorariaIncorrectaException;
 import com.liceoval.businesslayer.entities.Estudiante;
 import com.liceoval.businesslayer.entities.Examen;
 import com.liceoval.businesslayer.entities.entitytranslator.EntityTranslator;
 import com.liceoval.businesslayer.exceptions.InvalidProcedureCallOrArgumentException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 /**
  *
@@ -25,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class AdministradoraSolicitudesExamen {
     
-    public static void SolicitarExamen(Estudiante estudiante, int codExamen, int codigoMateria) throws InvalidProcedureCallOrArgumentException, RegistroNoExisteYNoPuedeSerCreadoException, NoExisteAnalistaParaMateriaException, EstudianteNoPuedeRegistrarMasExamenesException, ZonaHorariaIncorrectaException, InsersionDeExamenException{
+    public static void SolicitarExamen(Estudiante estudiante, int codExamen, int codigoMateria) throws InvalidProcedureCallOrArgumentException, RegistroNoExisteYNoPuedeSerCreadoException, NoExisteAnalistaParaMateriaException, EstudianteNoPuedeRegistrarMasExamenesException, InsersionDeExamenException{
 
         int idEstudiante = estudiante.getCodigo();
         ControladoraDeRegistro.agregarExamen(codExamen, idEstudiante, codigoMateria);

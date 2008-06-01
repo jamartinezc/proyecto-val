@@ -6,7 +6,6 @@ import com.liceoval.businesslayer.control.registro.exceptions.InsersionDeExamenE
 import com.liceoval.businesslayer.control.registro.exceptions.NoExisteAnalistaParaMateriaException;
 import com.liceoval.businesslayer.control.registro.exceptions.RegistroNoEncontradoException;
 import com.liceoval.businesslayer.control.registro.exceptions.RegistroNoExisteYNoPuedeSerCreadoException;
-import com.liceoval.businesslayer.control.registro.exceptions.ZonaHorariaIncorrectaException;
 
 import com.liceoval.businesslayer.entities.entitytranslator.EntityTranslator;
 import com.liceoval.businesslayer.entities.Estado;
@@ -22,11 +21,7 @@ import Errores.PosibleDuplicationException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
-
 
 /** Esta clase se encarga de controlar, validar y administrar todas las
  *  operaciones relacionadas con los Registros de los Estudiantes.
@@ -44,7 +39,6 @@ import java.util.TimeZone;
 
 public class ControladoraDeRegistro
 {   
-    String[] states = null;
     
     /** Agrega un examen al registro del estudiante para la materia especificada.
      *  Si el estudiante no tiene un registro para la materia especificada la función
@@ -58,11 +52,10 @@ public class ControladoraDeRegistro
      *  @throws com.liceoval.businesslayer.control.registro.exceptions.RegistroNoExisteYNoPuedeSerCreadoException Si el registro del estudiante para la materia especificada no existe y no puede ser creado por que el estudiante ya tiene tres registros activos.
      *  @throws com.liceoval.businesslayer.control.registro.exceptions.NoExisteAnalistaParaMateriaException Si no es posible encontrar un analista al cual asignar el examen. (La materia especificada no tiene un analista correspondiente)
      *  @throws com.liceoval.businesslayer.control.registro.exceptions.EstudianteNoPuedeRegistrarMasExamenesException Si el estudiante no puede registrar más exámenes para la materia especificada por que tiene exámenes pendientes por presentar, pendientes por calificar o con Nota Examen o Nota Pendiente.
-     *  @throws com.liceoval.businesslayer.control.registro.exceptions.ZonaHorariaIncorrectaException Si la zona horaria configurada para el sistema no es correcta o no se puede hayar un ID de sona horaria correspondiente.
      *  @throws com.liceoval.businesslayer.control.registro.exceptions.InsersionDeExamenException Si falla la insersión del examen una vez que se han hecho todas las verificaciones en la capa de negocio. En este caso la excepción se presenta en la Capa de Acceso a Datos.
      */
     
-    public static void agregarExamen(int idExamen, int idEstudiante, int idMateria) throws InvalidProcedureCallOrArgumentException, RegistroNoExisteYNoPuedeSerCreadoException, NoExisteAnalistaParaMateriaException, EstudianteNoPuedeRegistrarMasExamenesException, ZonaHorariaIncorrectaException, InsersionDeExamenException
+    public static void agregarExamen(int idExamen, int idEstudiante, int idMateria) throws InvalidProcedureCallOrArgumentException, RegistroNoExisteYNoPuedeSerCreadoException, NoExisteAnalistaParaMateriaException, EstudianteNoPuedeRegistrarMasExamenesException, InsersionDeExamenException
     {
         EstudianteNoPuedeRegistrarMasExamenesException estEx;
         RegistroNoExisteYNoPuedeSerCreadoException regEx;
@@ -79,13 +72,7 @@ public class ControladoraDeRegistro
         Iterator iterator;
 
         // Variables para el manejo de la fecha
-        ZonaHorariaIncorrectaException timeEx;
-        boolean fechaLista;
-        SimpleTimeZone tz;
         Date fechaExamen;
-        int diaSemana;
-        Calendar cal;
-        String[] ids;
         
         // Validar los datos de entrada:
         
@@ -155,7 +142,8 @@ public class ControladoraDeRegistro
         }
         
         // Iterar a través del registro y verificar que ninguno de los exámenes
-        // asociados a este tenga estado NotaPendiente o NotaExamen.
+        // asociados a este tenga estado NotaPendiente, NotaExamen, este Pendiente
+        // por Aprobar, Pendiente por Presentar o Pendiente por Calificar.
         iterator = registro.getExamenSolicitadoCollection().iterator();
         while(iterator.hasNext())
         {
@@ -205,41 +193,9 @@ public class ControladoraDeRegistro
             throw anEx;
         }
 
-        // Recuperar las IDs soportadas para la zona horaria GMT-5
-        ids = TimeZone.getAvailableIDs(-5*60*60*1000);
-        if(ids.length == 0)
-        {
-            timeEx = new ZonaHorariaIncorrectaException(
-                "La zona horaria configurada en el sistema es incorrecta o no se encuentra un ID correspondiente");
-            throw timeEx;
-        }
-        
-        // Crear una zona horaria para GMT-5 (Bogotá, Lima Quito) y un calendario
-        // gregoriano que utilice esa Zona Horaria como base
-        tz = new SimpleTimeZone(-5*60*60*1000, ids[0]);
-        cal = new GregorianCalendar(tz);
-        
-        // Obtener la fecha actual del sistema y asignarla al calendario. El examen
-        // se programara entonces el siguiente día habil.
-        fechaExamen = new Date();
-        cal.setTime(fechaExamen);
-        fechaLista = false;
-        
-        // Aumentar un día calendario hasta que se encuentre un día habil.
-        while(!fechaLista)
-        {
-            /** @todo: Mejorar esta parte del código para contemplar los días festivos. */
-            
-            // Sumar uno día calendario
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            diaSemana = cal.get(Calendar.DAY_OF_WEEK);
-            if(!(diaSemana == Calendar.SUNDAY || diaSemana == Calendar.SATURDAY))
-                fechaLista = true;
-        }
-        
-        // Recuperar la fecha del calendario
-        fechaExamen = cal.getTime();
-        
+        // Programar el examen.
+        fechaExamen = programarExamen();
+                
         try
         {
             // Crear el nuevo examen solicitado
@@ -336,51 +292,97 @@ public class ControladoraDeRegistro
     
     public static boolean aprobarRechazarExamenes(List<Integer> aprobeList, List<Integer> rejectList)
     {
-        Crud crud;
+        Date fechaExamen;
         boolean success;
         VO.Registro record;
-        int examenSolicitado;
+        int idExamenSolicitado;
         Iterator aprobeIterator;
         Iterator rejectIterator;
         VO.ExamenSolicitado requestedExam;
         
         aprobeIterator = aprobeList.iterator();
         rejectIterator = rejectList.iterator();
-        crud = new Crud();
         success = true;
                 
         // Aprobar los exámeenes de la lista
         while(aprobeIterator.hasNext())
         {
-            examenSolicitado = ((Integer)aprobeIterator.next()).intValue();
+            idExamenSolicitado = ((Integer)aprobeIterator.next()).intValue();
             
             try
             {
-                crud.actualizarEstadoDeExamenSolicitado(examenSolicitado, Estado.PENDIENTE_PRESENTAR.getIdEstado());
+                // Intentar recuperar el examenSolicitado
+                requestedExam = DAO.DaoExamenSolicitado.consultarUno(idExamenSolicitado);
+                fechaExamen = requestedExam.getFecha();
+                
+                // Verificar la fecha del exámen
+                if(fechaExamen.compareTo(new Date()) <= 0)
+                {
+                    // El exámen está vencido, reprogramarlo
+                    fechaExamen = programarExamen();
+                }
+                
+                // Actualizar la fecha y el estado
+                DAO.DaoExamenSolicitado.actualizarFecha(idExamenSolicitado, fechaExamen);
+                DAO.DaoExamenSolicitado.actualizarEstadoDeExamenSolicitado(idExamenSolicitado, Estado.PENDIENTE_PRESENTAR.getIdEstado());
             }
             catch(NoItemFoundException nifEx) { success = false; }
         }
         
         while(rejectIterator.hasNext())
         {
-            examenSolicitado = ((Integer)rejectIterator.next()).intValue();
+            idExamenSolicitado = ((Integer)rejectIterator.next()).intValue();
             try
             {
-                requestedExam = DAO.DaoExamenSolicitado.consultarUno(examenSolicitado);
+                requestedExam = DAO.DaoExamenSolicitado.consultarUno(idExamenSolicitado);
                 record = requestedExam.getIdRegistro();
                 if(record.getExamenSolicitadoCollection().size() == 1)
                 {
-                    DAO.DaoExamenSolicitado.eliminar(examenSolicitado);
+                    DAO.DaoExamenSolicitado.eliminar(idExamenSolicitado);
                     DAO.DaoRegistro.eliminar(record.getIdRegistro().intValue());
                 }
                 else
                 {
-                    DAO.DaoExamenSolicitado.eliminar(examenSolicitado);
+                    DAO.DaoExamenSolicitado.eliminar(idExamenSolicitado);
                 }
             }
             catch(NoItemFoundException nifEx) { success = false; }
         }
         
         return success;
+    }
+    
+    /** Devuelve la siguiente fecha disponible para programar un examen.
+     * 
+     *  @return La siguiente fecha disponible para programar un examen.
+     */
+    
+    private static Date programarExamen()
+    {
+        Calendar cal;
+        Date fechaExamen;
+        boolean fechaLista;
+        
+        cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        fechaLista = false;
+        int dayOfWeek;
+        
+        while(fechaLista == false)
+        {
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            
+            // TODO Agregar el código que verifica que la fecha sea válida.
+            // Excluir aquí festivos y vacaciones. Por ahora solo verificamos
+            // que no se trate de un fin de semana.
+            dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+            if(!(dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY))
+            {
+                fechaLista = true;
+            }
+        }
+        
+        fechaExamen = cal.getTime();
+        return fechaExamen;
     }
 }
