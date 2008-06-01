@@ -9,6 +9,8 @@ import com.liceoval.businesslayer.control.registro.exceptions.RegistroNoExisteYN
 import com.liceoval.businesslayer.control.registro.exceptions.ZonaHorariaIncorrectaException;
 
 import com.liceoval.businesslayer.entities.entitytranslator.EntityTranslator;
+import com.liceoval.businesslayer.entities.Estado;
+import com.liceoval.businesslayer.entities.ExamenSolicitado;
 import com.liceoval.businesslayer.entities.Registro;
 import com.liceoval.businesslayer.exceptions.InvalidProcedureCallOrArgumentException;
 
@@ -65,9 +67,10 @@ public class ControladoraDeRegistro
         EstudianteNoPuedeRegistrarMasExamenesException estEx;
         RegistroNoExisteYNoPuedeSerCreadoException regEx;
         InvalidProcedureCallOrArgumentException ipcEx;
+        ExamenSolicitado examenSolicitadoTraducido;
         NoExisteAnalistaParaMateriaException anEx;
         VO.ExamenSolicitado examenSolicitado;
-        InsersionDeExamenException examEx;
+        InsersionDeExamenException examEx;       
         List<VO.Registro> registros;
         VO.Registro registro;
         VO.Analista analista;
@@ -157,28 +160,35 @@ public class ControladoraDeRegistro
         while(iterator.hasNext())
         {
             examenSolicitado = (VO.ExamenSolicitado)iterator.next();
-            if(examenSolicitado.getIdEstado().getNombre().equals("Pendiente/Aprobar"))
+            examenSolicitadoTraducido = EntityTranslator.translateExamenSolicitado(examenSolicitado);
+            if(examenSolicitadoTraducido.getEstado().equals(Estado.PENDIENTE_APROBAR))
             {
                 estEx = new EstudianteNoPuedeRegistrarMasExamenesException(
                     "No se puede completar la solicitud por que el estudiante tiene un examen pendiente por aprobar");
                 throw estEx;
             }
-            if(examenSolicitado.getIdEstado().getNombre().equals("Pendiente/Presentar"))
+            if(examenSolicitadoTraducido.getEstado().equals(Estado.PENDIENTE_PRESENTAR))
             {
                 estEx = new EstudianteNoPuedeRegistrarMasExamenesException(
                     "No se puede completar la solicitud por que el estudiante tiene un examen pendiente por presentar");
                 throw estEx;
             }
-            if(examenSolicitado.getIdEstado().getNombre().equals("Nota Examen"))
+            if(examenSolicitadoTraducido.getEstado().equals(Estado.NOTA_EXAMEN))
             {
                 estEx = new EstudianteNoPuedeRegistrarMasExamenesException(
                     "No se puede completar la solicitud por que el estudiante tiene un examen con Nota Examen");
                 throw estEx;
             }
-            if(examenSolicitado.getIdEstado().getNombre().equals("Nota Pendiente"))
+            if(examenSolicitadoTraducido.getEstado().equals(Estado.NOTA_PENDIENTE))
             {
                 estEx = new EstudianteNoPuedeRegistrarMasExamenesException(
-                    "No se puede completar la solicitud por que el estudiante tiene un examen con Nota Nota Pendiente");
+                    "No se puede completar la solicitud por que el estudiante tiene un examen con Nota Pendiente");
+                throw estEx;
+            }
+            if(examenSolicitadoTraducido.getEstado().equals(Estado.PENDIENTE_CALIFICAR))
+            {
+                estEx = new EstudianteNoPuedeRegistrarMasExamenesException(
+                    "No se puede completar la solicitud por que el estudiante tiene un examen pendiente por calificar");
                 throw estEx;
             }
         }
@@ -322,5 +332,55 @@ public class ControladoraDeRegistro
             eneEx = new EstudianteNoEncontradoException("No se encuentra el estudiante especificado en la base de datos.", nifEx);
             throw eneEx;
         }
+    }
+    
+    public static boolean aprobarRechazarExamenes(List<Integer> aprobeList, List<Integer> rejectList)
+    {
+        Crud crud;
+        boolean success;
+        VO.Registro record;
+        int examenSolicitado;
+        Iterator aprobeIterator;
+        Iterator rejectIterator;
+        VO.ExamenSolicitado requestedExam;
+        
+        aprobeIterator = aprobeList.iterator();
+        rejectIterator = rejectList.iterator();
+        crud = new Crud();
+        success = true;
+                
+        // Aprobar los exámeenes de la lista
+        while(aprobeIterator.hasNext())
+        {
+            examenSolicitado = ((Integer)aprobeIterator.next()).intValue();
+            
+            try
+            {
+                crud.actualizarEstadoDeExamenSolicitado(examenSolicitado, Estado.PENDIENTE_PRESENTAR.getIdEstado());
+            }
+            catch(NoItemFoundException nifEx) { success = false; }
+        }
+        
+        while(rejectIterator.hasNext())
+        {
+            examenSolicitado = ((Integer)rejectIterator.next()).intValue();
+            try
+            {
+                requestedExam = DAO.DaoExamenSolicitado.consultarUno(examenSolicitado);
+                record = requestedExam.getIdRegistro();
+                if(record.getExamenSolicitadoCollection().size() == 1)
+                {
+                    DAO.DaoExamenSolicitado.eliminar(examenSolicitado);
+                    DAO.DaoRegistro.eliminar(record.getIdRegistro().intValue());
+                }
+                else
+                {
+                    DAO.DaoExamenSolicitado.eliminar(examenSolicitado);
+                }
+            }
+            catch(NoItemFoundException nifEx) { success = false; }
+        }
+        
+        return success;
     }
 }

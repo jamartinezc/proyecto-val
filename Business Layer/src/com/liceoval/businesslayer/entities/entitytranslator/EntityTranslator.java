@@ -58,6 +58,36 @@ public class EntityTranslator
         return analista;
     }
 
+    /** Traduce una colección de objeto de clase VO.Estudiante en una lista de
+     *  objetos de clase Estudiante equivalente.
+     * 
+     *  @param students La colección de objetos de clase VO.Estudiante a traducir.
+     *  @return La lista de objetos Estudiante equivalente.
+     */
+    
+    public static List<Estudiante> translateEstudiantes(Collection<VO.Estudiante> students)
+    {
+        LinkedList<Estudiante> estudiantes;
+        Iterator studentsIterator;
+        VO.Estudiante student;
+        
+        // Si el valor de entrada es null, el de salida también.
+        if(students == null) return null;
+        
+        // Crear la lista de estudiantes
+        estudiantes = new LinkedList<Estudiante>();
+        studentsIterator = students.iterator();
+        
+        while(studentsIterator.hasNext())
+        {
+            student = (VO.Estudiante)studentsIterator.next();
+            estudiantes.add(translateEstudiante(student));
+        }
+        
+        // Devolver la lista
+        return estudiantes;
+    }
+    
     /** Traduce un objeto de tipo VO.Estudiante en un objeto de clase Estudiante
      *  equivalente.
      * 
@@ -648,6 +678,7 @@ public class EntityTranslator
         examenSolicitado.setExamen(translateExamen(requestedExam.getIdExamen()));
         examenSolicitado.setFecha(requestedExam.getFecha());
         examenSolicitado.setNota(requestedExam.getNota());
+        examenSolicitado.setIdExamenSolicitado(requestedExam.getIdExamenSolicitado().intValue());
         
         // Devolver el Examen Solicitado
         return examenSolicitado;
