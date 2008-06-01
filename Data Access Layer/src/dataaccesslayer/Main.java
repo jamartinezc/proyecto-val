@@ -36,6 +36,7 @@ import VO.Taller;
 import VO.Tutor;
 import VO.Usuario;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -466,6 +467,9 @@ public class Main {
         //ProbarDaoExamenSolicitadoConsultarUno();
         //ProbarDaoExamenSolicitadoCrear();   
         //ProbarDaoExamenSolicitadoEliminar();
+        Date fecha = new Date();
+
+        ProbarDaoExamenSolicitadoActualizarFecha(4,fecha);
     }
     
     private static void ProbarDaoExamenSolicitadoConsultarTodos() {
@@ -506,6 +510,15 @@ public class Main {
     private static void ProbarDaoExamenSolicitadoEliminar() {
         try{
             DaoExamenSolicitado.eliminar(456);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoExamenSolicitadoActualizarFecha(int id,Date fecha){
+        try{
+            ExamenSolicitado uno = DaoExamenSolicitado.actualizarFecha(id, fecha);
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());

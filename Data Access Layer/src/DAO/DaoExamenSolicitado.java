@@ -115,4 +115,31 @@ public class DaoExamenSolicitado {
        
     }*/
     
+    public static ExamenSolicitado actualizarFecha(int idExamenSolicitado, Date fecha) throws NoItemFoundException{  
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityTransaction tx = em.getTransaction();
+        try
+            {
+                
+                tx.begin();
+                    ExamenSolicitado cambiado = DaoExamenSolicitado.consultarUno(idExamenSolicitado);
+                    cambiado.setFecha(fecha);
+                    em.merge(cambiado);
+                tx.commit();
+                return cambiado;
+            }
+            catch(EntityNotFoundException noResult){
+                em.clear();
+                throw new NoItemFoundException();
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+                em.clear();
+            }
+    }
+    
 }
