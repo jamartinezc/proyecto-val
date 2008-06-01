@@ -136,7 +136,7 @@
                                         nombreUsuario = request.getParameter("username");
                                         if(nombreUsuario != null)
                                         {
-                                            nombreUsuario = nombreUsuario.replace("+", " ");
+                                            nombreUsuario = nombreUsuario.replace("+", " ");                                            
                             %>
 
                                             <p><table border="0" cellpadding="0" cellspacing="0" width="80%" align="center">

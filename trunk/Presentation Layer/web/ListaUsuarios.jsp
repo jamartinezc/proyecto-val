@@ -1,13 +1,17 @@
 <%-- 
     Document   : ListaUsuarios
     Created on : 20/04/2008, 01:35:52 AM
-    Author     : Administrador
+    Author     : Angela
 --%>
 
 <%@ page
 	contentType="text/html; charset=utf-8"
 	language="java"
-	import="java.util.LinkedList, java.util.List,java.util.Iterator,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario"
+	import="java.util.LinkedList,
+                java.util.List,
+                java.util.Iterator,
+                com.liceoval.businesslayer.control.AdministradoraDeUsuarios,
+                com.liceoval.businesslayer.entities.Usuario"
 	errorPage="" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -378,7 +378,7 @@
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                 <tr><td class="cont-inner">
                                 
-                                <form name="GuardarUsuario" action="<%=formAction%>" method="POST">
+                                <form name="GuardarUsuario" action="<%=formAction%>" method="POST" accept-charset="ISO-8859-1">
                                 <br />
                                 <p style="text-align:justify"><b>ESTE FORMULARIO LE PERMITIRÁ AGREGAR USUARIOS DE TIPO ESTUDIANTE, TUTOR, ANALISTA Y SECRETARÍA ACADÉMICA.</b></p>
                                 <br>
