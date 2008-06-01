@@ -18,6 +18,9 @@
             com.liceoval.businesslayer.entities.Registro,
             com.liceoval.businesslayer.entities.Estudiante,
             com.liceoval.businesslayer.entities.ExamenSolicitado,
+            com.liceoval.businesslayer.entities.Tutor,
+            com.liceoval.businesslayer.control.AdministradoraDeUsuarios,
+            com.liceoval.businesslayer.control.rcp.RCPRegistros,
             com.liceoval.businesslayer.control.registro.ControladoraDeRegistro,
             com.liceoval.businesslayer.control.registro.exceptions.EstudianteNoEncontradoException"
 	errorPage="" %>
@@ -33,6 +36,28 @@
 <body>
 
     <%
+        int tutorId;
+        int matId = 0;
+        Materia materia;
+        String recordId;
+        String matString;
+        Registro registro;
+        int studentId = 0;
+        String studentString;
+        Estudiante estudiante;
+        int printedRecords = 0;
+        List<Registro> registros;
+        Iterator examenesIterator;
+        Iterator registrosIterator;
+        List<ExamenSolicitado> examenes;
+        ExamenSolicitado examenSolicitado;
+        
+        Calendar cal;
+        String[] ids;
+        TimeZone tz;
+        Date fechaExamen;
+        String fechaFormateada = null;    
+    
         String locationLinks;
         
         locationLinks="<a class=\"nav-bar-link\" href=\"index.jsp\">Inicio</a> - <a class=\"nav-bar-link\" href=\"registro.jsp\">Consulta de Registro</a>";
@@ -86,26 +111,8 @@
                                     <p style="text-align:center"><b>ESTA PÁGINA LE PERMITIRÁ CONSULTAR SUS REGISTROS</b></p>
                                     
                                 <%
-                                    int matId = 0;
-                                    Materia materia;
-                                    String recordId;
-                                    String matString;
-                                    Registro registro;
-                                    Estudiante estudiante;
-                                    int printedRecords = 0;
-                                    List<Registro> registros;
-                                    Iterator examenesIterator;
-                                    Iterator registrosIterator;
-                                    List<ExamenSolicitado> examenes;
-                                    ExamenSolicitado examenSolicitado;
                                     estudiante = (Estudiante)currentUser;
-                                    
-                                    Calendar cal;
-                                    String[] ids;
-                                    TimeZone tz;
-                                    Date fechaExamen;
-                                    String fechaFormateada = null;
-                                    
+                                
                                     try
                                     {
                                         registros = ControladoraDeRegistro.getRegistros(estudiante.getCodigo(), true);
@@ -236,12 +243,175 @@
                                 <%
                                     }
                                 }
+                                
                                 if(currentUser.getClass().getName().equals("com.liceoval.businesslayer.entities.Tutor"))
                                 {
                                 %>
-                                	<p style="text-align:center"><b>ESTE FORMULARIO LE PERMITIRÁ CONSULTAR LOS REGISTROS DE SUS ESTUDIANTES</b></p>
+                                    
+                                    <p style="text-align:center"><b>ESTE FORMULARIO LE PERMITIRÁ CONSULTAR LOS REGISTROS DE SUS ESTUDIANTES</b></p>
                                 
                                 <%
+                                    studentString = request.getParameter("studentId");
+                                    if(studentString != null && !studentString.equals(""))
+                                    {
+                                        try { studentId = Integer.parseInt(studentString); }
+                                        catch(NumberFormatException nfEx) { studentId = 0; }
+                                    }
+                                    else studentId = 0;
+                                    
+                                    // Recuperar la Id del tutor
+                                    tutorId = ((Tutor)currentUser).getIdTutor();
+                                    if(AdministradoraDeUsuarios.confirmarEstudianteTallerTutor(studentId, tutorId))
+                                    {
+                                        estudiante = RCPRegistros.getEstudiante(studentId);
+                                        %>
+                                        
+                                        <p>Registro para el estudiante: <strong><%=estudiante.getNombres() + " " + estudiante.getApellidos()%></strong></p>
+                                        
+                                        <%
+                                        
+                                        try
+                                        {
+                                            registros = ControladoraDeRegistro.getRegistros(studentId, true);
+                                            registrosIterator = registros.iterator();
+
+                                            matString = request.getParameter("matId");
+                                            if(!(matString == null || matString.equals("")))
+                                            {
+                                                try { matId = Integer.parseInt(matString); }
+                                                catch(NumberFormatException nfeEx) { matId = 0; }
+                                            }
+
+                                            if(matId == 0)
+                                            {
+                                            %>
+
+                                                <p>Por favor seleccione la materia para al cual desea ver el registro:</p>
+
+                                                <ul style="list-style-type:none">
+
+                                            <%
+                                            }
+
+                                            while(registrosIterator.hasNext())
+                                            {
+                                                registro = (Registro)registrosIterator.next();
+                                                materia = registro.getMateria();
+                                                if(matId != 0)
+                                                {
+                                                    if(materia.getCodigo() == matId)
+                                                    {   
+                                                    %>
+
+                                                        <p style="text-transform:uppercase"><strong><%=materia.getCodigo()%> - <%=materia.getNombre()%></strong></p>
+
+                                                    <%
+                                                        examenes = registro.getExamenesSolicitados();
+                                                        if(examenes.size() > 0)
+                                                        {
+                                                        %>
+
+                                                            <p><strong>Exámenes en el registro:</strong></p>
+
+                                                            <table border="1" cellpadding="3" cellspacing="2" style="border-collapse:collapse">
+                                                                <thead><tr><th>Código</th><th>Tema</th><th>Fecha</th><th>Estado</th><th>Nota</th></tr></thead>
+                                                                <tbody>
+                                                                <%
+                                                                    examenesIterator = examenes.iterator();
+                                                                    while(examenesIterator.hasNext())
+                                                                    {
+                                                                        examenSolicitado = (ExamenSolicitado)examenesIterator.next();
+                                                                        fechaExamen = examenSolicitado.getFecha();
+
+                                                                        ids = TimeZone.getAvailableIDs(-5*60*60*1000);
+                                                                        if(ids.length > 0)
+                                                                        {
+                                                                            tz = new SimpleTimeZone(-5*60*60*1000, ids[0]);
+                                                                            cal = new GregorianCalendar(tz);
+                                                                            cal.setTime(fechaExamen);
+
+                                                                            fechaFormateada = String.valueOf(cal.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(cal.get(Calendar.MONTH)+ 1) + "/" + String.valueOf(cal.get(Calendar.YEAR));
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            fechaFormateada = fechaExamen.toString();                                                                        
+                                                                        }
+                                                                        %>
+
+                                                                        <tr><td style="text-align:right"><%=examenSolicitado.getExamen().getCodigo()%></td>
+                                                                            <td><%=examenSolicitado.getExamen().getTema()%></td>
+                                                                            <td><%=fechaFormateada%></td>
+                                                                            <td><%=examenSolicitado.getEstado().getNombre()%></td>
+                                                                            <td style="text-align:right"><%=examenSolicitado.getNota()%></td></tr>
+
+                                                                        <%
+                                                                    }
+                                                                %>
+                                                                </tbody>
+                                                            </table>
+
+                                                        <%
+                                                        }
+                                                        else
+                                                        {
+                                                        %>
+
+                                                            <p>No hay elementos que mostrar para esta asignatura</p>
+
+                                                        <%
+                                                        }
+                                                        printedRecords++;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                %>
+
+                                                    <li><a href="registro.jsp?studentId=<%=studentId%>&matId=<%=materia.getCodigo()%>"><%=materia.getCodigo()%> - <%=materia.getNombre()%></a></li>
+
+                                                <%
+                                                }
+                                            }
+
+                                            if(matId != 0 && printedRecords == 0)
+                                            {
+                                            %>
+
+                                                <p>No hay registros que mostrar para la asignatura especificadaa</p>
+
+                                            <%
+                                            }
+
+                                            if(matId == 0)
+                                            {
+                                            %>
+
+                                                </ul>
+
+                                            <%
+                                            }
+                                        }
+                                        catch(EstudianteNoEncontradoException eneEx)
+                                        {
+                                        %>
+                                            <table border = "0" cellpadding="0" cellspacing="0" width = "95%" align="center">
+                                                <tr><td class="login-error"><strong>Error en la consulta</strong>
+                                                    <p>La base de datos no puede localizar los registros del estudiante. Por favor reporte este problema al administrador.</p></td></tr></table>
+                                        <%
+                                        }
+                                    }
+                                    else
+                                    {
+                                    %>
+                                    
+                                        <table border = "0" cellpadding="0" cellspacing="0" width = "95%" align="center">
+                                            <tr><td class="login-warning"><strong>¡Hay un problema!</strong>
+                                                <p>El estudiante especificado no pertenece al taller del cual es usted tutor. Usted únicamente puede ver los registros de sus estudiantes.</p></td></tr></table>
+                                                
+                                        <p style="text-align:right"><input type="button" onclick="window.open('estudiantestaller.jsp', '_self')" value="Ver lista de estudiantes del taller" /></p>
+                                    
+                                    <%
+                                    }
                                 }
                                 %>
 
@@ -272,6 +442,11 @@
                     {
                         rightPanelText.append("<p>Esta página le permite visualizar los registros de uno de sus estudiantes. Seleccione una de las materias que el estudiante está viendo en el momento para ver el registro correspondiente.</p>");
                         rightPanelText.append("<p>Si no hay materias en la lista significa que el estudiante aún no ha abierto un registro para una de sus asignaturas.</p>");
+                    }
+                    else
+                    {
+                        rightPanelText.append("<p style=\"color:#ff0000\">¡Usuario incorrecto!</p>");
+                        rightPanelText.append("<p>Su rol actual no le permite visualizar esta página. Debe <a href=\"change-role.jsp\">Cambiar de rol</a> para hacer uso de este servicio.</p>");
                     }
                 }
                 else

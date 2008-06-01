@@ -35,7 +35,7 @@
                         {
                         %>
 
-                            <input type="text" name="user" />
+                            <input type="text" name="user" maxlength="20" />
                             
                         <%
                         }
@@ -43,14 +43,14 @@
                         {
                         %>
                         
-                            <input type="text" name="user" value="<%= request.getParameter("user") %>" />
+                            <input type="text" name="user" maxlength="20" value="<%= request.getParameter("user") %>" />
                         
                         <%
                         }
                         %>
                         
                         <p>Contraseña:<br />
-                        <input type="password" name="password" /></p>
+                        <input type="password" name="password" maxlength="14" /></p>
                         <p>Rol:<br />
 						<%@include file="role-list.jsp" %>
                         <!--<select name="role">
@@ -107,7 +107,7 @@
     %>
     
             <!-- Menú de la Secretaria Académica -->
-            <li><a href="listaexamenesdia">Ver lista de exámenes solicitados</a></li>
+            <li><a href="listaexamenesdia.jsp">Ver lista de exámenes solicitados</a></li>
             <li><a href="ListaUsuarios.jsp">Administrar Usuarios</a></li>
     
     <%
@@ -117,7 +117,7 @@
     %>
     
             <!-- Menú del Tutor -->
-			<li><a href="estudiantestaller.jsp">Ver lista de estudiantes del taller</a></li>
+            <li><a href="estudiantestaller.jsp">Ver lista de estudiantes del taller</a></li>
             <li><a href="listaexamenessolicitados.jsp">Ver lista de exámenes solicitados</a></li>
     
     <%
