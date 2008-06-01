@@ -204,4 +204,20 @@ public class AdministradoraDeUsuarios {
         // Devolver el Wrapper del usuario.
         return usuarioWrapper;
     }
+    
+    /** Verifica si el estudiante especificado pertenece al taller del tutor
+     *  especificado.
+     * 
+     *  @param idEstudiante El id del estudiante que se quiere confirmar.
+     *  @param idTutor El id del tutor que se quiere confirmar.
+     *  @return Verdadero si el estudiante pertenece al taller del tutor, falso si no.
+     */
+    
+    public static boolean confirmarEstudianteTallerTutor(int idEstudiante, int idTutor)
+    {
+        Crud crud;
+        
+        crud = new Crud();
+        return crud.estudianteDelTallerDeTutor(idEstudiante, idTutor);
+    }
 }

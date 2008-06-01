@@ -12,6 +12,7 @@ import java.util.Date;
  * @author jorge
  */
 public class ExamenSolicitado {
+    private int idExamenSolicitado;
     private Examen examen;
     private Analista analista;
     private Date fecha;
@@ -69,4 +70,18 @@ public class ExamenSolicitado {
      */
     
     public void setNota(float nota) { this.nota = nota; }
+
+    /** Devuelve el ID del examen solicitado
+     * 
+     *  @return El ID del exmaen solicitado.
+     */
+    
+    public int getIdExamenSolicitado() { return idExamenSolicitado; }
+
+    /** Establece el ID del examen solicitado
+     * 
+     *  @param idExamenSolicitado El ID del examen solicitado.
+     */
+    
+    public void setIdExamenSolicitado(int idExamenSolicitado) { this.idExamenSolicitado = idExamenSolicitado; }
 }
