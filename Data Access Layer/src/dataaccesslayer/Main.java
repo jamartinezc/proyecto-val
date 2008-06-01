@@ -467,9 +467,24 @@ public class Main {
         //ProbarDaoExamenSolicitadoConsultarUno();
         //ProbarDaoExamenSolicitadoCrear();   
         //ProbarDaoExamenSolicitadoEliminar();
-        Date fecha = new Date();
-
-        ProbarDaoExamenSolicitadoActualizarFecha(4,fecha);
+        //Date fecha = new Date();
+        //ProbarDaoExamenSolicitadoActualizarFecha(4,fecha);
+        Date desde = new Date();
+        Date hasta = new Date();
+        Calendar myCal = Calendar.getInstance();
+        myCal.setTime(new Date());
+        myCal.set(Calendar.YEAR, 2008);
+        myCal.set(Calendar.MONTH, 4);
+        myCal.set(Calendar.DAY_OF_MONTH, 1);
+        desde = myCal.getTime();
+        System.out.println(desde.getMonth());
+        myCal.setTime(new Date());
+        myCal.set(Calendar.YEAR, 2008);
+        myCal.set(Calendar.MONTH, 5);
+        myCal.set(Calendar.DAY_OF_MONTH, 30);
+        hasta = myCal.getTime();
+        System.out.println(hasta.getMonth());
+        ProbarDaoExamenSolicitadoConsultarExamenesSolicitadosEntreFechas(desde, hasta);
     }
     
     private static void ProbarDaoExamenSolicitadoConsultarTodos() {
@@ -519,6 +534,19 @@ public class Main {
     private static void ProbarDaoExamenSolicitadoActualizarFecha(int id,Date fecha){
         try{
             ExamenSolicitado uno = DaoExamenSolicitado.actualizarFecha(id, fecha);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoExamenSolicitadoConsultarExamenesSolicitadosEntreFechas(Date from, Date to){
+        try{
+            List<ExamenSolicitado> lista = DaoExamenSolicitado.consultarExamenesSolicitadosEntreFechas(from, to);
+            for(int i=0;i<lista.size();i++){
+                System.out.println(lista.get(i).getFecha().getMonth()+lista.get(i).getFecha().getDay());
+            }
+            
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());

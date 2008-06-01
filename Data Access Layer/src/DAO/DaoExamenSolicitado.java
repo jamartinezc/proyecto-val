@@ -142,4 +142,67 @@ public class DaoExamenSolicitado {
             }
     }
     
+    //busca un usuario por appelido o nombre (en DAO USUARIO)
+    public static List<ExamenSolicitado> consultarExamenesSolicitadosEntreFechas(Date desde, Date hasta) throws NoItemFoundException{
+            
+            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityTransaction tx = em.getTransaction(); 
+            
+                try
+                {
+                    tx.begin();
+                    Query q = em.createQuery("select p from ExamenSolicitado p where p.fecha > :d AND p.fecha < :h");
+                    q.setParameter("d", desde);
+                    q.setParameter("h", hasta);
+                    List<ExamenSolicitado> lista = q.getResultList();
+                    tx.commit();
+                    if(lista.size()>0){
+                        return lista;
+                    }     
+                    else{
+                        throw new NoItemFoundException();
+                    }
+                }
+                finally
+                {
+                    if (tx.isActive())
+                    {
+                        tx.rollback();
+                    }
+
+                    em.clear();
+                }
+    }
+    
+    public static ExamenSolicitado actualizarEstadoDeExamenSolicitado(int idExamenSolicitado, int idEstado) throws NoItemFoundException{
+        
+            EntityManager em = DaoEntityManagerFactory.getInstance(); 
+            EntityTransaction tx = em.getTransaction();          
+            try
+            {
+                ExamenSolicitado examen = em.find(ExamenSolicitado.class, idExamenSolicitado);
+                Estados estado = em.find(Estados.class, idEstado);
+                if(examen!=null){
+                    tx.begin();
+                
+                    examen.setIdEstado(estado);
+                    tx.commit();
+                    
+                    return examen;
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
+                
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.clear();
+            }
+        }
 }
