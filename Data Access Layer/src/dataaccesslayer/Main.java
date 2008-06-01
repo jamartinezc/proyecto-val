@@ -464,11 +464,15 @@ public class Main {
     */
     private static void ProbarDaoExamenSolicitado(){
         //ProbarDaoExamenSolicitadoConsultarTodos();
+        
         //ProbarDaoExamenSolicitadoConsultarUno();
-        //ProbarDaoExamenSolicitadoCrear();   
+        
         //ProbarDaoExamenSolicitadoEliminar();
+        
         //Date fecha = new Date();
         //ProbarDaoExamenSolicitadoActualizarFecha(4,fecha);
+        
+        /*
         Date desde = new Date();
         Date hasta = new Date();
         Calendar myCal = Calendar.getInstance();
@@ -485,6 +489,11 @@ public class Main {
         hasta = myCal.getTime();
         System.out.println(hasta.getMonth());
         ProbarDaoExamenSolicitadoConsultarExamenesSolicitadosEntreFechas(desde, hasta);
+        */
+        
+        //ProbarDaoExamenSolicitadoCrear();
+        
+        
     }
     
     private static void ProbarDaoExamenSolicitadoConsultarTodos() {
@@ -507,8 +516,9 @@ public class Main {
     }
 
     private static void ProbarDaoExamenSolicitadoCrear() {
-        /*try{
-            ExamenSolicitado mio=DaoExamenSolicitado.crear(324, true, 1, 0);
+        Date fecha = new Date();
+        try{
+            ExamenSolicitado mio=DaoExamenSolicitado.crear(fecha, 291, 4, 8, 79);
             System.out.println(mio.getIdExamenSolicitado());
         }
         catch(NoItemFoundException error){
@@ -517,9 +527,6 @@ public class Main {
         catch(PosibleDuplicationException error){
             System.out.println(error.Mensaje());
         }
-        catch(MateriaDeOtroGradoException otro){
-            System.out.println(otro.Mensaje());
-        }*/
     }
 
     private static void ProbarDaoExamenSolicitadoEliminar() {

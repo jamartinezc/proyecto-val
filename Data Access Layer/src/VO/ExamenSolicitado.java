@@ -30,6 +30,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "ExamenSolicitado.consultarUnExamenSolicitado", query = "SELECT e FROM ExamenSolicitado e WHERE e.idExamenSolicitado = :id"),
     @NamedQuery(name = "ExamenSolicitado.findByNota", query = "SELECT e FROM ExamenSolicitado e WHERE e.nota = :nota"),
     @NamedQuery(name = "ExamenSolicitado.consultarExamenesSolicitados", query = "SELECT e FROM ExamenSolicitado e"),
+    @NamedQuery(name = "ExamenSolicitado.consultarExamenSolicitadoEspecifico", query = "SELECT p from ExamenSolicitado p WHERE p.idEstudiante = :estu AND p.idAnalista = :analis AND p.idRegistro = :reg AND p.idExamen = :exam"),
     @NamedQuery(name = "ExamenSolicitado.findByFecha", query = "SELECT e FROM ExamenSolicitado e WHERE e.fecha = :fecha")
 })
 public class ExamenSolicitado implements Serializable {

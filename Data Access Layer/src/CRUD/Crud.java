@@ -429,6 +429,7 @@ public class Crud {
     }
     
     //crea un registro(DAO registro)
+    /** @deprecated Favor usar el DAO DaoRegistro consultarUno*/
     public Registro crearRegistro(int idEstudiante, int codigoMateria) throws PosibleDuplicationException, NoItemFoundException{
         try{
             Registro repetido = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
@@ -790,6 +791,7 @@ public class Crud {
     }
     
      //Crear un examen solicitado (en DAO Examen Solicitado)
+    /** @deprecated Favor usar el DAO DaoExamenSolicitado*/
     public ExamenSolicitado crearExamenSolicitado(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException, PosibleDuplicationException{
                        
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -801,8 +803,6 @@ public class Crud {
             Registro registro = em.find(Registro.class, idRegistro);
             Examen examen = em.find(Examen.class, idExamen);
             Estados estado = em.find(Estados.class, 3);
-            
-            System.out.println(estudiante.getIdEstudiante());
             
             try{
                 List<ExamenSolicitado> repetido = this.consultarExamenSolicitadoEspecífico(idEstudiante, idAnalista, idRegistro, idExamen);
@@ -911,7 +911,7 @@ public class Crud {
         }
     
     //cambiar estado de examen solicitado (en DAO examen solicitado)
-    /** @deprecated Favor usar el DAO DaoUsuario consultarUno*/
+    /** @deprecated Favor usar el DAO DaoExamenSolicitado*/
     public ExamenSolicitado actualizarEstadoDeExamenSolicitado(int idExamenSolicitado, int idEstado) throws NoItemFoundException{
         
             EntityManager em = DaoEntityManagerFactory.getInstance(); 
