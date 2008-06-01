@@ -50,6 +50,31 @@ public class DaoExamenSolicitado {
         }
     }
     
+    public static ExamenSolicitado consultarExamenSolicitadoEspecifico(int idEstudiante, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException{
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+        
+        Estudiante estudiante = em.find(Estudiante.class, idEstudiante);
+        Analista analista = em.find(Analista.class, idAnalista);
+        Registro registro = em.find(Registro.class, idRegistro);
+        Examen examen = em.find(Examen.class, idExamen);
+        
+        Query query = em.createNamedQuery("ExamenSolicitado.consultarExamenSolicitadoEspecifico");
+        
+        query.setParameter("estu", estudiante);
+        query.setParameter("analis", analista);
+        query.setParameter("reg", registro);
+        query.setParameter("exam", examen);
+
+        List<ExamenSolicitado> item = query.getResultList();
+        em.clear();
+        if(item.size()>0){
+            return item.get(0);
+        }
+        else{
+            return null;
+        }
+    }
+    
     public static ExamenSolicitado eliminar(int idExamenSolicitado) throws NoItemFoundException{  
         EntityManager em = DaoEntityManagerFactory.getInstance();
         EntityTransaction tx = em.getTransaction();
@@ -75,45 +100,47 @@ public class DaoExamenSolicitado {
             }
     }
     
-    /*public static ExamenSolicitado crear(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException, PosibleDuplicationException{  
+    public static ExamenSolicitado crear(Date fecha, int idEstudiante, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException, PosibleDuplicationException{  
        EntityManager em = DaoEntityManagerFactory.getInstance();
        EntityTransaction tx = em.getTransaction();
        
-       Estudiante estudiante = em.find(Estudiante.class, idEstudiante);
-       Analista analista = em.find(Analista.class, idAnalista);
-       Registro registro = em.find(Registro.class, idRegistro);
-       Examen examen = em.find(Examen.class, idExamen);
-       Estados estado = em.find(Estados.class, 3);
-       
-       if(estudiante==null) throw
-       
-       try
+       try{
+           Estudiante estudiante = em.getReference(Estudiante.class, idEstudiante);
+           Analista analista = em.getReference(Analista.class, idAnalista);
+           Registro registro = em.getReference(Registro.class, idRegistro);
+           Examen examen = em.getReference(Examen.class, idExamen);
+           Estados estado = em.getReference(Estados.class, 3);
+
+           ExamenSolicitado repetido = DaoExamenSolicitado.consultarExamenSolicitadoEspecifico(idEstudiante, idAnalista, idRegistro, idExamen);
+           if(repetido!=null) throw new PosibleDuplicationException();
+           
+           ExamenSolicitado nuevo = new ExamenSolicitado();
+           nuevo.setFecha(fecha);
+           nuevo.setIdAnalista(analista);
+           nuevo.setIdEstado(estado);
+           nuevo.setIdEstudiante(estudiante);
+           nuevo.setIdExamen(examen);
+           nuevo.setIdRegistro(registro);
+           nuevo.setNota(0);
+           
+           tx.begin();
+               em.persist(nuevo);
+           tx.commit();
+           return nuevo;
+        }
+        catch(EntityNotFoundException noResult){
+           throw new NoItemFoundException();
+        }
+        finally
+        {
+            if (tx.isActive())
             {
-                if(registroNoExiste()){
-                    
-                }
-                else{
-                    
-                }
-                
-                tx.begin();
-                    em.persist(nuevo);
-                tx.commit();
-                return nuevo;
+                tx.rollback();
             }
-            catch(EntityNotFoundException noResult){
-                throw new NoItemFoundException();
-            }
-            finally
-            {
-                if (tx.isActive())
-                {
-                    tx.rollback();
-                }
-                em.clear();
-            }
+            em.clear();
+        }
        
-    }*/
+    }
     
     public static ExamenSolicitado actualizarFecha(int idExamenSolicitado, Date fecha) throws NoItemFoundException{  
         EntityManager em = DaoEntityManagerFactory.getInstance();
@@ -184,8 +211,7 @@ public class DaoExamenSolicitado {
                 Estados estado = em.find(Estados.class, idEstado);
                 if(examen!=null){
                     tx.begin();
-                
-                    examen.setIdEstado(estado);
+                        examen.setIdEstado(estado);
                     tx.commit();
                     
                     return examen;
