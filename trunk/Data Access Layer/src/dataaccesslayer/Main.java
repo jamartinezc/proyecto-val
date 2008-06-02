@@ -440,7 +440,7 @@ public class Main {
         
         //ProbarDaoAnalista();
         //ProbarDaoEstados();
-        ProbarDaoEstudiante();
+        //ProbarDaoEstudiante();
         //ProbarDaoExamen();
         
         //ProbarDaoExamenSolicitado(); //falta!!!!
@@ -905,7 +905,7 @@ public class Main {
         //ProbarDaoEstudianteConsultarUno();
         //ProbarDaoEstudianteCrear();   
         //ProbarDaoEstudianteEliminar();
-        ProbarDaoEstudianteConsultarEstudiantesConExamenParaAnalista();
+        //ProbarDaoEstudianteConsultarEstudiantesConExamenParaAnalista();
     }
 
     private static void ProbarDaoEstudianteConsultarEstudiantesConExamenParaAnalista() {

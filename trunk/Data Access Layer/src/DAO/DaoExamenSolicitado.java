@@ -231,4 +231,34 @@ public class DaoExamenSolicitado {
                 em.clear();
             }
         }
+    
+    public static ExamenSolicitado actualizarNotaDeExamenSolicitado(int idExamenSolicitado, float nota) throws NoItemFoundException{
+        
+            EntityManager em = DaoEntityManagerFactory.getInstance(); 
+            EntityTransaction tx = em.getTransaction();          
+            try
+            {
+                ExamenSolicitado examen = em.find(ExamenSolicitado.class, idExamenSolicitado);
+                if(examen!=null){
+                    tx.begin();
+                        examen.setNota(nota);
+                    tx.commit();
+                    
+                    return examen;
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
+                
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.clear();
+            }
+        }
 }
