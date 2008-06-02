@@ -7,6 +7,7 @@ package DAO;
 
 import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
+import VO.Analista;
 import VO.Estudiante;
 import VO.Grado;
 import VO.Taller;
@@ -46,6 +47,18 @@ public class DaoEstudiante {
             em.clear();
             throw new NoItemFoundException();
         }
+    }
+    
+    public static List<Estudiante> consultarEstudiantesConExamenParaAnalista(Integer idAnalista){
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+        Analista analista = em.find(Analista.class, idAnalista);
+        Query query = em.createQuery("SELECT e.idEstudiante FROM ExamenSolicitado e WHERE e.idAnalista =:idA");
+        query.setParameter("idA", analista);
+
+        List<Estudiante> lista = query.getResultList();
+        
+        return lista;
+
     }
     
     public static Estudiante eliminar(int idEstudiante) throws NoItemFoundException{  
