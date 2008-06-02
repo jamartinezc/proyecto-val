@@ -7,6 +7,7 @@ package DAO;
 
 import Errores.NoItemFoundException;
 import VO.Taller;
+import VO.Tutor;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -40,4 +41,27 @@ public class DaoTaller {
         }
     }
         
+    public static List<Taller> consultarTallerDeTutor(int idTutor) throws NoItemFoundException{
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+
+        Query query = em.createNamedQuery("Taller.consultarTallerDeTutor");
+        
+        Tutor tutor = em.find(Tutor.class, idTutor);
+        
+        query.setParameter("idT", tutor);
+        List<Taller> item;
+       
+        item = query.getResultList();
+        em.clear();
+        
+        if(item.size()>0)
+        {
+            return item;
+        }
+        else{
+            throw new NoItemFoundException();
+        }
+     
+    }
+    
 }

@@ -261,4 +261,60 @@ public class DaoExamenSolicitado {
                 em.clear();
             }
         }
+    
+    public static List<ExamenSolicitado> examenesSolicitadosPorEstudiantesDeTutor(int idTutor) throws NoItemFoundException{
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+
+        Query query = em.createQuery("SELECT e FROM ExamenSolicitado e JOIN e.idEstudiante  estudiante JOIN estudiante.idTaller taller JOIN taller.idTutor tutor WHERE tutor.idTutor =:idT");
+        query.setParameter("idT", idTutor);
+        List<ExamenSolicitado> item = query.getResultList();
+       
+        em.clear();
+        
+        if(item.size()>0)
+        {
+            return item;
+        }
+        else{
+            throw new NoItemFoundException();
+        }
+     
+    }
+    
+    public static List<ExamenSolicitado> examenesSolicitadosPorTema (int idEstudiante, int idExamen)throws NoItemFoundException{
+        
+            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityTransaction tx = em.getTransaction();           
+            
+            Estudiante etudiant = em.find(Estudiante.class, idEstudiante);
+            Examen control = em.find(Examen.class, idExamen);
+            
+            try
+            {
+                tx.begin();
+                Query q = em.createQuery("select p from ExamenSolicitado p where p.idExamen = :exam AND p.idEstudiante =:student");
+                q.setParameter("exam", control);
+                q.setParameter("student", etudiant);
+                List<ExamenSolicitado> lista = q.getResultList();
+                tx.commit();
+                
+                if(lista.size()>0){
+                    return lista;
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
+                
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.clear();
+            }   
+        
+    }
 }
