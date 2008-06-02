@@ -209,7 +209,7 @@ public class DaoUsuario {
     }
     
     //busca un usuario por appelido o nombre
-    public List<Usuario> buscarUsuario(String comodin) throws NoItemFoundException{
+    public static List<Usuario> buscarUsuario(String comodin) throws NoItemFoundException{
             EntityManager em = DaoEntityManagerFactory.getInstance();
             EntityTransaction tx = em.getTransaction();
             

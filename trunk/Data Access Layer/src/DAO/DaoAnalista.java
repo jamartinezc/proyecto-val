@@ -116,7 +116,7 @@ public class DaoAnalista {
             }
     }
     
-    public Analista analistaDeMateria(int idMateria) throws NoItemFoundException{
+    public static Analista analistaDeMateria(int idMateria) throws NoItemFoundException{
         
         EntityManager em = DaoEntityManagerFactory.getInstance();
         

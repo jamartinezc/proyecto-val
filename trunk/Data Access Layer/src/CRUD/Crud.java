@@ -1044,8 +1044,7 @@ public class Crud {
     //retorna si es el ultimo tema de una materia
     public boolean ultimoTema(int codigoMateria, int temaActual){
         
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
-            EntityManager em = emf.createEntityManager();   
+            EntityManager em = DaoEntityManagerFactory.getInstance(); 
             
             int next = temaActual + 1;
             Examen siguiente = em.find(Examen.class, next);
