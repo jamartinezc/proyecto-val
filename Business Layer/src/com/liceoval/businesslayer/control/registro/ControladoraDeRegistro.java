@@ -357,7 +357,7 @@ public class ControladoraDeRegistro
      *  @return La siguiente fecha disponible para programar un examen.
      */
     
-    private static Date programarExamen()
+    public static Date programarExamen()
     {
         Calendar cal;
         Date fechaExamen;
