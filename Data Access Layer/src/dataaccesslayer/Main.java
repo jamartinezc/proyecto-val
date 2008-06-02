@@ -440,7 +440,7 @@ public class Main {
         
         //ProbarDaoAnalista();
         //ProbarDaoEstados();
-        //ProbarDaoEstudiante();
+        ProbarDaoEstudiante();
         //ProbarDaoExamen();
         
         //ProbarDaoExamenSolicitado(); //falta!!!!
@@ -905,8 +905,17 @@ public class Main {
         //ProbarDaoEstudianteConsultarUno();
         //ProbarDaoEstudianteCrear();   
         //ProbarDaoEstudianteEliminar();
+        ProbarDaoEstudianteConsultarEstudiantesConExamenParaAnalista();
     }
 
+    private static void ProbarDaoEstudianteConsultarEstudiantesConExamenParaAnalista() {
+        List<Estudiante> manes = DaoEstudiante.consultarEstudiantesConExamenParaAnalista(4);
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdEstudiante());
+        }
+    }
+    
     private static void ProbarDaoEstudianteConsultarTodos() {
         List<Estudiante> manes = DaoEstudiante.consultarTodos();
         for(int i = 0; i<manes.size();i++)
