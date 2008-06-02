@@ -131,4 +131,34 @@ public class DaoAnalista {
         
     }
     
+    public static Analista consultarAnalista(int idUsuario) throws NoItemFoundException{
+        EntityManager em = DaoEntityManagerFactory.getInstance(); 
+        EntityTransaction tx = em.getTransaction();
+        
+        Usuario usuario = em.find(Usuario.class, idUsuario);
+        try
+            {
+                tx.begin();
+                Query q = em.createQuery("select p from Analista p where p.idUsuario = :id");
+                q.setParameter("id", usuario);
+                List<Analista> lista = q.getResultList();
+                tx.commit();
+                if(lista.size()>0){
+                    return lista.get(0);
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.clear();
+            }
+    }
+    
 }

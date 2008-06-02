@@ -6,7 +6,10 @@
 package DAO;
 
 import Errores.NoItemFoundException;
+import VO.Analista;
+import VO.Grado;
 import VO.Materia;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -38,5 +41,29 @@ public class DaoMateria {
             em.clear();
             throw new NoItemFoundException();
         }
+    }
+    
+    public static List<Materia> materiasDeAnalista(int idAnalista) throws NoItemFoundException{
+        
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+        
+        Analista analista = em.find(Analista.class, idAnalista);
+        em.clear();
+
+        if(analista!=null){
+            return (List<Materia>) analista.getMateriaCollection();
+        }
+        else{
+            throw new NoItemFoundException();
+        }
+            
+    }
+    
+    public static Collection materiasDeGrado(int idGrado)throws NoItemFoundException{
+            EntityManager em = DaoEntityManagerFactory.getInstance();
+            Grado grado = em.find(Grado.class, idGrado);
+            em.clear();
+            return grado.getMateriaCollection();
+        
     }
 }

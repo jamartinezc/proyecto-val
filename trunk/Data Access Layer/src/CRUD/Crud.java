@@ -294,7 +294,8 @@ public class Crud {
         }
     }
     
-    //consultar analista por idUsuario (a poner en DAO Analista)
+    //consultar analista por idUsuario
+    /** @deprecated Favor usar el DAO DaoAnalista consultarAnalista*/
     public Analista consultarAnalista(int idUsuario) throws NoItemFoundException{
         EntityManager em = DaoEntityManagerFactory.getInstance(); 
         EntityTransaction tx = em.getTransaction();
@@ -325,7 +326,8 @@ public class Crud {
             }
     }
     
-    //retorna una lista de materias (a poner en DAO Materias)
+    //retorna una lista de materias
+    /** @deprecated Favor usar el DAO DaoMaterias consultarTodas*/
     public List<Materia> consultarMaterias(){
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -355,6 +357,7 @@ public class Crud {
     } 
     
     //consulta si un estudiante tiene cierta materia registrada
+    /** @deprecated Favor usar el DAO DaoRegistro consultarRegistroEstudianteMateria*/
     public Registro consultarRegistroEstudianteMateria(int idEstudiante, int codigoMateria) throws NoItemFoundException{
             EntityManager em = DaoEntityManagerFactory.getInstance(); 
             EntityTransaction tx = em.getTransaction();
@@ -392,6 +395,7 @@ public class Crud {
     }
     
     //consulta todos los registros activos o inactivos (DAO registros)
+    /** @deprecated Favor usar el DAO DaoRegistro consultarRegistrosActivosInactivos*/
     public List<Registro> consultarRegistrosActivosInactivos(int idEstudiante, boolean activo) throws NoItemFoundException{
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -511,6 +515,7 @@ public class Crud {
     
     
     //Consultar talleres ( DAO taller)
+    /** @deprecated Favor usar el DAO DaoTaller consultarUno*/
     public Taller consultarTaller(int idTaller) throws NoItemFoundException
     {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -980,7 +985,8 @@ public class Crud {
                 }
     }
     
-    //retorna las materias de cierto grado (debería morir y usarse simplemente consultarUN grado)
+    //retorna las materias de cierto grado
+    /** @deprecated Favor usar el DAO DaoMaterias materiasDeGrado*/
     public Collection materiasDeGrado(int idGrado)throws NoItemFoundException{
             EntityManager em = DaoEntityManagerFactory.getInstance();
             Grado grado = em.find(Grado.class, idGrado);
@@ -1090,6 +1096,7 @@ public class Crud {
     }
     
     //retorna una lista de examenes solicitados por tema
+    /** @deprecated Favor usar el DAO DaoExamenSolicitado examenesSolicitadosPorTema*/
     public List<ExamenSolicitado> examenesSolicitadosPorTema (int idEstudiante, int idExamen)throws NoItemFoundException{
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -1130,6 +1137,7 @@ public class Crud {
     }
     
     //retorna las materias de un analista
+    /** @deprecated Favor usar el DAO DaoMateria materiasDeAnalista*/
     public List<Materia> materiasDeAnalista(int idAnalista) throws NoItemFoundException{
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -1195,6 +1203,7 @@ public class Crud {
     }
     
     //Dado un Tutor retorna el Taller de ese tutor
+    /** @deprecated Favor usar el DAO DaoTaller consultarTallerDeTutor*/
     public List<Taller> consultarTallerDeTutor(int idTutor) throws NoItemFoundException{
         EntityManager em = DaoEntityManagerFactory.getInstance();
 
@@ -1219,6 +1228,7 @@ public class Crud {
     }
     
     //Dado un Tutor retorna el Taller de ese tutor
+    /** @deprecated Favor usar el DAO DaoExamenSolicitado examenesSolicitadosPorEstudiantesDeTutor*/
     public List<ExamenSolicitado> examenesSolicitadosPorEstudiantesDeTutor(int idTutor) throws NoItemFoundException{
         EntityManager em = DaoEntityManagerFactory.getInstance();
 

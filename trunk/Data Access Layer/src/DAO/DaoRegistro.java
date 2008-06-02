@@ -155,4 +155,74 @@ public class DaoRegistro {
             }
         }
     
+    public static List<Registro> consultarRegistrosActivosInactivos(int idEstudiante, boolean activo) throws NoItemFoundException{
+            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityTransaction tx = em.getTransaction(); 
+            
+            Estudiante estudiante;
+            estudiante = em.find(Estudiante.class, idEstudiante);
+            
+            if(estudiante!=null){
+                try
+                {
+                    tx.begin();
+                    Query q = em.createQuery("select p from Registro p where p.idEstudiante = :estudiante AND p.activo = :estado");
+                    q.setParameter("estudiante", estudiante);
+                    q.setParameter("estado", activo);
+                    List<Registro> lista = q.getResultList();
+                    tx.commit();
+
+                    return lista;
+                }
+                finally
+                {
+                    if (tx.isActive())
+                    {
+                        tx.rollback();
+                    }
+
+                    em.clear();
+                }
+            }
+            else{
+                throw new NoItemFoundException();
+            }
+    }
+    
+    public static Registro consultarRegistroEstudianteMateria(int idEstudiante, int codigoMateria) throws NoItemFoundException{
+            EntityManager em = DaoEntityManagerFactory.getInstance(); 
+            EntityTransaction tx = em.getTransaction();
+            
+            Estudiante estudiante;
+            Materia materia;
+            estudiante = em.find(Estudiante.class, idEstudiante);
+            materia = em.find(Materia.class, codigoMateria);
+            
+            try
+            {
+                tx.begin();
+                Query q = em.createQuery("select p from Registro p where p.idEstudiante = :estudiante AND p.idMateria = :materia");
+                q.setParameter("estudiante", estudiante);
+                q.setParameter("materia", materia);
+                List<Registro> lista = q.getResultList();
+                tx.commit();
+                if(lista.size()==1)
+                {
+                    return lista.get(0);
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.clear();
+            }
+    }
+    
 }
