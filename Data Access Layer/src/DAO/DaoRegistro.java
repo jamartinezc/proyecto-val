@@ -124,7 +124,7 @@ public class DaoRegistro {
             }
     }
     
-    public Registro desactivarRegistro(int idRegistro) throws NoItemFoundException{
+    public static Registro desactivarRegistro(int idRegistro) throws NoItemFoundException{
         
             EntityManager em = DaoEntityManagerFactory.getInstance();
             EntityTransaction tx = em.getTransaction();           
