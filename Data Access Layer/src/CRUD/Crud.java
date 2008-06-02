@@ -727,7 +727,8 @@ public class Crud {
             }
         }
     
-    //retorna analista de cierta materia (Poner en DAO analista)
+    //retorna analista de cierta materia
+    /** @deprecated Favor usar el DAO DaoAnalista analistaDeMateria*/
     public Analista analistaDeMateria(int idMateria) throws NoItemFoundException{
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -740,13 +741,12 @@ public class Crud {
         }
         else{
             throw new NoItemFoundException();
-        }
-   
-       
+        }       
         
     }
     
     //retorna una lista de exámenes solicitados (en DAO ExamenSolicitado)
+    /** @deprecated Favor usar el DAO DaoExamenSolicitado consultarExamenSolicitadoEspecífico*/
     public List<ExamenSolicitado> consultarExamenSolicitadoEspecífico(int idEstudiante, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -847,7 +847,8 @@ public class Crud {
             }
         }
     
-    //consultar estados (en DAO estados)
+    //consultar estados
+    /** @deprecated Favor usar el DAO DaoEstados consultarTodos*/
     public List<Estados> consultarEstados(){
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -878,6 +879,7 @@ public class Crud {
     } 
    
     //Actualizar estado de registro (en DAO Registro)
+    /** @deprecated Favor usar el DAO DaoRegistro*/
     public Registro desactivarRegistro(int idRegistro) throws NoItemFoundException{
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -911,7 +913,7 @@ public class Crud {
         }
     
     //cambiar estado de examen solicitado (en DAO examen solicitado)
-    /** @deprecated Favor usar el DAO DaoExamenSolicitado*/
+    /** @deprecated Favor usar el DAO DaoExamenSolicitado actualizarEstado*/
     public ExamenSolicitado actualizarEstadoDeExamenSolicitado(int idExamenSolicitado, int idEstado) throws NoItemFoundException{
         
             EntityManager em = DaoEntityManagerFactory.getInstance(); 
@@ -944,7 +946,8 @@ public class Crud {
             }
         }
     
-    //busca un usuario por appelido o nombre (en DAO USUARIO)
+    //busca un usuario por appelido o nombre
+    /** @deprecated Favor usar el DAO DaoUsuario buscarUsuario*/
     public List<Usuario> buscarUsuario(String comodin) throws NoItemFoundException{
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
@@ -1057,7 +1060,8 @@ public class Crud {
          
         }
     
-    //retorna una lista de grados (en DAO grados)
+    //retorna una lista de grados
+    /** @deprecated Favor usar el DAO DaoGrados consultarTodos*/
     public List<Grado> consultarGrados(){
         
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
@@ -1163,6 +1167,7 @@ public class Crud {
             
             if(examenes==null) throw new NoItemFoundException();
             
+            em.close();
             return examenes;
             
     }
