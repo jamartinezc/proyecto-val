@@ -8,6 +8,7 @@ package DAO;
 import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
 import VO.Analista;
+import VO.Materia;
 import VO.Usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -113,6 +114,21 @@ public class DaoAnalista {
                 }
                 em.clear();
             }
+    }
+    
+    public Analista analistaDeMateria(int idMateria) throws NoItemFoundException{
+        
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+        
+        Materia materia = em.find(Materia.class, idMateria);
+        em.clear();
+        if(materia!=null){
+            return materia.getIdAnalista();
+        }
+        else{
+            throw new NoItemFoundException();
+        }       
+        
     }
     
 }

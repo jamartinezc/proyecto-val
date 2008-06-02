@@ -207,4 +207,34 @@ public class DaoUsuario {
                 em.clear();
             }
     }
+    
+    //busca un usuario por appelido o nombre
+    public List<Usuario> buscarUsuario(String comodin) throws NoItemFoundException{
+            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityTransaction tx = em.getTransaction();
+            
+                try
+                {
+                    tx.begin();
+                    Query q = em.createQuery("select p from Usuario p where UPPER(p.nombres) LIKE :nombre OR UPPER(p.apellidos) LIKE :nombre ORDER BY p.nombres");
+                    q.setParameter("nombre", "%"+comodin+"%");
+                    List<Usuario> lista = q.getResultList();
+                    tx.commit();
+                    if(lista.size()>0){
+                        return lista;
+                    }     
+                    else{
+                        throw new NoItemFoundException();
+                    }
+                }
+                finally
+                {
+                    if (tx.isActive())
+                    {
+                        tx.rollback();
+                    }
+
+                    em.clear();
+                }
+    }
 }

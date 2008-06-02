@@ -124,4 +124,35 @@ public class DaoRegistro {
             }
     }
     
+    public Registro desactivarRegistro(int idRegistro) throws NoItemFoundException{
+        
+            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityTransaction tx = em.getTransaction();           
+            try
+            {
+                Registro registro = em.find(Registro.class, idRegistro);
+                if(registro!=null){
+                    tx.begin();
+                
+                    registro.setActivo(false);
+                    tx.commit();
+                    
+                    return registro;
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
+                
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.clear();
+            }
+        }
+    
 }

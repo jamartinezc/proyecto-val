@@ -178,7 +178,7 @@ public class DaoExamenSolicitado {
                 try
                 {
                     tx.begin();
-                    Query q = em.createQuery("select p from ExamenSolicitado p where p.fecha > :d AND p.fecha < :h");
+                    Query q = em.createQuery("select p from ExamenSolicitado p where p.fecha > :d AND p.fecha < :h AND p.idEstado = 4");
                     q.setParameter("d", desde);
                     q.setParameter("h", hasta);
                     List<ExamenSolicitado> lista = q.getResultList();
