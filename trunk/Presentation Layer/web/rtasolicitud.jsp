@@ -21,7 +21,6 @@
          com. liceoval. businesslayer. control. registro. exceptions. RegistroException,
          com. liceoval. businesslayer. control. registro. exceptions. RegistroNoEncontradoException,
          com. liceoval. businesslayer. control. registro. exceptions. RegistroNoExisteYNoPuedeSerCreadoException,
-         com. liceoval. businesslayer. control. registro. exceptions. ZonaHorariaIncorrectaException,
          com.liceoval.businesslayer.exceptions. InvalidProcedureCallOrArgumentException,
          com. liceoval. businesslayer. control. AdministradoraSolicitudesExamen"
 	errorPage="" %>
@@ -101,10 +100,6 @@
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
                                 <%}catch(EstudianteNoPuedeRegistrarMasExamenesException e){
                                     String mensajeError =  e.getMessage();
-                                %>
-                                <%@include file="globals/error-solicitud-increable.jsp" %>
-                                <%}catch(ZonaHorariaIncorrectaException e){
-                                    String mensajeError =  "Error en el servidor: "+e.getMessage()+" Contacte al administrador.";
                                 %>
                                 <%@include file="globals/error-solicitud-increable.jsp" %>
                                 <%}catch(InsersionDeExamenException e){

@@ -1,7 +1,12 @@
 <%@ page
 	contentType="text/html; charset=utf-8"
 	language="java"
-	import="com.liceoval.businesslayer.entities.Usuario"
+	import="com.liceoval.businesslayer.entities.Usuario,
+                com.liceoval.businesslayer.control.GeneradoraListaExamenesDia,
+                Errores.NoItemFoundException,
+                java.util.LinkedList,
+                com.liceoval.businesslayer.entities.wrappers.ExamenSolicitadoWrapper,
+                java.util.Iterator"
 	errorPage="" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -43,8 +48,7 @@
             
             <%@include file="globals/login-warning.jsp" %>    
             <%@include file="globals/login-error.jsp" %>
-            <%if(currentUser != null)
-        {
+            <%if(currentUser != null){
         %>
         
         <table border="0" cellpadding="0" cellspacing="0" width="550">
@@ -55,11 +59,51 @@
                         <tr><td class="cont-outer" colspan="3">
                             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                             <tr><td class="cont-inner">
-                                    <p style="text-align:center"><b>ESTA SECCIÓN LE PERMITIRÁ VER LOS EXÁMENES SOLICITADOS EL DIA DE AYER.</b></p>
+                                    <p style="text-align:center"><b>ESTA SECCIÓN LE PERMITIRÁ VER LOS EXÁMENES APROVADOS PARA EL DIA DE HOY.</b></p>
                                     
                                 <br>
+                                <%try{
+                                    LinkedList listaExamenes = GeneradoraListaExamenesDia.generarListaExamenesDia();
+                                    Iterator<ExamenSolicitadoWrapper> itListaExamenes = listaExamenes.iterator();
+                                    ExamenSolicitadoWrapper examenWrapped;
+                                    %>
                                 <!--| CÓDIGO | MATERIA | TEMA | CANTIDAD |-->
-                                
+                                <ul>
+                                    <table border="1" width="92%">
+                                        <thead>
+                                            <tr>
+                                                <th>CÓDIGO ESTUDIANTE</th>
+                                                <th>NOMBRE ESTUDIANTE</th>
+                                                <th>MATERIA</th>
+                                                <th>CÓDIGO</th>
+                                                <th>TEMA</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <%while(itListaExamenes.hasNext()){
+                                            examenWrapped = itListaExamenes.next();
+                                            String nombre = examenWrapped.getEstudiante().getNombres()+" "+examenWrapped.getEstudiante().getApellidos();
+                                            String codEstudiante = Integer.toString(examenWrapped.getEstudiante().getCodigo());
+                                            String Materia = examenWrapped.getRegistro().getMateria().getNombre();
+                                            String codigo = Integer.toString(examenWrapped.getExamenSolicitado().getExamen().getCodigo());
+                                            String tema = examenWrapped.getExamenSolicitado().getExamen().getTema();
+                                            %>
+                                            <tr>
+                                                <td><%=codEstudiante%></td>
+                                                <td><%=nombre%></td>
+                                                <td><%=Materia%></td>
+                                                <td><%=codigo%></td>
+                                                <td><%=tema%></td>
+                                            </tr>
+                                            <%}%>
+
+                                        </tbody>
+                                    </table>
+                                </ul>
+                                <%}catch(NoItemFoundException e){%>
+                                        <p style="text-align:center"><b>NO HAY EXAMENES SOLICITADOS PARA EL DIA DE HOY</b></p>
+                                    <%}%>
                                 <!--VOY ACÁ-->
                             </td>
                             </tr>
