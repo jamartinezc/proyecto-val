@@ -110,9 +110,6 @@ public class DaoExamenSolicitado {
            Registro registro = em.getReference(Registro.class, idRegistro);
            Examen examen = em.getReference(Examen.class, idExamen);
            Estados estado = em.getReference(Estados.class, 3);
-
-           ExamenSolicitado repetido = DaoExamenSolicitado.consultarExamenSolicitadoEspecifico(idEstudiante, idAnalista, idRegistro, idExamen);
-           if(repetido!=null) throw new PosibleDuplicationException();
            
            ExamenSolicitado nuevo = new ExamenSolicitado();
            nuevo.setFecha(fecha);
