@@ -6,9 +6,13 @@
 package DAO;
 
 import Errores.NoItemFoundException;
+import Errores.PosibleDuplicationException;
+import VO.Estudiante;
 import VO.Padre;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -40,14 +44,59 @@ public class DaoPadre {
             throw new NoItemFoundException();
         }
     }
-    /*
-    public static Analista eliminar(int idAnalista) throws NoItemFoundException{  
+    public static Padre crear(String nombres, String apellidos, String correo, int idEstudiante) throws NoItemFoundException, PosibleDuplicationException{  
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityTransaction tx = em.getTransaction();
+        try
+            {
+            
+                Estudiante estudiante = em.getReference(Estudiante.class, idEstudiante);            
+                em.clear();
+                
+                Query query = em.createNamedQuery("Padre.consultarPorIdEstudiante");
+                query.setParameter("estudiante", estudiante);
+                List<Padre> repetido = query.getResultList();
+                if(repetido.size()==1) throw new PosibleDuplicationException();
+                em.clear();
+
+                Padre nuevo = new Padre();
+                nuevo.setApellidos(apellidos);
+                nuevo.setNombres(nombres);
+                nuevo.setCorreo(correo);
+                nuevo.setIdEstudiante(estudiante);
+
+                
+                tx.begin();
+                    em.persist(nuevo);
+                tx.commit();   
+
+                return nuevo;
+            }
+            catch(PosibleDuplicationException uy ){
+                em.clear();
+                throw new PosibleDuplicationException();
+            }
+            catch(EntityNotFoundException noResult){
+                em.clear();
+                throw new NoItemFoundException();
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+                em.clear();
+            }
+    }
+    
+    public static Padre eliminar(int idPadre) throws NoItemFoundException{  
         EntityManager em = DaoEntityManagerFactory.getInstance();
         EntityTransaction tx = em.getTransaction();
         try
             {
                 tx.begin();
-                    Analista item = em.getReference(Analista.class, idAnalista);
+                    Padre item = em.getReference(Padre.class, idPadre);
                     em.remove(item);
                 tx.commit();
                 return item;
@@ -66,48 +115,4 @@ public class DaoPadre {
             }
     }
     
-    public static Analista crear(int idUsuario) throws NoItemFoundException, PosibleDuplicationException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
-        EntityTransaction tx = em.getTransaction();
-        try
-            {
-                Usuario usuario = em.getReference(Usuario.class, idUsuario);
-                Query query = em.createNamedQuery("Analista.consultarPorIdUsuario");
-                query.setParameter("id", usuario);
-                
-                if(query.getResultList().size() != 0)
-                {
-                    throw new PosibleDuplicationException();
-                }
-                
-                Analista nuevo = new Analista();
-                nuevo.setIdUsuario(usuario);
-
-                tx.begin();
-                    em.persist(nuevo);
-                tx.commit();   
-
-                return nuevo;
-            }
-            catch(NonUniqueResultException error){
-                    throw new PosibleDuplicationException();
-                }
-            catch(EntityNotFoundException noResult){
-                em.clear();
-                throw new NoItemFoundException();
-            }
-            catch(NoResultException noResult){
-                em.clear();
-                throw new NoItemFoundException();
-            }
-            finally
-            {
-                if (tx.isActive())
-                {
-                    tx.rollback();
-                }
-                em.clear();
-            }
-    }
-    */
 }

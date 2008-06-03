@@ -451,7 +451,7 @@ public class Main {
         //ProbarDaoGrado(); //terminado
         //ProbarDaoMateria(); //terminado
         
-        ProbarDaoPadre(); //falta!!!!
+        //ProbarDaoPadre();
         
         
         //ProbarDaoRegistro(); //terminado
@@ -468,6 +468,7 @@ public class Main {
         //ProbarDaoPadreConsultarTodos();
         //ProbarDaoPadreConsultarUno();
         //ProbarDaoPadreCrear();
+        ProbarDaoPadreEliminar();
     }
     
     private static void ProbarDaoPadreConsultarTodos() {
@@ -488,9 +489,9 @@ public class Main {
         }
     }
     
-    private static void ProbarDaoPadreCrear() {/*
+    private static void ProbarDaoPadreCrear() {
         try{
-            Padre mio=DaoPadre.crear(291, 4, 8, 79);
+            Padre mio=DaoPadre.crear("Felipe", "Perdomo", "cosocoso@unal.edu.co", 291);
             System.out.println(mio.getApellidos());
         }
         catch(NoItemFoundException error){
@@ -498,7 +499,16 @@ public class Main {
         }
         catch(PosibleDuplicationException error){
             System.out.println(error.Mensaje());
-        }*/
+        }
+    }
+    
+    private static void ProbarDaoPadreEliminar() {
+        try{
+            DaoPadre.eliminar(6);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
     }
     
     /*
