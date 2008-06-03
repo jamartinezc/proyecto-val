@@ -1,7 +1,15 @@
 <%@ page
 	contentType="text/html; charset=utf-8"
 	language="java"
-	import="com.liceoval.businesslayer.entities.Usuario"
+	import="com.liceoval.businesslayer.entities.Usuario,
+                com.liceoval.businesslayer.entities.Analista,
+                com.liceoval.businesslayer.control.AdministradoraListaDeExamenesAsignados,
+                com.liceoval.businesslayer. entities. wrappers. ExamenSolicitadoWrapper,
+                Errores.NoItemFoundException,
+                java.util.List,
+                java.util.Iterator,
+                java.util.Date,
+                java.util.Calendar"
 	errorPage="" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -64,39 +72,51 @@
                                     </ol>
                                 <br>
                                     <!--| ESTUDIANTE | EXÁMEN | FECHA | NOTA |-->
-                                    <ul>
-                                  <form name="listaExamenes" action="" method="POST" enctype="application/x-www-form-urlencoded" accept-charset="ISO-8859-1">
-                                    <table border="1" class="label" width="92%">
-                                        <thead>
-                                            <tr>
-                                                <th>ESTUDIANTE</th>
-                                                <th>EXÁMEN</th>
-                                                <th>FECHA</th>
-                                                <th>NOTA</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Estudiante Número Uno</td>
-                                                <td>EL Examen 1</td>
-                                                <td>2008-04-20 20:13:54</td>
-                                                <td><input type="text" name="<%="nota"+1%>" value="9.0" size="3" /></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Estudiante Número Dos</td>
-                                                <td>EL Examen 2</td>
-                                                <td>2008-04-20 20:13:54</td>
-                                                <td><input type="text" name="<%="nota"+2%>" value="9.5" size="3" /></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <p style="text-align:center">
-                                        <input type="submit" value="Enviar cambios" />
-                                        <input type="button" value="Deshacer cambios" onclick="" />
-                                    </p>
-                                  <!--VOY ACÁ-->
-                                    </form>
-                                    </ul>
+                                    <%try{
+                                        Integer idAnalista = ((Analista)currentUser).getIdAnalista();
+                                        List<ExamenSolicitadoWrapper> listaExamenes = AdministradoraListaDeExamenesAsignados.generarListaDeExamenesACalificar(idAnalista);
+                                        Iterator<ExamenSolicitadoWrapper> itListaExamenes = listaExamenes.iterator();
+                                        ExamenSolicitadoWrapper examen;
+                                        %>
+                                        <ul>
+                                          <form name="listaExamenes" action="" method="POST" enctype="application/x-www-form-urlencoded" accept-charset="ISO-8859-1">
+                                            <table border="1" class="label" width="92%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>COD ESTUDIANTE</th>
+                                                        <th>NOMBRE ESTUDIANTE</th>
+                                                        <th>EXÁMEN</th>
+                                                        <th>FECHA</th>
+                                                        <th>NOTA</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                        <%            
+                                        while(itListaExamenes.hasNext()){
+                                            examen=itListaExamenes.next();
+                                            Date fecha = examen.getExamenSolicitado().getFecha();
+                                            //meterle Date translator
+                                            %>
+                                                    <tr>
+                                                        <td><%=examen.getEstudiante().getCodigo()%></td>
+                                                        <td><%=examen.getEstudiante().getNombres()+" "+examen.getEstudiante().getApellidos()%></td>
+                                                        <td><%=examen.getExamenSolicitado().getExamen().getTema()%></td>
+                                                        <td><%=fecha%></td>
+                                                        <td><input type="text" name="<%="nota"+1%>" value="<%=examen.getExamenSolicitado().getNota()%>" size="3" /></td>
+                                                    </tr>
+                                                    <%}%>
+                                                </tbody>
+                                            </table>
+                                            <p style="text-align:center">
+                                                <input type="submit" value="Enviar cambios" />
+                                                <input type="button" value="Deshacer cambios" onclick="" />
+                                            </p>
+                                          <!--VOY ACÁ-->
+                                          </form>
+                                        </ul>
+                                    <%}catch(NoItemFoundException e){
+                                        %><p style="text-align:center"><b>USTED NO TIENE EXAMENES PENDIENTES PARA CALIFICAR</b></p><%
+                                    }%>
                             </td>
                             </tr>
                         </table>

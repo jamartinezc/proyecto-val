@@ -102,7 +102,7 @@
                                     </table>
                                 </ul>
                                 <%}catch(NoItemFoundException e){%>
-                                        <p style="text-align:center"><b>NO HAY EXAMENES SOLICITADOS PARA EL DIA DE HOY</b></p>
+                                        <p style="text-align:center"><b>NO HAY EXAMENES SOLICITADOS PARA EL DIA DE HOY.</b></p>
                                     <%}%>
                                 <!--VOY ACÁ-->
                             </td>
