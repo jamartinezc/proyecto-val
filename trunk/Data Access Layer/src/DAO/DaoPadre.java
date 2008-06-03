@@ -6,38 +6,32 @@
 package DAO;
 
 import Errores.NoItemFoundException;
-import Errores.PosibleDuplicationException;
-import VO.Analista;
-import VO.Materia;
-import VO.Usuario;
+import VO.Padre;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
 /**
  *
  * @author David
  */
-public class DaoAnalista {
-    
-    public static List<Analista> consultarTodos() {   
+public class DaoPadre {
+
+    public static List<Padre> consultarTodos() {   
         EntityManager em = DaoEntityManagerFactory.getInstance();
-        Query query = em.createNamedQuery("Analista.consultarAnalistas");
-        List<Analista> items = query.getResultList();
+        Query query = em.createNamedQuery("Padre.consultarPadres");
+        List<Padre> items = query.getResultList();
         em.clear();
         return items;
     }
     
-    public static Analista consultarUno(int idAnalista) throws NoItemFoundException{
+    public static Padre consultarUno(int idPadre) throws NoItemFoundException{
         EntityManager em = DaoEntityManagerFactory.getInstance();
-        Query query = em.createNamedQuery("Analista.consultarUnAnalista");
-        query.setParameter("id", idAnalista);
+        Query query = em.createNamedQuery("Padre.consultarUnPadre");
+        query.setParameter("id", idPadre);
         try{
-            Analista item = (Analista) query.getSingleResult();
+            Padre item = (Padre) query.getSingleResult();
             em.clear();
             return item;
         }
@@ -46,7 +40,7 @@ public class DaoAnalista {
             throw new NoItemFoundException();
         }
     }
-    
+    /*
     public static Analista eliminar(int idAnalista) throws NoItemFoundException{  
         EntityManager em = DaoEntityManagerFactory.getInstance();
         EntityTransaction tx = em.getTransaction();
@@ -115,51 +109,5 @@ public class DaoAnalista {
                 em.clear();
             }
     }
-    
-    //Retorna el analista de cierta materia
-    public static Analista analistaDeMateria(int idMateria) throws NoItemFoundException{
-        
-        EntityManager em = DaoEntityManagerFactory.getInstance();
-        
-        Materia materia = em.find(Materia.class, idMateria);
-        em.clear();
-        if(materia!=null){
-            return materia.getIdAnalista();
-        }
-        else{
-            throw new NoItemFoundException();
-        }       
-        
-    }
-    
-    public static Analista consultarAnalista(int idUsuario) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance(); 
-        EntityTransaction tx = em.getTransaction();
-        
-        Usuario usuario = em.find(Usuario.class, idUsuario);
-        try
-            {
-                tx.begin();
-                Query q = em.createQuery("select p from Analista p where p.idUsuario = :id");
-                q.setParameter("id", usuario);
-                List<Analista> lista = q.getResultList();
-                tx.commit();
-                if(lista.size()>0){
-                    return lista.get(0);
-                }
-                else{
-                    throw new NoItemFoundException();
-                }
-            }
-            finally
-            {
-                if (tx.isActive())
-                {
-                    tx.rollback();
-                }
-
-                em.clear();
-            }
-    }
-    
+    */
 }

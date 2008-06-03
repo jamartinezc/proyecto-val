@@ -438,25 +438,25 @@ public class Main {
         
         //nueva manera de hacer las cosas
         
-        //ProbarDaoAnalista();
-        //ProbarDaoEstados();
-        //ProbarDaoEstudiante();
-        //ProbarDaoExamen();
+        //ProbarDaoAnalista(); //terminado
+        //ProbarDaoEstados(); //terminado
+        //ProbarDaoEstudiante(); //terminado
+        //ProbarDaoExamen(); //terminado
         
-        //ProbarDaoExamenSolicitado(); //falta!!!!
-        
-        
-        //ProbarDaoGrado();
-        //ProbarDaoMateria();
+        //ProbarDaoExamenSolicitado(); //duda!!!!
         
         
+        //ProbarDaoGrado(); //terminado
+        //ProbarDaoMateria(); //falta!!!!
+        
+        //ProbarDaoPadre(); //falta empezar XD!!!!
         
         
-        //ProbarDaoRegistro();
-        //ProbarDaoSecretariaAcademica();
-        //ProbarDaoTaller();
-        //ProbarDaoTutor();
-        //ProbarDaoUsuario();
+        //ProbarDaoRegistro(); //falta!!!!
+        //ProbarDaoSecretariaAcademica(); //terminado
+        //ProbarDaoTaller(); //falta!!!!
+        //ProbarDaoTutor(); //terminado
+        //ProbarDaoUsuario(); //falta!!!!
     }
     
     /*
@@ -467,7 +467,11 @@ public class Main {
         
         //ProbarDaoExamenSolicitadoConsultarUno();
         
+        //ProbarDaoExamenSolicitadoConsultarExamenSolicitadoEspecifico();
+        
         //ProbarDaoExamenSolicitadoEliminar();
+        
+        //ProbarDaoExamenSolicitadoCrear();
         
         //Date fecha = new Date();
         //ProbarDaoExamenSolicitadoActualizarFecha(4,fecha);
@@ -491,9 +495,10 @@ public class Main {
         ProbarDaoExamenSolicitadoConsultarExamenesSolicitadosEntreFechas(desde, hasta);
         */
         
-        //ProbarDaoExamenSolicitadoCrear();
-        
-        
+        //ProbarDaoExamenSolicitadoActualizarEstadoDeExamenSolicitado();
+        //ProbarDaoExamenSolicitadoactualizarNotaDeExamenSolicitado();
+        //ProbarDaoExamenSolicitadoExamenesSolicitadosPorEstudiantesDeTutor();
+        //ProbarDaoExamenSolicitadoExamenesSolicitadosPorTema(); //retora list??
     }
     
     private static void ProbarDaoExamenSolicitadoConsultarTodos() {
@@ -515,6 +520,16 @@ public class Main {
         }
     }
 
+    private static void ProbarDaoExamenSolicitadoConsultarExamenSolicitadoEspecifico() {
+        try{
+            ExamenSolicitado uy = DaoExamenSolicitado.consultarExamenSolicitadoEspecifico(290, 1, 4, 13);
+            System.out.println(uy.getIdExamenSolicitado());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
     private static void ProbarDaoExamenSolicitadoCrear() {
         Date fecha = new Date();
         try{
@@ -557,6 +572,50 @@ public class Main {
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoExamenSolicitadoActualizarEstadoDeExamenSolicitado() {
+        try{
+            ExamenSolicitado exam = DaoExamenSolicitado.actualizarEstadoDeExamenSolicitado(9, 4);
+            System.out.println(exam.getIdExamenSolicitado()+" "+exam.getIdEstudiante().getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException mal){
+            System.out.println(mal.Mensaje());
+        }
+    }
+
+    private static void ProbarDaoExamenSolicitadoactualizarNotaDeExamenSolicitado() {
+        try{
+            ExamenSolicitado exam = DaoExamenSolicitado.actualizarNotaDeExamenSolicitado(4, 3);
+            System.out.println(exam.getIdExamenSolicitado()+" "+exam.getIdEstudiante().getIdUsuario().getNombres());
+        }
+        catch(NoItemFoundException mal){
+            System.out.println(mal.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoExamenSolicitadoExamenesSolicitadosPorEstudiantesDeTutor() {
+        try{
+            List<ExamenSolicitado> exam = DaoExamenSolicitado.examenesSolicitadosPorEstudiantesDeTutor(3);
+            for(int i=0;i<exam.size();i++){
+                System.out.println(exam.get(i).getIdExamenSolicitado());
+            }
+        }
+        catch(NoItemFoundException mal){
+            System.out.println(mal.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoExamenSolicitadoExamenesSolicitadosPorTema() {
+        try{
+            List<ExamenSolicitado> exam = DaoExamenSolicitado.examenesSolicitadosPorTema(325, 114);
+            for(int i=0;i<exam.size();i++){
+                System.out.println(exam.get(i).getIdExamenSolicitado());
+            }            
+        }
+        catch(NoItemFoundException mal){
+            System.out.println(mal.Mensaje());
         }
     }
     
@@ -854,6 +913,8 @@ public class Main {
         //ProbarDaoAnalistaConsultarUno();
         //ProbarDaoAnalistaCrear();   
         //ProbarDaoAnalistaEliminar();
+        //ProbarDaoAnalistaanalistaDeMateria();
+        //ProbarDaoAnalistaConsultarAnalista();
     }
     
     private static void ProbarDaoAnalistaConsultarTodos() {
@@ -893,6 +954,26 @@ public class Main {
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoAnalistaanalistaDeMateria() {
+        try{
+            Analista uy= DaoAnalista.analistaDeMateria(22);
+            System.out.println(uy.getIdAnalista());
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoAnalistaConsultarAnalista() {
+        try{
+            Analista uy= DaoAnalista.consultarAnalista(30);
+            System.out.println(uy.getIdAnalista());
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
         }
     }
 
