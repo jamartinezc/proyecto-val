@@ -13,6 +13,7 @@ import DAO.DaoExamen;
 import DAO.DaoExamenSolicitado;
 import DAO.DaoGrado;
 import DAO.DaoMateria;
+import DAO.DaoPadre;
 import DAO.DaoRegistro;
 import DAO.DaoSecretariaAcademica;
 import DAO.DaoTaller;
@@ -30,6 +31,7 @@ import VO.Examen;
 import VO.ExamenSolicitado;
 import VO.Grado;
 import VO.Materia;
+import VO.Padre;
 import VO.Registro;
 import VO.SecretariaAcademica;
 import VO.Taller;
@@ -449,7 +451,7 @@ public class Main {
         //ProbarDaoGrado(); //terminado
         //ProbarDaoMateria(); //terminado
         
-        //ProbarDaoPadre(); //falta empezar XD!!!!
+        ProbarDaoPadre(); //falta!!!!
         
         
         //ProbarDaoRegistro(); //terminado
@@ -457,6 +459,46 @@ public class Main {
         //ProbarDaoTaller(); //terminado
         //ProbarDaoTutor(); //terminado
         //ProbarDaoUsuario(); //terminado
+    }
+    
+    /*
+    * Pruebas DaoPadre()
+    */
+    private static void ProbarDaoPadre(){
+        //ProbarDaoPadreConsultarTodos();
+        //ProbarDaoPadreConsultarUno();
+        //ProbarDaoPadreCrear();
+    }
+    
+    private static void ProbarDaoPadreConsultarTodos() {
+        List<Padre> manes = DaoPadre.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getApellidos());
+        }
+    }   
+    
+    private static void ProbarDaoPadreConsultarUno() {
+        try{
+            Padre mansito = DaoPadre.consultarUno(5);
+            System.out.println(mansito.getApellidos());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoPadreCrear() {/*
+        try{
+            Padre mio=DaoPadre.crear(291, 4, 8, 79);
+            System.out.println(mio.getApellidos());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
+        }*/
     }
     
     /*
