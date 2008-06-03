@@ -29,7 +29,7 @@ public class DaoPadre {
     public static Padre consultarUno(int idPadre) throws NoItemFoundException{
         EntityManager em = DaoEntityManagerFactory.getInstance();
         Query query = em.createNamedQuery("Padre.consultarUnPadre");
-        query.setParameter("id", idPadre);
+        query.setParameter("idPadre", idPadre);
         try{
             Padre item = (Padre) query.getSingleResult();
             em.clear();

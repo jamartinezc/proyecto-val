@@ -23,7 +23,13 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "padre")
-@NamedQueries({@NamedQuery(name = "Padre.findByIdPadre", query = "SELECT p FROM Padre p WHERE p.idPadre = :idPadre"), @NamedQuery(name = "Padre.findByNombres", query = "SELECT p FROM Padre p WHERE p.nombres = :nombres"), @NamedQuery(name = "Padre.findByApellidos", query = "SELECT p FROM Padre p WHERE p.apellidos = :apellidos"), @NamedQuery(name = "Padre.findByCorreo", query = "SELECT p FROM Padre p WHERE p.correo = :correo")})
+@NamedQueries({
+    @NamedQuery(name = "Padre.consultarUnPadre", query = "SELECT p FROM Padre p WHERE p.idPadre = :idPadre"),
+    @NamedQuery(name = "Padre.consultarPadres", query = "SELECT p FROM Padre p"),
+    @NamedQuery(name = "Padre.findByNombres", query = "SELECT p FROM Padre p WHERE p.nombres = :nombres"),
+    @NamedQuery(name = "Padre.findByApellidos", query = "SELECT p FROM Padre p WHERE p.apellidos = :apellidos"),
+    @NamedQuery(name = "Padre.findByCorreo", query = "SELECT p FROM Padre p WHERE p.correo = :correo")
+})
 public class Padre implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
