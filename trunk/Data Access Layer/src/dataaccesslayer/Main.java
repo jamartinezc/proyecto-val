@@ -443,20 +443,20 @@ public class Main {
         //ProbarDaoEstudiante(); //terminado
         //ProbarDaoExamen(); //terminado
         
-        //ProbarDaoExamenSolicitado(); //duda!!!!
+        //ProbarDaoExamenSolicitado(); //terminado!!!!
         
         
         //ProbarDaoGrado(); //terminado
-        //ProbarDaoMateria(); //falta!!!!
+        //ProbarDaoMateria(); //terminado
         
         //ProbarDaoPadre(); //falta empezar XD!!!!
         
         
-        //ProbarDaoRegistro(); //falta!!!!
+        //ProbarDaoRegistro(); //terminado
         //ProbarDaoSecretariaAcademica(); //terminado
-        //ProbarDaoTaller(); //falta!!!!
+        //ProbarDaoTaller(); //terminado
         //ProbarDaoTutor(); //terminado
-        //ProbarDaoUsuario(); //falta!!!!
+        //ProbarDaoUsuario(); //terminado
     }
     
     /*
@@ -498,7 +498,7 @@ public class Main {
         //ProbarDaoExamenSolicitadoActualizarEstadoDeExamenSolicitado();
         //ProbarDaoExamenSolicitadoactualizarNotaDeExamenSolicitado();
         //ProbarDaoExamenSolicitadoExamenesSolicitadosPorEstudiantesDeTutor();
-        //ProbarDaoExamenSolicitadoExamenesSolicitadosPorTema(); //retora list??
+        //ProbarDaoExamenSolicitadoExamenesSolicitadosPorTema(); 
     }
     
     private static void ProbarDaoExamenSolicitadoConsultarTodos() {
@@ -627,6 +627,9 @@ public class Main {
         //ProbarDaoRegistroConsultarUno();
         //ProbarDaoRegistroCrear();   
         //ProbarDaoRegistroEliminar();
+        //ProbarDaoRegistroDesactivarRegistro();
+        //ProbarDaoRegistroConsultarRegistroActivosInactivos();
+        //ProbarDaoRegistroConsultarRegistroEstudianteMateria();
     }
     
     private static void ProbarDaoRegistroConsultarTodos() {
@@ -667,6 +670,38 @@ public class Main {
     private static void ProbarDaoRegistroEliminar() {
         try{
             DaoRegistro.eliminar(74);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoRegistroDesactivarRegistro() {
+        try{
+            Registro mansito = DaoRegistro.desactivarRegistro(4);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoRegistroConsultarRegistroActivosInactivos() {
+        try{
+            List<Registro> manes = DaoRegistro.consultarRegistrosActivosInactivos(290, false);
+            for(int i = 0; i<manes.size();i++)
+            {
+                System.out.println(manes.get(i).getIdRegistro());
+            }
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoRegistroConsultarRegistroEstudianteMateria(){
+        try{
+            Registro mansito = DaoRegistro.consultarRegistroEstudianteMateria(290, 3);
+            System.out.println(mansito.getIdRegistro());
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
@@ -730,6 +765,7 @@ public class Main {
     private static void ProbarDaoTaller() {
         //ProbarDaoTallerConsultarTodos();
         //ProbarDaoTallerConsultarUno();
+        ProbarDaoTallerConsultarTallerDeTutor();
     }
     
     private static void ProbarDaoTallerConsultarTodos() {
@@ -744,6 +780,19 @@ public class Main {
         try{
             Taller mansito = DaoTaller.consultarUno(4);
             System.out.println(mansito.getIdTaller());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+     
+    private static void ProbarDaoTallerConsultarTallerDeTutor() {
+        try{
+            List<Taller> mansito = DaoTaller.consultarTallerDeTutor(1);
+            for(int i = 0; i<mansito.size();i++)
+        {
+            System.out.println(mansito.get(i).getIdTaller());
+        }
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
@@ -807,6 +856,8 @@ public class Main {
     private static void ProbarDaoMateria() {
         //ProbarDaoMateriaConsultarTodos();
         //ProbarDaoMateriaConsultarUno();
+        //ProbarDaoMateriaMateriasDeAnalista();
+        //ProbarDaoMateriaMateriasDeGrado();
     }
     
     private static void ProbarDaoMateriaConsultarTodos() {
@@ -821,6 +872,19 @@ public class Main {
         try{
             Materia mansito = DaoMateria.consultarUno(11);
             System.out.println(mansito.getNombre());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+     
+    private static void ProbarDaoMateriaMateriasDeAnalista() {
+        try{
+            List<Materia> mansito = DaoMateria.materiasDeAnalista(1);
+            for(int i=0;i<mansito.size();i++)
+            {
+                System.out.println(mansito.get(i).getNombre());
+            }
         }
         catch(NoItemFoundException error){
             System.out.println(error.Mensaje());
@@ -1051,6 +1115,7 @@ public class Main {
         //ProbarDaoUsuarioEliminar();
         //ProbarDaoUsuarioActualizar();
         //ProbarDaoUsuarioConsultarUsuario();
+        ProbarDaoUsuarioBuscarUsuario();
     }
 
     private static void ProbarDaoUsuarioActualizar() {
@@ -1112,5 +1177,16 @@ public class Main {
         }
     }
     
-    
+    private static void ProbarDaoUsuarioBuscarUsuario() {
+        try{
+            List<Usuario> mansito = DaoUsuario.buscarUsuario("da");
+            for(int i = 0; i<mansito.size();i++)
+            {
+                System.out.println(mansito.get(i).getIdUsuario());
+            }
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
 }
