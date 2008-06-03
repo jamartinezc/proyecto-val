@@ -28,6 +28,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Padre.consultarPadres", query = "SELECT p FROM Padre p"),
     @NamedQuery(name = "Padre.findByNombres", query = "SELECT p FROM Padre p WHERE p.nombres = :nombres"),
     @NamedQuery(name = "Padre.findByApellidos", query = "SELECT p FROM Padre p WHERE p.apellidos = :apellidos"),
+    @NamedQuery(name = "Padre.consultarPorIdEstudiante", query = "SELECT p FROM Padre p WHERE p.idEstudiante = :estudiante"),
     @NamedQuery(name = "Padre.findByCorreo", query = "SELECT p FROM Padre p WHERE p.correo = :correo")
 })
 public class Padre implements Serializable {
