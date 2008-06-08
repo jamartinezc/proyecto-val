@@ -1081,6 +1081,7 @@ public class Main {
         //ProbarDaoAnalistaEliminar();
         //ProbarDaoAnalistaanalistaDeMateria();
         //ProbarDaoAnalistaConsultarAnalista();
+        //ProbarDaoAnalistaConsultarExamenesSolicitadosPendienteCalificarDeAnalista();
     }
     
     private static void ProbarDaoAnalistaConsultarTodos() {
@@ -1137,6 +1138,20 @@ public class Main {
         try{
             Analista uy= DaoAnalista.consultarAnalista(30);
             System.out.println(uy.getIdAnalista());
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoAnalistaConsultarExamenesSolicitadosPendienteCalificarDeAnalista() {
+        try{
+            List<ExamenSolicitado> manes = DaoAnalista.consultarExamenesSolicitadosPendienteCalificarDeAnalista(4);
+            for(int i = 0; i<manes.size();i++)
+            {
+                System.out.println(manes.get(i).getIdAnalista().getIdAnalista());
+                System.out.println(manes.get(i).getIdExamenSolicitado());
+            }
         }
         catch(NoItemFoundException uy){
             System.out.println(uy.Mensaje());

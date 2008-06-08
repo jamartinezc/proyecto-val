@@ -8,8 +8,11 @@ package DAO;
 import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
 import VO.Analista;
+import VO.ExamenSolicitado;
 import VO.Materia;
 import VO.Usuario;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -160,6 +163,24 @@ public class DaoAnalista {
 
                 em.clear();
             }
+    }
+    
+    public static List<ExamenSolicitado> consultarExamenesSolicitadosPendienteCalificarDeAnalista(int idAnalista) throws NoItemFoundException{
+        EntityManager em = DaoEntityManagerFactory.getInstance(); 
+        EntityTransaction tx = em.getTransaction();
+        
+        Analista analista = em.find(Analista.class, idAnalista);
+        em.clear();
+        
+        List<ExamenSolicitado> examenes = (List<ExamenSolicitado>) analista.getExamenSolicitadoCollection();
+
+        for(int i=0;i<analista.getExamenSolicitadoCollection().size();i++)
+        {
+            if(examenes.get(i).getIdEstado().getIdEstado()!=8) examenes.remove(i);
+        }
+        if(examenes.size()==0) throw new NoItemFoundException();
+        
+        return examenes;
     }
     
 }
