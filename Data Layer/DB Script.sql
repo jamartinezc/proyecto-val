@@ -138,6 +138,7 @@ CREATE TABLE `examenmes` (
 
 LOCK TABLES `examenmes` WRITE;
 /*!40000 ALTER TABLE `examenmes` DISABLE KEYS */;
+INSERT INTO `examenmes` VALUES (7,1,2,2,2),(8,2,0,0,2),(9,3,1,0,2),(10,4,2,2,2),(11,5,2,1,2),(12,6,1,1,2),(19,4,3,2,1),(20,5,1,0,1),(21,6,1,1,1),(22,2,3,2,3),(23,3,1,0,3),(24,4,1,1,3);
 /*!40000 ALTER TABLE `examenmes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,6 +168,7 @@ CREATE TABLE `examenplaneado` (
 
 LOCK TABLES `examenplaneado` WRITE;
 /*!40000 ALTER TABLE `examenplaneado` DISABLE KEYS */;
+INSERT INTO `examenplaneado` VALUES (1,1,2,1,'2008-06-11 00:00:00'),(2,4,5,1,'2008-06-13 00:00:00');
 /*!40000 ALTER TABLE `examenplaneado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,6 +230,7 @@ CREATE TABLE `excelenciataller` (
 
 LOCK TABLES `excelenciataller` WRITE;
 /*!40000 ALTER TABLE `excelenciataller` DISABLE KEYS */;
+INSERT INTO `excelenciataller` VALUES (2,290,18,12,50,30);
 /*!40000 ALTER TABLE `excelenciataller` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,8 +295,6 @@ CREATE TABLE `materiaplaneada` (
   `idMateriaPlaneada` int(10) unsigned NOT NULL auto_increment,
   `idMateria` int(10) unsigned NOT NULL,
   `idPlaneacionAnual` int(10) unsigned NOT NULL,
-  `mesInicio` int(10) unsigned NOT NULL,
-  `mesFin` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idMateriaPlaneada`),
   KEY `FK_materiaplaneada_3` (`idPlaneacionAnual`),
   KEY `FK_MateriaPlaneada_1` (`idMateria`),
@@ -307,6 +308,7 @@ CREATE TABLE `materiaplaneada` (
 
 LOCK TABLES `materiaplaneada` WRITE;
 /*!40000 ALTER TABLE `materiaplaneada` DISABLE KEYS */;
+INSERT INTO `materiaplaneada` VALUES (1,2,1),(2,16,1),(3,26,1);
 /*!40000 ALTER TABLE `materiaplaneada` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -332,7 +334,7 @@ CREATE TABLE `padre` (
 
 LOCK TABLES `padre` WRITE;
 /*!40000 ALTER TABLE `padre` DISABLE KEYS */;
-INSERT INTO `padre` VALUES (1,'Maria Azucena','Fetecua Peña','azucenafetecua@hotmail.com',310),(2,'Jorge Enrique','Martinez Jimenez','joramartinezc@unal.edu.co',311),(3,'Julio','Franco','amfrancop@unal.edu.co',312),(4,'Camilo','Hernández','camilo@hotmail.com',290),(5,'Adolfo','Olarte','lmolartem@unal.edu.co',313);
+INSERT INTO `padre` VALUES (1,'Maria Azucena','Fetecua Peña','azucenafetecua@hotmail.com',310),(2,'Jorge Enrique','Martinez Jimenez','joramartinezc@unal.edu.co',311),(3,'Julio','Franco','amfrancop@unal.edu.co',312),(4,'Camilo','Hernández','kabybak@hotmail.com',290),(5,'Adolfo','Olarte','lmolartem@unal.edu.co',313);
 /*!40000 ALTER TABLE `padre` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -355,6 +357,7 @@ CREATE TABLE `planeacionanual` (
 
 LOCK TABLES `planeacionanual` WRITE;
 /*!40000 ALTER TABLE `planeacionanual` DISABLE KEYS */;
+INSERT INTO `planeacionanual` VALUES (1,290);
 /*!40000 ALTER TABLE `planeacionanual` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -366,12 +369,9 @@ DROP TABLE IF EXISTS `planeacionsemanal`;
 CREATE TABLE `planeacionsemanal` (
   `idPlaneacionSemanal` int(10) unsigned NOT NULL auto_increment,
   `semana` int(10) unsigned NOT NULL,
-  `idGrado` int(10) unsigned NOT NULL,
   `idEstudiante` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idPlaneacionSemanal`),
-  KEY `FK_PlaneacionSemanal_1` (`idGrado`),
   KEY `FK_planeacionsemanal_2` (`idEstudiante`),
-  CONSTRAINT `FK_PlaneacionSemanal_1` FOREIGN KEY (`idGrado`) REFERENCES `grado` (`idGrado`),
   CONSTRAINT `FK_planeacionsemanal_2` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -381,6 +381,7 @@ CREATE TABLE `planeacionsemanal` (
 
 LOCK TABLES `planeacionsemanal` WRITE;
 /*!40000 ALTER TABLE `planeacionsemanal` DISABLE KEYS */;
+INSERT INTO `planeacionsemanal` VALUES (1,22,290);
 /*!40000 ALTER TABLE `planeacionsemanal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -503,7 +504,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'María Camila','Hernández Olarte','mchernandezo','mlkiop99'),(2,'Juan Pablo','Perdomo Garzón','jpperdomog','aqwesd46'),(3,'Karen Julieth','Rodríguez Bohórquez','kjrodriguezb','ikjlut31'),(4,'Lorenzo','Caviedes Lacompte','lcaviedesl','uhjngt78'),(5,'Elizabeth','Cavieds Lacompte','ecaviedesl','nmaqpd56'),(6,'Lina María','Gómez Alcazar','lmgomeza','phjkqg09'),(7,'Juan Camilo','García Avellaneda','jcgarciaa','zxcvrt83'),(8,'Ximena','Ballesteros López','xballesterosl','zasqwx89'),(9,'Julián Camilo','Pérez Sierra','jcperezs','qkoshd58'),(10,'Lorena','Perdomo Fonseca','lperdomof','ijhwqp93'),(11,'Alejandro','Cubillos Triana','acubillost','ewpsbgid78'),(12,'Mireya','Suárez Ramirez','msuarezr','jsehgc11'),(13,'María José','Porto Forero','mjportof','awhbsd86'),(14,'Jorge','Pedraza Córdoba','jpedrazac','hyrtui75'),(15,'Katherine','Del Río García','kdelriog','wqtrey90'),(16,'Gabriel','Heredia Jiménez','gherediaj','iupear76'),(17,'Hana Manuela','Hoffman Triada','hmhoffmant','uytred57'),(18,'Daniel','Gómez Toro','dgomezt','nhujms23'),(19,'Juan Camilo','Triana Herrera','jctrianah','uyhsqw44'),(20,'Santiago','Quintero López','squinterol','poiuyt65'),(21,'Juan Camilo','Martínez Castro','jcmartinezc','iuolkj75'),(22,'Eridson','Rodríguez Casas','erodriguezc','ognbco79'),(23,'Omar','Baracaldo Toquica','obaracaldot','jghytf36'),(24,'Alexandra','Bernal Bonfante','abernalb','kalswq96'),(25,'Fredy','Torres Garzón','ftorresg','qdwfeg35'),(26,'Mario','Linares Vasquez','mlinaresv','ssh22'),(28,'David','Montaño','david','david'),(29,'Jorge','Martinez','jorge','jorge'),(30,'Angela','Franco','angela','angela'),(32,'Liliana','Olarte','liliana','liliana'),(33,'Sergio','Bobillier','sergio','sergio'),(34,'Federico','Zalamea','fezalamea','soccer'),(35,'Nicolás','Link','nilink','zelda'),(36,'Gerónimo','Salazar','gesalazar','gerogero'),(37,'Lina','Castellanos','licastellanos','licaste99'),(38,'Laura','Bernal','labernal','labacana'),(39,'Camila','Valdez','cavaldez','cami85'),(40,'Juan Guillermo','Bonfante','jugubonfante','donmomo'),(41,'Sara','Loterstein','saloterstein','argentina'),(42,'Pacheco','Gonzales','pagonzales','demelap'),(43,'Luís Fernando','Guzmán Ramírez','lfguzmanr','luisfer'),(44,'Maria','Rojas','mrojas','rojas');
+INSERT INTO `usuario` VALUES (1,'María Camila','Hernández Olarte','mchernandezo','123'),(2,'Juan Pablo','Perdomo Garzón','jpperdomog','aqwesd46'),(3,'Karen Julieth','Rodríguez Bohórquez','kjrodriguezb','ikjlut31'),(4,'Lorenzo','Caviedes Lacompte','lcaviedesl','uhjngt78'),(5,'Elizabeth','Cavieds Lacompte','ecaviedesl','nmaqpd56'),(6,'Lina María','Gómez Alcazar','lmgomeza','phjkqg09'),(7,'Juan Camilo','García Avellaneda','jcgarciaa','zxcvrt83'),(8,'Ximena','Ballesteros López','xballesterosl','zasqwx89'),(9,'Julián Camilo','Pérez Sierra','jcperezs','qkoshd58'),(10,'Lorena','Perdomo Fonseca','lperdomof','ijhwqp93'),(11,'Alejandro','Cubillos Triana','acubillost','ewpsbgid78'),(12,'Mireya','Suárez Ramirez','msuarezr','jsehgc11'),(13,'María José','Porto Forero','mjportof','awhbsd86'),(14,'Jorge','Pedraza Córdoba','jpedrazac','hyrtui75'),(15,'Katherine','Del Río García','kdelriog','wqtrey90'),(16,'Gabriel','Heredia Jiménez','gherediaj','iupear76'),(17,'Hana Manuela','Hoffman Triada','hmhoffmant','uytred57'),(18,'Daniel','Gómez Toro','dgomezt','nhujms23'),(19,'Juan Camilo','Triana Herrera','jctrianah','uyhsqw44'),(20,'Santiago','Quintero López','squinterol','poiuyt65'),(21,'Juan Camilo','Martínez Castro','jcmartinezc','iuolkj75'),(22,'Eridson','Rodríguez Casas','erodriguezc','ognbco79'),(23,'Omar','Baracaldo Toquica','obaracaldot','jghytf36'),(24,'Alexandra','Bernal Bonfante','abernalb','kalswq96'),(25,'Fredy','Torres Garzón','ftorresg','qdwfeg35'),(26,'Mario','Linares Vasquez','mlinaresv','ssh22'),(28,'David','Montaño','david','david'),(29,'Jorge','Martinez','jorge','jorge'),(30,'Angela','Franco','angela','angela'),(32,'Liliana','Olarte','liliana','liliana'),(33,'Sergio','Bobillier','sergio','sergio'),(34,'Federico','Zalamea','fezalamea','soccer'),(35,'Nicolás','Link','nilink','zelda'),(36,'Gerónimo','Salazar','gesalazar','gerogero'),(37,'Lina','Castellanos','licastellanos','licaste99'),(38,'Laura','Bernal','labernal','labacana'),(39,'Camila','Valdez','cavaldez','cami85'),(40,'Juan Guillermo','Bonfante','jugubonfante','donmomo'),(41,'Sara','Loterstein','saloterstein','argentina'),(42,'Pacheco','Gonzales','pagonzales','demelap'),(43,'Luís Fernando','Guzmán Ramírez','lfguzmanr','luisfer'),(44,'Maria','Rojas','mrojas','rojas');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -542,4 +543,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-06-08 19:55:58
+-- Dump completed on 2008-06-08 22:25:09
