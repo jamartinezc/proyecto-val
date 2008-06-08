@@ -14,6 +14,7 @@ import DAO.DaoExamenSolicitado;
 import DAO.DaoGrado;
 import DAO.DaoMateria;
 import DAO.DaoPadre;
+import DAO.DaoPlaneacionAnual;
 import DAO.DaoRegistro;
 import DAO.DaoSecretariaAcademica;
 import DAO.DaoTaller;
@@ -32,6 +33,7 @@ import VO.ExamenSolicitado;
 import VO.Grado;
 import VO.Materia;
 import VO.Padre;
+import VO.PlaneacionAnual;
 import VO.Registro;
 import VO.SecretariaAcademica;
 import VO.Taller;
@@ -444,21 +446,69 @@ public class Main {
         //ProbarDaoEstados(); //terminado
         //ProbarDaoEstudiante(); //terminado
         //ProbarDaoExamen(); //terminado
-        
-        //ProbarDaoExamenSolicitado(); //terminado!!!!
-        
-        
+        //ProbarDaoExamenPlaneado(); //a acabar!!!!!!!!!!!!!!!
+        //ProbarDaoExamenSolicitado(); //terminado
+        //ProbarDaoExamenMes(); //a acabar!!!!!!!!!!!!!!!!!!!!
+        //ProbarDaoExcelenciaTaller(); //a acabar!!!!!!!!!!!!!
         //ProbarDaoGrado(); //terminado
         //ProbarDaoMateria(); //terminado
-        
-        //ProbarDaoPadre();
-        
-        
+        //ProbarDaoMateriaPlaneada(); //a acabar!!!!!!!!!!!!!!
+        //ProbarDaoPadre(); //terminado
+        //ProbarDaoPlaneacionAnual(); //terminado
+        //ProbarDaoPlaneaciónSemanal(); //a acabar!!!!!!!!!!!!
         //ProbarDaoRegistro(); //terminado
         //ProbarDaoSecretariaAcademica(); //terminado
         //ProbarDaoTaller(); //terminado
         //ProbarDaoTutor(); //terminado
         //ProbarDaoUsuario(); //terminado
+    }
+    
+    /*
+    * Pruebas DaoPlaneaciónAnual()
+    */
+    
+    private static void ProbarDaoPlaneacionAnual(){
+        //ProbarDaoPlaneacionAnualConsultarTodos();
+        //ProbarDaoPlaneacionAnualConsultarUno();
+        //ProbarDaoPlaneacionAnualCrear();
+        //ProbarDaoPlaneacionAnualEliminar();
+    }
+    
+    private static void ProbarDaoPlaneacionAnualConsultarTodos() {
+        List<PlaneacionAnual> manes = DaoPlaneacionAnual.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdPlaneacionAnual());
+        }
+    }   
+    
+    private static void ProbarDaoPlaneacionAnualConsultarUno() {
+        try{
+            PlaneacionAnual mansito = DaoPlaneacionAnual.consultarUno(1);
+            System.out.println(mansito.getIdEstudiante());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoPlaneacionAnualCrear() {
+        try{
+            PlaneacionAnual mio=DaoPlaneacionAnual.crear(291);
+            System.out.println(mio.getIdEstudiante());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoPlaneacionAnualEliminar() {
+        try{
+            DaoPlaneacionAnual.eliminar(2);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
     }
     
     /*
@@ -468,7 +518,7 @@ public class Main {
         //ProbarDaoPadreConsultarTodos();
         //ProbarDaoPadreConsultarUno();
         //ProbarDaoPadreCrear();
-        ProbarDaoPadreEliminar();
+        //ProbarDaoPadreEliminar();
     }
     
     private static void ProbarDaoPadreConsultarTodos() {
