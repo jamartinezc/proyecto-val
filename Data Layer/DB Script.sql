@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: liceoval1
 -- ------------------------------------------------------
--- Server version	5.0.51b-community-nt
+-- Server version	5.0.41-community-nt
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -20,16 +20,13 @@
 --
 
 DROP TABLE IF EXISTS `analista`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `analista` (
   `idAnalista` int(10) unsigned NOT NULL auto_increment,
   `idUsuario` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idAnalista`),
   KEY `FK_Analista_1` (`idUsuario`),
   CONSTRAINT `FK_Analista_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `analista`
@@ -46,14 +43,11 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `estados`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `estados` (
   `idEstado` int(10) unsigned NOT NULL auto_increment,
   `nombre` varchar(20) NOT NULL,
   PRIMARY KEY  (`idEstado`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `estados`
@@ -70,8 +64,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `estudiante`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `estudiante` (
   `idEstudiante` int(10) unsigned NOT NULL default '0',
   `idGrado` int(10) unsigned default NULL,
@@ -87,7 +79,6 @@ CREATE TABLE `estudiante` (
   CONSTRAINT `FK_estudiante_2` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`),
   CONSTRAINT `FK_estudiante_3` FOREIGN KEY (`idGrado`) REFERENCES `grado` (`idGrado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `estudiante`
@@ -104,8 +95,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `examen`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `examen` (
   `idExamen` int(10) unsigned NOT NULL auto_increment,
   `tema` varchar(50) NOT NULL,
@@ -114,8 +103,7 @@ CREATE TABLE `examen` (
   UNIQUE KEY `Index_2` USING BTREE (`tema`),
   KEY `FK_examen_1` (`idMateria`),
   CONSTRAINT `FK_examen_1` FOREIGN KEY (`idMateria`) REFERENCES `materia` (`idMateria`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `examen`
@@ -132,16 +120,17 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `examenmes`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `examenmes` (
   `idExamenMes` int(10) unsigned NOT NULL auto_increment,
   `mes` int(10) unsigned NOT NULL,
   `presentados` int(10) unsigned NOT NULL,
   `ganados` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`idExamenMes`)
+  `idMateriaPlaneada` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`idExamenMes`),
+  UNIQUE KEY `Index_3` (`mes`,`idMateriaPlaneada`),
+  KEY `FK_examenmes_1` (`idMateriaPlaneada`),
+  CONSTRAINT `FK_examenmes_1` FOREIGN KEY (`idMateriaPlaneada`) REFERENCES `materiaplaneada` (`idMateriaPlaneada`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `examenmes`
@@ -157,8 +146,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `examenplaneado`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `examenplaneado` (
   `idExamenPlaneado` int(10) unsigned NOT NULL auto_increment,
   `idExamen` int(10) unsigned NOT NULL,
@@ -173,7 +160,6 @@ CREATE TABLE `examenplaneado` (
   CONSTRAINT `FK_examenplaneado_2` FOREIGN KEY (`idEstado`) REFERENCES `estados` (`idEstado`),
   CONSTRAINT `FK_examenplaneado_3` FOREIGN KEY (`idPlaneacionSemanal`) REFERENCES `planeacionsemanal` (`idPlaneacionSemanal`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `examenplaneado`
@@ -189,11 +175,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `examensolicitado`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `examensolicitado` (
   `idExamenSolicitado` int(10) unsigned NOT NULL auto_increment,
-  `idEstudiante` int(10) unsigned NOT NULL,
   `idAnalista` int(10) unsigned NOT NULL,
   `nota` float NOT NULL,
   `fecha` datetime NOT NULL,
@@ -205,14 +188,11 @@ CREATE TABLE `examensolicitado` (
   KEY `FK_examensolicitado_2` (`idRegistro`),
   KEY `FK_examensolicitado_3` (`idExamen`),
   KEY `FK_examensolicitado_4` (`idEstado`),
-  KEY `FK_examensolicitado_5` (`idEstudiante`),
   CONSTRAINT `FK_examenSolicitado_1` FOREIGN KEY (`idAnalista`) REFERENCES `analista` (`idAnalista`),
   CONSTRAINT `FK_examensolicitado_2` FOREIGN KEY (`idRegistro`) REFERENCES `registro` (`idRegistro`) ON DELETE CASCADE,
   CONSTRAINT `FK_examensolicitado_3` FOREIGN KEY (`idExamen`) REFERENCES `examen` (`idExamen`),
-  CONSTRAINT `FK_examensolicitado_4` FOREIGN KEY (`idEstado`) REFERENCES `estados` (`idEstado`),
-  CONSTRAINT `FK_examensolicitado_5` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+  CONSTRAINT `FK_examensolicitado_4` FOREIGN KEY (`idEstado`) REFERENCES `estados` (`idEstado`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `examensolicitado`
@@ -220,7 +200,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `examensolicitado` WRITE;
 /*!40000 ALTER TABLE `examensolicitado` DISABLE KEYS */;
-INSERT INTO `examensolicitado` VALUES (4,290,1,0,'2008-04-20 20:13:54',5,4,13),(5,311,1,0,'2008-05-26 18:14:39',3,73,13),(6,314,2,0,'2008-05-27 12:17:00',3,74,42),(7,309,2,0,'2008-05-27 18:40:05',3,75,78),(8,325,4,0,'2008-05-27 18:47:57',3,76,114),(9,325,2,0,'2008-05-27 18:50:17',3,77,36);
+INSERT INTO `examensolicitado` VALUES (4,1,0,'2008-04-20 20:13:54',5,4,13),(5,1,0,'2008-05-26 18:14:39',3,73,13),(6,2,0,'2008-05-27 12:17:00',3,74,42),(7,2,0,'2008-05-27 18:40:05',3,75,78),(8,4,0,'2008-05-27 18:47:57',3,76,114),(9,2,0,'2008-05-27 18:50:17',3,77,36);
 /*!40000 ALTER TABLE `examensolicitado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,8 +209,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `excelenciataller`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `excelenciataller` (
   `idTaller` int(10) unsigned NOT NULL,
   `idEstudiante` int(10) unsigned NOT NULL,
@@ -243,7 +221,6 @@ CREATE TABLE `excelenciataller` (
   CONSTRAINT `FK_excelenciataller_1` FOREIGN KEY (`idTaller`) REFERENCES `taller` (`idTaller`),
   CONSTRAINT `FK_excelenciataller_2` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `excelenciataller`
@@ -259,14 +236,11 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `grado`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `grado` (
   `idGrado` int(10) unsigned NOT NULL default '0',
   `nombre` varchar(10) NOT NULL,
   PRIMARY KEY  USING BTREE (`idGrado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `grado`
@@ -283,8 +257,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `materia`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `materia` (
   `idMateria` int(10) unsigned NOT NULL auto_increment,
   `nombre` varchar(30) NOT NULL,
@@ -299,8 +271,7 @@ CREATE TABLE `materia` (
   CONSTRAINT `FK_Materia_1` FOREIGN KEY (`idAnalista`) REFERENCES `analista` (`idAnalista`),
   CONSTRAINT `FK_Materia_2` FOREIGN KEY (`idTutor`) REFERENCES `tutor` (`idTutor`),
   CONSTRAINT `FK_materia_3` FOREIGN KEY (`idGrado`) REFERENCES `grado` (`idGrado`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `materia`
@@ -317,24 +288,18 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `materiaplaneada`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `materiaplaneada` (
   `idMateriaPlaneada` int(10) unsigned NOT NULL auto_increment,
   `idMateria` int(10) unsigned NOT NULL,
-  `idExamenMes` int(10) unsigned NOT NULL,
   `idPlaneacionAnual` int(10) unsigned NOT NULL,
   `mesInicio` int(10) unsigned NOT NULL,
   `mesFin` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idMateriaPlaneada`),
-  KEY `FK_MateriaPlaneada_2` (`idExamenMes`),
   KEY `FK_materiaplaneada_3` (`idPlaneacionAnual`),
   KEY `FK_MateriaPlaneada_1` (`idMateria`),
   CONSTRAINT `FK_MateriaPlaneada_1` FOREIGN KEY (`idMateria`) REFERENCES `materia` (`idMateria`),
-  CONSTRAINT `FK_MateriaPlaneada_2` FOREIGN KEY (`idExamenMes`) REFERENCES `examenmes` (`idExamenMes`),
   CONSTRAINT `FK_materiaplaneada_3` FOREIGN KEY (`idPlaneacionAnual`) REFERENCES `planeacionanual` (`idPlaneacionAnual`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `materiaplaneada`
@@ -350,8 +315,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `padre`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `padre` (
   `idPadre` int(10) unsigned NOT NULL auto_increment,
   `nombres` varchar(30) NOT NULL,
@@ -361,8 +324,7 @@ CREATE TABLE `padre` (
   PRIMARY KEY  USING BTREE (`idPadre`),
   KEY `FK_padre_1` (`idEstudiante`),
   CONSTRAINT `FK_padre_1` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `padre`
@@ -379,8 +341,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `planeacionanual`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `planeacionanual` (
   `idPlaneacionAnual` int(10) unsigned NOT NULL auto_increment,
   `idEstudiante` int(10) unsigned NOT NULL,
@@ -388,7 +348,6 @@ CREATE TABLE `planeacionanual` (
   UNIQUE KEY `FK_planeacionAnual_1` USING BTREE (`idEstudiante`),
   CONSTRAINT `FK_planeacionAnual_1` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `planeacionanual`
@@ -404,8 +363,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `planeacionsemanal`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `planeacionsemanal` (
   `idPlaneacionSemanal` int(10) unsigned NOT NULL auto_increment,
   `semana` int(10) unsigned NOT NULL,
@@ -417,7 +374,6 @@ CREATE TABLE `planeacionsemanal` (
   CONSTRAINT `FK_PlaneacionSemanal_1` FOREIGN KEY (`idGrado`) REFERENCES `grado` (`idGrado`),
   CONSTRAINT `FK_planeacionsemanal_2` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Dumping data for table `planeacionsemanal`
@@ -433,8 +389,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `registro`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `registro` (
   `idEstudiante` int(10) unsigned NOT NULL,
   `activo` tinyint(1) NOT NULL,
@@ -447,8 +401,7 @@ CREATE TABLE `registro` (
   KEY `FK_registro_1` (`idEstudiante`),
   CONSTRAINT `FK_registro_1` FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`) ON DELETE CASCADE,
   CONSTRAINT `FK_registro_2` FOREIGN KEY (`idMateria`) REFERENCES `materia` (`idMateria`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `registro`
@@ -465,16 +418,13 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `secretariaacademica`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `secretariaacademica` (
   `idSecretariaAcademica` int(10) unsigned NOT NULL auto_increment,
   `idUsuario` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idSecretariaAcademica`),
   KEY `FK_SecretariaAcademica_1` (`idUsuario`),
   CONSTRAINT `FK_SecretariaAcademica_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `secretariaacademica`
@@ -491,8 +441,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `taller`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `taller` (
   `idTaller` int(10) unsigned NOT NULL auto_increment,
   `idTutor` int(10) unsigned NOT NULL,
@@ -500,8 +448,7 @@ CREATE TABLE `taller` (
   KEY `FK_taller_2` (`idTutor`),
   CONSTRAINT `FK_taller_2` FOREIGN KEY (`idTutor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_taller_1` FOREIGN KEY (`idTaller`) REFERENCES `taller` (`idTaller`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `taller`
@@ -518,16 +465,13 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `tutor`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `tutor` (
   `idTutor` int(10) unsigned NOT NULL auto_increment,
   `idUsuario` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idTutor`),
   KEY `FK_Tutor_1` (`idUsuario`),
   CONSTRAINT `FK_Tutor_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tutor`
@@ -544,8 +488,6 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `usuario`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
 CREATE TABLE `usuario` (
   `idUsuario` int(10) unsigned NOT NULL auto_increment,
   `nombres` varchar(30) NOT NULL,
@@ -553,8 +495,7 @@ CREATE TABLE `usuario` (
   `login` varchar(20) NOT NULL,
   `clave` varchar(14) NOT NULL,
   PRIMARY KEY  (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
-SET character_set_client = @saved_cs_client;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `usuario`
@@ -567,32 +508,29 @@ INSERT INTO `usuario` VALUES (1,'María Camila','Hernández Olarte','mchernandez
 UNLOCK TABLES;
 
 --
+-- Table structure for table `variablesglobales`
+--
+
+DROP TABLE IF EXISTS `variablesglobales`;
+CREATE TABLE `variablesglobales` (
+  `campo` varchar(15) NOT NULL,
+  `valor` varchar(15) NOT NULL,
+  PRIMARY KEY  USING BTREE (`campo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `variablesglobales`
+--
+
+LOCK TABLES `variablesglobales` WRITE;
+/*!40000 ALTER TABLE `variablesglobales` DISABLE KEYS */;
+/*!40000 ALTER TABLE `variablesglobales` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping routines for database 'liceoval1'
 --
 DELIMITER ;;
-/*!50003 DROP PROCEDURE IF EXISTS `devolverCurso` */;;
-/*!50003 SET SESSION SQL_MODE="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER"*/;;
-/*!50003 CREATE*/ /*!50020 DEFINER=`liceoval`@`%`*/ /*!50003 PROCEDURE `devolverCurso`(IN est INT)
-BEGIN
-  delete from registro where codigo=est;
-  delete from planeacionsemanal where codigo=est;
-  delete from planeacionanual where codigo=est;
-
-END */;;
-/*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
-/*!50003 DROP PROCEDURE IF EXISTS `devolverMateria` */;;
-/*!50003 SET SESSION SQL_MODE="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER"*/;;
-/*!50003 CREATE*/ /*!50020 DEFINER=`liceoval`@`%`*/ /*!50003 PROCEDURE `devolverMateria`(IN est INT, IN mat INT)
-BEGIN
-  declare ps int;
-  declare cod int;
-
-  SELECT cod=examen.codigo FROM materia JOIN examen WHERE materia.codigo=mat and materia=mat;
-  select ps=idPlaneacionSemanal from planeacionsemanal where codigo=est;
-  DELETE FROM examenplaneado WHERE codigo=cod and planeacionSemanal=ps;
-
-END */;;
-/*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
 DELIMITER ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -604,4 +542,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-05-27  1:39:48
+-- Dump completed on 2008-06-08 19:55:58
