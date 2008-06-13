@@ -123,7 +123,7 @@ DROP TABLE IF EXISTS `examenmes`;
 CREATE TABLE `examenmes` (
   `idExamenMes` int(10) unsigned NOT NULL auto_increment,
   `mes` int(10) unsigned NOT NULL,
-  `presentados` int(10) unsigned NOT NULL,
+  `planeados` int(10) unsigned NOT NULL,
   `ganados` int(10) unsigned NOT NULL,
   `idMateriaPlaneada` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idExamenMes`),
@@ -321,7 +321,7 @@ CREATE TABLE `padre` (
   `idPadre` int(10) unsigned NOT NULL auto_increment,
   `nombres` varchar(30) NOT NULL,
   `apellidos` varchar(30) NOT NULL,
-  `correo` varchar(30) NOT NULL,
+  `correo` varchar(200) NOT NULL,
   `idEstudiante` int(10) unsigned NOT NULL,
   PRIMARY KEY  USING BTREE (`idPadre`),
   KEY `FK_padre_1` (`idEstudiante`),
@@ -447,8 +447,8 @@ CREATE TABLE `taller` (
   `idTutor` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`idTaller`),
   KEY `FK_taller_2` (`idTutor`),
-  CONSTRAINT `FK_taller_2` FOREIGN KEY (`idTutor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_taller_1` FOREIGN KEY (`idTaller`) REFERENCES `taller` (`idTaller`)
+  CONSTRAINT `FK_taller_1` FOREIGN KEY (`idTaller`) REFERENCES `taller` (`idTaller`),
+  CONSTRAINT `FK_taller_2` FOREIGN KEY (`idTutor`) REFERENCES `tutor` (`idTutor`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -543,4 +543,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-06-08 22:25:09
+-- Dump completed on 2008-06-13  7:15:50
