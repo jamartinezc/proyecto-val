@@ -118,7 +118,7 @@
                                                     estudiante = (Estudiante)estudiantesIterator.next();
                                                     %>
                                                     
-                                                    <li><a href="registro.jsp?studentId=<%=estudiante.getCodigo()%>"><%= estudiante.getNombres() + " " + estudiante.getApellidos()%></a></li>
+                                                    <li><strong><a href="registro.jsp?studentId=<%=estudiante.getCodigo()%>"><%= estudiante.getNombres() + " " + estudiante.getApellidos()%></a></strong><br><a href="ficharendimiento.jsp?studentId=<%=estudiante.getCodigo()%>">[ Ficha de Rendimiento ]</a></li>
                                                     
                                                     <%
                                                 }
