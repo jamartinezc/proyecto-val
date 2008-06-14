@@ -12,6 +12,7 @@ import DAO.DaoExamen;
 import DAO.DaoExamenMes;
 import DAO.DaoExamenPlaneado;
 import DAO.DaoExamenSolicitado;
+import DAO.DaoExcelenciaTaller;
 import DAO.DaoGrado;
 import DAO.DaoMateria;
 import DAO.DaoMateriaPlaneada;
@@ -33,6 +34,7 @@ import VO.Examen;
 import VO.ExamenMes;
 import VO.ExamenPlaneado;
 import VO.ExamenSolicitado;
+import VO.ExcelenciaTaller;
 import VO.Grado;
 import VO.Materia;
 import VO.MateriaPlaneada;
@@ -66,7 +68,7 @@ public class Main {
         //ProbarDaoExamenMes(); //F
         //ProbarDaoExamenPlaneado(); //F
         //ProbarDaoExamenSolicitado(); //Entre fechas no es segura
-        //ProbarDaoExcelenciaTaller(); //Falta Empezar
+        ProbarDaoExcelenciaTaller(); //Falta Empezar
         //ProbarDaoGrado(); //F
         //ProbarDaoMateria(); //F
         //ProbarDaoMateriaPlaneada(); //F
@@ -79,6 +81,54 @@ public class Main {
         //ProbarDaoTutor(); //F
         //ProbarDaoUsuario(); //F
         //ProbarDaoVariablesGlobales(); //Falta Empezar
+    }
+    
+     /*
+    * Pruebas DaoExcelenciaTaller
+    */
+    
+    private static void ProbarDaoExcelenciaTaller(){
+        //ProbarDaoExcelenciaTallerConsultarTodos();
+        //ProbarDaoExcelenciaTallerConsultarUno();
+        ProbarDaoExcelenciaTallerCrear();
+        //ProbarDaoExcelenciaTallerEliminar();
+    }
+    
+    private static void ProbarDaoExcelenciaTallerConsultarTodos() {
+        List<ExcelenciaTaller> manes = DaoExcelenciaTaller.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdTaller());
+        }
+    }   
+    
+    private static void ProbarDaoExcelenciaTallerConsultarUno() {
+        try{
+            ExcelenciaTaller mansito = DaoExcelenciaTaller.consultarUno(1);
+            System.out.println(mansito.getIdTaller());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoExcelenciaTallerCrear() {
+        try{
+            ExcelenciaTaller mio=DaoExcelenciaTaller.crear(2, 290, 18, 12, 50, 30);
+            System.out.println(mio.getIdEstudiante());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoExcelenciaTallerEliminar() {
+        try{
+            DaoExcelenciaTaller.eliminar(2);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
     }
     
      /*

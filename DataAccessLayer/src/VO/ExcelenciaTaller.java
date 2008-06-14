@@ -22,7 +22,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "excelenciataller")
-@NamedQueries({@NamedQuery(name = "ExcelenciaTaller.findByIdTaller", query = "SELECT e FROM ExcelenciaTaller e WHERE e.idTaller = :idTaller"), @NamedQuery(name = "ExcelenciaTaller.findByPresentados", query = "SELECT e FROM ExcelenciaTaller e WHERE e.presentados = :presentados"), @NamedQuery(name = "ExcelenciaTaller.findByGanados", query = "SELECT e FROM ExcelenciaTaller e WHERE e.ganados = :ganados"), @NamedQuery(name = "ExcelenciaTaller.findByPresentadosTaller", query = "SELECT e FROM ExcelenciaTaller e WHERE e.presentadosTaller = :presentadosTaller"), @NamedQuery(name = "ExcelenciaTaller.findByGanadosTaller", query = "SELECT e FROM ExcelenciaTaller e WHERE e.ganadosTaller = :ganadosTaller")})
+@NamedQueries(
+{
+    @NamedQuery(name = "ExcelenciaTaller.findByIdExcelenciaTaller", query = "SELECT e FROM ExcelenciaTaller e WHERE e.idTaller = :id"), 
+    @NamedQuery(name = "ExcelenciaTaller.findByPresentados", query = "SELECT e FROM ExcelenciaTaller e WHERE e.presentados = :presentados"), 
+    @NamedQuery(name = "ExcelenciaTaller.consultarExcelenciaTaller", query = "SELECT e FROM ExcelenciaTaller e "), 
+    @NamedQuery(name = "ExcelenciaTaller.findByGanados", query = "SELECT e FROM ExcelenciaTaller e WHERE e.ganados = :ganados"), 
+    @NamedQuery(name = "ExcelenciaTaller.findByPresentadosTaller", query = "SELECT e FROM ExcelenciaTaller e WHERE e.presentadosTaller = :presentadosTaller"), 
+    @NamedQuery(name = "ExcelenciaTaller.findByGanadosTaller", query = "SELECT e FROM ExcelenciaTaller e WHERE e.ganadosTaller = :ganadosTaller")})
 public class ExcelenciaTaller implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
