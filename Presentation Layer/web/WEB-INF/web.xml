@@ -55,5 +55,15 @@
 		<servlet-name>Login</servlet-name>
 		<url-pattern>/loginmanager</url-pattern>
 	</servlet-mapping>
-		
+
+	<servlet>
+        <servlet-name>CewolfServlet</servlet-name>
+        <servlet-class>de.laures.cewolf.CewolfRenderer</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CewolfServlet</servlet-name>
+        <url-pattern>/cewolf/*</url-pattern>
+    </servlet-mapping>
+
     </web-app>
