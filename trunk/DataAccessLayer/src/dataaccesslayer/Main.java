@@ -59,7 +59,7 @@ public class Main {
         //ProbarDaoExamen(); //F
         //ProbarDaoExamenMes(); //Falta Empezar
         //ProbarDaoExamenPlaneado(); //F
-        //ProbarDaoExamenSolicitado(); //Entre fechas no es segura
+        ProbarDaoExamenSolicitado(); //Entre fechas no es segura
         //ProbarDaoExcelenciaTaller(); //Falta Empezar
         //ProbarDaoGrado(); //F
         //ProbarDaoMateria(); //F
@@ -115,6 +115,20 @@ public class Main {
         //ProbarDaoExamenSolicitadoactualizarNotaDeExamenSolicitado();
         //ProbarDaoExamenSolicitadoExamenesSolicitadosPorEstudiantesDeTutor();
         //ProbarDaoExamenSolicitadoExamenesSolicitadosPorTema();
+        //ProbarDaoExamenSolicitadoExamenesSolicitadosDeAnalistaPorEstado();
+    }
+    
+    private static void ProbarDaoExamenSolicitadoExamenesSolicitadosDeAnalistaPorEstado() {
+        try{
+            List<ExamenSolicitado> manes = DaoExamenSolicitado.examenesSolicitadosDeAnalistaPorEstado(1, 5);
+            for(int i = 0; i<manes.size();i++)
+            {
+                System.out.println(manes.get(i).getIdExamenSolicitado());
+            }
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
     }
     
     private static void ProbarDaoExamenSolicitadoConsultarTodos() {

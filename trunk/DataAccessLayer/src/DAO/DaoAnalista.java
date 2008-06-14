@@ -163,15 +163,4 @@ public class DaoAnalista {
             }
     }
     
-    /*public static List<ExamenSolicitado> consultarExamenesSolicitadosPendienteCalificarDeAnalista(int idAnalista) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance(); 
-        EntityTransaction tx = em.getTransaction();
-        
-        Query query = em.createNamedQuery("Analista.consultarExamenesSolicitadosPendienteCalificar");
-        List<Analista> items = query.getResultList();
-        em.clear();
-        
-        return examenes;
-    }*/
-
 }

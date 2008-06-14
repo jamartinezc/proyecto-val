@@ -309,5 +309,44 @@ public class DaoExamenSolicitado {
             }   
         
     }
-   
+    
+    public static List<ExamenSolicitado> examenesSolicitadosDeAnalistaPorEstado(int idAnalista, int idEstado)throws NoItemFoundException{
+        
+            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityTransaction tx = em.getTransaction();           
+            
+            Analista analista = em.find(Analista.class, idAnalista);
+            Estados estado = em.find(Estados.class, idEstado);
+            
+            em.clear();
+            
+            try
+            {
+                tx.begin();
+                Query q = em.createQuery("select p from ExamenSolicitado p WHERE p.idEstado = :etat AND p.idAnalista =:analiste");
+                q.setParameter("etat", estado);
+                q.setParameter("analiste", analista);
+                List<ExamenSolicitado> lista = q.getResultList();
+                tx.commit();
+                
+                if(lista.size()>0){
+                    return lista;
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
+                
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.clear();
+            }   
+        
+    }
+    
 }

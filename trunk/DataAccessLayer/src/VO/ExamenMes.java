@@ -23,7 +23,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "examenmes")
-@NamedQueries({@NamedQuery(name = "ExamenMes.findByIdExamenMes", query = "SELECT e FROM ExamenMes e WHERE e.idExamenMes = :idExamenMes"), @NamedQuery(name = "ExamenMes.findByMes", query = "SELECT e FROM ExamenMes e WHERE e.mes = :mes"), @NamedQuery(name = "ExamenMes.findByPresentados", query = "SELECT e FROM ExamenMes e WHERE e.presentados = :presentados"), @NamedQuery(name = "ExamenMes.findByGanados", query = "SELECT e FROM ExamenMes e WHERE e.ganados = :ganados")})
+@NamedQueries({@NamedQuery(name = "ExamenMes.findByIdExamenMes", query = "SELECT e FROM ExamenMes e WHERE e.idExamenMes = :idExamenMes"), @NamedQuery(name = "ExamenMes.findByMes", query = "SELECT e FROM ExamenMes e WHERE e.mes = :mes"), @NamedQuery(name = "ExamenMes.findByPlaneados", query = "SELECT e FROM ExamenMes e WHERE e.planeados = :planeados"), @NamedQuery(name = "ExamenMes.findByGanados", query = "SELECT e FROM ExamenMes e WHERE e.ganados = :ganados")})
 public class ExamenMes implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -32,8 +32,8 @@ public class ExamenMes implements Serializable {
     private Integer idExamenMes;
     @Column(name = "mes", nullable = false)
     private int mes;
-    @Column(name = "presentados", nullable = false)
-    private int presentados;
+    @Column(name = "planeados", nullable = false)
+    private int planeados;
     @Column(name = "ganados", nullable = false)
     private int ganados;
     @JoinColumn(name = "idMateriaPlaneada", referencedColumnName = "idMateriaPlaneada")
@@ -47,10 +47,10 @@ public class ExamenMes implements Serializable {
         this.idExamenMes = idExamenMes;
     }
 
-    public ExamenMes(Integer idExamenMes, int mes, int presentados, int ganados) {
+    public ExamenMes(Integer idExamenMes, int mes, int planeados, int ganados) {
         this.idExamenMes = idExamenMes;
         this.mes = mes;
-        this.presentados = presentados;
+        this.planeados = planeados;
         this.ganados = ganados;
     }
 
@@ -70,12 +70,12 @@ public class ExamenMes implements Serializable {
         this.mes = mes;
     }
 
-    public int getPresentados() {
-        return presentados;
+    public int getplaneados() {
+        return planeados;
     }
 
-    public void setPresentados(int presentados) {
-        this.presentados = presentados;
+    public void setplaneados(int planeados) {
+        this.planeados = planeados;
     }
 
     public int getGanados() {
