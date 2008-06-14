@@ -24,6 +24,7 @@ import DAO.DaoSecretariaAcademica;
 import DAO.DaoTaller;
 import DAO.DaoTutor;
 import DAO.DaoUsuario;
+import DAO.DaoVariablesGlobales;
 import Errores.MateriaDeOtroGradoException;
 import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
@@ -46,6 +47,7 @@ import VO.SecretariaAcademica;
 import VO.Taller;
 import VO.Tutor;
 import VO.Usuario;
+import VO.VariablesGlobales;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -68,7 +70,7 @@ public class Main {
         //ProbarDaoExamenMes(); //F
         //ProbarDaoExamenPlaneado(); //F
         //ProbarDaoExamenSolicitado(); //Entre fechas no es segura
-        ProbarDaoExcelenciaTaller(); //Falta Empezar
+        //ProbarDaoExcelenciaTaller(); //F
         //ProbarDaoGrado(); //F
         //ProbarDaoMateria(); //F
         //ProbarDaoMateriaPlaneada(); //F
@@ -80,7 +82,66 @@ public class Main {
         //ProbarDaoTaller(); //F
         //ProbarDaoTutor(); //F
         //ProbarDaoUsuario(); //F
-        //ProbarDaoVariablesGlobales(); //Falta Empezar
+        //ProbarDaoVariablesGlobales(); //F
+    }
+    
+     /*
+    * Pruebas DaoExcelenciaTaller
+    */
+    
+    private static void ProbarDaoVariablesGlobales(){
+        //ProbarDaoVariablesGlobalesConsultarTodos();
+        //ProbarDaoVariablesGlobalesConsultarUno();
+        //ProbarDaoVariablesGlobalesCrear();
+        //ProbarDaoVariablesGlobalesEliminar();
+        //ProbarDaoVariablesGlobalesActualizar();
+    }
+    
+    private static void ProbarDaoVariablesGlobalesActualizar() {
+        try{
+            VariablesGlobales mansito = DaoVariablesGlobales.actualizar("456", "asdh");
+            System.out.println(mansito.getValor());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoVariablesGlobalesConsultarTodos() {
+        List<VariablesGlobales> manes = DaoVariablesGlobales.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getCampo()+" "+manes.get(i).getValor());
+        }
+    }   
+    
+    private static void ProbarDaoVariablesGlobalesConsultarUno() {
+        try{
+            VariablesGlobales mansito = DaoVariablesGlobales.consultarUno("mesParaInforme");
+            System.out.println(mansito.getValor());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoVariablesGlobalesCrear() {
+        try{
+            VariablesGlobales mio=DaoVariablesGlobales.crear("456", "yap");
+            System.out.println(mio.getCampo());
+        }
+        catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoVariablesGlobalesEliminar() {
+        try{
+            DaoVariablesGlobales.eliminar("");
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
     }
     
      /*
@@ -90,7 +151,7 @@ public class Main {
     private static void ProbarDaoExcelenciaTaller(){
         //ProbarDaoExcelenciaTallerConsultarTodos();
         //ProbarDaoExcelenciaTallerConsultarUno();
-        ProbarDaoExcelenciaTallerCrear();
+        //ProbarDaoExcelenciaTallerCrear();
         //ProbarDaoExcelenciaTallerEliminar();
     }
     
