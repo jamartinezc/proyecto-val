@@ -23,7 +23,15 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "examenmes")
-@NamedQueries({@NamedQuery(name = "ExamenMes.findByIdExamenMes", query = "SELECT e FROM ExamenMes e WHERE e.idExamenMes = :idExamenMes"), @NamedQuery(name = "ExamenMes.findByMes", query = "SELECT e FROM ExamenMes e WHERE e.mes = :mes"), @NamedQuery(name = "ExamenMes.findByPlaneados", query = "SELECT e FROM ExamenMes e WHERE e.planeados = :planeados"), @NamedQuery(name = "ExamenMes.findByGanados", query = "SELECT e FROM ExamenMes e WHERE e.ganados = :ganados")})
+@NamedQueries(
+{
+    @NamedQuery(name = "ExamenMes.findByIdExamenMes", query = "SELECT e FROM ExamenMes e WHERE e.idExamenMes = :id"), 
+    @NamedQuery(name = "ExamenMes.findByMes", query = "SELECT e FROM ExamenMes e WHERE e.mes = :mes"), 
+    @NamedQuery(name = "ExamenMes.consultarPorIdMateriaPlaneadaYMes", query = "SELECT e FROM ExamenMes e WHERE e.mes = :mois AND e.idMateriaPlaneada = :idMP"), 
+    @NamedQuery(name = "ExamenMes.consultarExamenesMes", query = "SELECT e FROM ExamenMes e"), 
+    @NamedQuery(name = "ExamenMes.findByPlaneados", query = "SELECT e FROM ExamenMes e WHERE e.planeados = :planeados"), 
+    @NamedQuery(name = "ExamenMes.findByGanados", query = "SELECT e FROM ExamenMes e WHERE e.ganados = :ganados")
+})
 public class ExamenMes implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

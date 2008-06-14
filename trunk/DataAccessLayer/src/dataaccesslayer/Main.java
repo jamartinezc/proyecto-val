@@ -9,10 +9,12 @@ import DAO.DaoAnalista;
 import DAO.DaoEstados;
 import DAO.DaoEstudiante;
 import DAO.DaoExamen;
+import DAO.DaoExamenMes;
 import DAO.DaoExamenPlaneado;
 import DAO.DaoExamenSolicitado;
 import DAO.DaoGrado;
 import DAO.DaoMateria;
+import DAO.DaoMateriaPlaneada;
 import DAO.DaoPadre;
 import DAO.DaoPlaneacionAnual;
 import DAO.DaoRegistro;
@@ -27,10 +29,12 @@ import VO.Analista;
 import VO.Estados;
 import VO.Estudiante;
 import VO.Examen;
+import VO.ExamenMes;
 import VO.ExamenPlaneado;
 import VO.ExamenSolicitado;
 import VO.Grado;
 import VO.Materia;
+import VO.MateriaPlaneada;
 import VO.Padre;
 import VO.PlaneacionAnual;
 import VO.Registro;
@@ -57,13 +61,13 @@ public class Main {
         //ProbarDaoEstados(); //F
         //ProbarDaoEstudiante(); //F
         //ProbarDaoExamen(); //F
-        //ProbarDaoExamenMes(); //Falta Empezar
+        //ProbarDaoExamenMes(); //F
         //ProbarDaoExamenPlaneado(); //F
-        ProbarDaoExamenSolicitado(); //Entre fechas no es segura
+        //ProbarDaoExamenSolicitado(); //Entre fechas no es segura
         //ProbarDaoExcelenciaTaller(); //Falta Empezar
         //ProbarDaoGrado(); //F
         //ProbarDaoMateria(); //F
-        //ProbarDaoMateriaPlaneada(); //Falta Empezar
+        //ProbarDaoMateriaPlaneada(); //F
         //ProbarDaoPadre(); //F
         //ProbarDaoPlaneacionAnual(); //F
         //ProbarDaoPlaneacionSemanal(); //Falta Empezar
@@ -73,6 +77,120 @@ public class Main {
         //ProbarDaoTutor(); //F
         //ProbarDaoUsuario(); //F
         //ProbarDaoVariablesGlobales(); //Falta Empezar
+    }
+    
+    /*
+    * Pruebas DaoExamenMes
+    */
+    private static void ProbarDaoExamenMes() {
+        //ProbarDaoExamenMesConsultarTodos();
+        //ProbarDaoExamenMesConsultarUno();
+        //ProbarDaoExamenMesEliminar();
+        //ProbarDaoExamenMesCrear();
+        //ProbarDaoExamenMesexamenesMesDeEstudianteEnMes();
+    }
+    
+    private static void ProbarDaoExamenMesexamenesMesDeEstudianteEnMes() {
+        try{
+            List<ExamenMes> manes = DaoExamenMes.examenesMesDeEstudianteEnMes(290, 2);
+            for(int i = 0; i<manes.size();i++)
+            {
+                System.out.println(manes.get(i).getIdExamenMes());
+            }
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoExamenMesCrear() {
+        try{
+            ExamenMes mio=DaoExamenMes.crear( 1, 2, 2, 2);
+            System.out.println(mio.getIdExamenMes());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoExamenMesEliminar() {
+        try{
+            DaoExamenMes.eliminar(7);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoExamenMesConsultarTodos() {
+        List<ExamenMes> manes = DaoExamenMes.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdExamenMes());
+        }
+    }
+    
+    private static void ProbarDaoExamenMesConsultarUno() {
+        try{
+            ExamenMes mansito = DaoExamenMes.consultarUno(7);
+            System.out.println(mansito.getIdMateriaPlaneada().getIdMateriaPlaneada());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    /*
+    * Pruebas DaoMateriaPlaneada
+    */
+    private static void ProbarDaoMateriaPlaneada() {
+        //ProbarDaoMateriaPlaneadaConsultarTodos();
+        //ProbarDaoMateriaPlaneadaConsultarUno();
+        //ProbarDaoMateriaPlaneadaEliminar();
+        //ProbarDaoMateriaPlaneadaCrear();
+    }
+    
+    private static void ProbarDaoMateriaPlaneadaCrear() {
+        try{
+            MateriaPlaneada mio=DaoMateriaPlaneada.crear(4, 1);
+            System.out.println(mio.getIdMateriaPlaneada());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        catch(PosibleDuplicationException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoMateriaPlaneadaEliminar() {
+        try{
+            DaoMateriaPlaneada.eliminar(5);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoMateriaPlaneadaConsultarTodos() {
+        List<MateriaPlaneada> manes = DaoMateriaPlaneada.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getIdMateria().getIdMateria());
+        }
+    }
+    
+    private static void ProbarDaoMateriaPlaneadaConsultarUno() {
+        try{
+            MateriaPlaneada mansito = DaoMateriaPlaneada.consultarUno(3);
+            System.out.println(mansito.getIdMateria().getIdMateria());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
     }
     
       /*
