@@ -21,11 +21,15 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "variablesglobales")
-@NamedQueries({@NamedQuery(name = "VariablesGlobales.findByCampo", query = "SELECT v FROM VariablesGlobales v WHERE v.campo = :campo"), @NamedQuery(name = "VariablesGlobales.findByValor", query = "SELECT v FROM VariablesGlobales v WHERE v.valor = :valor")})
+@NamedQueries(
+{
+    @NamedQuery(name = "VariablesGlobales.findByIdVariablesGlobales", query = "SELECT v FROM VariablesGlobales v WHERE v.campo = :id"), 
+    @NamedQuery(name = "VariablesGlobales.consultarVariablesGlobales", query = "SELECT v FROM VariablesGlobales v"), 
+    @NamedQuery(name = "VariablesGlobales.findByValor", query = "SELECT v FROM VariablesGlobales v WHERE v.valor = :valor")
+})
 public class VariablesGlobales implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "campo", nullable = false)
     private String campo;
     @Column(name = "valor", nullable = false)
