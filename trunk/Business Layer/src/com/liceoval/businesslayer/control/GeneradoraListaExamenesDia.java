@@ -51,7 +51,7 @@ public static LinkedList<ExamenSolicitadoWrapper> generarListaExamenesDia() thro
             
             examenVO = ExamVoIterador.next();
             examenNN = EntityTranslator.translateExamenSolicitado(examenVO);
-            EstudianteDelExamenVO = examenVO.getIdEstudiante();
+            EstudianteDelExamenVO = examenVO.getIdRegistro().getIdEstudiante();
             EstudianteDelExamen = EntityTranslator.translateEstudiante(EstudianteDelExamenVO);
             registroDelExamen  = EntityTranslator.translateRegistro(examenVO.getIdRegistro());
             
