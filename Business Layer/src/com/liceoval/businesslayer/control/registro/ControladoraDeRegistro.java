@@ -18,7 +18,9 @@ import CRUD.Crud;
 import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
 
+import com.liceoval.businesslayer.control.registro.exceptions.NotaNoCalculableException;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -389,5 +391,37 @@ public class ControladoraDeRegistro
         
         fechaExamen = cal.getTime();
         return fechaExamen;
+    }
+
+    /**
+     * Calcula la nota final para un registro inactivo.
+     * @param idRegistro id del registro a calcularle la nota.
+     * @return  la nota final de ese registro.
+     * @throws com.liceoval.businesslayer.control.registro.exceptions.NotaNoCalculableException si el registro es activo.
+     * @throws com.liceoval.businesslayer.control.registro.exceptions.RegistroNoEncontradoException si el registro con idRegistro no existe.
+     */
+    public static float calcularNotaDefinitiva(int idRegistro) throws NotaNoCalculableException, RegistroNoEncontradoException
+    {
+        float NotaDefinitiva=0.0f;
+        VO.Registro registro;
+        try {
+            registro = DAO.DaoRegistro.consultarUno(idRegistro);
+        } catch (NoItemFoundException ex) {
+            throw new RegistroNoEncontradoException();
+        }
+        if (!registro.getActivo()) {
+            Collection<VO.ExamenSolicitado> examenes = registro.getExamenSolicitadoCollection();
+            Iterator<VO.ExamenSolicitado> itExamenes = examenes.iterator();
+            VO.ExamenSolicitado examen;
+            int cantidadExamenes = examenes.size();
+            NotaDefinitiva = 0.0f;
+            while (itExamenes.hasNext()) {
+                examen = itExamenes.next();
+                NotaDefinitiva += examen.getNota() / cantidadExamenes;
+            }
+        } else {
+            throw new NotaNoCalculableException();
+        }
+        return NotaDefinitiva;
     }
 }
