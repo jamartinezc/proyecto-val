@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class EntityTranslator
 {
@@ -436,21 +437,40 @@ public class EntityTranslator
     public static MateriaPlaneada translateMateriaPlaneada(VO.MateriaPlaneada plannedAsignment)
     {
         MateriaPlaneada materiaPlaneada;
+        Map<Integer, Integer> planeadosMes;
+        Map<Integer, Integer> ganadosMes;
+        
+        Iterator<VO.ExamenMes> mesesIterator;
+        VO.ExamenMes monthExams;
+        Integer month;
+        Integer won;
+        Integer planned;
         
         // Si el valor de entrada es null, el de salida también.
         if(plannedAsignment == null) return null;
         
         // Crear la nueva Materia Planeada
         materiaPlaneada = new MateriaPlaneada();
+        ganadosMes = materiaPlaneada.getGanadosMes();
+        planeadosMes = materiaPlaneada.getPlaneadosMes();
         
         // Traducir cada uno de los atributos
         materiaPlaneada.setMateria(translateMateria(plannedAsignment.getIdMateria()));
-        materiaPlaneada.setMesFin(plannedAsignment.getMesFin());
-        materiaPlaneada.setMesInicio(plannedAsignment.getMesInicio());
+                
+        mesesIterator = plannedAsignment.getExamenMesCollection().iterator();
+        while(mesesIterator.hasNext())
+        {
+            monthExams = mesesIterator.next();
+            month = monthExams.getMes();
+            planned = monthExams.getplaneados();
+            won = monthExams.getGanados();
+            
+            planeadosMes.put(month, planned);
+            ganadosMes.put(month, won);
+        }
         
         // Devolver la materia planeada
         return materiaPlaneada;
-        
     }
     
     /** Traduce una colección de objetos de clase VO.PlaneacionSemanal en una

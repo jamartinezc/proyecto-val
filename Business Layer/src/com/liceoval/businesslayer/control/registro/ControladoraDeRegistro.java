@@ -179,6 +179,11 @@ public class ControladoraDeRegistro
                     "No se puede completar la solicitud por que el estudiante tiene un examen pendiente por calificar");
                 throw estEx;
             }
+            if(examenSolicitadoTraducido.getEstado().equals(Estado.GANADO))
+            {
+                estEx = new EstudianteNoPuedeRegistrarMasExamenesException(
+                    "No se puede completar la solicitud por que el estudiante ya ha solicitado y aprobado este examen.");
+            }
         }
         
         try
@@ -199,7 +204,7 @@ public class ControladoraDeRegistro
         try
         {
             // Crear el nuevo examen solicitado
-            crud.crearExamenSolicitado(fechaExamen, idEstudiante, analista.getIdAnalista().intValue(), registro.getIdRegistro().intValue(), idExamen);
+            DAO.DaoExamenSolicitado.crear(fechaExamen, analista.getIdAnalista().intValue(), registro.getIdRegistro().intValue(), idExamen);
         }
         catch(NoItemFoundException nifEx)
         {
