@@ -26,7 +26,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "planeacionsemanal")
-@NamedQueries({@NamedQuery(name = "PlaneacionSemanal.findByIdPlaneacionSemanal", query = "SELECT p FROM PlaneacionSemanal p WHERE p.idPlaneacionSemanal = :idPlaneacionSemanal"), @NamedQuery(name = "PlaneacionSemanal.findBySemana", query = "SELECT p FROM PlaneacionSemanal p WHERE p.semana = :semana")})
+@NamedQueries(
+{
+    @NamedQuery(name = "PlaneacionSemanal.findByIdPlaneacionSemanal", query = "SELECT p FROM PlaneacionSemanal p WHERE p.idPlaneacionSemanal = :id"), 
+    @NamedQuery(name = "PlaneacionSemanal.consultarPlaneacionSemanal", query = "SELECT p FROM PlaneacionSemanal p "),
+    @NamedQuery(name = "PlaneacionSemanal.findBySemana", query = "SELECT p FROM PlaneacionSemanal p WHERE p.semana = :semana")
+})
 public class PlaneacionSemanal implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

@@ -17,6 +17,7 @@ import DAO.DaoMateria;
 import DAO.DaoMateriaPlaneada;
 import DAO.DaoPadre;
 import DAO.DaoPlaneacionAnual;
+import DAO.DaoPlaneacionSemanal;
 import DAO.DaoRegistro;
 import DAO.DaoSecretariaAcademica;
 import DAO.DaoTaller;
@@ -37,6 +38,7 @@ import VO.Materia;
 import VO.MateriaPlaneada;
 import VO.Padre;
 import VO.PlaneacionAnual;
+import VO.PlaneacionSemanal;
 import VO.Registro;
 import VO.SecretariaAcademica;
 import VO.Taller;
@@ -70,13 +72,61 @@ public class Main {
         //ProbarDaoMateriaPlaneada(); //F
         //ProbarDaoPadre(); //F
         //ProbarDaoPlaneacionAnual(); //F
-        //ProbarDaoPlaneacionSemanal(); //Falta Empezar
+        //ProbarDaoPlaneacionSemanal(); //F
         //ProbarDaoRegistro(); //F
         //ProbarDaoSecretariaAcademica(); //F
         //ProbarDaoTaller(); //F
         //ProbarDaoTutor(); //F
         //ProbarDaoUsuario(); //F
         //ProbarDaoVariablesGlobales(); //Falta Empezar
+    }
+    
+     /*
+    * Pruebas DaoPlaneacionSemanal
+    */
+    
+    private static void ProbarDaoPlaneacionSemanal(){
+        //ProbarDaoPlaneacionSemanalConsultarTodos();
+        //ProbarDaoPlaneacionSemanalConsultarUno();
+        //ProbarDaoPlaneacionSemanalCrear();
+        //ProbarDaoPlaneacionSemanalEliminar();
+    }
+    
+    private static void ProbarDaoPlaneacionSemanalConsultarTodos() {
+        List<PlaneacionSemanal> manes = DaoPlaneacionSemanal.consultarTodos();
+        for(int i = 0; i<manes.size();i++)
+        {
+            System.out.println(manes.get(i).getSemana());
+        }
+    }   
+    
+    private static void ProbarDaoPlaneacionSemanalConsultarUno() {
+        try{
+            PlaneacionSemanal mansito = DaoPlaneacionSemanal.consultarUno(1);
+            System.out.println(mansito.getSemana());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoPlaneacionSemanalCrear() {
+        try{
+            PlaneacionSemanal mio=DaoPlaneacionSemanal.crear(22, 290);
+            System.out.println(mio.getIdEstudiante().getIdEstudiante());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+    }
+    
+    private static void ProbarDaoPlaneacionSemanalEliminar() {
+        try{
+            DaoPlaneacionSemanal.eliminar(1);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
     }
     
     /*
