@@ -5,6 +5,7 @@
 
 package com.liceoval.businesslayer.control.rcp;
 
+import VO.Registro;
 import com.liceoval.businesslayer.control.rcp.exceptions.EstudianteNoEncontradoException;
 import com.liceoval.businesslayer.control.rcp.exceptions.GradoNoEncontradoException;
 import com.liceoval.businesslayer.control.rcp.exceptions.TutorNoEncontradoException;
@@ -25,6 +26,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** Recupera registros desde la base de datos para las listas desplegables en
  *  los formularios HTML, etc.
@@ -102,6 +105,39 @@ public class RCPRegistros
         
         materias = EntityTranslator.translateMaterias(mats);
         return materias;
+    }
+    
+    public static List<Materia> getMateriasDeRegistrsoActivos(int idEstudiante) throws EstudianteNoEncontradoException, GradoNoEncontradoException{
+        
+        VO.Estudiante estudiante = null;
+        Collection<VO.Materia> listaMateriasVO;
+        List<VO.Registro> listaRegistrosConExamenesARemover;
+        try {
+            estudiante = DAO.DaoEstudiante.consultarUno(idEstudiante);
+        } catch (NoItemFoundException e) {
+            throw new EstudianteNoEncontradoException("No se encuentra el estudiante especificado",e);
+
+        }
+        try {
+            listaMateriasVO=DAO.DaoMateria.materiasDeGrado(estudiante.getIdGrado().getIdGrado());
+        } catch (NoItemFoundException ex) {
+            throw new GradoNoEncontradoException("No se encuentra el grado especificado", ex);
+        }
+        try {
+            listaRegistrosConExamenesARemover = DAO.DaoRegistro.consultarRegistrosActivosInactivos(idEstudiante, false);
+        } catch (NoItemFoundException ex) {
+            //si no hay registros inactivos no se deve remover nada, lista a remover vacia.
+            listaRegistrosConExamenesARemover=new LinkedList<VO.Registro>();
+        }
+
+        Iterator<Registro> itListaRegistrosConExamenesARemover = listaRegistrosConExamenesARemover.iterator();
+        while(itListaRegistrosConExamenesARemover.hasNext()){
+            VO.Registro registro = itListaRegistrosConExamenesARemover.next();
+            listaMateriasVO.remove(registro.getIdMateria());
+        }
+
+        List<Materia> materiasActivas = EntityTranslator.translateMaterias(listaMateriasVO);
+        return materiasActivas;
     }
     
     /** Recupera una lista de materias
