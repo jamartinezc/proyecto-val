@@ -37,5 +37,9 @@ public class AdministradoraSolicitudesExamen {
         return examenR;
         
     }
+    
+    public static void main(String[] args) throws UltimoTemaException, NoItemFoundException, NoPresentableException {
+          AdministradoraSolicitudesExamen.getSiguienteExamen(290, 2);
+    }
             
 }
