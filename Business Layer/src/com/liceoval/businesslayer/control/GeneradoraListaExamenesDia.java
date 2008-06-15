@@ -65,11 +65,14 @@ public static LinkedList<ExamenSolicitadoWrapper> generarListaExamenesDia() thro
         return listaExamenes;
     }
 
-    public static void main(String[] args) {
-        try {
-            generarListaExamenesDia();
-        } catch (NoItemFoundException ex) {
-            Logger.getLogger(GeneradoraListaExamenesDia.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public static void main(String[] args) throws NoItemFoundException {
+            //generarListaExamenesDia();
+        Date desde, hasta;
+        Calendar calendario = Calendar.getInstance();
+        calendario.set(Calendar.HOUR_OF_DAY, 0);
+        calendario.set(Calendar.MINUTE, 0);
+        calendario.set(Calendar.SECOND, 0);
+        desde = calendario.getTime();//el dia de hoy
+        List<VO.ExamenSolicitado> listaExamenesVO = DAO.DaoExamenSolicitado.consultarExamenesSolicitadosEntreFechas(desde, desde);
     }
 }
