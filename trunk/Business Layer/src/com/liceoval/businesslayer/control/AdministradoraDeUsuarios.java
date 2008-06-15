@@ -82,17 +82,15 @@ public class AdministradoraDeUsuarios {
      * @throws java.lang.Exception si el usuario no existe.
      */
     public static boolean modificarUsuario(Usuario usuario) throws NoItemFoundException{
-        Crud driverDB;
-        driverDB = new Crud();
         
         if(usuario != null){
             int idUsuario = usuario.getIdUsuario();
             String nombres = usuario.getNombres();
             String apellidos = usuario.getApellidos();
             String login = usuario.getLogin();
-            String clave = usuario.getPassword().toString();
+            String clave = String.valueOf(usuario.getPassword());
             
-            VO.Usuario usuarioModificado = driverDB.actualizarUsuario(idUsuario, nombres, apellidos, login, clave);
+            VO.Usuario usuarioModificado = DAO.DaoUsuario.actualizar(idUsuario, nombres, apellidos, login, clave);
             
             if(usuarioModificado != null){
                 return true;
@@ -122,7 +120,7 @@ public class AdministradoraDeUsuarios {
         
         try
         {
-            driverDB.eliminarUsuario(idUsuario);
+            DAO.DaoUsuario.eliminar(idUsuario);
         }
         catch(NoItemFoundException nifEx)
         {
@@ -151,13 +149,11 @@ public class AdministradoraDeUsuarios {
         UsuarioWrapper usuarioWrapper;
         VO.Usuario user;
         Usuario usuario;
-        Crud crud;
         
-        crud = new Crud();
         
         try
         {
-            user = crud.consultarUsuario(idUsuario);
+            user = DAO.DaoUsuario.consultarUno(idUsuario);
         }
         catch(NoItemFoundException nifEx)
         {
@@ -219,5 +215,17 @@ public class AdministradoraDeUsuarios {
         
         crud = new Crud();
         return crud.estudianteDelTallerDeTutor(idEstudiante, idTutor);
+    }
+    public static void main(String[] args) throws NoItemFoundException {
+                System.out.println("modificarUsuario");
+        String q="PassTest";
+        Usuario usuario = new Usuario();
+        usuario.setIdUsuario(2);
+        usuario.setNombres("Tester");
+        usuario.setApellidos("Test");
+        usuario.setLogin("Testing");
+        usuario.setPassword(q.toCharArray());
+        boolean expResult = true;
+        boolean result = AdministradoraDeUsuarios.modificarUsuario(usuario);
     }
 }
