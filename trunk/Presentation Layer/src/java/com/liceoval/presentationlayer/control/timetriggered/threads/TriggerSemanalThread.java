@@ -5,9 +5,6 @@
 
 package com.liceoval.presentationlayer.control.timetriggered.threads;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.util.Date;
 
 /**
@@ -17,14 +14,14 @@ import java.util.Date;
 public class TriggerSemanalThread extends Thread{
         public void run() {
                         
-        System.out.println(new Date());
         try {
-            Thread.sleep(10000);
-            System.out.println(new Date());
-            //comprovar si el mes ya se pasó
+            System.out.println("Semanal: "+new Date());
+            //comprovar si la semana ya terminó
             
+            
+            Thread.sleep(30000);
         } catch (InterruptedException ex) {
-            System.out.println("se totió");
+                System.out.println("se ha interrumpido el thread semanal");
         }
     }
         

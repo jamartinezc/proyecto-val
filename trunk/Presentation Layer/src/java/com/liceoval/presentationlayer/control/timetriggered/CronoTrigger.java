@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.liceoval.presentationlayer.control.timetriggered.threads.*;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 
 /**
  *
@@ -23,21 +21,25 @@ import java.io.FileWriter;
  */
 public class CronoTrigger extends HttpServlet {
    
-    /** 
-    * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-    * @param request servlet request
-    * @param response servlet response
-    */
+    private TriggerMensualThread triggerMensual;
+    private TriggerSemanalThread triggerSemanal;
     
     public CronoTrigger(){
         super();
         
-        TriggerMensualThread triggerMensual = new TriggerMensualThread();
+        triggerMensual = new TriggerMensualThread();
         triggerMensual.start();
         
-        TriggerSemanalThread TriggerSemanal = new TriggerSemanalThread();
-        TriggerSemanal.start();
+        triggerSemanal = new TriggerSemanalThread();
+        triggerSemanal.start();
         
+    }
+    
+    @Override
+    public void destroy(){
+        triggerMensual.interrupt();
+        triggerMensual.setEjecutar(false);
+        triggerMensual.interrupt();
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
