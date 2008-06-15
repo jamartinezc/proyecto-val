@@ -19,11 +19,11 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library files="1">
-                    <file>${file.reference.Business_Layer.jar}</file>
+                    <file>${file.reference.DataAccessLayer.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library files="1">
-                    <file>${file.reference.DataAccessLayer.jar}</file>
+                    <file>${file.reference.Business_Layer.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library files="1">
