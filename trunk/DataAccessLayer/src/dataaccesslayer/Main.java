@@ -1026,6 +1026,20 @@ public class Main {
     private static void ProbarDaoExamenPlaneado() {
         //ProbarDaoExamenPlaneadoConsultarTodos();
         //ProbarDaoExamenPlaneadoConsultarUno();
+        //ProbarDaoExamenPlaneadoexamenPlaneadoMateriaEstudiante();
+    }
+    
+    private static void ProbarDaoExamenPlaneadoexamenPlaneadoMateriaEstudiante() {
+        try{
+            List<ExamenPlaneado> manes = DaoExamenPlaneado.examenPlaneadoMateriaEstudiante(290, 2);
+            for(int i = 0; i<manes.size();i++)
+            {
+                System.out.println(manes.get(i).getIdExamenPlaneado());
+            }
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
     }
     
     private static void ProbarDaoExamenPlaneadoConsultarTodos() {
