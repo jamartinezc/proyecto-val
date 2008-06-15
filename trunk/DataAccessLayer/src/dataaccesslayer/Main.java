@@ -249,6 +249,16 @@ public class Main {
         //ProbarDaoExamenMesEliminar();
         //ProbarDaoExamenMesCrear();
         //ProbarDaoExamenMesexamenesMesDeEstudianteEnMes();
+        //ProbarDaoExamenMesactualizarGanadosExamenMes();
+    }
+    
+    private static void ProbarDaoExamenMesactualizarGanadosExamenMes() {
+        try{
+            DaoExamenMes.actualizarGanadosExamenMes(7, 3);
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
     }
     
     private static void ProbarDaoExamenMesexamenesMesDeEstudianteEnMes() {
@@ -442,7 +452,7 @@ public class Main {
     private static void ProbarDaoExamenSolicitadoCrear() {
         Date fecha = new Date();
         try{
-            ExamenSolicitado mio=DaoExamenSolicitado.crear(fecha, 4, 8, 79);
+            ExamenSolicitado mio=DaoExamenSolicitado.crear(fecha, 2, 78, 84);
             System.out.println(mio.getIdExamenSolicitado());
         }
         catch(NoItemFoundException error){
@@ -767,7 +777,7 @@ public class Main {
         //ProbarDaoRegistroEliminar();
         //ProbarDaoRegistroDesactivarRegistro();
         //ProbarDaoRegistroConsultarRegistroActivosInactivos();
-        ProbarDaoRegistroConsultarRegistroEstudianteMateria();
+        //ProbarDaoRegistroConsultarRegistroEstudianteMateria();
     }
     
     private static void ProbarDaoRegistroConsultarTodos() {
@@ -791,7 +801,7 @@ public class Main {
 
     private static void ProbarDaoRegistroCrear() {
         try{
-            Registro mio=DaoRegistro.crear(324, true, 1, 0);
+            Registro mio=DaoRegistro.crear(290, true, 4, 0);
             System.out.println(mio.getIdRegistro());
         }
         catch(NoItemFoundException error){
@@ -1155,7 +1165,7 @@ public class Main {
     * Pruebas DaoAnalista
     */
     private static void ProbarDaoAnalista() {
-        //ProbarDaoAnalistaConsultarTodos();
+        ProbarDaoAnalistaConsultarTodos();
         //ProbarDaoAnalistaConsultarUno();
         //ProbarDaoAnalistaCrear();   
         //ProbarDaoAnalistaEliminar();
