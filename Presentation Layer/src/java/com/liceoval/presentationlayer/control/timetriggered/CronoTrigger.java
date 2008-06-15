@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.liceoval.presentationlayer.control.timetriggered.threads.*;
+import Errores.NoItemFoundException;
 
 /**
  *
@@ -25,6 +26,7 @@ public class CronoTrigger extends HttpServlet {
     private TriggerSemanalThread triggerSemanal;
     
     public CronoTrigger(){
+        
         super();
         
         triggerMensual = new TriggerMensualThread();

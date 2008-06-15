@@ -7,7 +7,17 @@
 <%@ page
 	contentType="text/html; charset=utf-8"
 	language="java"
-	import="java.util.List,java.util.Iterator, com. liceoval. businesslayer. control. AdministradoraSolicitudesExamen,com.liceoval.businesslayer.entities.Materia, com. liceoval. businesslayer. entities. Examen,com. liceoval. businesslayer. entities. Estudiante, com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario, com.liceoval.businesslayer.control.registro.exceptions.*"
+	import="java.util.List,
+        java.util.Iterator,
+        com. liceoval. businesslayer. control. AdministradoraSolicitudesExamen,
+        com.liceoval.businesslayer.entities.Materia,
+        com. liceoval. businesslayer. entities. Examen,
+        com. liceoval. businesslayer. entities. Estudiante,
+        com.liceoval.businesslayer.control.AdministradoraDeUsuarios,
+        com.liceoval.businesslayer.entities.Usuario, com.liceoval.businesslayer.control.registro.exceptions.*,
+        com.liceoval.businesslayer.control.rcp.exceptions.GradoNoEncontradoException,
+        com.liceoval.businesslayer.control.rcp.exceptions.EstudianteNoEncontradoException,
+        java.util.LinkedList"
 	errorPage="" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -85,13 +95,23 @@
                                     <input type="hidden" name="NombreMateria">
                                     <select name="Materia"  >
                                     <%int idGrado = ((Estudiante)currentUser).getGrado().getIdGrado();
-                                    List<Materia> materias = com.liceoval.businesslayer.control.rcp.RCPRegistros.getMaterias(idGrado);
+                                    List<Materia> materias;
+                                    try {
+                                        materias = com.liceoval.businesslayer.control.rcp.RCPRegistros.getMateriasDeRegistrsoActivos(((Estudiante)currentUser).getCodigo());
+                                    } catch (EstudianteNoEncontradoException ex) {
+                                        System.out.println(ex.getMessage());
+                                        materias=new LinkedList<Materia>();
+                                    } catch (GradoNoEncontradoException ex) {
+                                        System.out.println(ex.getMessage());
+                                        materias=new LinkedList<Materia>();
+                                    }
+                                    // TODO obtener solo activos
                                     int i=0;
-                                    do{%>
+                                    while(i<materias.size()){%>
                                         <option value ="<%=materias.get(i).getCodigo()%>"><%=materias.get(i).getCodigo()+" : "+materias.get(i).getNombre()%></option>
                                     <%
                                     i++;
-                                    }while(i<materias.size());%>
+                                    }%>
                                     </select>
                                     </td>                        
                                     </table>

@@ -9,7 +9,6 @@ import Errores.NoItemFoundException;
 import com.liceoval.businesslayer.control.GeneradoraInformeMensual;
 import com.liceoval.businesslayer.control.exceptions.ErrorEnviandoInformeException;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -44,6 +43,7 @@ public class TriggerMensualThread extends Thread{
                 //Thread.sleep(30000);//esperar 1/2 minuto, para pruebas
 
             } catch (NoItemFoundException ex) {
+                ex.printStackTrace();
                 System.out.println("no se encontro alguna variable");
                 throw new ErrorEnviandoInformeException("Error enviando correos del informe mensual", ex);
             } catch (InterruptedException ex) {
@@ -52,7 +52,7 @@ public class TriggerMensualThread extends Thread{
         }
     }
     
-    private void crearInformeMensual(int mesDeDisparo) throws NoItemFoundException{
+    private void crearInformeMensual(int mesDeDisparo) throws ErrorEnviandoInformeException{
         System.out.println("trata de crear informes");
         GeneradoraInformeMensual.generarInformesMensuales();
         System.out.println("termina de crear informes");
