@@ -539,9 +539,11 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
         <copy-ear-war file="${file.reference.jfreechart-1.0.0.jar}" propname="included.lib.file.reference.jfreechart-1.0.0.jar.X"/>
         <basename file="${file.reference.jfreechart-demo-1.0.0.jar}" property="included.lib.file.reference.jfreechart-demo-1.0.0.jar"/>
         <copy-ear-war file="${file.reference.jfreechart-demo-1.0.0.jar}" propname="included.lib.file.reference.jfreechart-demo-1.0.0.jar.X"/>
+        <basename file="${file.reference.mail.jar}" property="included.lib.file.reference.mail.jar"/>
+        <copy-ear-war file="${file.reference.mail.jar}" propname="included.lib.file.reference.mail.jar.X"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${included.lib.libs.MySQLDriver.classpath} ${included.lib.libs.toplink.classpath.1.X} ${included.lib.libs.toplink.classpath.2.X} ${included.lib.file.reference.Business_Layer.jar} ${included.lib.file.reference.batik-awt-util-1.6.jar} ${included.lib.file.reference.DataAccessLayer.jar} ${included.lib.file.reference.batik-dom-1.6.jar} ${included.lib.file.reference.batik-svggen-1.6.jar} ${included.lib.file.reference.batik-util-1.6.jar} ${included.lib.file.reference.batik-xml-1.6.jar} ${included.lib.file.reference.cewolf-1.0.jar} ${included.lib.file.reference.commons-logging-1.0.4.jar} ${included.lib.file.reference.jcommon-1.0.0.jar} ${included.lib.file.reference.jfreechart-1.0.0.jar} ${included.lib.file.reference.jfreechart-demo-1.0.0.jar} "/>
+            <attribute name="Class-Path" value="${included.lib.libs.MySQLDriver.classpath} ${included.lib.libs.toplink.classpath.1.X} ${included.lib.libs.toplink.classpath.2.X} ${included.lib.file.reference.Business_Layer.jar} ${included.lib.file.reference.batik-awt-util-1.6.jar} ${included.lib.file.reference.DataAccessLayer.jar} ${included.lib.file.reference.batik-dom-1.6.jar} ${included.lib.file.reference.batik-svggen-1.6.jar} ${included.lib.file.reference.batik-util-1.6.jar} ${included.lib.file.reference.batik-xml-1.6.jar} ${included.lib.file.reference.cewolf-1.0.jar} ${included.lib.file.reference.commons-logging-1.0.4.jar} ${included.lib.file.reference.jcommon-1.0.0.jar} ${included.lib.file.reference.jfreechart-1.0.0.jar} ${included.lib.file.reference.jfreechart-demo-1.0.0.jar} ${included.lib.file.reference.mail.jar} "/>
         </manifest>
         <delete dir="${dist.ear.dir}/temp"/>
     </target>
@@ -561,6 +563,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
         <copy file="${file.reference.jcommon-1.0.0.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copy file="${file.reference.jfreechart-1.0.0.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copy file="${file.reference.jfreechart-demo-1.0.0.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copy file="${file.reference.mail.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest" name="do-ear-dist">
         <dirname file="${dist.ear.war}" property="dist.jar.dir"/>
