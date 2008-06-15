@@ -154,4 +154,35 @@ public class DaoExamenMes {
         }
     
     }
+    
+    public static ExamenMes actualizarGanadosExamenMes(int idExamenMes, int ganados) throws NoItemFoundException{
+        
+            EntityManager em = DaoEntityManagerFactory.getInstance(); 
+            EntityTransaction tx = em.getTransaction();          
+            try
+            {
+                ExamenMes examen = em.find(ExamenMes.class, idExamenMes);
+                if(examen!=null){
+                    tx.begin();
+                        examen.setGanados(ganados);
+                    tx.commit();
+                    
+                    return examen;
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
+                
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.clear();
+            }
+        }
+    
 }
