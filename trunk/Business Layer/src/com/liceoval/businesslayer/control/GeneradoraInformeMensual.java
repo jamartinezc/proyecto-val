@@ -6,6 +6,7 @@
 package com.liceoval.businesslayer.control;
 
 import Errores.NoItemFoundException;
+import com.liceoval.businesslayer.control.exceptions.ErrorEnviandoInformeException;
 import com.liceoval.businesslayer.control.registro.ControladoraDeRegistro;
 import com.liceoval.businesslayer.control.registro.exceptions.NotaNoCalculableException;
 import com.liceoval.businesslayer.control.registro.exceptions.RegistroNoEncontradoException;
@@ -18,12 +19,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.mail.Authenticator;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 public class GeneradoraInformeMensual {
     
-    public static void generarInformesMensuales() throws NoItemFoundException{
+    public static void generarInformesMensuales() throws NoItemFoundException, ErrorEnviandoInformeException{
         
         Calendar fecha = Calendar.getInstance();//fecha de hoy
         //obtener el mes anterior, el que se acaba de completar, el del informe.
@@ -54,7 +65,6 @@ public class GeneradoraInformeMensual {
             int cantidadPlaneada=0;
             //ExamenesPorMes = estudiante.getPlaneacionAnual().getMateriaPlaneadaCollection();
             
-            //ExamenesPorMes = DUMMY.DAO.DaoMateriaPlaneada.getExamenesMes(idEstudiante, mes);//DUMMY.DAO.DaoMateriaPlaneada.getMateriasPlaneadasMes(idEstudiante, mes);
             try {
                 ExamenesPorMes = DAO.DaoExamenMes.examenesMesDeEstudianteEnMes(idEstudiante, mes);
             } catch (NoItemFoundException ex) {
@@ -144,14 +154,53 @@ public class GeneradoraInformeMensual {
                 String nombreMateria = materiaDelGrado.getNombre();
                 totalExamenesDeMateria.setProperty( nombreMateria, String.valueOf(materiaDelGrado.getExamenCollection().size()) );
             }
-            System.out.println("parametros: "+codigoEstudiante+" "+ nombreEstudiante+" "+ grado+" "+ noPresentados+" "+ ganadosTotal+" "+mesInforme+" "+añoInforme+" "+ planeadasEstudiante+" "+ presentados+" "+ ganadosAntesMateria+" "+ ganadosMesMateria+" "+totalExamenesDeMateria+" "+notasDefinitivasMateria);
+            //System.out.println("parametros: "+codigoEstudiante+" "+ nombreEstudiante+" "+ grado+" "+ noPresentados+" "+ ganadosTotal+" "+mesInforme+" "+añoInforme+" "+ planeadasEstudiante+" "+ presentados+" "+ ganadosAntesMateria+" "+ ganadosMesMateria+" "+totalExamenesDeMateria+" "+notasDefinitivasMateria);
             String informeGenerado = generarInforme(codigoEstudiante, nombreEstudiante, grado, noPresentados, ganadosTotal,mesInforme, añoInforme, planeadasEstudiante, presentados, ganadosAntesMateria, ganadosMesMateria, totalExamenesDeMateria,notasDefinitivasMateria);
-            System.out.println(informeGenerado);
+            //System.out.println(informeGenerado);
+                Collection<VO.Padre> padres = estudiante.getPadreCollection();
+                Iterator<VO.Padre> itPadres=padres.iterator();
+                String[] correosPadres = new String[padres.size()];
+                int numeroPadre=0;
+                while(itPadres.hasNext()){
+                    VO.Padre padre = itPadres.next();
+                    correosPadres[numeroPadre] = padre.getCorreo();
+                    numeroPadre++;
+                }
+            try {
+                enviarCorreo(informeGenerado, nombreEstudiante,correosPadres);
+            } catch (MessagingException ex) {
+                throw new ErrorEnviandoInformeException("Error enviando el correo del informe para estudiante código:"+estudiante.getIdEstudiante(), ex);
+            }
         }
+    }
+
+    private static void enviarCorreo(String mensaje, String nombre, String[] correosPadres) throws MessagingException, ErrorEnviandoInformeException {
+        //evitar errores de envio
+        if(correosPadres.length==0){
+            correosPadres = new String[1];
+            correosPadres[0]="EstudianteSinCorreoDePadres@"+nombre.replace(' ', '_')+".com";
+        }
+        
+        String emailMsgTxt = mensaje;
+	String emailSubjectTxt = "Informe Mensual de "+nombre;
+        //GMail always uses your e-mail as the "from."  Probably for Spam reasons
+	String emailFromAddress;//"jaguar.scratch@gmail.com";
+	String[] sendTo = correosPadres;//{ "jaguar.scratch@gmail.com" };
+        try {
+            emailFromAddress = DAO.DaoVariablesGlobales.consultarUno("emailFromAddress").getValor();
+        } catch (NoItemFoundException ex) {
+            emailFromAddress = null;
+            throw new ErrorEnviandoInformeException("Error enviando el correo del informe para estudiante :"+nombre, ex);
+        }
+        
+        enviarInforme(sendTo, emailSubjectTxt, emailMsgTxt,
+				emailFromAddress);
     }
     
     private static String generarInforme(String codigoEstudiante, String nombreEstudiante,int grado, int noPresentados, int ganadosTotal, String mesInforme, String añoInforme, String planeadasEstudiante, int presentados, Properties ganadosAntesMateria, Properties ganadosMesMateria, Properties totalExamenesDeMateria, Properties notasDefinitivasMateria){
         
+        // cargar el formato del informe
+        // TODO desde un archivo
         String informe="<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"+
                 "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"+
                 "<head>\n"+
@@ -508,15 +557,101 @@ public class GeneradoraInformeMensual {
         return informe;
     }
     
-    private static void enviarInforme(String informe){
+    private static void enviarInforme(String destinatarios[], String asunto,String message, String de) throws MessagingException, ErrorEnviandoInformeException {
         
+        //obtener los parametros para enviar el mensaje
+       String SMTP_HOST_NAME = null;
+        String SMTP_PORT = null;
+        try {
+            SMTP_HOST_NAME = DAO.DaoVariablesGlobales.consultarUno("SMTP_HOST_NAME").getValor();//"smtp.gmail.com";
+            SMTP_PORT = DAO.DaoVariablesGlobales.consultarUno("SMTP_PORT").getValor();//"465";
+            
+
+        } catch (NoItemFoundException ex) {
+            throw new ErrorEnviandoInformeException("Error enviando correos del informe mensual", ex);
+        }
+	
+	String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
+        
+        //inicializar los parametros
+        Properties props = new Properties();
+        props.put("mail.smtp.host", SMTP_HOST_NAME);
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.debug", "false");
+        props.put("mail.smtp.port", SMTP_PORT);
+        props.put("mail.smtp.socketFactory.port", SMTP_PORT);
+        props.put("mail.smtp.socketFactory.class", SSL_FACTORY);
+        props.put("mail.smtp.socketFactory.fallback", "true");
+        Autenticadora auth = new Autenticadora();
+        auth.setCorreo(de);
+        try {
+            auth.setContrasena(DAO.DaoVariablesGlobales.consultarUno("EmailPassword").getValor().toCharArray());
+        } catch (NoItemFoundException ex) {
+            throw new ErrorEnviandoInformeException("Error enviando correos del informe mensual", ex);
+        }
+        Session sesion = Session.getDefaultInstance(props, auth);
+        sesion.setDebug(false);
+        //inicializar el mensaje
+        Message mensaje = new MimeMessage(sesion);
+        // ingresar los remitentes
+        InternetAddress DireccionRemitente = new InternetAddress(de);
+        mensaje.setFrom(DireccionRemitente);
+        //ingresar destinatarios
+        InternetAddress[] Direccionesdestinatarios = new InternetAddress[destinatarios.length];
+		for (int i = 0; i < destinatarios.length; i++) {
+			Direccionesdestinatarios[i] = new InternetAddress(destinatarios[i]);
+		}
+	mensaje.setRecipients(Message.RecipientType.TO, Direccionesdestinatarios);
+        
+        //ingresar el asunto
+        mensaje.setSubject(asunto);
+        
+        Multipart multipart = new MimeMultipart("related");
+			
+        Multipart newMultipart = new MimeMultipart("alternative");
+        BodyPart nestedPart = new MimeBodyPart();
+        nestedPart.setContent(newMultipart);
+        multipart.addBodyPart(nestedPart);
+        
+        BodyPart part = new MimeBodyPart();
+        part.setText("text message");
+        newMultipart.addBodyPart(part);
+
+        part = new MimeBodyPart();
+        part.setContent(message, "text/HTML");
+        newMultipart.addBodyPart(part);
+        //adjuntar imágenes
+	
+        //añadir las part al mensaje
+        mensaje.setContent(multipart);
+        //enviar el mensaje
+        Transport.send(mensaje);
     }
     
-    public static void main(String[] args) throws NoItemFoundException {
+    public static void main(String[] args) throws NoItemFoundException, MessagingException, ErrorEnviandoInformeException {
         //generarInformesMensuales();
         //String informe = generarInforme("", "", 0, 0, 0, "", "", "", new Properties(), new Properties(), new Properties(), new Properties());
         //System.out.println(informe);
-        generarInformesMensuales();
+        //generarInformesMensuales();
         
+        
+    }
+    
+    private static class Autenticadora extends Authenticator{
+        private char[] contrasena;
+        private String correo;
+        protected PasswordAuthentication getPasswordAuthentication() {
+            
+           return new PasswordAuthentication(correo, String.copyValueOf(contrasena));
+	
+    }
+
+        protected void setContrasena(char[] contr) {
+            contrasena = contr;
+        }
+
+        protected void setCorreo(String cor) {
+            correo = cor;
+        }
     }
 }
