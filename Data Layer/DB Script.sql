@@ -334,7 +334,7 @@ CREATE TABLE `padre` (
 
 LOCK TABLES `padre` WRITE;
 /*!40000 ALTER TABLE `padre` DISABLE KEYS */;
-INSERT INTO `padre` VALUES (1,'Maria Azucena','Fetecua Peña','azucenafetecua_@hotmail.com',310),(2,'Jorge Enrique','Martinez Jimenez','joramartinezc_@unal.edu.co',311),(3,'Julio','Franco','amfrancop_@unal.edu.co',312),(4,'Camilo','Hernández','jaguar.scratch@gmail.com',290),(5,'Adolfo','Olarte','lmolartem_@unal.edu.co',313);
+INSERT INTO `padre` VALUES (1,'Maria Azucena','Fetecua Peña','sergiobobillier@hotmail.com',310),(2,'Jorge Enrique','Martinez Jimenez','damontic@hotmail.com',311),(3,'Julio','Franco','violetamf3@hotmail.com',312),(4,'Camilo','Hernández','jaguar.scratch@gmail.com',290),(5,'Adolfo','Olarte','bombillito83@hotmail.com',313);
 /*!40000 ALTER TABLE `padre` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -525,7 +525,7 @@ CREATE TABLE `variablesglobales` (
 
 LOCK TABLES `variablesglobales` WRITE;
 /*!40000 ALTER TABLE `variablesglobales` DISABLE KEYS */;
-INSERT INTO `variablesglobales` VALUES ('emailFromAddress','LiceoVAL@gmail.com'),('EmailPassword','LiceoVal2008'),('SMTP_HOST_NAME','smtp.gmail.com'),('SMTP_PORT','465');
+INSERT INTO `variablesglobales` VALUES ('emailFromAddress','LiceoVAL@gmail.com'),('EmailPassword','LiceoVal2008'),('MesSiguienteInforme','6'),('SMTP_HOST_NAME','smtp.gmail.com'),('SMTP_PORT','465');
 /*!40000 ALTER TABLE `variablesglobales` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -538,4 +538,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-06-15  1:07:44
+-- Dump completed on 2008-06-15  5:31:33
