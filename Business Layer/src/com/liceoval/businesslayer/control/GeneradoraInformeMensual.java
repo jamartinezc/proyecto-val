@@ -34,7 +34,7 @@ import javax.mail.internet.MimeMultipart;
 
 public class GeneradoraInformeMensual {
     
-    public static void generarInformesMensuales() throws NoItemFoundException, ErrorEnviandoInformeException{
+    public static void generarInformesMensuales() throws ErrorEnviandoInformeException{
         
         Calendar fecha = Calendar.getInstance();//fecha de hoy
         //obtener el mes anterior, el que se acaba de completar, el del informe.
@@ -66,7 +66,9 @@ public class GeneradoraInformeMensual {
             //ExamenesPorMes = estudiante.getPlaneacionAnual().getMateriaPlaneadaCollection();
             
             try {
-                ExamenesPorMes = DAO.DaoExamenMes.examenesMesDeEstudianteEnMes(idEstudiante, mes);
+                Calendar fechaInicioGrado = Calendar.getInstance();
+                fechaInicioGrado.setTime(estudiante.getFechaInicioGrado());
+                ExamenesPorMes = DAO.DaoExamenMes.examenesMesDeEstudianteEnMes(idEstudiante, fechaInicioGrado.get(Calendar.MONTH)+mes);
             } catch (NoItemFoundException ex) {
                 ExamenesPorMes = new LinkedList<VO.ExamenMes>();
             }
@@ -646,11 +648,11 @@ public class GeneradoraInformeMensual {
 	
     }
 
-        protected void setContrasena(char[] contr) {
+        private void setContrasena(char[] contr) {
             contrasena = contr;
         }
 
-        protected void setCorreo(String cor) {
+        private void setCorreo(String cor) {
             correo = cor;
         }
     }
