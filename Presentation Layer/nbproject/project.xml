@@ -31,6 +31,10 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library files="1">
+                    <file>${file.reference.Business_Layer.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library files="1">
                     <file>${file.reference.batik-svggen-1.6.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
