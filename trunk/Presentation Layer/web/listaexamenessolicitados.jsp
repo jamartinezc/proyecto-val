@@ -194,12 +194,16 @@
                                                                         asignmentTable.append(examenSolicitado.getIdExamenSolicitado());
                                                                         asignmentTable.append("\"> Rechazar</td></tr>");
                                                                         
-                                                                        studentTable.append(asignmentTable);
-                                                                        
                                                                         addAsignment = true;
-                                                                        addStudent = true;
+                                                                        
                                                                     }
                                                                 }
+                                                            }
+                                                            
+                                                            if(addAsignment == true)
+                                                            {
+                                                                studentTable.append(asignmentTable);
+                                                                addStudent = true;
                                                             }
                                                         }
                                                     }
