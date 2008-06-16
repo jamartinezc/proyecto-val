@@ -103,9 +103,6 @@ public class Main {
             Examen uy =crud.getSiguienteExamenDeMateria(12, 314);
             System.out.println(uy.getIdExamen());
         }
-        catch(NoItemFoundException error){
-            System.out.println(error.Mensaje());
-        }
         catch(UltimoTemaException uno){
             System.out.println(uno.Mensaje());
         }
