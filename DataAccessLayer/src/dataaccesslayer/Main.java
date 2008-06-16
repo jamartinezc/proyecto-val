@@ -179,7 +179,12 @@ public class Main {
         //ProbarDaoExcelenciaTallerConsultarUno();
         //ProbarDaoExcelenciaTallerCrear();
         //ProbarDaoExcelenciaTallerEliminar();
+        //ProbarDaoExcelenciaTallerEliminarTodos();
     }
+    
+    private static void ProbarDaoExcelenciaTallerEliminarTodos() {
+        DaoExcelenciaTaller.eliminarTodos();
+    }  
     
     private static void ProbarDaoExcelenciaTallerConsultarTodos() {
         List<ExcelenciaTaller> manes = DaoExcelenciaTaller.consultarTodos();
