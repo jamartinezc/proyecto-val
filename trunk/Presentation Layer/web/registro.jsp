@@ -36,6 +36,7 @@
 <body>
 
     <%
+        String referer;    
         int tutorId;
         int matId = 0;
         Materia materia;
@@ -149,6 +150,13 @@
                                                     <p style="text-transform:uppercase"><strong><%=materia.getCodigo()%> - <%=materia.getNombre()%></strong></p>
                                                 
                                                 <%
+                                                    referer = "registro.jsp";
+                                                    if(studentId != 0) referer = referer + "?studentId=" + studentId;
+                                                    %>
+                                                    
+                                                   <p style="text-align:right"><input type="button" value="Regresar" onclick="window.open('<%=referer%>', '_self')"></p>
+                                                    
+                                                    <%
                                                     examenes = registro.getExamenesSolicitados();
                                                     if(examenes.size() > 0)
                                                     {
@@ -156,7 +164,7 @@
                                                     
                                                     	<p><strong>Exámenes en el registro:</strong></p>
                                                     
-                                                        <table border="1" cellpadding="3" cellspacing="2" style="border-collapse:collapse">
+                                                        <table align="center" border="1" cellpadding="3" cellspacing="2" style="border-collapse:collapse">
                                                             <thead><tr><th>Código</th><th>Tema</th><th>Fecha</th><th>Estado</th><th>Nota</th></tr></thead>
                                                             <tbody>
                                                             <%
@@ -306,14 +314,21 @@
                                                         <p style="text-transform:uppercase"><strong><%=materia.getCodigo()%> - <%=materia.getNombre()%></strong></p>
 
                                                     <%
+                                                        referer = "registro.jsp";
+                                                        if(studentId != 0) referer = referer + "?studentId=" + studentId;
+                                                    %>
+                                                    
+                                                        <p style="text-align:right"><input type="button" value="Regresar" onclick="window.open('<%=referer%>', '_self')"></p>
+                                                   
+                                                   <%
                                                         examenes = registro.getExamenesSolicitados();
                                                         if(examenes.size() > 0)
                                                         {
                                                         %>
 
                                                             <p><strong>Exámenes en el registro:</strong></p>
-
-                                                            <table border="1" cellpadding="3" cellspacing="2" style="border-collapse:collapse">
+                                                            
+                                                            <table align="center" border="1" cellpadding="3" cellspacing="2" style="border-collapse:collapse">
                                                                 <thead><tr><th>Código</th><th>Tema</th><th>Fecha</th><th>Estado</th><th>Nota</th></tr></thead>
                                                                 <tbody>
                                                                 <%
