@@ -5,7 +5,6 @@
 
 package com.liceoval.businesslayer.control;
 
-import CRUD.Crud;
 import Errores.NoItemFoundException;
 import com.liceoval.businesslayer.entities.Estudiante;
 import com.liceoval.businesslayer.entities.ExamenSolicitado;
@@ -18,8 +17,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  *
  * @author Jorge
@@ -45,10 +42,10 @@ public static LinkedList<ExamenSolicitadoWrapper> generarListaExamenesDia() thro
         ExamenSolicitado examenNN;
         Estudiante EstudianteDelExamen;
         Registro registroDelExamen;
-        ExamenSolicitadoWrapper examen = new ExamenSolicitadoWrapper();
         Iterator<VO.ExamenSolicitado> ExamVoIterador = listaExamenesVO.iterator();
         while(ExamVoIterador.hasNext()){
             
+            ExamenSolicitadoWrapper examen = new ExamenSolicitadoWrapper();
             examenVO = ExamVoIterador.next();
             examenNN = EntityTranslator.translateExamenSolicitado(examenVO);
             EstudianteDelExamenVO = examenVO.getIdRegistro().getIdEstudiante();
@@ -67,12 +64,13 @@ public static LinkedList<ExamenSolicitadoWrapper> generarListaExamenesDia() thro
 
     public static void main(String[] args) throws NoItemFoundException {
             //generarListaExamenesDia();
-        Date desde, hasta;
+/*        Date desde, hasta;
         Calendar calendario = Calendar.getInstance();
         calendario.set(Calendar.HOUR_OF_DAY, 0);
         calendario.set(Calendar.MINUTE, 0);
         calendario.set(Calendar.SECOND, 0);
         desde = calendario.getTime();//el dia de hoy
         List<VO.ExamenSolicitado> listaExamenesVO = DAO.DaoExamenSolicitado.consultarExamenesSolicitadosEntreFechas(desde, desde);
+        */
     }
 }
