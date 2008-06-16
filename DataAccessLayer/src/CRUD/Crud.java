@@ -986,7 +986,7 @@ public class Crud {
     }
     
     //retorna el siguiente examen a presentar de cierta materia para cierto usuario
-    public Examen getSiguienteExamenDeMateria(int codigoMateria, int idEstudiante) throws NoItemFoundException, UltimoTemaException, NoPresentableException{
+    public Examen getSiguienteExamenDeMateria(int codigoMateria, int idEstudiante)throws UltimoTemaException, NoPresentableException{
         
             EntityManager em = DaoEntityManagerFactory.getInstance();  
             Registro registro;
@@ -1003,9 +1003,6 @@ public class Crud {
                 List<ExamenSolicitado> examenes = (List<ExamenSolicitado>) registro.getExamenSolicitadoCollection();
 
                 int tamaño = examenes.size();
-
-                if(tamaño<0) throw new NoItemFoundException();
-
                 
                 if(tamaño==0) {
                     List<Examen> exam = DaoExamen.consultarExamenesMateria(codigoMateria);
