@@ -105,4 +105,24 @@ public class DaoExcelenciaTaller {
             }
     }
     
+    public static void eliminarTodos() {  
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityTransaction tx = em.getTransaction();
+        try
+            {
+            Query query = em.createQuery("Delete FROM ExcelenciaTaller");
+                tx.begin();
+                    query.executeUpdate();
+                tx.commit();
+                em.clear();
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+                em.clear();
+            }
+    }
 }
