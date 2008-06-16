@@ -88,7 +88,7 @@ public class RCPRegistrosTest {
         System.out.println("getMateriasDeRegistrsoActivos");
         int idEstudiante = 290;
         int expResult = 11;
-        List<Materia> result = RCPRegistros.getMateriasDeRegistrsoActivos(idEstudiante);
+        List<Materia> result = RCPRegistros.getMateriasDeRegistrosActivos(idEstudiante);
         assertEquals(expResult, result.size());
         
     }

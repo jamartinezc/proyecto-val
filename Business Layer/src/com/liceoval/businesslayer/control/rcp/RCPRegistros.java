@@ -105,7 +105,7 @@ public class RCPRegistros
         return materias;
     }
     
-    public static List<Materia> getMateriasDeRegistrsoActivos(int idEstudiante) throws EstudianteNoEncontradoException, GradoNoEncontradoException{
+    public static List<Materia> getMateriasDeRegistrosActivos(int idEstudiante) throws EstudianteNoEncontradoException, GradoNoEncontradoException{
         
         VO.Estudiante estudiante = null;
         Collection<VO.Materia> listaMateriasVO;
