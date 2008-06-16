@@ -105,6 +105,7 @@ public class DaoMateriaPlaneada {
                 return nuevo;
             }
             catch(NonUniqueResultException error){
+                em.close();
                     throw new PosibleDuplicationException();
                 }
             catch(EntityNotFoundException noResult){

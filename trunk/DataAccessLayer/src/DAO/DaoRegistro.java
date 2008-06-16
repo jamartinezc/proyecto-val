@@ -96,7 +96,7 @@ public class DaoRegistro {
                 
                 if(estudiante.getIdGrado().getIdGrado() != materia.getIdGrado().getIdGrado()) throw new MateriaDeOtroGradoException();
                 
-                em.close();
+                em.clear();
                 
             try{
                 Registro nuevo = new Registro();

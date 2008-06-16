@@ -56,7 +56,6 @@ public class DaoExcelenciaTaller {
             {
             
                 Estudiante estudiante = em.getReference(Estudiante.class, idEstudiante);            
-                em.close();
 
                 ExcelenciaTaller nuevo = new ExcelenciaTaller();
                 nuevo.setIdTaller(idTaller);

@@ -56,13 +56,13 @@ public class DaoPadre {
             {
             
                 Estudiante estudiante = em.getReference(Estudiante.class, idEstudiante);            
-                em.close();
+                em.clear();
                 
                 Query query = em.createNamedQuery("Padre.consultarPorIdEstudiante");
                 query.setParameter("estudiante", estudiante);
                 List<Padre> repetido = query.getResultList();
                 if(repetido.size()==1) throw new PosibleDuplicationException();
-                em.close();
+                em.clear();
 
                 Padre nuevo = new Padre();
                 nuevo.setApellidos(apellidos);

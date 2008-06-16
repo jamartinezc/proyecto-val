@@ -56,7 +56,7 @@ public class DaoPlaneacionSemanal {
             {
             
                 Estudiante estudiante = em.getReference(Estudiante.class, idEstudiante);            
-                em.close();
+                em.clear();
 
                 PlaneacionSemanal nuevo = new PlaneacionSemanal();
                 nuevo.setIdEstudiante(estudiante);
