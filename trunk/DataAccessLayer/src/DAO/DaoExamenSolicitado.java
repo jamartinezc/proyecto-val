@@ -335,7 +335,7 @@ public class DaoExamenSolicitado {
             Analista analista = em.find(Analista.class, idAnalista);
             Estados estado = em.find(Estados.class, idEstado);
             
-            em.close();
+            em.clear();
             
             try
             {
