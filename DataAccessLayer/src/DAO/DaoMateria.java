@@ -12,7 +12,9 @@ import VO.Materia;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -22,34 +24,37 @@ import javax.persistence.Query;
 public class DaoMateria {
 
     public static List<Materia> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Materia.consultarMaterias");
         List<Materia> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static Materia consultarUno(int idMateria) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Materia.findByIdMateria");
         query.setParameter("id", idMateria);
         try{
             Materia item = (Materia) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     
     public static List<Materia> materiasDeAnalista(int idAnalista) throws NoItemFoundException{
         
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         
         Analista analista = em.find(Analista.class, idAnalista);
-        em.clear();
+        em.close();
 
         if(analista!=null){
             return (List<Materia>) analista.getMateriaCollection();
@@ -61,9 +66,10 @@ public class DaoMateria {
     }
     
     public static Collection materiasDeGrado(int idGrado)throws NoItemFoundException{
-            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             Grado grado = em.find(Grado.class, idGrado);
-            em.clear();
+            em.close();
             return grado.getMateriaCollection();
         
     }

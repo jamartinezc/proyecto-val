@@ -13,10 +13,12 @@ import VO.Materia;
 import VO.Usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -26,30 +28,36 @@ import javax.persistence.Query;
 public class DaoAnalista {
     
     public static List<Analista> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
+        
         Query query = em.createNamedQuery("Analista.consultarAnalistas");
         List<Analista> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static Analista consultarUno(int idAnalista) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
+        
         Query query = em.createNamedQuery("Analista.consultarUnAnalista");
         query.setParameter("id", idAnalista);
         try{
             Analista item = (Analista) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     
     public static Analista eliminar(int idAnalista) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
+        
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -60,7 +68,7 @@ public class DaoAnalista {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -69,12 +77,14 @@ public class DaoAnalista {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static Analista crear(int idUsuario) throws NoItemFoundException, PosibleDuplicationException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
+        
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -100,11 +110,11 @@ public class DaoAnalista {
                     throw new PosibleDuplicationException();
                 }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             catch(NoResultException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -113,17 +123,18 @@ public class DaoAnalista {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     //Retorna el analista de cierta materia
     public static Analista analistaDeMateria(int idMateria) throws NoItemFoundException{
         
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         
         Materia materia = em.find(Materia.class, idMateria);
-        em.clear();
+        em.close();
         if(materia!=null){
             return materia.getIdAnalista();
         }
@@ -134,7 +145,9 @@ public class DaoAnalista {
     }
     
     public static Analista consultarAnalista(int idUsuario) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance(); 
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
+        
         EntityTransaction tx = em.getTransaction();
         
         Usuario usuario = em.find(Usuario.class, idUsuario);
@@ -159,7 +172,7 @@ public class DaoAnalista {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }
     }
     

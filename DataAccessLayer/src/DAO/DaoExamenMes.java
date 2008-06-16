@@ -13,10 +13,12 @@ import VO.Materia;
 import VO.MateriaPlaneada;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -26,30 +28,33 @@ import javax.persistence.Query;
 public class DaoExamenMes {
 
     public static List<ExamenMes> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("ExamenMes.consultarExamenesMes");
         List<ExamenMes> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static ExamenMes consultarUno(int idExamenMes) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("ExamenMes.findByIdExamenMes");
         query.setParameter("id", idExamenMes);
         try{
             ExamenMes item = (ExamenMes) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     
     public static ExamenMes eliminar(int idExamenMes) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -60,7 +65,7 @@ public class DaoExamenMes {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -69,12 +74,13 @@ public class DaoExamenMes {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static ExamenMes crear(int mes, int planeados, int ganados, int idMateriaPlaneada) throws NoItemFoundException, PosibleDuplicationException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -104,11 +110,11 @@ public class DaoExamenMes {
                     throw new PosibleDuplicationException();
                 }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             catch(NoResultException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -117,12 +123,13 @@ public class DaoExamenMes {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static List<ExamenMes> examenesMesDeEstudianteEnMes(int idEstudiante, int mes) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -142,7 +149,7 @@ public class DaoExamenMes {
                 }
         }
         catch(EntityNotFoundException uy){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
         finally
@@ -151,13 +158,14 @@ public class DaoExamenMes {
             {
                 tx.rollback();
             }
-            em.clear();
+            em.close();
         }
     
     }
     
     public static ExamenMes examenesMesDeMateriaDeEstudianteEnMes(int idEstudiante, int mes, int idMateria) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -175,15 +183,15 @@ public class DaoExamenMes {
                 
         }
         catch(NoResultException ey){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
         catch(EntityNotFoundException uy){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
         catch(NonUniqueResultException au){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
         finally
@@ -192,14 +200,15 @@ public class DaoExamenMes {
             {
                 tx.rollback();
             }
-            em.clear();
+            em.close();
         }
     
     }
     
     public static ExamenMes actualizarGanadosExamenMes(int idExamenMes, int ganados) throws NoItemFoundException{
         
-            EntityManager em = DaoEntityManagerFactory.getInstance(); 
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();          
             try
             {
@@ -223,7 +232,7 @@ public class DaoExamenMes {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }
         }
     

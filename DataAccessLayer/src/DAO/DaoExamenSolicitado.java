@@ -15,9 +15,11 @@ import VO.Registro;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -27,31 +29,34 @@ import javax.persistence.Query;
 public class DaoExamenSolicitado {
 
     public static List<ExamenSolicitado> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
-        em.clear();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
+        em.close();
         Query query = em.createNamedQuery("ExamenSolicitado.consultarExamenesSolicitados");
         List<ExamenSolicitado> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static ExamenSolicitado consultarUno(int idExamenSolicitado) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("ExamenSolicitado.consultarUnExamenSolicitado");
         query.setParameter("id", idExamenSolicitado);
         try{
             ExamenSolicitado item = (ExamenSolicitado) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     
     public static ExamenSolicitado consultarExamenSolicitadoEspecifico(int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         
         Analista analista = em.find(Analista.class, idAnalista);
         Registro registro = em.find(Registro.class, idRegistro);
@@ -64,7 +69,7 @@ public class DaoExamenSolicitado {
         query.setParameter("exam", examen);
 
         List<ExamenSolicitado> item = query.getResultList();
-        em.clear();
+        em.close();
         if(item.size()>0){
             return item.get(0);
         }
@@ -74,7 +79,8 @@ public class DaoExamenSolicitado {
     }
     
     public static ExamenSolicitado eliminar(int idExamenSolicitado) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -85,7 +91,7 @@ public class DaoExamenSolicitado {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -94,12 +100,13 @@ public class DaoExamenSolicitado {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static ExamenSolicitado crear(Date fecha, int idAnalista, int idRegistro, int idExamen) throws NoItemFoundException, PosibleDuplicationException{  
-       EntityManager em = DaoEntityManagerFactory.getInstance();
+       EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+       EntityManager em = emf.createEntityManager();
        EntityTransaction tx = em.getTransaction();
        
        try{
@@ -130,13 +137,14 @@ public class DaoExamenSolicitado {
             {
                 tx.rollback();
             }
-            em.clear();
+            em.close();
         }
        
     }
     
     public static ExamenSolicitado actualizarFecha(int idExamenSolicitado, Date fecha) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -149,7 +157,7 @@ public class DaoExamenSolicitado {
                 return cambiado;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -158,14 +166,15 @@ public class DaoExamenSolicitado {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     //busca un usuario por appelido o nombre (en DAO USUARIO)
     public static List<ExamenSolicitado> consultarExamenesSolicitadosEntreFechas(Date desde, Date hasta) throws NoItemFoundException{
             
-            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction(); 
             
                 try
@@ -190,13 +199,14 @@ public class DaoExamenSolicitado {
                         tx.rollback();
                     }
 
-                    em.clear();
+                    em.close();
                 }
     }
     
     public static ExamenSolicitado actualizarEstadoDeExamenSolicitado(int idExamenSolicitado, int idEstado) throws NoItemFoundException{
         
-            EntityManager em = DaoEntityManagerFactory.getInstance(); 
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();          
             try
             {
@@ -221,13 +231,14 @@ public class DaoExamenSolicitado {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }
         }
     
     public static ExamenSolicitado actualizarNotaDeExamenSolicitado(int idExamenSolicitado, float nota) throws NoItemFoundException{
         
-            EntityManager em = DaoEntityManagerFactory.getInstance(); 
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();          
             try
             {
@@ -251,18 +262,19 @@ public class DaoExamenSolicitado {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }
         }
     
     public static List<ExamenSolicitado> examenesSolicitadosPorEstudiantesDeTutor(int idTutor) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
 
         Query query = em.createQuery("SELECT e FROM ExamenSolicitado e JOIN e.idRegistro  registro JOIN registro.idEstudiante estudiante JOIN estudiante.idTaller taller JOIN taller.idTutor tutor WHERE tutor.idTutor =:idT");
         query.setParameter("idT", idTutor);
         List<ExamenSolicitado> item = query.getResultList();
        
-        em.clear();
+        em.close();
         
         if(item.size()>0)
         {
@@ -276,7 +288,8 @@ public class DaoExamenSolicitado {
     
     public static List<ExamenSolicitado> examenesSolicitadosPorTema (int idEstudiante, int idExamen)throws NoItemFoundException{
         
-            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();           
             
             Examen control = em.find(Examen.class, idExamen);
@@ -305,28 +318,29 @@ public class DaoExamenSolicitado {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }   
         
     }
     
     public static List<ExamenSolicitado> examenesSolicitadosDeAnalistaPorEstado(int idAnalista, int idEstado)throws NoItemFoundException{
         
-            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();           
             
             Analista analista = em.find(Analista.class, idAnalista);
             Estados estado = em.find(Estados.class, idEstado);
             
-            em.clear();
+            em.close();
             
             try
             {
                 tx.begin();
-                Query q = em.createQuery("select p from ExamenSolicitado p WHERE p.idEstado = :etat AND p.idAnalista =:analiste");
-                q.setParameter("etat", estado);
-                q.setParameter("analiste", analista);
-                List<ExamenSolicitado> lista = q.getResultList();
+                    Query q = em.createQuery("select p from ExamenSolicitado p WHERE p.idEstado = :etat AND p.idAnalista =:analiste");
+                    q.setParameter("etat", estado);
+                    q.setParameter("analiste", analista);
+                    List<ExamenSolicitado> lista = q.getResultList();
                 tx.commit();
                 
                 if(lista.size()>0){
@@ -344,7 +358,7 @@ public class DaoExamenSolicitado {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }   
         
     }

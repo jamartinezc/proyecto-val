@@ -15,10 +15,12 @@ import VO.Usuario;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -28,30 +30,33 @@ import javax.persistence.Query;
 public class DaoEstudiante {
 
     public static List<Estudiante> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Estudiante.consultarEstudiantes");
         List<Estudiante> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static Estudiante consultarUno(int idEstudiante) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Estudiante.consultarUnEstudiante");
         query.setParameter("id", idEstudiante);
         try{
             Estudiante item = (Estudiante) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     
     public static List<Estudiante> consultarEstudiantesConExamenParaAnalista(Integer idAnalista){
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Analista analista = em.find(Analista.class, idAnalista);
         Query query = em.createQuery("SELECT r.idEstudiante FROM ExamenSolicitado e Join e.idRegistro r Join r.idEstudiante s WHERE e.idAnalista =:idA");
         query.setParameter("idA", analista);
@@ -63,7 +68,8 @@ public class DaoEstudiante {
     }
     
     public static Estudiante eliminar(int idEstudiante) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -74,7 +80,7 @@ public class DaoEstudiante {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -83,12 +89,13 @@ public class DaoEstudiante {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static Estudiante crear(int idEstudiante, int idGrado, int idTaller, Calendar fechaInicioGrado, int idUsuario) throws NoItemFoundException, PosibleDuplicationException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -125,11 +132,11 @@ public class DaoEstudiante {
                     throw new PosibleDuplicationException();
                 }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             catch(NoResultException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -138,7 +145,7 @@ public class DaoEstudiante {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     

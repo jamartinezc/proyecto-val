@@ -11,10 +11,12 @@ import VO.Tutor;
 import VO.Usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -24,30 +26,33 @@ import javax.persistence.Query;
 public class DaoTutor {
 
     public static List<Tutor> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Tutor.consultarTutores");
         List<Tutor> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static Tutor consultarUno(int idTutor) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Tutor.consultarUnTutor");
         query.setParameter("id", idTutor);
         try{
             Tutor item = (Tutor) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     
     public static Tutor eliminar(int idTutor) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -58,7 +63,7 @@ public class DaoTutor {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -67,12 +72,13 @@ public class DaoTutor {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static Tutor crear(int idUsuario) throws NoItemFoundException, PosibleDuplicationException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -98,11 +104,11 @@ public class DaoTutor {
                     throw new PosibleDuplicationException();
                 }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             catch(NoResultException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -111,7 +117,7 @@ public class DaoTutor {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     

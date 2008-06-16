@@ -13,9 +13,11 @@ import VO.Materia;
 import VO.Registro;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -25,30 +27,33 @@ import javax.persistence.Query;
 public class DaoRegistro {
 
     public static List<Registro> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Registro.consultarRegistros");
         List<Registro> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static Registro consultarUno(int idRegistro) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Registro.consultarUnRegistro");
         query.setParameter("idRegistro", idRegistro);
         try{
             Registro item = (Registro) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     
     public static Registro eliminar(int idRegistro) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -59,7 +64,7 @@ public class DaoRegistro {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -68,12 +73,13 @@ public class DaoRegistro {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static Registro crear(int idEstudiante, boolean activo, int idMateria, int vecesDevuelta) throws NoItemFoundException, PosibleDuplicationException, MateriaDeOtroGradoException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         
                 Estudiante estudiante = em.find(Estudiante.class, idEstudiante);
@@ -90,7 +96,7 @@ public class DaoRegistro {
                 
                 if(estudiante.getIdGrado().getIdGrado() != materia.getIdGrado().getIdGrado()) throw new MateriaDeOtroGradoException();
                 
-                em.clear();
+                em.close();
                 
             try{
                 Registro nuevo = new Registro();
@@ -107,11 +113,11 @@ public class DaoRegistro {
                 
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             catch(NoResultException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -120,13 +126,14 @@ public class DaoRegistro {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static Registro desactivarRegistro(int idRegistro) throws NoItemFoundException{
         
-            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();           
             try
             {
@@ -151,12 +158,13 @@ public class DaoRegistro {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }
         }
     
     public static List<Registro> consultarRegistrosActivosInactivos(int idEstudiante, boolean activo) throws NoItemFoundException{
-            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction(); 
             
             Estudiante estudiante;
@@ -181,7 +189,7 @@ public class DaoRegistro {
                         tx.rollback();
                     }
 
-                    em.clear();
+                    em.close();
                 }
             }
             else{
@@ -190,7 +198,8 @@ public class DaoRegistro {
     }
     
     public static Registro consultarRegistroEstudianteMateria(int idEstudiante, int codigoMateria) throws NoItemFoundException{
-            EntityManager em = DaoEntityManagerFactory.getInstance(); 
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
             
             Estudiante estudiante;
@@ -221,7 +230,7 @@ public class DaoRegistro {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }
     }
     

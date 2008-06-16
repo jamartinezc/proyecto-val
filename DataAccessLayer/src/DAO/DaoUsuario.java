@@ -10,8 +10,10 @@ import Errores.PosibleDuplicationException;
 import VO.Usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -21,30 +23,33 @@ import javax.persistence.Query;
 public class DaoUsuario {
 
     public static List<Usuario> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Usuario.consultarUsuarios");
         List<Usuario> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static Usuario consultarUno(int idUsuario) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Usuario.consultarUnUsuario");
         query.setParameter("id", idUsuario);
         try{
             Usuario item = (Usuario) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     
     public static List<Usuario> consultarUsuario(String usuario, String password) throws NoItemFoundException{
-            EntityManager em = DaoEntityManagerFactory.getInstance();    
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager(); 
             EntityTransaction tx = em.getTransaction();           
             
             try
@@ -70,13 +75,14 @@ public class DaoUsuario {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }
     }
     
     public static boolean loginExiste(String log)
     {
-            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
             
             try
@@ -86,7 +92,7 @@ public class DaoUsuario {
                 q.setParameter("login", log);
                 List<Usuario> usuario = q.getResultList();
                 tx.commit();
-                em.clear();
+                em.close();
                 if(usuario.size()==1){
                     return false;
                 }
@@ -101,13 +107,14 @@ public class DaoUsuario {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static Usuario crear(String nombre, String apellido, String login, String clave)throws PosibleDuplicationException{
                        
-            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
 
             if(loginExiste(login)){
@@ -134,7 +141,7 @@ public class DaoUsuario {
                         tx.rollback();
                     }
 
-                    em.clear();
+                    em.close();
                 }
             }
             else{
@@ -145,7 +152,8 @@ public class DaoUsuario {
     
     
     public static Usuario eliminar(int idUsuario) throws NoItemFoundException{  
-            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
          
             try
@@ -171,12 +179,13 @@ public class DaoUsuario {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }
     }
     
     public static Usuario actualizar(int idUsuario, String nombre, String apellido, String login, String clave) throws NoItemFoundException{  
-            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();          
             try
             {
@@ -205,13 +214,14 @@ public class DaoUsuario {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }
     }
     
     //busca un usuario por appelido o nombre
     public static List<Usuario> buscarUsuario(String comodin) throws NoItemFoundException{
-            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
             
                 try
@@ -235,7 +245,7 @@ public class DaoUsuario {
                         tx.rollback();
                     }
 
-                    em.clear();
+                    em.close();
                 }
     }
     

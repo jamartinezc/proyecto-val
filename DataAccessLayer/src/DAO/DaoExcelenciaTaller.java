@@ -10,9 +10,11 @@ import VO.Estudiante;
 import VO.ExcelenciaTaller;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -22,36 +24,39 @@ import javax.persistence.Query;
 public class DaoExcelenciaTaller {
 
     public static List<ExcelenciaTaller> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("ExcelenciaTaller.consultarExcelenciaTaller");
         List<ExcelenciaTaller> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static ExcelenciaTaller consultarUno(int idExcelenciaTaller) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("ExcelenciaTaller.findByIdExcelenciaTaller");
         query.setParameter("id", idExcelenciaTaller);
         try{
             ExcelenciaTaller item = (ExcelenciaTaller) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     
     public static ExcelenciaTaller crear(int idTaller, int idEstudiante, int presentados, int ganados, int presentadosTaller, int ganadosTaller) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
             
                 Estudiante estudiante = em.getReference(Estudiante.class, idEstudiante);            
-                em.clear();
+                em.close();
 
                 ExcelenciaTaller nuevo = new ExcelenciaTaller();
                 nuevo.setIdTaller(idTaller);
@@ -67,7 +72,7 @@ public class DaoExcelenciaTaller {
                 return nuevo;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -76,12 +81,13 @@ public class DaoExcelenciaTaller {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static ExcelenciaTaller eliminar(int idExcelenciaTaller) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -92,7 +98,7 @@ public class DaoExcelenciaTaller {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -101,12 +107,13 @@ public class DaoExcelenciaTaller {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static void eliminarTodos() {  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -114,7 +121,7 @@ public class DaoExcelenciaTaller {
                 tx.begin();
                     query.executeUpdate();
                 tx.commit();
-                em.clear();
+                em.close();
             }
             finally
             {
@@ -122,7 +129,7 @@ public class DaoExcelenciaTaller {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
 }
