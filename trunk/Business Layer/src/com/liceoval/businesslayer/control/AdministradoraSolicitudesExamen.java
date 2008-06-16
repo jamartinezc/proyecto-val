@@ -27,7 +27,7 @@ public class AdministradoraSolicitudesExamen {
         
     }
     
-    public static Examen getSiguienteExamen(int idEstudiante, int codigoMateria) throws UltimoTemaException, NoItemFoundException, NoPresentableException{
+    public static Examen getSiguienteExamen(int idEstudiante, int codigoMateria) throws UltimoTemaException, NoPresentableException{
         
         Crud driverDB = new Crud();
         VO.Examen examen = driverDB.getSiguienteExamenDeMateria(codigoMateria, idEstudiante);
@@ -39,7 +39,7 @@ public class AdministradoraSolicitudesExamen {
     }
     
     public static void main(String[] args) throws UltimoTemaException, NoItemFoundException, NoPresentableException {
-          AdministradoraSolicitudesExamen.getSiguienteExamen(290, 2);
+          //AdministradoraSolicitudesExamen.getSiguienteExamen(290, 2);
     }
             
 }
