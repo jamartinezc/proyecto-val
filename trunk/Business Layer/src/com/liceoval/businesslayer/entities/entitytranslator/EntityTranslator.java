@@ -27,7 +27,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.Vector;
 
 public class EntityTranslator
 {
@@ -437,21 +437,17 @@ public class EntityTranslator
     public static MateriaPlaneada translateMateriaPlaneada(VO.MateriaPlaneada plannedAsignment)
     {
         MateriaPlaneada materiaPlaneada;
-        Map<Integer, Integer> planeadosMes;
-        Map<Integer, Integer> ganadosMes;
-        
+        Vector<int[]> planeadosMes;
+                
         Iterator<VO.ExamenMes> mesesIterator;
         VO.ExamenMes monthExams;
-        Integer month;
-        Integer won;
-        Integer planned;
-        
+        int[] planned;
+                
         // Si el valor de entrada es null, el de salida también.
         if(plannedAsignment == null) return null;
         
         // Crear la nueva Materia Planeada
         materiaPlaneada = new MateriaPlaneada();
-        ganadosMes = materiaPlaneada.getGanadosMes();
         planeadosMes = materiaPlaneada.getPlaneadosMes();
         
         // Traducir cada uno de los atributos
@@ -459,14 +455,13 @@ public class EntityTranslator
                 
         mesesIterator = plannedAsignment.getExamenMesCollection().iterator();
         while(mesesIterator.hasNext())
-        {
+        {            
             monthExams = mesesIterator.next();
-            month = monthExams.getMes();
-            planned = monthExams.getplaneados();
-            won = monthExams.getGanados();
+            planned = new int[2];
+            planned[0] = monthExams.getMes();
+            planned[1] = monthExams.getplaneados();
             
-            planeadosMes.put(month, planned);
-            ganadosMes.put(month, won);
+            planeadosMes.add(planned);
         }
         
         // Devolver la materia planeada

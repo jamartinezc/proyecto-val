@@ -346,7 +346,10 @@ public class ControladoraDeRegistro
                 if(record.getExamenSolicitadoCollection().size() == 1)
                 {
                     DAO.DaoExamenSolicitado.eliminar(idExamenSolicitado);
-                    DAO.DaoRegistro.eliminar(record.getIdRegistro().intValue());
+                    if(record.getVecesDevuelta() == 0)
+                    {
+                        DAO.DaoRegistro.eliminar(record.getIdRegistro().intValue());
+                    }
                 }
                 else
                 {
