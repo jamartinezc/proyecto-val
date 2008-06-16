@@ -97,7 +97,7 @@
             <li><a href="registro.jsp">Consultar Registro</a></li>
             <li><a href="ficharendimiento.jsp">Consultar Ficha de Rendimiento</a></li>
             <li><a href="planeacionanual.jsp">Consultar/Editar planeación anual</a></li>
-            <li><a href="planeacionanual.jsp">Consultar/Editar planeación semanal</a></li>
+            <li><a href="PlaneacionMensual.jsp">Consultar/Editar planeación Mensual</a></li>
             <li><a href="solicitudexamen.jsp">Solicitar examen</a></li>
 
     <%

@@ -24,7 +24,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Liceo V.A.L. - Sistema de Información Académico - Consultar Registro</title>
+<title>Liceo V.A.L. - Sistema de Información Académico - Consultar Ficha de Rendimiento</title>
 <link rel="stylesheet" type="text/css" href="globals/main.css" />
 </head>
 
@@ -213,13 +213,13 @@
 
                     if(currentUser.getClass().getName().equals("com.liceoval.businesslayer.entities.Estudiante"))
                     {
-                        rightPanelText.append("<p>Esta página le permite visualizar los registros para las diferentes asignaturas que en este momento está cursando y le proporciona información sobre el estado de sus exámenes y calificaciones.</p>");
-                        rightPanelText.append("<p>Para hacer uso de la página seleccione la asignatura de la cual desea ver el registro. Si no aparecen asignaturas en la lista significa que usted no posee registros activos.</p>");
+                        rightPanelText.append("<p>Esta página le permite visualizar su informe de rendimiento.</p>");
+                        rightPanelText.append("<p>Su informe de rendimiento muestra una gráfica con las evaluaciones Planeadas (en negro) Vs. las evaluaciones Ganadas (en rojo).</p>");
                     }
                     else if(currentUser.getClass().getName().equals("com.liceoval.businesslayer.entities.Tutor"))
                     {
-                        rightPanelText.append("<p>Esta página le permite visualizar los registros de uno de sus estudiantes. Seleccione una de las materias que el estudiante está viendo en el momento para ver el registro correspondiente.</p>");
-                        rightPanelText.append("<p>Si no hay materias en la lista significa que el estudiante aún no ha abierto un registro para una de sus asignaturas.</p>");
+                        rightPanelText.append("<p>Esta página le permite visualizar el informe de rendimiento de uno de sus estudiantes.</p>");
+                        rightPanelText.append("<p>El informe de rendimiento muestra una gráfica con las evaluaciones Planeadas (en negro) Vs. las evaluaciones Ganadas (en rojo) del estudiante..</p>");
                     }
                     else
                     {

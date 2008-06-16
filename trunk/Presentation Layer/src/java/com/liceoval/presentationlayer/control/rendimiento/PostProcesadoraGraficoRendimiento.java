@@ -7,8 +7,10 @@ package com.liceoval.presentationlayer.control.rendimiento;
 
 import de.laures.cewolf.ChartPostProcessor;
 
-import java.util.Map;
 import java.awt.Color;
+import java.awt.BasicStroke;
+
+import java.util.Map;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.title.LegendTitle;
@@ -35,7 +37,9 @@ public class PostProcesadoraGraficoRendimiento implements ChartPostProcessor
         jChart.removeLegend();
         
         renderer = chartPlot.getRenderer();
-        renderer.setSeriesPaint(0, Color.BLACK);
-        renderer.setSeriesPaint(1, Color.RED);
+        renderer.setSeriesPaint(0, Color.RED);
+        renderer.setSeriesPaint(1, Color.BLACK);
+        renderer.setSeriesOutlinePaint(1, new Color(0.0f,0.0f,0.0f,0.5f));
+        renderer.setSeriesStroke(1, new BasicStroke(2));
     }
 }
