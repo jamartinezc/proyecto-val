@@ -6,6 +6,7 @@
 package com.liceoval.presentationlayer.control.timetriggered.threads;
 
 import Errores.NoItemFoundException;
+import com.liceoval.businesslayer.control.GeneradoraInformeExcelencia;
 import com.liceoval.businesslayer.control.GeneradoraInformeMensual;
 import com.liceoval.businesslayer.control.exceptions.ErrorEnviandoInformeException;
 import java.util.Calendar;
@@ -31,7 +32,7 @@ public class TriggerMensualThread extends Thread{
                 Calendar fechaActual = Calendar.getInstance();
                 if(fechaActual.get(Calendar.MONTH)>=mesDeDisparo){
                     crearInformeMensual(mesDeDisparo);
-                    crearInformeDeExcelenciaPorTaller();
+                    //crearInformeDeExcelenciaPorTaller();
                     //programar el envio de informes para el mes siguiente
                     fechaActual.add(Calendar.MONTH, 1);
                     DAO.DaoVariablesGlobales.actualizar("MesSiguienteInforme", String.valueOf(fechaActual.get(Calendar.MONTH)));
@@ -60,6 +61,9 @@ public class TriggerMensualThread extends Thread{
     
     private void crearInformeDeExcelenciaPorTaller(){
         
+        System.out.println("trata de crear informe Excelencia");
+        GeneradoraInformeExcelencia.generarInforme();
+        System.out.println("termina de crear informe Excelencia");
     }
 
     public boolean isEjecutar() {

@@ -1,7 +1,8 @@
 <%@ page
 	contentType="text/html; charset=utf-8"
 	language="java"
-	import="com.liceoval.businesslayer.entities.Usuario"
+	import="com.liceoval.businesslayer.entities.Usuario,
+        com.liceoval.businesslayer.control.GeneradoraInformeExcelencia"
 	errorPage="" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -74,7 +75,9 @@
                             
                             <tr>
                                 <td class="cont-inner" >
-                                    
+                                    <% 
+                                    String[][] informe = GeneradoraInformeExcelencia.consultarInformeExcelencia();
+                                    %>
                                     <p style="text-align:center">
                                         <b>
                                             INFORME DE EXCELENCIA POR TALLER<br><br>
@@ -82,7 +85,7 @@
                                         </b>
                                     
                                         <ul>
-                                            <table border="1" width="92%">
+                                            <table border="1" width="92%" style="text-align:center">
                                                 <thead>
                                                     <tr>
                                                         <th>TALLER</th>
@@ -91,16 +94,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>CUATRO</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>CINCO</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
+                                                    <%for(int i=0;i<informe.length;i++){%>
+                                                        <tr>
+                                                            <td><%=informe[i][0]%></td>
+                                                            <td><%=informe[i][4]%></td>
+                                                            <td><%=informe[i][5]%></td>
+                                                        </tr>
+                                                    <%}%>
                                                 </tbody>
                                                 </table>
                                          </ul>
@@ -110,7 +110,7 @@
                                     <p style="text-align:center">
                                         <b><br><br>MEJORES ESTUDIANTES DE CADA TALLER<br></b>
                                         <ul>
-                                            <table border="1" width="92%">
+                                            <table border="1" width="92%" style="text-align:center">
                                                 <thead>
                                                     <tr>
                                                         <th>TALLER</th>
@@ -120,23 +120,19 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>CUATRO</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>CINCO</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
+                                                    <%for(int i=0;i<informe.length;i++){%>
+                                                        <tr>
+                                                            <td><%=informe[i][0]%></td>
+                                                            <td><%=informe[i][1]%></td>
+                                                            <td><%=informe[i][2]%></td>
+                                                            <td><%=informe[i][3]%></td>
+                                                        </tr>
+                                                    <%}%>
                                                 </tbody>
                                             </table>
                                         </ul>
                                     </p>
-                                    
+                                    <!--
                                     <p style="text-align:left">
                                         <br><br>
                                         <ul>
@@ -205,7 +201,7 @@
                                         </table>
                                         </ul>
                                     </p>
-
+                                    -->
                                     <!--ACÁ VOY-->
                                 </td>
                             </tr>
