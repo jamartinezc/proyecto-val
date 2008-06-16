@@ -441,17 +441,24 @@
                 
                 if(currentUser != null)
                 {                
-                    rightPanelText.append("<p style=\"font-weight:bold;text-decoration:underline\">Ficha de Rendimiento</p>");
+                    rightPanelText.append("<p style=\"font-weight:bold;text-decoration:underline\">Planeación Anual</p>");
 
                     if(currentUser.getClass().getName().equals("com.liceoval.businesslayer.entities.Estudiante"))
                     {
-                        rightPanelText.append("<p>Esta página le permite visualizar los registros para las diferentes asignaturas que en este momento está cursando y le proporciona información sobre el estado de sus exámenes y calificaciones.</p>");
-                        rightPanelText.append("<p>Para hacer uso de la página seleccione la asignatura de la cual desea ver el registro. Si no aparecen asignaturas en la lista significa que usted no posee registros activos.</p>");
+                        rightPanelText.append("<p>Esta página muestra su planeacion anual por meses. Para cada mes usted verá:.</p>");
+                        rightPanelText.append("<ul>");
+                        rightPanelText.append(" <li>La cantidad de exámenes planeados (negro)</li>");
+                        rightPanelText.append(" <li>La cantidad de exámenes ganados (rojo)</li>");
+                        rightPanelText.append("</ul>");
+                        rightPanelText.append("<p>Haga clic en Editar Planeación para editar su planeación Anual.</p>");        
                     }
                     else if(currentUser.getClass().getName().equals("com.liceoval.businesslayer.entities.Tutor"))
                     {
-                        rightPanelText.append("<p>Esta página le permite visualizar los registros de uno de sus estudiantes. Seleccione una de las materias que el estudiante está viendo en el momento para ver el registro correspondiente.</p>");
-                        rightPanelText.append("<p>Si no hay materias en la lista significa que el estudiante aún no ha abierto un registro para una de sus asignaturas.</p>");
+                        rightPanelText.append("<p>Esta página muestra la planeacion anual por meses del estudiante. Para cada mes usted verá:.</p>");
+                        rightPanelText.append("<ul>");
+                        rightPanelText.append(" <li>La cantidad de exámenes planeados (negro)</li>");
+                        rightPanelText.append(" <li>La cantidad de exámenes ganados (rojo)</li>");
+                        rightPanelText.append("</ul>");
                     }
                     else
                     {
