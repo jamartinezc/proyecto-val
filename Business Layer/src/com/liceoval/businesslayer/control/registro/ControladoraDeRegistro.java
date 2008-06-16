@@ -97,14 +97,14 @@ public class ControladoraDeRegistro
         
         try
         {
-            registro = crud.consultarRegistroEstudianteMateria(idEstudiante, idMateria);
+            registro = DAO.DaoRegistro.consultarRegistroEstudianteMateria(idEstudiante, idMateria);
         }
         catch(NoItemFoundException nifEx)
         {
             try
             {
                 // Verificar cuantos registros activos tiene el estudiante
-                registros = crud.consultarRegistrosActivosInactivos(idEstudiante, true);
+                registros = DAO.DaoRegistro.consultarRegistrosActivosInactivos(idEstudiante, true);
                 if(registros.size() == 3)
                 {
                     regEx = new RegistroNoExisteYNoPuedeSerCreadoException(
@@ -191,7 +191,7 @@ public class ControladoraDeRegistro
         try
         {
             // Recuperar el analista que corresponde a la materia
-            analista = crud.analistaDeMateria(idMateria);
+            analista = DAO.DaoAnalista.analistaDeMateria(idMateria);
         }
         catch(NoItemFoundException infEx)
         {
