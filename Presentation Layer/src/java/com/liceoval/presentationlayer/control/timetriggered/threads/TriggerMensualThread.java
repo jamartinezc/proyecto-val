@@ -32,7 +32,7 @@ public class TriggerMensualThread extends Thread{
                 Calendar fechaActual = Calendar.getInstance();
                 if(fechaActual.get(Calendar.MONTH)>=mesDeDisparo){
                     crearInformeMensual(mesDeDisparo);
-                    //crearInformeDeExcelenciaPorTaller();
+                    crearInformeDeExcelenciaPorTaller();
                     //programar el envio de informes para el mes siguiente
                     fechaActual.add(Calendar.MONTH, 1);
                     DAO.DaoVariablesGlobales.actualizar("MesSiguienteInforme", String.valueOf(fechaActual.get(Calendar.MONTH)));
