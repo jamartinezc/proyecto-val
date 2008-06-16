@@ -631,6 +631,7 @@ public class EntityTranslator
         // Traducir cada uno de los atributos
         registro.setActivo(record.getActivo());
         registro.setExamenesSolicitados(translateExamenesSolicitados(record.getExamenSolicitadoCollection()));
+        registro.setIdRegistro(record.getIdRegistro());
         registro.setMateria(translateMateria(record.getIdMateria()));
         registro.setVecesDevuelta(record.getVecesDevuelta());
         

@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class Registro
 {
+    private int idRegistro;
     private Materia materia;
     private boolean activo;
     private int vecesDevuelta;
@@ -73,6 +74,18 @@ public class Registro
         
         this.examenesSolicitados = examenesSolicitados;
     }
+
+    /** Devuelve la ID del registro.
+     * 
+     *  @return El ID del registro.
+     */
     
+    public int getIdRegistro() { return idRegistro; }
+
+    /** Establece el ID del registro.
+     * 
+     *  @param idRegistro El ID del registro.
+     */
     
+    public void setIdRegistro(int idRegistro) { this.idRegistro = idRegistro; }
 }

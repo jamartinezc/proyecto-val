@@ -297,6 +297,14 @@ public class ControladoraDeRegistro
         }
     }
     
+    /** Aprueba o rechaza los examanes especificados.
+     * 
+     *  @param aprobeList La lista de IDs de los examenes a Aprobar.
+     *  @param rejectList La lista de IDs de los examenes a rechazar
+     *  @return Un valor booleano. Verdadero si todas las operaciones se completaron
+     *      exitosamente, Falso de lo contrario.
+     */
+    
     public static boolean aprobarRechazarExamenes(List<Integer> aprobeList, List<Integer> rejectList)
     {
         Date fechaExamen;
