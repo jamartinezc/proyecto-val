@@ -7,6 +7,7 @@ package DAO;
 
 import Errores.NoItemFoundException;
 import VO.Examen;
+import VO.Materia;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -39,6 +40,16 @@ public class DaoExamen {
             em.clear();
             throw new NoItemFoundException();
         }
+    }
+    
+    public static List<Examen> consultarExamenesMateria(int idMateria) {   
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+        Materia uy = em.find(Materia.class, idMateria);
+        Query query = em.createQuery("SELECT e FROM Examen e WHERE e.idMateria =:M");
+        query.setParameter("M", uy);
+        List<Examen> items = query.getResultList();
+        em.clear();
+        return items;
     }
     
 }

@@ -5,6 +5,7 @@
 
 package dataaccesslayer;
 
+import CRUD.Crud;
 import DAO.DaoAnalista;
 import DAO.DaoEstados;
 import DAO.DaoEstudiante;
@@ -27,7 +28,9 @@ import DAO.DaoUsuario;
 import DAO.DaoVariablesGlobales;
 import Errores.MateriaDeOtroGradoException;
 import Errores.NoItemFoundException;
+import Errores.NoPresentableException;
 import Errores.PosibleDuplicationException;
+import Errores.UltimoTemaException;
 import VO.Analista;
 import VO.Estados;
 import VO.Estudiante;
@@ -83,6 +86,32 @@ public class Main {
         //ProbarDaoTutor(); //F
         //ProbarDaoUsuario(); //F
         //ProbarDaoVariablesGlobales(); //F
+        //ProbarCrud();
+    }
+    
+    /*
+    * Pruebas Crud
+    */
+    
+    private static void ProbarCrud(){
+        ProbarGetSiguienteExamenDeMateria();
+    }
+    
+    private static void ProbarGetSiguienteExamenDeMateria(){
+        Crud crud = new Crud();
+        try{
+            Examen uy =crud.getSiguienteExamenDeMateria(12, 314);
+            System.out.println(uy.getIdExamen());
+        }
+        catch(NoItemFoundException error){
+            System.out.println(error.Mensaje());
+        }
+        catch(UltimoTemaException uno){
+            System.out.println(uno.Mensaje());
+        }
+        catch(NoPresentableException auch){
+            System.out.println(auch.Mensaje());
+        }
     }
     
      /*
