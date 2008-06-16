@@ -276,6 +276,18 @@ public class Main {
         //ProbarDaoExamenMesCrear();
         //ProbarDaoExamenMesexamenesMesDeEstudianteEnMes();
         //ProbarDaoExamenMesactualizarGanadosExamenMes();
+        //ProbarDaoExamenMesexamenesMesDeMateriaDeEstudianteEnMes();
+    }
+    
+    private static void ProbarDaoExamenMesexamenesMesDeMateriaDeEstudianteEnMes() {
+        try{
+            ExamenMes man = DaoExamenMes.examenesMesDeMateriaDeEstudianteEnMes(290, 4, 16);
+            System.out.println(man.getIdExamenMes());
+            
+        }
+        catch(NoItemFoundException uy){
+            System.out.println(uy.Mensaje());
+        }
     }
     
     private static void ProbarDaoExamenMesactualizarGanadosExamenMes() {

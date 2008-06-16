@@ -9,6 +9,7 @@ import Errores.NoItemFoundException;
 import Errores.PosibleDuplicationException;
 import VO.Estudiante;
 import VO.ExamenMes;
+import VO.Materia;
 import VO.MateriaPlaneada;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -141,6 +142,47 @@ public class DaoExamenMes {
                 }
         }
         catch(EntityNotFoundException uy){
+            em.clear();
+            throw new NoItemFoundException();
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            em.clear();
+        }
+    
+    }
+    
+    public static ExamenMes examenesMesDeMateriaDeEstudianteEnMes(int idEstudiante, int mes, int idMateria) throws NoItemFoundException{  
+        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityTransaction tx = em.getTransaction();
+        try
+            {
+                Estudiante estudiante = em.getReference(Estudiante.class, idEstudiante);
+                Materia materia = em.getReference(Materia.class, idMateria);
+                tx.begin();
+                    Query query = em.createQuery("SELECT e FROM ExamenMes e JOIN e.idMateriaPlaneada p JOIN p.idPlaneacionAnual a WHERE a.idEstudiante= :est AND e.mes = :mois AND p.idMateria = :M");
+                    query.setParameter("est", estudiante);
+                    query.setParameter("mois", mes);
+                    query.setParameter("M", materia);
+                    ExamenMes lista = (ExamenMes) query.getSingleResult();
+                tx.commit();   
+                
+                return lista;
+                
+        }
+        catch(NoResultException ey){
+            em.clear();
+            throw new NoItemFoundException();
+        }
+        catch(EntityNotFoundException uy){
+            em.clear();
+            throw new NoItemFoundException();
+        }
+        catch(NonUniqueResultException au){
             em.clear();
             throw new NoItemFoundException();
         }
