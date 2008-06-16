@@ -11,9 +11,11 @@ import VO.Estudiante;
 import VO.Padre;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -23,41 +25,44 @@ import javax.persistence.Query;
 public class DaoPadre {
 
     public static List<Padre> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Padre.consultarPadres");
         List<Padre> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static Padre consultarUno(int idPadre) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Padre.consultarUnPadre");
         query.setParameter("idPadre", idPadre);
         try{
             Padre item = (Padre) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     public static Padre crear(String nombres, String apellidos, String correo, int idEstudiante) throws NoItemFoundException, PosibleDuplicationException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
             
                 Estudiante estudiante = em.getReference(Estudiante.class, idEstudiante);            
-                em.clear();
+                em.close();
                 
                 Query query = em.createNamedQuery("Padre.consultarPorIdEstudiante");
                 query.setParameter("estudiante", estudiante);
                 List<Padre> repetido = query.getResultList();
                 if(repetido.size()==1) throw new PosibleDuplicationException();
-                em.clear();
+                em.close();
 
                 Padre nuevo = new Padre();
                 nuevo.setApellidos(apellidos);
@@ -73,11 +78,11 @@ public class DaoPadre {
                 return nuevo;
             }
             catch(PosibleDuplicationException uy ){
-                em.clear();
+                em.close();
                 throw new PosibleDuplicationException();
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -86,12 +91,13 @@ public class DaoPadre {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static Padre eliminar(int idPadre) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -102,7 +108,7 @@ public class DaoPadre {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -111,7 +117,7 @@ public class DaoPadre {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     

@@ -11,10 +11,12 @@ import VO.SecretariaAcademica;
 import VO.Usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -24,30 +26,33 @@ import javax.persistence.Query;
 public class DaoSecretariaAcademica {
 
     public static List<SecretariaAcademica> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("SecretariaAcademica.consultarSecretariasAcademicas");
         List<SecretariaAcademica> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static SecretariaAcademica consultarUno(int idSecretariaAcademica) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("SecretariaAcademica.findByIdSecretariaAcademica");
         query.setParameter("id", idSecretariaAcademica);
         try{
             SecretariaAcademica item = (SecretariaAcademica) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     
     public static SecretariaAcademica eliminar(int idSecretariaAcademica) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -58,7 +63,7 @@ public class DaoSecretariaAcademica {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -67,12 +72,13 @@ public class DaoSecretariaAcademica {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static SecretariaAcademica crear(int idUsuario) throws NoItemFoundException, PosibleDuplicationException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -92,18 +98,18 @@ public class DaoSecretariaAcademica {
                     em.persist(nuevo);
                 tx.commit();   
 
-                em.clear();
+                em.close();
                 return nuevo;
             }
             catch(NonUniqueResultException error){
                     throw new PosibleDuplicationException();
                 }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             catch(NoResultException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -112,7 +118,7 @@ public class DaoSecretariaAcademica {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     

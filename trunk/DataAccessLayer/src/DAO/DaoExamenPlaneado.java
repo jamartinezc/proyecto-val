@@ -11,8 +11,10 @@ import VO.ExamenPlaneado;
 import VO.Materia;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -22,30 +24,33 @@ import javax.persistence.Query;
 public class DaoExamenPlaneado {
 
     public static List<ExamenPlaneado> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("ExamenPlaneado.consultarExamenes");
         List<ExamenPlaneado> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static ExamenPlaneado consultarUno(int idExamenP) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("ExamenPlaneado.findByIdExamenPlaneado");
         query.setParameter("id", idExamenP);
         try{
             ExamenPlaneado item = (ExamenPlaneado) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     
     public static List<ExamenPlaneado> examenPlaneadoMateriaEstudiante(int idEstudiante, int idMateria) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         try{
             Materia materia = em.getReference(Materia.class, idMateria);
             Estudiante estudiante = em.getReference(Estudiante.class, idEstudiante);
@@ -54,7 +59,7 @@ public class DaoExamenPlaneado {
             query.setParameter("idE", estudiante);
 
             List<ExamenPlaneado> item = query.getResultList();
-            em.clear();
+            em.close();
             if(item.size()>0){
                 return item;
             }
@@ -63,7 +68,7 @@ public class DaoExamenPlaneado {
             }
         }
         catch(EntityNotFoundException uy){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
         

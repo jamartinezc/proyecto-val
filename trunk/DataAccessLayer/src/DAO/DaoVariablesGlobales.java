@@ -10,9 +10,11 @@ import Errores.PosibleDuplicationException;
 import VO.VariablesGlobales;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
@@ -23,30 +25,33 @@ import javax.persistence.Query;
 public class DaoVariablesGlobales {
 
     public static List<VariablesGlobales> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("VariablesGlobales.consultarVariablesGlobales");
         List<VariablesGlobales> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static VariablesGlobales consultarUno(String idVariablesGlobales) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("VariablesGlobales.findByIdVariablesGlobales");
         query.setParameter("id", idVariablesGlobales);
         try{
             VariablesGlobales item = (VariablesGlobales) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     
     public static VariablesGlobales crear(String campo, String Valor) throws PosibleDuplicationException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         
         try
@@ -63,7 +68,7 @@ public class DaoVariablesGlobales {
         }
         catch(PersistenceException uy)
         {
-            em.clear();
+            em.close();
             throw new PosibleDuplicationException();
         }
         finally
@@ -72,12 +77,13 @@ public class DaoVariablesGlobales {
             {
                 tx.rollback();
             }
-            em.clear();
+            em.close();
         }
     }
     
     public static VariablesGlobales eliminar(String campo) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -88,7 +94,7 @@ public class DaoVariablesGlobales {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -97,12 +103,13 @@ public class DaoVariablesGlobales {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static VariablesGlobales actualizar(String campo, String valor) throws NoItemFoundException{  
-            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();          
             try
             {
@@ -128,7 +135,7 @@ public class DaoVariablesGlobales {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }
     }
     

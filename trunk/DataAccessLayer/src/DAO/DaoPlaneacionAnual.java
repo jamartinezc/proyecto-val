@@ -10,9 +10,11 @@ import VO.Estudiante;
 import VO.PlaneacionAnual;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -22,36 +24,39 @@ import javax.persistence.Query;
 public class DaoPlaneacionAnual {
 
     public static List<PlaneacionAnual> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("PlaneacionAnual.consultarExamenesPlaneados");
         List<PlaneacionAnual> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static PlaneacionAnual consultarUno(int idExamenP) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("PlaneacionAnual.findByIdPlaneacionAnual");
         query.setParameter("id", idExamenP);
         try{
             PlaneacionAnual item = (PlaneacionAnual) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }
     
     public static PlaneacionAnual crear(int idEstudiante) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
             
                 Estudiante estudiante = em.getReference(Estudiante.class, idEstudiante);            
-                em.clear();
+                em.close();
 
                 PlaneacionAnual nuevo = new PlaneacionAnual();
                 nuevo.setIdEstudiante(estudiante);
@@ -63,7 +68,7 @@ public class DaoPlaneacionAnual {
                 return nuevo;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -72,12 +77,13 @@ public class DaoPlaneacionAnual {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     
     public static PlaneacionAnual eliminar(int idPlaneacionAnual) throws NoItemFoundException{  
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         try
             {
@@ -88,7 +94,7 @@ public class DaoPlaneacionAnual {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.clear();
+                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -97,7 +103,7 @@ public class DaoPlaneacionAnual {
                 {
                     tx.rollback();
                 }
-                em.clear();
+                em.close();
             }
     }
     

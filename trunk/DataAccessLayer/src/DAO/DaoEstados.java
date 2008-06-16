@@ -9,7 +9,9 @@ import Errores.NoItemFoundException;
 import VO.Estados;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -19,24 +21,26 @@ import javax.persistence.Query;
 public class DaoEstados {
 
     public static List<Estados> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Estados.consultarEstados");
         List<Estados> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static Estados consultarUno(int idEstado) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Estados.findByIdEstado");
         query.setParameter("id", idEstado);
         try{
             Estados item = (Estados) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }

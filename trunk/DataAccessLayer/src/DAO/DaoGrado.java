@@ -9,7 +9,9 @@ import Errores.NoItemFoundException;
 import VO.Grado;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -19,24 +21,26 @@ import javax.persistence.Query;
 public class DaoGrado {
 
     public static List<Grado> consultarTodos() {   
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Grado.consultarGrados");
         List<Grado> items = query.getResultList();
-        em.clear();
+        em.close();
         return items;
     }
     
     public static Grado consultarUno(int idExamen) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         Query query = em.createNamedQuery("Grado.findByIdGrado");
         query.setParameter("id", idExamen);
         try{
             Grado item = (Grado) query.getSingleResult();
-            em.clear();
+            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.clear();
+            em.close();
             throw new NoItemFoundException();
         }
     }

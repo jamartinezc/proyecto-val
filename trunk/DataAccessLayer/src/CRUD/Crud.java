@@ -298,7 +298,8 @@ public class Crud {
     //consultar analista por idUsuario
     /** @deprecated Favor usar el DAO DaoAnalista consultarAnalista*/
     public Analista consultarAnalista(int idUsuario) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance(); 
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         
         Usuario usuario = em.find(Usuario.class, idUsuario);
@@ -323,7 +324,7 @@ public class Crud {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }
     }
     
@@ -391,7 +392,7 @@ public class Crud {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }
     }
     
@@ -911,7 +912,8 @@ public class Crud {
     /** @deprecated Favor usar el DAO DaoExamenSolicitado actualizarEstado*/
     public ExamenSolicitado actualizarEstadoDeExamenSolicitado(int idExamenSolicitado, int idEstado) throws NoItemFoundException{
         
-            EntityManager em = DaoEntityManagerFactory.getInstance(); 
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();          
             try
             {
@@ -937,7 +939,7 @@ public class Crud {
                     tx.rollback();
                 }
 
-                em.clear();
+                em.close();
             }
         }
     
@@ -978,9 +980,10 @@ public class Crud {
     //retorna las materias de cierto grado
     /** @deprecated Favor usar el DAO DaoMaterias materiasDeGrado*/
     public Collection materiasDeGrado(int idGrado)throws NoItemFoundException{
-            EntityManager em = DaoEntityManagerFactory.getInstance();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             Grado grado = em.find(Grado.class, idGrado);
-            em.clear();
+            em.close();
             return grado.getMateriaCollection();
         
     }
@@ -988,14 +991,15 @@ public class Crud {
     //retorna el siguiente examen a presentar de cierta materia para cierto usuario
     public Examen getSiguienteExamenDeMateria(int codigoMateria, int idEstudiante)throws UltimoTemaException, NoPresentableException{
         
-            EntityManager em = DaoEntityManagerFactory.getInstance();  
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();  
             Registro registro;
             try{
                 registro = DaoRegistro.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
             }
             catch(NoItemFoundException ey){
                 Materia matiere = em.find(Materia.class, codigoMateria);
-                em.clear();
+                em.close();
                 List<Examen> nuevo= (List<Examen>) matiere.getExamenCollection();
                 return nuevo.get(0);
             }
@@ -1023,7 +1027,7 @@ public class Crud {
                     else{
                         int nuevo = temaActual + 1;
                         Examen siguienteTema = em.find(Examen.class, nuevo);
-                        em.clear();
+                        em.close();
                         return siguienteTema;
                     }
                 }
@@ -1041,11 +1045,12 @@ public class Crud {
     //retorna si es el ultimo tema de una materia
     public boolean ultimoTema(int codigoMateria, int temaActual){
         
-            EntityManager em = DaoEntityManagerFactory.getInstance(); 
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager();
             
             int next = temaActual + 1;
             Examen siguiente = em.find(Examen.class, next);
-            em.clear();
+            em.close();
             if(siguiente.getIdMateria().getIdMateria()==codigoMateria)
             {
                 return false;
@@ -1172,7 +1177,8 @@ public class Crud {
     
     //dado un ID de Estudiante y un ID de Tutor dice si el estudiante pertenece al taller del tutor
     public boolean estudianteDelTallerDeTutor(int idEstudiante, int idTutor){
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
 
         Query query = em.createNamedQuery("Estudiante.consultarSiPerteneceATallerdetutor");
         
@@ -1182,7 +1188,7 @@ public class Crud {
         query.setParameter("idT", tutor);
         
         List<Estudiante> item = query.getResultList();
-        em.clear();
+        em.close();
         if(item.size()>0)
         {
             return true;
@@ -1196,7 +1202,8 @@ public class Crud {
     //Dado un Tutor retorna el Taller de ese tutor
     /** @deprecated Favor usar el DAO DaoTaller consultarTallerDeTutor*/
     public List<Taller> consultarTallerDeTutor(int idTutor) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
 
         Query query = em.createNamedQuery("Taller.consultarTallerDeTutor");
         
@@ -1206,7 +1213,7 @@ public class Crud {
         List<Taller> item;
        
         item = query.getResultList();
-        em.clear();
+        em.close();
         
         if(item.size()>0)
         {
@@ -1221,13 +1228,14 @@ public class Crud {
     //Dado un Tutor retorna el Taller de ese tutor
     /** @deprecated Favor usar el DAO DaoExamenSolicitado examenesSolicitadosPorEstudiantesDeTutor*/
     public List<ExamenSolicitado> examenesSolicitadosPorEstudiantesDeTutor(int idTutor) throws NoItemFoundException{
-        EntityManager em = DaoEntityManagerFactory.getInstance();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+        EntityManager em = emf.createEntityManager();
 
         Query query = em.createQuery("SELECT e FROM ExamenSolicitado e JOIN e.idEstudiante  estudiante JOIN estudiante.idTaller taller JOIN taller.idTutor tutor WHERE tutor.idTutor =:idT");
         query.setParameter("idT", idTutor);
         List<ExamenSolicitado> item = query.getResultList();
        
-        em.clear();
+        em.close();
         
         if(item.size()>0)
         {
