@@ -56,7 +56,7 @@ public class DaoPlaneacionAnual {
             {
             
                 Estudiante estudiante = em.getReference(Estudiante.class, idEstudiante);            
-                em.close();
+                em.clear();
 
                 PlaneacionAnual nuevo = new PlaneacionAnual();
                 nuevo.setIdEstudiante(estudiante);

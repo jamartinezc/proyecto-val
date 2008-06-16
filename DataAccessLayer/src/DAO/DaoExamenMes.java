@@ -107,6 +107,7 @@ public class DaoExamenMes {
                 return nuevo;
             }
             catch(NonUniqueResultException error){
+                    em.clear();
                     throw new PosibleDuplicationException();
                 }
             catch(EntityNotFoundException noResult){

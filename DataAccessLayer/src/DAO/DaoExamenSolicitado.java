@@ -31,7 +31,7 @@ public class DaoExamenSolicitado {
     public static List<ExamenSolicitado> consultarTodos() {   
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
         EntityManager em = emf.createEntityManager();
-        em.close();
+
         Query query = em.createNamedQuery("ExamenSolicitado.consultarExamenesSolicitados");
         List<ExamenSolicitado> items = query.getResultList();
         em.close();
@@ -129,6 +129,7 @@ public class DaoExamenSolicitado {
            return nuevo;
         }
         catch(EntityNotFoundException noResult){
+            em.close();
            throw new NoItemFoundException();
         }
         finally

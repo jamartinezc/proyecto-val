@@ -107,6 +107,7 @@ public class DaoAnalista {
                 return nuevo;
             }
             catch(NonUniqueResultException error){
+                    em.close();
                     throw new PosibleDuplicationException();
                 }
             catch(EntityNotFoundException noResult){
