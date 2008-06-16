@@ -114,7 +114,7 @@
                                                 </table>
                                                 <p style="text-align:center">
                                                     <input type="submit" value="Enviar cambios" />
-                                                    <input type="button" value="Deshacer cambios" onclick="" />
+                                                    <input type="button" value="Deshacer cambios" onclick="history.go(-1);" />
                                                 </p>
                                               <!--VOY ACÁ-->
                                               </form>
