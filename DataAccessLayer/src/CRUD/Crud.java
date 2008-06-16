@@ -6,6 +6,8 @@
 package CRUD;
 
 import DAO.DaoEntityManagerFactory;
+import DAO.DaoExamen;
+import DAO.DaoRegistro;
 import DAO.DaoUsuario;
 import Errores.NoItemFoundException;
 import Errores.NoPresentableException;
@@ -989,7 +991,7 @@ public class Crud {
             EntityManager em = DaoEntityManagerFactory.getInstance();  
             Registro registro;
             try{
-                registro = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
+                registro = DaoRegistro.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
             }
             catch(NoItemFoundException ey){
                 Materia matiere = em.find(Materia.class, codigoMateria);
@@ -998,15 +1000,19 @@ public class Crud {
                 return nuevo.get(0);
             }
             
-                registro = this.consultarRegistroEstudianteMateria(idEstudiante, codigoMateria);
                 List<ExamenSolicitado> examenes = (List<ExamenSolicitado>) registro.getExamenSolicitadoCollection();
 
                 int tamaño = examenes.size();
 
-                if(tamaño<=0) throw new NoItemFoundException();
-                
-                tamaño--;
+                if(tamaño<0) throw new NoItemFoundException();
 
+                
+                if(tamaño==0) {
+                    List<Examen> exam = DaoExamen.consultarExamenesMateria(codigoMateria);
+                    return exam.get(0);
+                }
+                tamaño--;
+                
                 int etat = examenes.get(tamaño).getIdEstado().getIdEstado();
 
                 Examen actual = examenes.get(tamaño).getIdExamen();
