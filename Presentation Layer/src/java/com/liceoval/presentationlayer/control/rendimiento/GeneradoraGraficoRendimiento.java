@@ -26,6 +26,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Vector;
 
 /** Produce el Dataset para la gráfica de rendimiento.
  *
@@ -43,21 +44,23 @@ public class GeneradoraGraficoRendimiento implements DatasetProducer
     {
         Iterator<MateriaPlaneada> materiasPlaneadasIterator;
         Iterator<ExamenSolicitado> examenesSolicitadosIterator;
+        Iterator<int[]> planeadosMesIterator;
         Iterator<Registro> registrosIterator;
         ExamenSolicitado examenSolicitado;
         PlaneacionAnual planeacionAnual;
         MateriaPlaneada materiaPlaneada;
         XYDataItem currentDataItem;
+        Vector<int[]> planeadosMes;
         Date fechaInicioGrado;
         Estudiante estudiante;
         Calendar calInicial;
         Calendar calExamen;
         Registro registro;
-        Map planeadosMes;
         int idEstudiante;
         int[] planeados;
         int[] ganados;
         Integer month;
+        int[] planned;
         int mes;
         int i;
         
@@ -108,10 +111,10 @@ public class GeneradoraGraficoRendimiento implements DatasetProducer
                       mes++;
                     }
                     
-                    if(mes > 15)
-                        throw new DatasetProduceException("Este estudiante ha tardado demasiado tiempo en completar el grado. Ha superado los 16 meses.");
-                    
-                    ganados[mes]++;
+                    if(mes < 15)
+                    {
+                        ganados[mes]++;
+                    }
                 }
             }
         }
@@ -128,12 +131,13 @@ public class GeneradoraGraficoRendimiento implements DatasetProducer
         {
             materiaPlaneada = materiasPlaneadasIterator.next();
             planeadosMes = materiaPlaneada.getPlaneadosMes();
-            for(i = 0; i < 16; i++)
+            planeadosMesIterator = planeadosMes.iterator();
+            while(planeadosMesIterator.hasNext())
             {
-                month = new Integer(i);
-                if(planeadosMes.containsKey(month))
+                planned = planeadosMesIterator.next();
+                if(planned[0] < 16 && planned[0] >= 0)
                 {
-                    planeados[i]++;
+                    planeados[planned[0]] = planned[1];
                 }
             }
         }
@@ -142,17 +146,22 @@ public class GeneradoraGraficoRendimiento implements DatasetProducer
         seriePlaneados = new XYSeries("Planeados", true, false);
         serieGanados = new XYSeries("Ganados", true, false);
         
+        currentDataItem = new XYDataItem(0, 0);
+        seriePlaneados.add(currentDataItem);
+        serieGanados.add(currentDataItem);
+        
         for(i = 0; i < ganados.length; i++)
         {
-            currentDataItem = new XYDataItem(i, ganados[i]);
+            currentDataItem = new XYDataItem(i+1, ganados[i]);
             serieGanados.add(currentDataItem);
             
-            currentDataItem = new XYDataItem(i, planeados[i]);
+            currentDataItem = new XYDataItem(i+1, planeados[i]);
             seriePlaneados.add(currentDataItem);
         }
 
         // dataset.addSeries(seriePlaneados);
         dataset.addSeries(serieGanados);
+        dataset.addSeries(seriePlaneados);
         
         return dataset;
     }
