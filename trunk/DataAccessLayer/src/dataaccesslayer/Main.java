@@ -64,7 +64,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoItemFoundException, PosibleDuplicationException, UltimoTemaException, NoPresentableException{
         
         //ProbarDaoAnalista(); //F
         //ProbarDaoEstados(); //F
@@ -87,8 +87,24 @@ public class Main {
         //ProbarDaoUsuario(); //F
         //ProbarDaoVariablesGlobales(); //F
         //ProbarCrud();
+        //raro();
     }
     
+    public static void raro() throws NoItemFoundException, PosibleDuplicationException, UltimoTemaException, NoPresentableException{
+        Crud crud = new Crud();
+        int idEstudiante = 311;
+        int idMateria = 1;
+        VO.Examen examen = crud.getSiguienteExamenDeMateria(idMateria ,idEstudiante);//+++
+        int idExamen = examen.getIdExamen();
+
+        VO.Registro registro = crud.crearRegistro(idEstudiante, idMateria);
+        VO.Analista analista = crud.analistaDeMateria(idMateria);
+        crud.crearExamenSolicitado(new Date(), analista.getIdAnalista().intValue(), registro.getIdRegistro().intValue(),idExamen);
+
+        examen = crud.getSiguienteExamenDeMateria(idMateria ,idEstudiante);//***
+        System.out.println(examen.getIdExamen());
+
+    }
     /*
     * Pruebas Crud
     */

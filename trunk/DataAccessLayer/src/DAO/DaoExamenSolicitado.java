@@ -177,12 +177,15 @@ public class DaoExamenSolicitado {
             EntityManager em = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction(); 
             
+            
+            Estados estado = em.find(Estados.class, 4);
                 try
                 {
                     tx.begin();
-                    Query q = em.createQuery("select p from ExamenSolicitado p where p.fecha > :d AND p.fecha < :h AND p.idEstado = 4");
+                    Query q = em.createQuery("select p from ExamenSolicitado p where p.fecha > :d AND p.fecha < :h AND p.idEstado = :e");
                     q.setParameter("d", desde);
                     q.setParameter("h", hasta);
+                    q.setParameter("e", estado);
                     List<ExamenSolicitado> lista = q.getResultList();
                     tx.commit();
                     if(lista.size()>0){
