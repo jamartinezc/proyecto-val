@@ -97,7 +97,7 @@
                                     <%int idGrado = ((Estudiante)currentUser).getGrado().getIdGrado();
                                     List<Materia> materias;
                                     try {
-                                        materias = com.liceoval.businesslayer.control.rcp.RCPRegistros.getMateriasDeRegistrsoActivos(((Estudiante)currentUser).getCodigo());
+                                        materias = com.liceoval.businesslayer.control.rcp.RCPRegistros.getMateriasDeRegistrosActivos(((Estudiante)currentUser).getCodigo());
                                     } catch (EstudianteNoEncontradoException ex) {
                                         System.out.println(ex.getMessage());
                                         materias=new LinkedList<Materia>();
@@ -105,7 +105,6 @@
                                         System.out.println(ex.getMessage());
                                         materias=new LinkedList<Materia>();
                                     }
-                                    // TODO obtener solo activos
                                     int i=0;
                                     while(i<materias.size()){%>
                                         <option value ="<%=materias.get(i).getCodigo()%>"><%=materias.get(i).getCodigo()+" : "+materias.get(i).getNombre()%></option>

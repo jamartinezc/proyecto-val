@@ -97,14 +97,7 @@
                                     <br>
                                     <p>Verifique que no tiene Nota Pendiente, Nota Examinadero o un examen pendiente por presentar.</p><br>
                                 </ul>
-                                    <%
-                                }catch(NoItemFoundException e){%>
-                                <ul>
-                                    <b>¡No puede presentar exámenes de esta materia!</b><br>
-                                    <br>
-                                    <p>Su registro de esta materia existe, sin embargo no contiene ningún examen, por favor contacte al administrador.</p><br>
-                                </ul>
-                                    <%}%>
+                                <%}%>
                                 <input type="button" value="Cancelar" onclick="history.go(-1);" /></p>
                                 </form>
                             </td>
