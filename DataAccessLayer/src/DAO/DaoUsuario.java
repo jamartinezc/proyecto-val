@@ -79,6 +79,37 @@ public class DaoUsuario {
             }
     }
     
+    public static List<Usuario> consultarUsuarioPorLogin(String usuario) throws NoItemFoundException{
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
+            EntityManager em = emf.createEntityManager(); 
+            EntityTransaction tx = em.getTransaction();           
+            
+            try
+            {
+                tx.begin();
+
+                Query q = em.createNamedQuery("Usuario.findByLogin");
+                q.setParameter("login", usuario);
+                List<Usuario> lista = q.getResultList();
+                tx.commit();
+                if(lista.size()>0){
+                    return lista;
+                }
+                else{
+                    throw new NoItemFoundException();
+                }
+            }
+            finally
+            {
+                if (tx.isActive())
+                {
+                    tx.rollback();
+                }
+
+                em.close();
+            }
+    }
+    
     public static boolean loginExiste(String log)
     {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
