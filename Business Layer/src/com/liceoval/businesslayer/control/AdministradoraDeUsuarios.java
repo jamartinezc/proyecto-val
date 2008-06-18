@@ -1,14 +1,27 @@
 package com.liceoval.businesslayer.control;
 
+import com.liceoval.businesslayer.control.exceptions.CodigoDeEstudianteYaExisteException;
+import com.liceoval.businesslayer.control.exceptions.DatosDeEstudianteInvalidosException;
+import com.liceoval.businesslayer.control.exceptions.LoginYaExisteException;
 import com.liceoval.businesslayer.control.exceptions.NoSeEncuentraElUsuarioException;
+import com.liceoval.businesslayer.control.exceptions.PadreYaExisteException;
+import com.liceoval.businesslayer.control.exceptions.PeticionEjecutadaParcialmenteException;
+import com.liceoval.businesslayer.control.exceptions.RegistroDuplicadoInesperadoException;
+
 import com.liceoval.businesslayer.entities.entitytranslator.EntityTranslator;
+import com.liceoval.businesslayer.entities.Estudiante;
+import com.liceoval.businesslayer.entities.Padre;
 import com.liceoval.businesslayer.entities.Usuario;
 import com.liceoval.businesslayer.entities.wrappers.UsuarioWrapper;
-import java.util.List;
 
 import CRUD.Crud;
 import Errores.*;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -45,32 +58,425 @@ public class AdministradoraDeUsuarios {
         return listaUsuarios;
     }
     
-    /**
+    /** Crea un usuario.
      * 
-     * @param nombres String con los nombres del usuario
-     * @param apellidos String con los apellidos del usuario
-     * @param login String con el login de usuario
-     * @param clave String con la password del usuario
-     * @return true
-     * @throws java.lang.Exception
+     *  @param usuarioWrapper Un UsuarioWrapper que contiene la información del usuario
+     *      y la información de los roles que este desempeña en la aplicación.
+     *  @throws java.lang.NullPointerException Si alguno de los campos llega en
+     *      <code>Null</code>
+     *  @throws com.liceoval.businesslayer.control.exceptions.LoginYaExisteException
+     *      Si el Login del usuario ya existe en la base de datos.
+     *  @throws com.liceoval.businesslayer.control.exceptions.PeticionEjecutadaParcialmenteException
+     *      Si la ejecución de la petición se detiene a la mitad debido a que no
+     *      se puede crear un registro para en una de las tablas Analista, Tutor
+     *      Estudiante o SecretariaAcademica.
+     *  @throws com.liceoval.businesslayer.control.exceptions.PadreYaExisteException
+     *      Si se intenta registrar un padre que ya existe en la base de datos.
+     *  @throws com.liceoval.businesslayer.control.exceptions.CodigoDeEstudianteYaExisteException
+     *      Si se intenta registrar un estudiante con un código que ya existe.
      */
-    public static boolean crearUsuario(String nombres, String apellidos, String login, String clave) throws PosibleDuplicationException, NoItemFoundException{
-        Crud driverDB;
-        driverDB = new Crud();
+    
+    public static void crearUsuario(UsuarioWrapper usuarioWrapper) throws NullPointerException, LoginYaExisteException, PeticionEjecutadaParcialmenteException, PadreYaExisteException, CodigoDeEstudianteYaExisteException
+    {
+        List<VO.Usuario> usuarios;
+        VO.Usuario nuevoUsuario;
+        Estudiante estudiante;
+        Usuario usuario;
         
-        if(nombres!=null && apellidos!=null && login!=null && clave!=null){
-            VO.Usuario usuarioCreado = driverDB.crearUsuario(nombres, apellidos, login, clave);
-            if(usuarioCreado != null){
-                return true;
-            }
-            else{
-                return false;
+        String apellidos;
+        String nombres;
+        String login;
+        String clave;
+        int userId;
+        
+        int grado;
+        int codigo;
+        int taller;
+        int ccPadre;
+        String correo;
+        String nombresPadre;
+        String apellidosPadre;
+        
+        Padre padre;
+        List<Padre> padres;
+        Date fechaInicioGrado;
+        Calendar fechaInicioGradoCal;
+        
+        if(usuarioWrapper == null || usuarioWrapper.getUsuario() == null)
+            throw new NullPointerException();
+        
+        usuario = usuarioWrapper.getUsuario();
+        
+        clave = new String(usuario.getPassword());
+        
+        apellidos = usuario.getApellidos();
+        nombres = usuario.getNombres();
+        login = usuario.getLogin();
+        
+        if(apellidos == null || nombres == null || clave == null || login == null)
+            throw new NullPointerException();
+        
+        try
+        {
+            nuevoUsuario = DAO.DaoUsuario.crear(nombres, apellidos, login, clave);
+            if(nuevoUsuario != null)
+            {
+                try
+                {
+                    // El usuario ha sido creado, momento de recuperar el Id del usuario.
+                    usuarios = DAO.DaoUsuario.consultarUsuarioPorLogin(login);
+                    nuevoUsuario = usuarios.get(0);
+                    
+                    // Recuperar la ID del usuario.
+                    userId = nuevoUsuario.getIdUsuario();
+                    
+                    // Crear los privilegios de acceso para el usuario.
+                    if(usuarioWrapper.isAnalista())
+                        DAO.DaoAnalista.crear(userId);
+                    
+                    if(usuarioWrapper.isSecretariaAcademica())
+                        DAO.DaoSecretariaAcademica.crear(userId);
+                    
+                    if(usuarioWrapper.isTutor())
+                        DAO.DaoTutor.crear(userId);
+                    
+                    if(usuarioWrapper.isEstudiante())
+                    {
+                        estudiante = (Estudiante)usuario;
+                        
+                        padres = estudiante.getPadres();
+                        if(padres == null)
+                            throw new NullPointerException();
+                        
+                        if(padres.size() < 1)
+                            throw new DatosDeEstudianteInvalidosException();
+                        
+                        padre = padres.get(0);
+                        if(padre == null) throw new NullPointerException();
+                        
+                        grado = estudiante.getGrado().getIdGrado();
+                        codigo = estudiante.getCodigo();
+                        taller = estudiante.getTaller().getIdTaller();
+                        ccPadre = padre.getIdPadre();
+                        
+                        if(grado < 1 || codigo < 1 || taller < 1 || ccPadre < 1)
+                            throw new DatosDeEstudianteInvalidosException();
+                        
+                        correo = padre.getCorreo();
+                        nombresPadre = padre.getNombres();
+                        apellidosPadre = padre.getApellidos();
+                        
+                        if(correo == null || nombresPadre == null || apellidosPadre == null)
+                            throw new NullPointerException();
+                        
+                        fechaInicioGrado = estudiante.getFechaInicioGrado();
+                        if(fechaInicioGrado == null)
+                            throw new NullPointerException();
+                        
+                        fechaInicioGradoCal = Calendar.getInstance();
+                        fechaInicioGradoCal.setTime(fechaInicioGrado);
+                        
+                        try
+                        {
+                            // Crear el estudiante.
+                            DAO.DaoEstudiante.crear(codigo, grado, taller, fechaInicioGradoCal, nuevoUsuario.getIdUsuario());
+                            
+                            try
+                            {
+                                // Crear el Padre del Estudiante
+                                DAO.DaoPadre.crear(nombresPadre, apellidosPadre, correo, codigo);
+                            }
+                            catch(PosibleDuplicationException pdEx)
+                            {
+                                throw new PadreYaExisteException("Un padre con ese número " +
+                                    "de identificación ya se encuentra registrado en la " +
+                                    "base de datos", pdEx);
+                            }
+                        }
+                        catch(PosibleDuplicationException pdEx)
+                        {
+                            throw new CodigoDeEstudianteYaExisteException("Ya existe un " +
+                                "estudiante registrado con ese código en la base de datos");
+                        }
+                    }
+                    
+                }
+                catch(NoItemFoundException nifEx)
+                {
+                    throw new PeticionEjecutadaParcialmenteException("El usuario fue creado, sin" +
+                        " embargo, no se pudieron establecer todos los permisos de acceso para" +
+                        " el mismo.", nifEx);
+                }
+                catch(NullPointerException npEx)
+                {
+                    throw new PeticionEjecutadaParcialmenteException("El usuario fue creado, sin" +
+                        " embargo, no se pudieron establecer todos los permisos de acceso para" +
+                        " el mismo.", npEx);
+                }
+                catch(DatosDeEstudianteInvalidosException deiEx)
+                {
+                    throw new PeticionEjecutadaParcialmenteException("El usuario fue creado, sin" +
+                        " embargo, no se pudieron establecer todos los permisos de acceso para" +
+                        " el mismo.", deiEx);
+                }
             }
         }
-        else{
-            return false;
+        catch(PosibleDuplicationException pdEx)
+        {
+            throw new LoginYaExisteException("El login ya está en uso", pdEx);
         }
+    }
         
+    public static void modificarUsuario(UsuarioWrapper usuarioWrapper) throws NullPointerException, NoSeEncuentraElUsuarioException, RegistroDuplicadoInesperadoException, PeticionEjecutadaParcialmenteException, PadreYaExisteException, CodigoDeEstudianteYaExisteException
+    {
+        VO.Usuario usuarioAActualizar;
+        Estudiante estudiante;
+        Usuario usuario;
+        
+        String apellidos;
+        String nombres;
+        String login;
+        String clave;
+        int userId;
+        
+        int grado;
+        int codigo;
+        int taller;
+        int ccPadre;
+        String correo;
+        String nombresPadre;
+        String apellidosPadre;
+        
+        Padre padre;
+        List<Padre> padres;
+        Date fechaInicioGrado;
+        Calendar fechaInicioGradoCal;
+        
+        Iterator<VO.Padre> padresIterator;
+        Iterator<VO.Tutor> tutoresIterator;
+        Iterator<VO.Analista> analistasIterator;
+        Iterator<VO.SecretariaAcademica> secretariasAcademicasIterator;
+        VO.SecretariaAcademica secretariaAcademica;
+        VO.Estudiante estudianteAActualizar;
+        VO.Estudiante estudianteAEliminar;
+        VO.Padre padreAActualizar;
+        VO.Analista analista;
+        VO.Tutor tutor;
+        
+        if(usuarioWrapper == null || usuarioWrapper.getUsuario() == null)
+            throw new NullPointerException();
+        
+        usuario = usuarioWrapper.getUsuario();
+        
+        clave = new String(usuario.getPassword());
+        apellidos = usuario.getApellidos();
+        nombres = usuario.getNombres();
+        login = usuario.getLogin();
+        userId = usuario.getIdUsuario();
+        
+        if(apellidos == null || nombres == null || clave == null || login == null)
+            throw new NullPointerException();
+        
+        try
+        {
+            DAO.DaoUsuario.actualizar(userId, nombres, apellidos, login, clave);
+            usuarioAActualizar = DAO.DaoUsuario.consultarUno(userId);
+            
+            if(usuarioAActualizar != null)
+            {
+                try
+                {
+                    // Crear los privilegios de acceso para el usuario.
+                    if(usuarioWrapper.isAnalista())
+                    {
+                        if(usuarioAActualizar.getAnalistaCollection() == null || usuarioAActualizar.getAnalistaCollection().size() == 0)
+                            DAO.DaoAnalista.crear(userId);
+                    }
+                    else
+                    {
+                        if(usuarioAActualizar.getAnalistaCollection() != null && usuarioAActualizar.getAnalistaCollection().size() > 0)
+                        {
+                            analistasIterator = usuarioAActualizar.getAnalistaCollection().iterator();
+                            while(analistasIterator.hasNext())
+                            {
+                                analista = analistasIterator.next();
+                                DAO.DaoAnalista.eliminar(analista.getIdAnalista().intValue());
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if(usuarioWrapper.isSecretariaAcademica())
+                    {
+                        if(usuarioAActualizar.getSecretariaAcademicaCollection() == null || usuarioAActualizar.getSecretariaAcademicaCollection().size() == 0)
+                            DAO.DaoSecretariaAcademica.crear(userId);                        
+                    }
+                    else
+                    {
+                        if(usuarioAActualizar.getSecretariaAcademicaCollection() != null && usuarioAActualizar.getSecretariaAcademicaCollection().size() > 0)
+                        {
+                            secretariasAcademicasIterator = usuarioAActualizar.getSecretariaAcademicaCollection().iterator();
+                            while(secretariasAcademicasIterator.hasNext())
+                            {
+                                secretariaAcademica = secretariasAcademicasIterator.next();
+                                DAO.DaoSecretariaAcademica.eliminar(secretariaAcademica.getIdSecretariaAcademica().intValue());
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if(usuarioWrapper.isTutor())
+                    {
+                        if(usuarioAActualizar.getTutorCollection() == null || usuarioAActualizar.getTutorCollection().size() == 0)
+                            DAO.DaoTutor.crear(userId);
+                    }
+                    else
+                    {
+                        if(usuarioAActualizar.getTutorCollection() != null && usuarioAActualizar.getTutorCollection().size() > 0)
+                        {
+                            tutoresIterator = usuarioAActualizar.getTutorCollection().iterator();
+                            while(tutoresIterator.hasNext())
+                            {
+                                tutor = tutoresIterator.next();
+                                DAO.DaoTutor.eliminar(tutor.getIdTutor().intValue());
+                                break;
+                            }
+                        }
+                    }
+                                        
+                    if(usuarioWrapper.isEstudiante())
+                    {
+                        estudiante = (Estudiante)usuario;
+                        
+                        padres = estudiante.getPadres();
+                        if(padres == null)
+                            throw new NullPointerException();
+                        
+                        if(padres.size() < 1)
+                            throw new DatosDeEstudianteInvalidosException();
+                        
+                        padre = padres.get(0);
+                        if(padre == null) throw new NullPointerException();
+                        
+                        grado = estudiante.getGrado().getIdGrado();
+                        codigo = estudiante.getCodigo();
+                        taller = estudiante.getTaller().getIdTaller();
+                        ccPadre = padre.getIdPadre();
+                        
+                        if(grado < 1 || codigo < 1 || taller < 1 || ccPadre < 1)
+                            throw new DatosDeEstudianteInvalidosException();
+                        
+                        correo = padre.getCorreo();
+                        nombresPadre = padre.getNombres();
+                        apellidosPadre = padre.getApellidos();
+                        
+                        if(correo == null || nombresPadre == null || apellidosPadre == null)
+                            throw new NullPointerException();
+                        
+                        fechaInicioGrado = estudiante.getFechaInicioGrado();
+                        if(fechaInicioGrado == null)
+                            throw new NullPointerException();
+                        
+                        fechaInicioGradoCal = Calendar.getInstance();
+                        fechaInicioGradoCal.setTime(fechaInicioGrado);
+                        
+                        try
+                        {
+                            estudianteAActualizar = usuarioAActualizar.getEstudiante();
+                            if(estudianteAActualizar == null)
+                            {
+                                System.out.println("Codigo:" + codigo);
+                                System.out.println("Taller:" + taller);
+                                System.out.println("Usuario:" + userId);
+                                
+                                // Crear el estudiante.
+                                DAO.DaoEstudiante.crear(codigo, grado, taller, fechaInicioGradoCal, userId);
+                                
+                                // Recuperar el estudiante recien creado
+                                estudianteAActualizar = DAO.DaoEstudiante.consultarUno(codigo);
+                            }
+                            else
+                            {
+                                // Actualiza el estudiante
+                                // TODO: Agregar el código para actualizar el estudiante.
+                            }
+                            
+                            try
+                            {
+                                if(estudianteAActualizar.getPadreCollection() == null || estudianteAActualizar.getPadreCollection().size() == 0)
+                                {
+                                    // Crear el Padre del Estudiante
+                                    DAO.DaoPadre.crear(nombresPadre, apellidosPadre, correo, codigo);
+                                }    
+                                else
+                                {
+                                    padresIterator = estudianteAActualizar.getPadreCollection().iterator();
+                                    padreAActualizar = null;
+                                    
+                                    while(padresIterator.hasNext())
+                                    {
+                                        padreAActualizar = padresIterator.next();
+                                        break;
+                                    }
+                                    
+                                    if(padreAActualizar != null)
+                                    {
+                                        // Actualizar el padre del estudiante
+                                        // TODO: Agregar el código para actualizar el padre.
+                                    }
+                                }
+                            }
+                            catch(PosibleDuplicationException pdEx)
+                            {
+                                throw new PadreYaExisteException("Un padre con ese número " +
+                                    "de identificación ya se encuentra registrado en la " +
+                                    "base de datos", pdEx);
+                            }
+                        }
+                        catch(PosibleDuplicationException pdEx)
+                        {
+                            throw new CodigoDeEstudianteYaExisteException("Ya existe un " +
+                                "estudiante registrado con ese código en la base de datos");
+                        }
+                    }
+                    else
+                    {
+                        estudianteAEliminar = usuarioAActualizar.getEstudiante();
+                        if(estudianteAEliminar != null)
+                        {
+                            DAO.DaoEstudiante.eliminar(estudianteAEliminar.getIdEstudiante().intValue());
+                        }
+                    }
+                    
+                }
+                catch(NoItemFoundException nifEx)
+                {
+                    throw new PeticionEjecutadaParcialmenteException("El usuario fue actualizado, sin" +
+                        " embargo, no se pudieron establecer todos los permisos de acceso para" +
+                        " el mismo.", nifEx);
+                }
+                catch(NullPointerException npEx)
+                {
+                    throw new PeticionEjecutadaParcialmenteException("El usuario fue actualizado, sin" +
+                        " embargo, no se pudieron establecer todos los permisos de acceso para" +
+                        " el mismo.", npEx);
+                }
+                catch(DatosDeEstudianteInvalidosException deiEx)
+                {
+                    throw new PeticionEjecutadaParcialmenteException("El usuario fue actualizado, sin" +
+                        " embargo, no se pudieron establecer todos los permisos de acceso para" +
+                        " el mismo.", deiEx);
+                }
+            }
+        }
+        catch(NoItemFoundException nifEx)
+        {
+            throw new NoSeEncuentraElUsuarioException("No se puede localizar el registro del usuario en la base de datos.", nifEx);
+        }
+        catch(PosibleDuplicationException pdEx)
+        {
+            throw new RegistroDuplicadoInesperadoException();
+        }
     }
     
     /**
@@ -80,7 +486,7 @@ public class AdministradoraDeUsuarios {
      * @return <p>true si se modificó satisfacroriamente </p>
      * <p>false si hubo un error y no se pudo modificar
      * @throws java.lang.Exception si el usuario no existe.
-     */
+     
     public static boolean modificarUsuario(Usuario usuario) throws NoItemFoundException{
         
         if(usuario != null){
@@ -103,7 +509,7 @@ public class AdministradoraDeUsuarios {
             return false;
         }
         
-    }
+    } */
     
     /** Elimina el usuario específicado de la base de datos.
      * 
@@ -226,6 +632,6 @@ public class AdministradoraDeUsuarios {
         usuario.setLogin("Testing");
         usuario.setPassword(q.toCharArray());
         boolean expResult = true;
-        boolean result = AdministradoraDeUsuarios.modificarUsuario(usuario);
+        // boolean result = AdministradoraDeUsuarios.modificarUsuario(usuario);
     }
 }
