@@ -39,12 +39,14 @@ public class DaoPlaneacionSemanal {
         query.setParameter("id", idPlaneacionSemanal);
         try{
             PlaneacionSemanal item =  (PlaneacionSemanal) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -69,7 +71,6 @@ public class DaoPlaneacionSemanal {
                 return nuevo;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -95,7 +96,6 @@ public class DaoPlaneacionSemanal {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally

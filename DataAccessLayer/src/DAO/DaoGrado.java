@@ -36,12 +36,14 @@ public class DaoGrado {
         query.setParameter("id", idExamen);
         try{
             Grado item = (Grado) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     

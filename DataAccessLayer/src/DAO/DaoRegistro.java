@@ -42,12 +42,14 @@ public class DaoRegistro {
         query.setParameter("idRegistro", idRegistro);
         try{
             Registro item = (Registro) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -64,7 +66,6 @@ public class DaoRegistro {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -113,11 +114,9 @@ public class DaoRegistro {
                 
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             catch(NoResultException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -193,6 +192,7 @@ public class DaoRegistro {
                 }
             }
             else{
+                em.close();
                 throw new NoItemFoundException();
             }
     }

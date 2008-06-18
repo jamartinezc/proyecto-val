@@ -39,12 +39,14 @@ public class DaoExcelenciaTaller {
         query.setParameter("id", idExcelenciaTaller);
         try{
             ExcelenciaTaller item = (ExcelenciaTaller) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -71,7 +73,6 @@ public class DaoExcelenciaTaller {
                 return nuevo;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -97,7 +98,6 @@ public class DaoExcelenciaTaller {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -120,7 +120,6 @@ public class DaoExcelenciaTaller {
                 tx.begin();
                     query.executeUpdate();
                 tx.commit();
-                em.close();
             }
             finally
             {

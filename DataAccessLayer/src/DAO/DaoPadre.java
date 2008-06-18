@@ -40,12 +40,14 @@ public class DaoPadre {
         query.setParameter("idPadre", idPadre);
         try{
             Padre item = (Padre) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     public static Padre crear(String nombres, String apellidos, String correo, int idEstudiante) throws NoItemFoundException, PosibleDuplicationException{  
@@ -78,11 +80,9 @@ public class DaoPadre {
                 return nuevo;
             }
             catch(PosibleDuplicationException uy ){
-                em.close();
                 throw new PosibleDuplicationException();
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -108,7 +108,6 @@ public class DaoPadre {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally

@@ -36,12 +36,14 @@ public class DaoEstados {
         query.setParameter("id", idEstado);
         try{
             Estados item = (Estados) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     

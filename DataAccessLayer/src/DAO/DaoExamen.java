@@ -37,12 +37,14 @@ public class DaoExamen {
         query.setParameter("id", idExamen);
         try{
             Examen item = (Examen) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     

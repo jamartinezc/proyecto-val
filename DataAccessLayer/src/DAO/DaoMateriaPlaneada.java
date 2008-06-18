@@ -42,12 +42,14 @@ public class DaoMateriaPlaneada {
         query.setParameter("id", idMateriaPlaneada);
         try{
             MateriaPlaneada item = (MateriaPlaneada) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -64,7 +66,6 @@ public class DaoMateriaPlaneada {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -105,15 +106,12 @@ public class DaoMateriaPlaneada {
                 return nuevo;
             }
             catch(NonUniqueResultException error){
-                em.close();
                     throw new PosibleDuplicationException();
                 }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             catch(NoResultException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally

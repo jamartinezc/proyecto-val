@@ -39,12 +39,14 @@ public class DaoMateria {
         query.setParameter("id", idMateria);
         try{
             Materia item = (Materia) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     

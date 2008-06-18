@@ -37,12 +37,14 @@ public class DaoTaller {
         query.setParameter("id", idTaller);
         try{
             Taller item = (Taller) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
         

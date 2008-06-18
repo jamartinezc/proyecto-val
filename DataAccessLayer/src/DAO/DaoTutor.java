@@ -41,12 +41,14 @@ public class DaoTutor {
         query.setParameter("id", idTutor);
         try{
             Tutor item = (Tutor) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -63,7 +65,6 @@ public class DaoTutor {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -101,15 +102,12 @@ public class DaoTutor {
                 return nuevo;
             }
             catch(NonUniqueResultException error){
-                em.close();
                     throw new PosibleDuplicationException();
                 }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             catch(NoResultException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally

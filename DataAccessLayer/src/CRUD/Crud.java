@@ -657,6 +657,7 @@ public class Crud {
                 }
             }
             else{
+                em.close();
                 throw new PosibleDuplicationException();
             }
             
@@ -801,12 +802,14 @@ public class Crud {
                        
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataAccessLayerPU");
             EntityManager em = emf.createEntityManager();
+            EntityManager pm = emf.createEntityManager();
             EntityTransaction tx = em.getTransaction();
             
-            Analista analista = em.find(Analista.class, idAnalista);
-            Registro registro = em.find(Registro.class, idRegistro);
-            Examen examen = em.find(Examen.class, idExamen);
-            Estados estado = em.find(Estados.class, 3);
+            Analista analista = pm.find(Analista.class, idAnalista);
+            Registro registro = pm.find(Registro.class, idRegistro);
+            Examen examen = pm.find(Examen.class, idExamen);
+            Estados estado = pm.find(Estados.class, 3);
+            pm.close();
             
             try{
                 List<ExamenSolicitado> repetido = this.consultarExamenSolicitadoEspecífico(idAnalista, idRegistro, idExamen);
@@ -1022,6 +1025,7 @@ public class Crud {
                 if(etat==1)
                 {
                     if(ultimoTema(codigoMateria, temaActual)){
+                        em.close();
                         throw new UltimoTemaException();
                     }
                     else{
@@ -1035,8 +1039,10 @@ public class Crud {
                     switch(etat)
                     {
                         case 2:
+                            em.close();
                             return actual;
                         default:
+                            em.close();
                             throw new NoPresentableException();
                     }
                 }         

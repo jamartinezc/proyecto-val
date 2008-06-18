@@ -39,12 +39,14 @@ public class DaoPlaneacionAnual {
         query.setParameter("id", idExamenP);
         try{
             PlaneacionAnual item = (PlaneacionAnual) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -68,7 +70,6 @@ public class DaoPlaneacionAnual {
                 return nuevo;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -94,7 +95,6 @@ public class DaoPlaneacionAnual {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
