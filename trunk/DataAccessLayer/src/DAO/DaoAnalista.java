@@ -45,12 +45,14 @@ public class DaoAnalista {
         query.setParameter("id", idAnalista);
         try{
             Analista item = (Analista) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -68,7 +70,6 @@ public class DaoAnalista {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -107,15 +108,12 @@ public class DaoAnalista {
                 return nuevo;
             }
             catch(NonUniqueResultException error){
-                    em.close();
-                    throw new PosibleDuplicationException();
-                }
+                throw new PosibleDuplicationException();
+            }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             catch(NoResultException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally

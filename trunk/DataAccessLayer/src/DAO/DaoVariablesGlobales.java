@@ -40,12 +40,14 @@ public class DaoVariablesGlobales {
         query.setParameter("id", idVariablesGlobales);
         try{
             VariablesGlobales item = (VariablesGlobales) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -68,7 +70,6 @@ public class DaoVariablesGlobales {
         }
         catch(PersistenceException uy)
         {
-            em.close();
             throw new PosibleDuplicationException();
         }
         finally
@@ -94,7 +95,6 @@ public class DaoVariablesGlobales {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally

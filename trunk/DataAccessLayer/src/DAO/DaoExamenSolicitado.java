@@ -45,12 +45,14 @@ public class DaoExamenSolicitado {
         query.setParameter("id", idExamenSolicitado);
         try{
             ExamenSolicitado item = (ExamenSolicitado) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -91,7 +93,6 @@ public class DaoExamenSolicitado {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -129,7 +130,6 @@ public class DaoExamenSolicitado {
            return nuevo;
         }
         catch(EntityNotFoundException noResult){
-            em.close();
            throw new NoItemFoundException();
         }
         finally
@@ -158,7 +158,6 @@ public class DaoExamenSolicitado {
                 return cambiado;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally

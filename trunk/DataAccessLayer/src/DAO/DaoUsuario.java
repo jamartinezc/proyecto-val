@@ -38,12 +38,14 @@ public class DaoUsuario {
         query.setParameter("id", idUsuario);
         try{
             Usuario item = (Usuario) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -123,7 +125,6 @@ public class DaoUsuario {
                 q.setParameter("login", log);
                 List<Usuario> usuario = q.getResultList();
                 tx.commit();
-                em.close();
                 if(usuario.size()==1){
                     return false;
                 }
@@ -176,6 +177,7 @@ public class DaoUsuario {
                 }
             }
             else{
+                em.close();
                 throw new PosibleDuplicationException();
             }
             

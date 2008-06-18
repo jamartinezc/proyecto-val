@@ -43,12 +43,14 @@ public class DaoExamenMes {
         query.setParameter("id", idExamenMes);
         try{
             ExamenMes item = (ExamenMes) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -65,7 +67,6 @@ public class DaoExamenMes {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -107,15 +108,12 @@ public class DaoExamenMes {
                 return nuevo;
             }
             catch(NonUniqueResultException error){
-                    em.clear();
                     throw new PosibleDuplicationException();
                 }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             catch(NoResultException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -150,7 +148,6 @@ public class DaoExamenMes {
                 }
         }
         catch(EntityNotFoundException uy){
-            em.close();
             throw new NoItemFoundException();
         }
         finally
@@ -184,15 +181,12 @@ public class DaoExamenMes {
                 
         }
         catch(NoResultException ey){
-            em.close();
             throw new NoItemFoundException();
         }
         catch(EntityNotFoundException uy){
-            em.close();
             throw new NoItemFoundException();
         }
         catch(NonUniqueResultException au){
-            em.close();
             throw new NoItemFoundException();
         }
         finally

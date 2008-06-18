@@ -39,12 +39,14 @@ public class DaoExamenPlaneado {
         query.setParameter("id", idExamenP);
         try{
             ExamenPlaneado item = (ExamenPlaneado) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -59,7 +61,6 @@ public class DaoExamenPlaneado {
             query.setParameter("idE", estudiante);
 
             List<ExamenPlaneado> item = query.getResultList();
-            em.close();
             if(item.size()>0){
                 return item;
             }
@@ -68,8 +69,11 @@ public class DaoExamenPlaneado {
             }
         }
         catch(EntityNotFoundException uy){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
         
         

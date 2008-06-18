@@ -41,12 +41,14 @@ public class DaoSecretariaAcademica {
         query.setParameter("id", idSecretariaAcademica);
         try{
             SecretariaAcademica item = (SecretariaAcademica) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -63,7 +65,6 @@ public class DaoSecretariaAcademica {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -98,19 +99,15 @@ public class DaoSecretariaAcademica {
                     em.persist(nuevo);
                 tx.commit();   
 
-                em.close();
                 return nuevo;
             }
             catch(NonUniqueResultException error){
-                em.close();
                     throw new PosibleDuplicationException();
                 }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             catch(NoResultException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally

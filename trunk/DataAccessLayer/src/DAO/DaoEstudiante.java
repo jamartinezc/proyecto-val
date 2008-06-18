@@ -45,12 +45,14 @@ public class DaoEstudiante {
         query.setParameter("id", idEstudiante);
         try{
             Estudiante item = (Estudiante) query.getSingleResult();
-            em.close();
             return item;
         }
         catch(NoResultException noResult){
-            em.close();
             throw new NoItemFoundException();
+        }
+        finally
+        {
+             em.close();
         }
     }
     
@@ -62,6 +64,7 @@ public class DaoEstudiante {
         query.setParameter("idA", analista);
         
         List<Estudiante> lista = query.getResultList();
+        em.close();
 
         return lista;
 
@@ -80,7 +83,6 @@ public class DaoEstudiante {
                 return item;
             }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
@@ -129,15 +131,12 @@ public class DaoEstudiante {
                 return nuevo;
             }
             catch(NonUniqueResultException error){
-                em.close();
                     throw new PosibleDuplicationException();
                 }
             catch(EntityNotFoundException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             catch(NoResultException noResult){
-                em.close();
                 throw new NoItemFoundException();
             }
             finally
