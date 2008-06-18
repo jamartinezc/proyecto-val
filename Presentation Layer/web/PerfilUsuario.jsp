@@ -7,7 +7,21 @@
 <%@ page
 	contentType="text/html; charset=utf-8"
 	language="java"
-	import="java.util.Iterator,java.util.List,java.util.LinkedList,java.util.Iterator,com.liceoval.businesslayer.control.AdministradoraDeUsuarios, com.liceoval.businesslayer.entities.Usuario,com.liceoval.businesslayer.entities.Materia,com.liceoval.businesslayer.control.rcp.RCPRegistros,com.liceoval.businesslayer.entities.Taller, com.liceoval.businesslayer.control.exceptions.NoSeEncuentraElUsuarioException, com.liceoval.businesslayer.entities.Estudiante, com.liceoval.businesslayer.entities.wrappers.UsuarioWrapper, com.liceoval.businesslayer.entities.Grado, java.util.SimpleTimeZone, java.util.GregorianCalendar, java.util.TimeZone, java.util.Date, com.liceoval.businesslayer.entities.Padre"
+	import="java.util.Iterator,
+                java.util.List,
+                java.util.LinkedList,
+                com.liceoval.businesslayer.control.AdministradoraDeUsuarios,
+                com.liceoval.businesslayer.entities.Usuario,
+                com.liceoval.businesslayer.entities.Materia,
+                com.liceoval.businesslayer.control.rcp.RCPRegistros,
+                com.liceoval.businesslayer.entities.Taller,
+                com.liceoval.businesslayer.control.exceptions.NoSeEncuentraElUsuarioException,
+                com.liceoval.businesslayer.entities.Estudiante,
+                com.liceoval.businesslayer.entities.wrappers.UsuarioWrapper,
+                com.liceoval.businesslayer.entities.Grado,
+                java.util.Calendar,
+                java.util.Date,
+                com.liceoval.businesslayer.entities.Padre"
 	errorPage="" %>
 
 <%
@@ -55,14 +69,14 @@
     Iterator<Padre> acudientesIterator;
     Padre acudiente;
     
-    String[] timeZoneIDs;
     Date fechaInicioGrado;
-    SimpleTimeZone timeZone;
-    GregorianCalendar calendar;
+    Calendar calendar;
     String year;
     String month;
     String day;
 
+    String retrievedParameter;
+    
     String titleText = "Crear";
     String formAction = "GuardarUsuario?action=new";
     String submitDisableString = disableString;
@@ -140,24 +154,13 @@
             tallerInteger = ((Estudiante)usuarioWrapper.getUsuario()).getTaller().getIdTaller();
 
             fechaInicioGrado = ((Estudiante)usuarioWrapper.getUsuario()).getFechaInicioGrado();
-            timeZoneIDs = TimeZone.getAvailableIDs(-5*60*60*1000);
-            if(timeZoneIDs.length == 0)
-            {
-                out.println("<b>JSP Critical Error</b>");
-                out.println("There are no Time Zone IDs for GMT-5.");
-                out.println("There's something wrong. ¡FUBAR!");
-                return;
-            }
-
-            timeZone = new SimpleTimeZone(-5*60*60*1000, timeZoneIDs[0]);
-            calendar = new GregorianCalendar(timeZone);
+            calendar = Calendar.getInstance();
             calendar.setTime(fechaInicioGrado);
 
-            year = String.valueOf(calendar.get(GregorianCalendar.YEAR));
-            month = String.valueOf(calendar.get(GregorianCalendar.MONTH)+1);
+            year = String.valueOf(calendar.get(Calendar.YEAR));
+            month = String.valueOf(calendar.get(Calendar.MONTH)+1);
             if(month.length() < 2) month = "0" + month;
-
-            day = String.valueOf(calendar.get(GregorianCalendar.DAY_OF_MONTH));
+            day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
             if(day.length() < 2) day = "0" + day;
 
             fechaString = year +
@@ -197,7 +200,95 @@
         }
         
         submitText = "Guardar";
-    }        
+    }
+    else
+    {
+        retrievedParameter = request.getParameter("Estudiante");
+        if(retrievedParameter != null && retrievedParameter.equals("ON"))
+            estudianteCheckString = checkString;
+        
+        retrievedParameter = request.getParameter("Tutor");
+        if(retrievedParameter != null && retrievedParameter.equals("ON"))
+            tutorCheckString = checkString;
+        
+        retrievedParameter = request.getParameter("Analista");
+        if(retrievedParameter != null && retrievedParameter.equals("ON"))
+            analistaCheckString = checkString;
+        
+        retrievedParameter = request.getParameter("Secretaria");
+        if(retrievedParameter != null && retrievedParameter.equals("ON"))
+            secretariaCheckString = checkString;
+        
+        retrievedParameter = request.getParameter("Nombres");
+        if(retrievedParameter != null && !retrievedParameter.trim().equals(""))
+            nombresString = retrievedParameter;
+        
+        retrievedParameter = request.getParameter("Apellidos");
+        if(retrievedParameter != null && !retrievedParameter.trim().equals(""))
+            apellidosString = retrievedParameter;
+        
+        retrievedParameter = request.getParameter("Login");
+        if(retrievedParameter != null && !retrievedParameter.trim().equals(""))
+            loginString = retrievedParameter;
+        
+        retrievedParameter = request.getParameter("codigo");
+        if(retrievedParameter != null && !retrievedParameter.trim().equals(""))
+            codigoString = retrievedParameter;
+
+        calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+
+        year = String.valueOf(calendar.get(Calendar.YEAR));
+        month = String.valueOf(calendar.get(Calendar.MONTH)+1);
+        if(month.length() < 2) month = "0" + month;
+        day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        if(day.length() < 2) day = "0" + day;
+
+        fechaString = year +
+            "-" + month +
+            "-" + day;
+        
+        if(estudianteCheckString == checkString)
+        {
+            retrievedParameter = request.getParameter("codigo");
+            if(retrievedParameter != null && !retrievedParameter.trim().equals(""))
+                codigoString = retrievedParameter;
+            
+            retrievedParameter = request.getParameter("grado");
+            if(retrievedParameter != null && !retrievedParameter.trim().equals(""))
+            {
+                try{ gradoInteger = Integer.parseInt(retrievedParameter); }
+                catch(NumberFormatException nfEx) { }
+            }
+            
+            retrievedParameter = request.getParameter("taller");
+            if(retrievedParameter != null && !retrievedParameter.trim().equals(""))
+            {
+                try{ tallerInteger = Integer.parseInt(retrievedParameter); }
+                catch(NumberFormatException nfEx) { }
+            }
+            
+            retrievedParameter = request.getParameter("fecha");
+            if(retrievedParameter != null && !retrievedParameter.trim().equals(""))
+                fechaString = retrievedParameter;
+            
+            retrievedParameter = request.getParameter("pidentificacion");
+            if(retrievedParameter != null && !retrievedParameter.trim().equals(""))
+                acudienteCCString = retrievedParameter;
+            
+            retrievedParameter = request.getParameter("pnombres");
+            if(retrievedParameter != null && !retrievedParameter.trim().equals(""))
+                acudienteNombresString = retrievedParameter;
+            
+            retrievedParameter = request.getParameter("papellidos");
+            if(retrievedParameter != null && !retrievedParameter.trim().equals(""))
+                acudienteApellidosString = retrievedParameter;
+            
+            retrievedParameter = request.getParameter("pcorreo");
+            if(retrievedParameter != null && !retrievedParameter.trim().equals(""))
+                acudienteCorreoString = retrievedParameter;
+        }
+    }
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -330,7 +421,7 @@
 
 </head>
 
-<body>
+<body onload="enabledisable()">
 
     <%
         String locationLinks;
@@ -380,7 +471,7 @@
                                 
                                 <form name="GuardarUsuario" action="<%=formAction%>" method="POST" accept-charset="ISO-8859-1">
                                 <br />
-                                <p style="text-align:justify"><b>ESTE FORMULARIO LE PERMITIRÁ AGREGAR USUARIOS DE TIPO ESTUDIANTE, TUTOR, ANALISTA Y SECRETARÍA ACADÉMICA.</b></p>
+                                <p style="text-align:center"><b>ESTE FORMULARIO LE PERMITIRÁ AGREGAR USUARIOS DE TIPO ESTUDIANTE, TUTOR, ANALISTA Y SECRETARÍA ACADÉMICA.</b></p>
                                 <br>
                                 
                                 <%
@@ -507,7 +598,7 @@
                                      <tr><td>Identificación(CC):</td><td><input type="text" maxlength="10" name="pidentificacion" value="<%=acudienteCCString%>" size="15" <%=acudienteCCDisableString%> /></td></tr>
                                      <tr><td>Nombres:</td><td><input type="text" name="pnombres" maxlength="30" value="<%=acudienteNombresString%>" size="30" <%=acudienteNombresDisableString%> /></td></tr>
                                      <tr><td>Apellidos:</td><td><input type="text" name="papellidos" maxlength="30" value="<%=acudienteApellidosString%>" size="30" <%=acudienteApellidosDisableString%> /></td></tr>
-                                     <tr><td>Correo Electrónico:</td><td><input type="text" maxlength="20" name="pcorreo" value="<%=acudienteCorreoString%>" size="30" <%=acudienteCorreoDisableString%> /></td></tr>
+                                     <tr><td>Correo Electrónico:</td><td><input type="text" maxlength="150" name="pcorreo" value="<%=acudienteCorreoString%>" size="30" <%=acudienteCorreoDisableString%> /></td></tr>
                                      </table><br>
                                      
                                  </ul>
@@ -528,7 +619,33 @@
                 
             </td><td>
         
-        	<!-- Menú derecho -->
+            <%
+                // Texto de ayuda para está página
+                StringBuffer rightPanelText;
+                rightPanelText = new StringBuffer();
+                
+                if(currentUser != null)
+                {                
+                    rightPanelText.append("<p style=\"font-weight:bold;text-decoration:underline\">Perfil de Usuario</p>");
+
+                    rightPanelText.append("<p>Esta página le permite introducir o modificar los datos de un usuario, para hacerlo:.</p>");
+                    rightPanelText.append("<ol>");
+                    rightPanelText.append(" <li>Seleccione el Rol o Roles que desempeñara el usuario.<br>&nbsp;<br><i>Recuerde que existen combinaciones de roles que no son válidas. Las casillas se activaran o desactivaran de forma automática y solo le permitirán seleccionar los roles compatibles.</i><br>&nbsp;</li>");
+                    rightPanelText.append(" <li>Llene los campos indicados para el rol o roles escogidos. Los roles diferentes a estudiante <u>NO</u> necesitan información en los campos del numeral 3.<br>&nbsp;</li>");
+                    rightPanelText.append(" <li>Una vez introducidos los datos haga clic en <b>Agregar</b> para agregar el nuevo usuario.</li>");
+                    rightPanelText.append("</ol>");
+                    rightPanelText.append("<p>Si se presenta algún error al momento de crear el nuevo usuario aparecra un mensaje en la parte superior de la página indicandole los campos que debe corregir.</p>");
+                }
+                else
+                {
+                    rightPanelText.append("<p style=\"font-weight:bold;text-decoration:underline\">Acceso no autorizado</p>");
+                    rightPanelText.append("<p>Usted ha ingresado a un área restringida, debe iniciar sesión en el sistema para poder ver el contenido de está página. Use el panel de la izquierda para iniciar sesión con su nombre de usuario y contraseña.</p>");
+                }
+
+                rightContent = rightPanelText.toString();
+            %>
+        
+            <!-- Menú derecho -->
             <%@include file="globals/right-menu.jsp" %>
         
         </td></tr>
